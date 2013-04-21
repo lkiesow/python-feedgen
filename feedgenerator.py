@@ -179,6 +179,7 @@ class FeedGenerator:
 	def title(self, title=None):
 		if not title is None:
 			self.__atom_title = title
+			self.__rss_title = title
 		return self.__atom_title
 
 
@@ -240,6 +241,9 @@ class FeedGenerator:
 					set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
 					set(['href']), 
 					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
+			# RSS only needs the URL:
+			self.__rss_link = [ l['href'] for l in self.__atom_link ]
+		# return the set with more information (atom)
 		return self.__atom_link
 
 
@@ -297,8 +301,19 @@ class FeedGenerator:
 
 	def subtitle(self, subtitle=None):
 		if not subtitle is None:
-			self.__atom_subtitle = subtitle
+			self.__atom_subtitle   = subtitle
+			self.__rss_description = subtitle
 		return self.__atom_subtitle
+
+
+	def description(self, description=None):
+		'''Set and get the description of the feed. This is a RSS only element
+		which is a phrase or sentence describing the channel. It is roughly the
+		same as atom:subtitle. Setting this will also set subtitle.
+
+		:param description: Description/Subtitle of the channel.
+		'''
+		return subtitle( description )
 
 
 class FeedEntry:
