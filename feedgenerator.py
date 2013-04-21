@@ -11,6 +11,8 @@
 
 from lxml import etree
 from datetime import datetime
+import dateutil.parser
+import dateutil.tz
 
 
 class FeedGenerator:
@@ -20,7 +22,7 @@ class FeedGenerator:
 	# required
 	__atom_id = None
 	__atom_title = None
-	__atom_updated = datetime.utcnow().isoformat('T')+'Z'
+	__atom_updated = datetime.now(dateutil.tz.tzutc())
 
 	# recommended
 	__atom_author = None # {name*, uri, email}
@@ -35,33 +37,32 @@ class FeedGenerator:
 	__atom_rights = None
 	__atom_subtitle = None
 
+	# other
+	__atom_feed_xml_lang = None
+
 	## RSS
+	# http://www.rssboard.org/rss-specification
 	__rss_title = None
 	__rss_link = None
 	__rss_description = None
 
-	'''
-	category
-	cloud
-	copyright
-	docs
-	generator
-	image
-	language
-	lastBuildDate
-	managingEditor
-	pubDate
-	rating
-	skipHours
-	skipDays
-	textInput
-	ttl
-	webMaster
+	__rss_category       = None
+	__rss_cloud          = None
+	__rss_copyright      = None
+	__rss_docs           = 'http://www.rssboard.org/rss-specification'
+	__rss_generator      = None
+	__rss_image          = None
+	__rss_language       = None
+	__rss_lastBuildDate  = datetime.now(dateutil.tz.tzutc())
+	__rss_managingEditor = None
+	__rss_pubDate        = None
+	__rss_rating         = None
+	__rss_skipHours      = None
+	__rss_skipDays       = None
+	__rss_textInput      = None
+	__rss_ttl            = None
+	__rss_webMaster      = None
 
-
-	# feed
-	# rss -> channel
-	'''
 
 
 	def __ensure_format(self, val, allowed, required, allowed_values={}):
@@ -85,6 +86,10 @@ class FeedGenerator:
 
 	def atom_str(self):
 		feed    = etree.Element('feed',  xmlns='http://www.w3.org/2005/Atom')
+		if self.__atom_feed_xml_lang:
+			feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
+					self.__atom_feed_xml_lang
+
 		doc     = etree.ElementTree(feed)
 		if not ( self.__atom_id and self.__atom_title and self.__atom_updated ):
 			raise ValueError('Required fields not set')
@@ -93,7 +98,7 @@ class FeedGenerator:
 		title   = etree.SubElement(feed, 'title')
 		title.text = self.__atom_title
 		updated   = etree.SubElement(feed, 'updated')
-		updated.text = self.__atom_updated
+		updated.text = self.__atom_updated.isoformat()
 
 		# Add author elements
 		for a in self.__atom_author or []:
@@ -189,6 +194,34 @@ class FeedGenerator:
 		return self.__atom_id
 
 
+	def updated(self, updated=None):
+		'''Set or get the updated value which indicates the last time the feed
+		was modified in a significant way.
+
+		The value can either be a string which will automatically be parsed or a
+		datetime.datetime object. In any case it is necessary that the value
+		include timezone information.
+
+		:param updated: The modification date.
+		:returns: Modification date as datetime.datetime
+		'''
+		if not updated is None:
+			if isinstance(updated, basestr):
+				updated = dateutil.parser.parse(updated)
+			if not isinstance(updated, datetime.datetime):
+				ValueError('Invalid datetime format')
+			if updated.tzinfo is None:
+				ValueError('Datetime object has no timezone info')
+			self.__atom_updated = updated
+			self.__rss_lastBuildDate = updated
+
+		return self.__atom_updated
+
+
+	def lastBuildDate(self, lastBuildDate=None):
+		return updated( lastBuildDate )
+
+
 	def author(self, author=None, replace=False, **kwargs):
 		'''Get or set autor data. An author element is a dict containing a name,
 		an email adress and a uri. Name is mandatory for ATOM, email is mandatory
@@ -257,7 +290,28 @@ class FeedGenerator:
 					category, 
 					set(['term', 'schema', 'label']),
 					set(['term']) )
+			# Map the ATOM categories to RSS categories. Use the atom:label as
+			# name or if not present the atom:term. The atom:schema is the
+			# rss:domain.
+			self.__rss_category = []
+			for cat in self.__atom_category:
+				rss_cat = {}
+				rss_cat['value'] = cat['label'] if cat.get('label') else cat['term']
+				if cat.get('schema'):
+					rss_cat['domain'] = cat['schema']
 		return self.__atom_category
+
+
+	def cloud(self, domain=None, port=None, path=None, registerProcedure=None,
+			protocol=None):
+		'''Set or get the cloud data of the feed. It is an RSS only attribute. It
+		specifies a web service that supports the rssCloud interface which can be
+		implemented in HTTP-POST, XML-RPC or SOAP 1.1.
+		'''
+		if not domain is None:
+			self.__rss_cloud = {'donain':domain, 'port':port, 'path':path,
+					'registerProcedure':registerProcedure, 'protocol':protocol}
+		return self.__rss_cloud
 
 
 	def contributor(self, contributor=None, replace=False, **kwargs):
@@ -278,6 +332,7 @@ class FeedGenerator:
 				self.__atom_generator['version'] = version
 			if not uri in None:
 				self.__atom_generator['uri'] = uri
+			self.__rss_generator = generator
 		return self.__atom_generator
 
 
@@ -290,13 +345,46 @@ class FeedGenerator:
 	def logo(self, logo=None):
 		if not logo is None:
 			self.__atom_logo = logo
+			self.__rss_image = { 'url' : logo }
 		return self.__atom_logo
+
+
+	def image(self, url=None, title=None, link=None, width=None, height=None,
+			description=None):
+		'''Set the image of the feed. This element is roughly equivalent to
+		atom:logo.
+
+		:param url: The URL of a GIF, JPEG or PNG image.
+		:param title: Describes the image. The default value is the feeds title.
+		:param link: URL of the site the image will link to. The default is to
+			use the feeds first altertate link.
+		:param width: Width of the image in pixel. The maximum is 144.
+		:param height: The height of the image. The maximum is 400.
+		:param description: Title of the link.
+		'''
+		if not url is None:
+			self.__rss_image = { 'url' : url }
+			if not title is None:
+				self.__rss_image['title'] = title
+			if not link is None:
+				self.__rss_image['link'] = link
+			if width:
+				self.__rss_image['width'] = width
+			if height:
+				self.__rss_image['height'] = height
+			self.__atom_logo = url
+		return self.__rss_image
 
 
 	def rights(self, rights=None):
 		if not rights is None:
 			self.__atom_rights = rights
+			self.__rss_copyright = rights
 		return self.__atom_rights
+
+
+	def copyright(self, copyright=None):
+		return rights( copyright )
 
 
 	def subtitle(self, subtitle=None):
@@ -314,6 +402,85 @@ class FeedGenerator:
 		:param description: Description/Subtitle of the channel.
 		'''
 		return subtitle( description )
+
+
+	def subtitle(self, docs=None):
+		if not docs is None:
+			self.__rss_docs = docs
+		return self.__rss_docs
+
+
+	def language(self, language=None):
+		if not language is None:
+			self.__rss_language = language
+			self.__atom_feed_xml_lang = language
+		return self.__rss_language
+
+
+	def managingEditor(self, managingEditor=None):
+		'''Set or get the value for managingEditor which is the email address for
+		person responsible for editorial content.	This is a RSS only value.
+
+		:param managingEditor: Email adress of the managing editor.
+		'''
+		if not managingEditor is None:
+			self.__rss_managingEditor = managingEditor
+		return self.__rss_managingEditor
+
+
+	def pubDate(self, pubDate=None):
+		if not pubDate is None:
+			if isinstance(pubDate, basestr):
+				pubDate = dateutil.parser.parse(pubDate)
+			if not isinstance(pubDate, datetime.datetime):
+				ValueError('Invalid datetime format')
+			if pubDate.tzinfo is None:
+				ValueError('Datetime object has no timezone info')
+			self.__rss_pubDate = pubDate
+
+		return self.__rss_pubDate
+
+
+	def rating(self, rating=None):
+		'''Set and get the PICS rating for the channel.	It is an RSS only
+		value.
+		'''
+		if not rating is None:
+			self.__rss_rating = rating
+		return self.__rss_rating
+
+
+	def skipHours(self, hours=None, replace=False):
+		'''Set or get the value of skipHours, a hint for aggregators telling them
+		which hours they can skip. This is an RSS only value.
+		'''
+		if not hours is None:
+			if not (isinstance(hours, list) or isinstance(hours, set)):
+				hours = [hours]
+			for h in hours:
+				if not h in xrange(24):
+					ValueError('Invalid hour %s' % h)
+			if replace or not self.__rss_skipHours:
+				self.__rss_skipHours = set()
+			self.__rss_skipHours |= set(hours)
+		return self.__rss_skipHours
+
+
+	def skipDays(self, days=None, replace=False):
+		'''Set or get the value of skipDays, a hint for aggregators telling them
+		which days they can skip This is an RSS only value.
+		'''
+		if not days is None:
+			if not (isinstance(days, list) or isinstance(days, set)):
+				days = [days]
+			for d in days:
+				if not d in ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+						'Friday', 'Saturday', 'Sunday']:
+					ValueError('Invalid day %s' % h)
+			if replace or not self.__rss_skipDays:
+				self.__rss_skipDays = set()
+			self.__rss_skipDays |= set(days)
+		return self.__rss_skipDays
 
 
 class FeedEntry:
@@ -370,4 +537,5 @@ if __name__ == '__main__':
 	fg.rights('cc-by')
 	fg.subtitle('This is a cool feed!')
 	fg.link( href='http://larskiesow.de/test.atom', rel='self' )
+	fg.language('de')
 	print fg.atom_str()
