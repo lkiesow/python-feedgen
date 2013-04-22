@@ -483,6 +483,48 @@ class FeedGenerator:
 		return self.__rss_skipDays
 
 
+	def textInput(self, title=None, description=None, name=None, link=None):
+		'''Get or set the value of textInput. This is an RSS only field.  The
+		purpose of the <textInput> element is something of a mystery. You can use
+		it to specify a search engine box. Or to allow a reader to provide
+		feedback. Most aggregators ignore it.
+
+		:param title: The label of the Submit button in the text input area.
+		:param description: Explains the text input area.
+		:param name: The name of the text object in the text input area.
+		:param link: The URL of the CGI script that processes text input requests.
+		'''
+		if not title is None:
+			self.__rss_textInput = {}
+			self.__rss_textInput['title'] = title
+			self.__rss_textInput['description'] = description
+			self.__rss_textInput['name'] = name
+			self.__rss_textInput['link'] = link
+		return self.__rss_textInput
+
+
+	def ttl(self, ttl=None):
+		'''Get or set the ttl value. It is an RSS only element. ttl stands for
+		time to live. It's a number of minutes that indicates how long a channel
+		can be cached before refreshing from the source.
+		'''
+		if not ttl is None:
+			self.__rss_ttl = int(ttl)
+		return self.__rss_ttl
+
+
+	def webMaster(self, webMaster=None):
+		'''Get and set the value of webMaster, which represents the email address
+		for the person responsible for technical issues relating to the feed.
+		This is an RSS only value.
+		'''
+		if not webMaster is None:
+			self.__rss_webMaster = webMaster
+		return self.__rss_webMaster
+
+
+
+
 class FeedEntry:
 
 	'''
