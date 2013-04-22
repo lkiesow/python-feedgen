@@ -672,25 +672,22 @@ class FeedEntry:
 	__atom_source = None
 	__atom_rights = None
 
-	'''
 	# RSS
-	author
-	category
-	#@domain
-	comments
-	description
-	enclosure
+	__rss_author = None
+	__rss_category = None
+	__rss_comments = None
+	__rss_description = None
+	__rss_enclosure = None
 	#@length
 	#@type
 	#@url
-	guid
+	__rss_guid = None
 	#@isPermaLink
-	link
-	pubDate
-	source
-	@url
-	title
-	'''
+	__rss_link = None
+	__rss_pubDate = None
+	__rss_source = None
+	__rss_@url = None
+	__rss_title = None
 
 
 	def __ensure_format(self, val, allowed, required, allowed_values={}):
