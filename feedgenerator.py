@@ -194,7 +194,8 @@ class FeedGenerator:
 
 
 	def __create_rss(self):
-		feed    = etree.Element('rss', version='2.0')
+		feed    = etree.Element('rss', version='2.0',
+				nsmap={'atom':  'http://www.w3.org/2005/Atom'} )
 		doc     = etree.ElementTree(feed)
 		channel = etree.SubElement(feed, 'channel')
 		if not ( self.__rss_title and self.__rss_link and self.__rss_description ):
@@ -203,8 +204,23 @@ class FeedGenerator:
 		title.text = self.__rss_title
 		link = etree.SubElement(channel, 'link')
 		link.text = self.__rss_link
-		link = etree.SubElement(channel, 'description')
-		link.text = self.__rss_description
+		desc = etree.SubElement(channel, 'description')
+		desc.text = self.__rss_description
+		for ln in  self.__atom_link or []:
+			# It is recommended to include a atom self link in rss documents…
+			if ln.get('rel') == 'self':
+				selflink = etree.SubElement(channel, 
+						'{http://www.w3.org/2005/Atom}link', 
+						href=ln['href'], rel='self')
+				if ln.get('type'):
+					selflink.attrib['type'] = ln['type']
+				if ln.get('hreflang'):
+					selflink.attrib['hreflang'] = ln['hreflang']
+				if ln.get('title'):
+					selflink.attrib['title'] = ln['title']
+				if ln.get('length'):
+					selflink.attrib['length'] = ln['length']
+				break
 		if self.__rss_category:
 			for cat in self.__rss_category:
 				category = etree.SubElement(channel, 'category')
@@ -230,17 +246,23 @@ class FeedGenerator:
 			generator.text = self.__rss_generator
 		if self.__rss_image:
 			image = etree.SubElement(channel, 'image')
-			image.attrib['url'] = self.__rss_image.get('url')
-			image.attrib['title'] = self.__rss_image['title'] \
+			url = etree.SubElement(image, 'url')
+			url.text = self.__rss_image.get('url')
+			title = etree.SubElement(image, 'title')
+			title.text = self.__rss_image['title'] \
 					if self.__rss_image.get('title') else self.__rss_title
-			image.attrib['link'] = self.__rss_image['link'] \
+			link = etree.SubElement(image, 'link')
+			link.text = self.__rss_image['link'] \
 					if self.__rss_image.get('link') else self.__rss_link
 			if self.__rss_image.get('width'):
-				image.attrib['width'] = self.__rss_image.get('width')
+				width = etree.SubElement(image, 'width')
+				width.text = self.__rss_image.get('width')
 			if self.__rss_image.get('height'):
-				image.attrib['height'] = self.__rss_image.get('height')
+				height = etree.SubElement(image, 'height')
+				height.text = self.__rss_image.get('height')
 			if self.__rss_image.get('description'):
-				image.attrib['description'] = self.__rss_image.get('description')
+				description = etree.SubElement(image, 'description')
+				description.text = self.__rss_image.get('description')
 		if self.__rss_language:
 			language = etree.SubElement(channel, 'language')
 			language.text = self.__rss_language
@@ -305,7 +327,12 @@ class FeedGenerator:
 	def id(self, id=None):
 		if not id is None:
 			self.__atom_id = id
+			self.__rss_guid = id
 		return self.__atom_id
+
+
+	def guid(self, guid=None):
+		return self.id(guid)
 
 
 	def updated(self, updated=None):
@@ -364,6 +391,10 @@ class FeedGenerator:
 				self.__atom_author = []
 			self.__atom_author += self.__ensure_format( author, 
 					set(['name', 'email', 'uri']), set(['name']))
+			self.__rss_author = []
+			for a in self.__atom_author:
+				if a.get('email'):
+					self.__rss_author.append(a['email'])
 		return self.__atom_author
 
 
@@ -391,8 +422,13 @@ class FeedGenerator:
 					set(['href']), 
 					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
 			# RSS only needs one URL. We use the first link for RSS:
-			if len(self.__atom_link) > 0:
-				self.__rss_link = self.__atom_link[0]['href']
+			for l in self.__atom_link:
+				if l.get('rel') == 'alternate':
+					self.__rss_link = l['href']
+				elif l.get('rel') == 'enclosure':
+					self.__rss_enclosure = {'url':l['href']}
+					self.__rss_enclosure['type'] = l.get('type')
+					self.__rss_enclosure['length'] = l.get('length') or '0'
 		# return the set with more information (atom)
 		return self.__atom_link
 
@@ -678,15 +714,10 @@ class FeedEntry:
 	__rss_comments = None
 	__rss_description = None
 	__rss_enclosure = None
-	#@length
-	#@type
-	#@url
 	__rss_guid = None
-	#@isPermaLink
 	__rss_link = None
 	__rss_pubDate = None
 	__rss_source = None
-	__rss_@url = None
 	__rss_title = None
 
 
@@ -793,6 +824,45 @@ class FeedEntry:
 			rights.text = self.__atom_rights
 
 
+	def rss_entry(self, feed):
+		entry = etree.SubElement(feed, 'entry')
+		if not ( self.__rss_title or self.__rss_description ):
+			raise ValueError('Required fields not set')
+		if self.__rss_title:
+			title = etree.SubElement(entry, 'title')
+			title.text = self.__rss_title
+		if self.__rss_link:
+			link = etree.SubElement(entry, 'link')
+			link.text = self.__rss_link
+		if self.__rss_description:
+			description = etree.SubElement(entry, 'description')
+			description.text = self.__rss_description
+		for a in self.__rss_author:
+			author = etree.SubElement(entry, 'author')
+			author.text = a
+		if self.__rss_guid:
+			guid = etree.SubElement(entry, 'guid')
+			guid.text = self.__rss_guid
+			guid.attrib['isPermaLink'] = 'false'
+		for cat in self.__rss_category or []:
+			category = etree.SubElement(channel, 'category')
+			category.text = cat['value']
+			if cat.get('domain'):
+				category.attrib['domain'] = cat['domain']
+		if self.__rss_comments:
+			comments = etree.SubElement(entry, 'comments')
+			comments.text = self.__rss_comments
+		if self.__rss_enclosure:
+			enclosure = etree.SubElement(entry, 'enclosure')
+			enclosure.attrib['url'] = self.__rss_enclosure['url']
+			enclosure.attrib['length'] = self.__rss_enclosure['length']
+			enclosure.attrib['type'] = self.__rss_enclosure['type']
+		if self.__rss_pubDate:
+			pubDate = etree.SubElement(channel, 'pubDate')
+			pubDate.text = self.__rss_pubDate.strftime(
+					'%a, %e %b %Y %H:%M:%S %z')
+
+
 	
 	def title(self, title=None):
 		if not title is None:
@@ -859,6 +929,10 @@ class FeedEntry:
 				self.__atom_author = []
 			self.__atom_author += self.__ensure_format( author, 
 					set(['name', 'email', 'uri']), set(['name']))
+			self.__rss_author = []
+			for a in self.__atom_author:
+				if a.get('email'):
+					self.__rss_author.append(a['email'])
 		return self.__atom_author
 
 
@@ -867,6 +941,7 @@ class FeedEntry:
 			self.__atom_content = {'src':src}
 		elif not content is None:
 			self.__atom_content = {'content':content}
+			self.__rss_description = content
 		return self.__atom_content
 
 
@@ -902,8 +977,28 @@ class FeedEntry:
 
 	def summary(self, summary=None):
 		if not summary is None:
+			# Replace the RSS description with the summary if it was the summary
+			# before. Not if is the description.
+			if not self.__rss_description or \
+					self.__rss_description == self.__atom_summary:
+				self.__rss_description = summary
 			self.__atom_summary = summary
 		return self.__atom_summary
+
+
+	def description(self, description=None, isSummary=False):
+		'''Get or set the description value which is the item synopsis.
+		Description is an RSS only element. For ATOM feeds it is split in summary
+		and content. The isSummary parameter can be used to control which ATOM
+		value is set when setting description.
+		'''
+		if not description is None:
+			self.__rss_description = description
+			if isSummary:
+				self.__atom_summary = description
+			else:
+				self.__atom_content = description
+		return self.__rss_description
 
 
 	def category(self, category=None, replace=False, **kwargs):
@@ -959,15 +1054,51 @@ class FeedEntry:
 			if published.tzinfo is None:
 				ValueError('Datetime object has no timezone info')
 			self.__atom_published = published
-			self.__rss_lastBuildDate = published
+			self.__rss_pubDate = published
 
 		return self.__atom_published
+
+	
+	def pubdate(self, pubDate=None):
+		return self.published(pubDate)
 
 
 	def rights(self, rights=None):
 		if not rights is None:
 			self.__atom_rights = rights
 		return self.__atom_rights
+
+
+	def comments(self, comments=None):
+		'''Get or set the the value of comments which is the url of the comments
+		page for the item. This is a RSS only value.
+		'''
+		if not comments is None:
+			self.__rss_comments = comments
+		return self.__rss_comments
+
+
+	def enclosure(self, url=None, length=None, type=None):
+		'''Get or set the value of enclosure which describes a media object that
+		is attached to the item. This is a RSS only value which is represented by
+		link(rel=enclosure) in ATOM. ATOM feeds can furthermore contain several
+		enclosures while RSS may contain only one. That is why this method, if
+		repeatedly called, will add more than one enclosures to the feed.
+		However, only the last one is used for RSS.
+		'''
+		if not uri is None:
+			self.link( href=url, rel='enclosure', type=type, length=length )
+		return self.__rss_enclosure
+
+
+	def ttl(self, ttl=None):
+		'''Get or set the ttl value. It is an RSS only element. ttl stands for
+		time to live. It's a number of minutes that indicates how long a channel
+		can be cached before refreshing from the source.
+		'''
+		if not ttl is None:
+			self.__rss_ttl = int(ttl)
+		return self.__rss_ttl
 
 
 
@@ -999,6 +1130,8 @@ if __name__ == '__main__':
 	fe.link( href='http://example.com', rel='alternate' )
 	fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
 
+	fg.atom_file('test.atom')
+	fg.rss_file('test.rss')
 
-	print fg.atom_str(pretty=True)
-	#print fg.rss_str(pretty=True)
+	#print fg.atom_str(pretty=True)
+	print fg.rss_str(pretty=True)
