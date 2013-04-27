@@ -283,8 +283,13 @@ class FeedEntry:
 					set(['href']), 
 					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
 			# RSS only needs one URL. We use the first link for RSS:
-			if len(self.__atom_link) > 0:
-				self.__rss_link = self.__atom_link[0]['href']
+			for l in self.__atom_link:
+				if l.get('rel') == 'alternate':
+					self.__rss_link = l['href']
+				elif l.get('rel') == 'enclosure':
+					self.__rss_enclosure = {'url':l['href']}
+					self.__rss_enclosure['type'] = l.get('type')
+					self.__rss_enclosure['length'] = l.get('length') or '0'
 		# return the set with more information (atom)
 		return self.__atom_link
 

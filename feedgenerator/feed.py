@@ -74,7 +74,6 @@ class FeedGenerator:
 
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
-
 		feed    = etree.Element('feed',  xmlns='http://www.w3.org/2005/Atom')
 		if self.__atom_feed_xml_lang:
 			feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
@@ -171,17 +170,31 @@ class FeedGenerator:
 
 
 	def atom_str(self, pretty=False):
+		'''Generates an ATOM feed and returns the feed XML as string.
+		
+		:param pretty: If the feed should be split into multiple lines and
+			properly indented.
+		:returns: String representation of the ATOM feed.
+		'''
 		feed, doc = self.__create_atom()
 		return etree.tostring(feed, pretty_print=pretty)
 
 
 	def atom_file(self, filename):
+		'''Generates an ATOM feed and write the resulting XML to a file.
+		
+		:param filename: Name of file to write.
+		'''
 		feed, doc = self.__create_atom()
 		with open(filename, 'w') as f:
 			doc.write(f)
 
 
 	def __create_rss(self):
+		'''Create an RSS feed xml structure containing all previously set fields.
+
+		:returns: Tuple containing the feed root element and the element tree.
+		'''
 		feed    = etree.Element('rss', version='2.0',
 				nsmap={'atom':  'http://www.w3.org/2005/Atom'} )
 		doc     = etree.ElementTree(feed)
@@ -298,17 +311,35 @@ class FeedGenerator:
 
 
 	def rss_str(self, pretty=False):
+		'''Generates an RSS feed and returns the feed XML as string.
+		
+		:param pretty: If the feed should be split into multiple lines and
+			properly indented.
+		:returns: String representation of the RSS feed.
+		'''
 		feed, doc = self.__create_rss()
 		return etree.tostring(feed, pretty_print=pretty)
 
 
 	def rss_file(self, filename):
+		'''Generates an RSS feed and write the resulting XML to a file.
+		
+		:param filename: Name of file to write.
+		'''
 		feed, doc = self.__create_rss()
 		with open(filename, 'w') as f:
 			doc.write(f)
 
 	
 	def title(self, title=None):
+		'''Get or set the title value of the feed. It should contain a human
+		readable title for the feed. Often the same as the title of the
+		associated website. Title is mandatory for both ATOM and RSS and should
+		not be blank.
+
+		:param title: The new title of the feed.
+		:returns: The feeds title.
+		'''
 		if not title is None:
 			self.__atom_title = title
 			self.__rss_title = title
@@ -319,7 +350,10 @@ class FeedGenerator:
 		'''Get or set the feed id which identifies the feed using a universally
 		unique and permanent URI. If you have a long-term, renewable lease on
 		your Internet domain name, then you can feel free to use your website's
-		address. This field is for ATOM only.
+		address. This field is for ATOM only. It is mandatory for ATOM.
+
+		:param id: New Id of the ATOM feed.
+		:returns: Id of the feed.
 		'''
 		
 		if not id is None:
@@ -334,6 +368,8 @@ class FeedGenerator:
 		The value can either be a string which will automatically be parsed or a
 		datetime.datetime object. In any case it is necessary that the value
 		include timezone information.
+
+		This will set both atom:updated and rss:lastBuildDate.
 
 		:param updated: The modification date.
 		:returns: Modification date as datetime.datetime
@@ -352,27 +388,50 @@ class FeedGenerator:
 
 
 	def lastBuildDate(self, lastBuildDate=None):
+		'''Set or get the lastBuildDate value which indicates the last time the
+		content of the channel changed.
+
+		The value can either be a string which will automatically be parsed or a
+		datetime.datetime object. In any case it is necessary that the value
+		include timezone information.
+
+		This will set both atom:updated and rss:lastBuildDate.
+
+		:param lastBuildDate: The modification date.
+		:returns: Modification date as datetime.datetime
+		'''
 		return updated( lastBuildDate )
 
 
 	def author(self, author=None, replace=False, **kwargs):
-		'''Get or set autor data. An author element is a dict containing a name,
-		an email adress and a uri. Name is mandatory for ATOM, email is mandatory
+		'''Get or set author data. An author element is a dictionary containing a name,
+		an email address and a URI. Name is mandatory for ATOM, email is mandatory
 		for RSS.
+
+		This method can be called with:
+		- the fields of an author as keyword arguments
+		- the fields of an author as a dictionary
+		- a list of dictionaries containing the author fields
+
+		An author has the following fields:
+		- *name* conveys a human-readable name for the person.
+		- *uri* contains a home page for the person.
+		- *email* contains an email address for the person.
 		
-		:param author:  Dict or list of dicts with author data.
+		:param author:  Dictionary or list of dictionaries with author data.
 		:param replace: Add or replace old data.
+		:returns: List of authors as dictionaries.
 
 		Example::
 
-			>>> author( { 'name':'John Doe', 'email':'jdoe@example.com' } )
+			>>> feedgen.author( { 'name':'John Doe', 'email':'jdoe@example.com' } )
 			[{'name':'John Doe','email':'jdoe@example.com'}]
 
-			>>> author([{'name':'Mr. X'},{'name':'Max'}])
+			>>> feedgen.author([{'name':'Mr. X'},{'name':'Max'}])
 			[{'name':'John Doe','email':'jdoe@example.com'},
 					{'name':'John Doe'}, {'name':'Max'}]
 
-			>>> author( name='John Doe', email='jdoe@example.com', replace=True )
+			>>> feedgen.author( name='John Doe', email='jdoe@example.com', replace=True )
 			[{'name':'John Doe','email':'jdoe@example.com'}]
 
 		'''
@@ -394,6 +453,30 @@ class FeedGenerator:
 		'''Get or set link data. An link element is a dict with the fields href,
 		rel, type, hreflang, title, and length. Href is mandatory for ATOM.
 
+		This method can be called with:
+		- the fields of a link as keyword arguments
+		- the fields of a link as a dictionary
+		- a list of dictionaries containing the link fields
+
+		A link has the following fields:
+		- *href* is the URI of the referenced resource (typically a Web page)
+		- *rel* contains a single link relationship type. It can be a full URI,
+		  or one of the following predefined values (default=alternate):
+			- *alternate* an alternate representation of the entry or feed, for
+			  example a permalink to the html version of the entry, or the front
+			  page of the weblog.
+			- *enclosure* a related resource which is potentially large in size
+			  and might require special handling, for example an audio or video
+			  recording.
+			- *related* an document related to the entry or feed.
+			- *self* the feed itself.
+			- *via* the source of the information provided in the entry.
+		- *type* indicates the media type of the resource.
+		- *hreflang* indicates the language of the referenced resource.
+		- *title* human readable information about the link, typically for
+		  display purposes.
+		- *length* the length of the resource, in bytes.
+
 		RSS only supports one link with URL only.
 		
 		:param link:    Dict or list of dicts with data.
@@ -401,7 +484,8 @@ class FeedGenerator:
 
 		Example::
 
-			link(...)
+			>>> feedgen.link( href='http://example.com/', rel='self')
+			[{'href':'http://example.com/', 'rel':'self'}]
 
 		'''
 		if link is None and kwargs:
@@ -414,18 +498,29 @@ class FeedGenerator:
 					set(['href']), 
 					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
 			# RSS only needs one URL. We use the first link for RSS:
-			for l in self.__atom_link:
-				if l.get('rel') == 'alternate':
-					self.__rss_link = l['href']
-				elif l.get('rel') == 'enclosure':
-					self.__rss_enclosure = {'url':l['href']}
-					self.__rss_enclosure['type'] = l.get('type')
-					self.__rss_enclosure['length'] = l.get('length') or '0'
+			if len(self.__atom_link) > 0:
+				self.__rss_link = self.__atom_link[-1]['href']
 		# return the set with more information (atom)
 		return self.__atom_link
 
 
 	def category(self, category=None, replace=False, **kwargs):
+		'''Get or set categories that the feed belongs to.
+
+		This method can be called with:
+		- the fields of an author as keyword arguments
+		- the fields of an author as a dictionary
+		- a list of dictionaries containing the author fields
+		
+		:param link:    Dict or list of dicts with data.
+		:param replace: Add or replace old data.
+
+		Example::
+
+			>>> feedgen.link( href='http://example.com/', rel='self')
+			[{'href':'http://example.com/', 'rel':'self'}]
+
+		'''
 		if category is None and kwargs:
 			category = kwargs
 		if not category is None:
@@ -453,6 +548,13 @@ class FeedGenerator:
 		'''Set or get the cloud data of the feed. It is an RSS only attribute. It
 		specifies a web service that supports the rssCloud interface which can be
 		implemented in HTTP-POST, XML-RPC or SOAP 1.1.
+
+		:param domain: The domain where the webservice can be found.
+		:param port: The port the webservice listens to.
+		:param path: The path of the webservice.
+		:param registerProcedure: The procedure to call.
+		:param protocol: Can be either HTTP-POST, XML-RPC or SOAP 1.1.
+		:returns: Dictionary containing the cloud data.
 		'''
 		if not domain is None:
 			self.__rss_cloud = {'donain':domain, 'port':port, 'path':path,
@@ -461,6 +563,23 @@ class FeedGenerator:
 
 
 	def contributor(self, contributor=None, replace=False, **kwargs):
+		'''Get or set the contributor data of the feed. This is an ATOM only
+		value.
+
+		This method can be called with:
+		- the fields of an contributor as keyword arguments
+		- the fields of an contributor as a dictionary
+		- a list of dictionaries containing the contributor fields
+
+		An contributor has the following fields:
+		- *name* conveys a human-readable name for the person.
+		- *uri* contains a home page for the person.
+		- *email* contains an email address for the person.
+		
+		:param contributor: Dictionary or list of dictionaries with contributor data.
+		:param replace: Add or replace old data.
+		:returns: List of contributors as dictionaries.
+		'''
 		if contributor is None and kwargs:
 			contributor = kwargs
 		if not contributor is None:
@@ -472,6 +591,14 @@ class FeedGenerator:
 
 
 	def generator(self, generator=None, version=None, uri=None):
+		'''Get or the generator of the feed which identifies the software used to
+		generate the feed, for debugging and other purposes. Both the uri and
+		version attributes are optional and only available in the ATOM feed.
+
+		:param generator: Software used to create the feed.
+		:param version: Version of the software.
+		:param uri: URI the software can be found.
+		'''
 		if not generator is None:
 			self.__atom_generator = {'value':generator}
 			if not version in None:
@@ -483,12 +610,27 @@ class FeedGenerator:
 
 
 	def icon(self, icon=None):
+		'''Get or set the icon of the feed which is a small image which provides
+		iconic visual identification for the feed. Icons should be square. This
+		is an ATOM only value.
+
+		:param icon: URI of the feeds icon.
+		:returns: URI of the feeds icon.
+		'''
 		if not icon is None:
 			self.__atom_icon = icon
 		return self.__atom_icon
 
 
 	def logo(self, logo=None):
+		'''Get or set the logo of the feed which is a larger image which provides
+		visual identification for the feed. Images should be twice as wide as
+		they are tall. This is an ATOM value but will also set the rss:image
+		value.
+
+		:param logo: Logo of the feed.
+		:returns: Logo of the feed.
+		'''
 		if not logo is None:
 			self.__atom_logo = logo
 			self.__rss_image = { 'url' : logo }
@@ -507,6 +649,7 @@ class FeedGenerator:
 		:param width: Width of the image in pixel. The maximum is 144.
 		:param height: The height of the image. The maximum is 400.
 		:param description: Title of the link.
+		:returns: Data of the image as dictionary.
 		'''
 		if not url is None:
 			self.__rss_image = { 'url' : url }
@@ -523,6 +666,12 @@ class FeedGenerator:
 
 
 	def rights(self, rights=None):
+		'''Get or set the rights value of the feed which conveys information
+		about rights, e.g. copyrights, held in and over the feed. This ATOM value
+		will also set rss:copyright.
+
+		:param rights: Rights information of the feed.
+		'''
 		if not rights is None:
 			self.__atom_rights = rights
 			self.__rss_copyright = rights
@@ -530,10 +679,23 @@ class FeedGenerator:
 
 
 	def copyright(self, copyright=None):
+		'''Get or set the copyright notice for content in the channel. This RSS
+		value will also set the atom:rights value.
+
+		:param copyright: The copyright notice.
+		:returns: The copyright notice.
+		'''
 		return rights( copyright )
 
 
 	def subtitle(self, subtitle=None):
+		'''Get or set the subtitle value of the cannel which contains a
+		human-readable description or subtitle for the feed. This ATOM property
+		will also set the value for rss:description.
+
+		:param subtitle: The subtitle of the feed.
+		:returns: The subtitle of the feed.
+		'''
 		if not subtitle is None:
 			self.__atom_subtitle   = subtitle
 			self.__rss_description = subtitle
@@ -541,22 +703,46 @@ class FeedGenerator:
 
 
 	def description(self, description=None):
-		'''Set and get the description of the feed. This is a RSS only element
-		which is a phrase or sentence describing the channel. It is roughly the
-		same as atom:subtitle. Setting this will also set subtitle.
+		'''Set and get the description of the feed. This is an RSS only element
+		which is a phrase or sentence describing the channel. It is mandatory for
+		RSS feeds. It is roughly the same as atom:subtitle. Thus setting this
+		will also set atom:subtitle.
 
-		:param description: Description/Subtitle of the channel.
+		:param description: Description of the channel.
+		:returns: Description of the channel.
+
 		'''
 		return self.subtitle( description )
 
 
 	def docs(self, docs=None):
+		'''Get or set the docs value of the feed. This is an RSS only value. It
+		is a URL that points to the documentation for the format used in the RSS
+		file. It is probably a pointer to [1]. It is for people who might stumble
+		across an RSS file on a Web server 25 years from now and wonder what it
+		is.
+
+		[1]: http://www.rssboard.org/rss-specification
+
+		:param docs: URL of the format documentation.
+		:returns: URL of the format documentation.
+		'''
 		if not docs is None:
 			self.__rss_docs = docs
 		return self.__rss_docs
 
 
 	def language(self, language=None):
+		'''Get or set the language of the feed. It indicates the language the
+		channel is written in. This allows aggregators to group all Italian
+		language sites, for example, on a single page. This is an RSS only field.
+		However, this value will also be used to set the xml:lang property of the
+		ATOM feed node.
+		The value should be an IETF language tag.
+
+		:param language: Language of the feed.
+		:: Language of the feed.
+		'''
 		if not language is None:
 			self.__rss_language = language
 			self.__atom_feed_xml_lang = language
@@ -568,6 +754,7 @@ class FeedGenerator:
 		person responsible for editorial content.	This is a RSS only value.
 
 		:param managingEditor: Email adress of the managing editor.
+		:returns: Email adress of the managing editor.
 		'''
 		if not managingEditor is None:
 			self.__rss_managingEditor = managingEditor
@@ -575,6 +762,20 @@ class FeedGenerator:
 
 
 	def pubDate(self, pubDate=None):
+		'''Set or get the publication date for the content in the channel. For
+		example, the New York Times publishes on a daily basis, the publication
+		date flips once every 24 hours. That's when the pubDate of the channel
+		changes.
+
+		The value can either be a string which will automatically be parsed or a
+		datetime.datetime object. In any case it is necessary that the value
+		include timezone information.
+
+		This will set both atom:updated and rss:lastBuildDate.
+
+		:param pubDate: The publication date.
+		:returns: Publication date as datetime.datetime
+		'''
 		if not pubDate is None:
 			if isinstance(pubDate, basestr):
 				pubDate = dateutil.parser.parse(pubDate)
@@ -599,6 +800,13 @@ class FeedGenerator:
 	def skipHours(self, hours=None, replace=False):
 		'''Set or get the value of skipHours, a hint for aggregators telling them
 		which hours they can skip. This is an RSS only value.
+
+		This method can be called with an hour or a list of hours. The hours are
+		represented as integer values from 0 to 23.
+		
+		:param hours:   List of hours the feedreaders should not check the feed.
+		:param replace: Add or replace old data.
+		:returns:       List of hours the feedreaders should not check the feed.
 		'''
 		if not hours is None:
 			if not (isinstance(hours, list) or isinstance(hours, set)):
@@ -615,6 +823,13 @@ class FeedGenerator:
 	def skipDays(self, days=None, replace=False):
 		'''Set or get the value of skipDays, a hint for aggregators telling them
 		which days they can skip This is an RSS only value.
+
+		This method can be called with a day name or a list of day names. The days are
+		represented as strings from 'Monday' to 'Sunday'.
+		
+		:param hours:   List of days the feedreaders should not check the feed.
+		:param replace: Add or replace old data.
+		:returns:       List of days the feedreaders should not check the feed.
 		'''
 		if not days is None:
 			if not (isinstance(days, list) or isinstance(days, set)):
@@ -639,6 +854,7 @@ class FeedGenerator:
 		:param description: Explains the text input area.
 		:param name: The name of the text object in the text input area.
 		:param link: The URL of the CGI script that processes text input requests.
+		:returns: Dictionary containing textInput values.
 		'''
 		if not title is None:
 			self.__rss_textInput = {}
@@ -653,6 +869,9 @@ class FeedGenerator:
 		'''Get or set the ttl value. It is an RSS only element. ttl stands for
 		time to live. It's a number of minutes that indicates how long a channel
 		can be cached before refreshing from the source.
+
+		:param ttl: Integer value indicating how long the channel may be cached.
+		:returns: Time to live.
 		'''
 		if not ttl is None:
 			self.__rss_ttl = int(ttl)
@@ -663,6 +882,9 @@ class FeedGenerator:
 		'''Get and set the value of webMaster, which represents the email address
 		for the person responsible for technical issues relating to the feed.
 		This is an RSS only value.
+
+		:param webMaster: Email address of the webmaster.
+		:returns: Email address of the webmaster.
 		'''
 		if not webMaster is None:
 			self.__rss_webMaster = webMaster
@@ -678,39 +900,3 @@ class FeedGenerator:
 
 	def add_item(self, item=None):
 		return self.add_entry(item)
-
-
-
-if __name__ == '__main__':
-	fg = FeedGenerator()
-	fg.id('http://lernfunk.de/_MEDIAID_123')
-	fg.title('Testfeed')
-	fg.author( {'name':'Lars Kiesow','email':'lkiesow@uos.de'} )
-	fg.link( href='http://example.com', rel='alternate' )
-	fg.category(term='test')
-	fg.contributor( name='Lars Kiesow', email='lkiesow@uos.de' )
-	fg.contributor( name='John Doe', email='jdoe@example.com' )
-	fg.icon('http://ex.com/icon.jpg')
-	fg.logo('http://ex.com/logo.jpg')
-	fg.rights('cc-by')
-	fg.subtitle('This is a cool feed!')
-	fg.link( href='http://larskiesow.de/test.atom', rel='self' )
-	fg.language('de')
-	fe = fg.add_entry()
-	fe.id('http://lernfunk.de/_MEDIAID_123#1')
-	fe.title('First Element')
-	fe.content('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
-			aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista
-			mala sunt, placet. Aut etiam, ut vestitum, sic sententiam habeas aliam
-			domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
-			occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
-			verba.''')
-	fe.summary('Lorem ipsum dolor sit amet, consectetur adipiscing elit...')
-	fe.link( href='http://example.com', rel='alternate' )
-	fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
-
-	fg.atom_file('test.atom')
-	fg.rss_file('test.rss')
-
-	#print fg.atom_str(pretty=True)
-	print fg.rss_str(pretty=True)
