@@ -892,6 +892,20 @@ class FeedGenerator:
 
 
 	def add_entry(self, feedEntry=None):
+		'''This method will add a new entry to the feed. If the feedEntry
+		argument is omittet a new Entry object is created automatically. This is
+		the prefered way to add new entries to a feed.
+
+		:param feedEntry: FeedEntry object to add.
+		:returns: FeedEntry object created or passed to this function.
+
+		Example::
+			
+			...
+			>>> entry = feedgen.add_entry()
+			>>> entry.title('First feed entry')
+
+		'''
 		if feedEntry is None:
 			feedEntry = FeedEntry()
 		self.__feed_entries.append( feedEntry )
@@ -899,4 +913,51 @@ class FeedGenerator:
 
 
 	def add_item(self, item=None):
+		'''This method will add a new item to the feed. If the item argument is
+		omittet a new FeedEntry object is created automatically. This is just
+		another name for add_entry(...)
+		'''
 		return self.add_entry(item)
+
+
+	def entry(self, entry=None, replace=False):
+		'''Get or set feed entries. Use the add_entry() method instead to
+		automatically create the FeedEntry objects.
+		
+		This method takes both a single FeedEntry object or a list of objects.
+
+		:param entry: FeedEntry object or list of FeedEntry objects.
+		:returns: List ob all feed entries.
+		'''
+		if not entry is None:
+			if not isinstance(entry, list):
+				entry = [entry]
+			if replace:
+				self.__feed_entries = []
+			self.__feed_entries += entry
+		return self.__feed_entries
+
+
+	def item(self, item=None, replace=False):
+		'''Get or set feed items. This is just another name for entry(...)
+		'''
+		return self.entry(item, replace)
+
+
+	def remove_entry(self, entry):
+		'''Remove a single entry from the feed. This method accepts both the
+		FeedEntry object to remove or the index of the entry as argument.
+
+		:param entry: Entry or index of entry to remove.
+		'''
+		if isinstance(entry, FeedEntry):
+			self.__feed_entries.remove(entry)
+		else:
+			self.__feed_entries.pop(entry)
+	
+
+	def remove_item(self, item):
+		'''Remove a single item from the feed. This is another name for
+		remove_entry.
+		'''
+		self.remove_entry(item)
