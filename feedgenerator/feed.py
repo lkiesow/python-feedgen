@@ -508,18 +508,21 @@ class FeedGenerator:
 		'''Get or set categories that the feed belongs to.
 
 		This method can be called with:
-		- the fields of an author as keyword arguments
-		- the fields of an author as a dictionary
-		- a list of dictionaries containing the author fields
-		
+		- the fields of a category as keyword arguments
+		- the fields of a category as a dictionary
+		- a list of dictionaries containing the category fields
+
+		A categories has the following fields:
+		- *term* identifies the category
+		- *scheme* identifies the categorization scheme via a URI.
+		- *label* provides a human-readable label for display
+
+		If a label is present it is used for the RSS feeds. Otherwise the term is
+		used. The scheme is used for the domain attribute in RSS.
+
 		:param link:    Dict or list of dicts with data.
 		:param replace: Add or replace old data.
-
-		Example::
-
-			>>> feedgen.link( href='http://example.com/', rel='self')
-			[{'href':'http://example.com/', 'rel':'self'}]
-
+		:returns: List of category data.
 		'''
 		if category is None and kwargs:
 			category = kwargs
@@ -528,7 +531,7 @@ class FeedGenerator:
 				self.__atom_category = []
 			self.__atom_category += ensure_format( 
 					category, 
-					set(['term', 'schema', 'label']),
+					set(['term', 'scheme', 'label']),
 					set(['term']) )
 			# Map the ATOM categories to RSS categories. Use the atom:label as
 			# name or if not present the atom:term. The atom:schema is the
