@@ -14,6 +14,16 @@
 
 
 def ensure_format(val, allowed, required, allowed_values={}):
+	'''Takes a dictionary or a list of dictionaries and check if all keys are in
+	the set of allowed keys, if all required keys are present and if the values
+	of a specific key are ok.
+
+	:param val: Dictionaries to check.
+	:param allowed: Set of allowed keys.
+	:param required: Set of required keys.
+	:param allowed_values: Dictionary with keys and sets of their allowed values.
+	:returns: List of checked dictionaries.
+	'''
 	if not val:
 		return None
 	# Make shure that we have a list of dicts. Even if there is only one.

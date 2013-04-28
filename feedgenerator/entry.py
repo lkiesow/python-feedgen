@@ -549,6 +549,7 @@ class FeedEntry:
 		:param url: URL of the media object.
 		:param length: Size of the media in bytes.
 		:param type: Mimetype of the linked media.
+		:returns: Data of the enclosure element.
 		'''
 		if not uri is None:
 			self.link( href=url, rel='enclosure', type=type, length=length )
@@ -559,43 +560,10 @@ class FeedEntry:
 		'''Get or set the ttl value. It is an RSS only element. ttl stands for
 		time to live. It's a number of minutes that indicates how long a channel
 		can be cached before refreshing from the source.
+
+		:param ttl: Integer value representing the time to live.
+		:returns: Time to live of of the entry.
 		'''
 		if not ttl is None:
 			self.__rss_ttl = int(ttl)
 		return self.__rss_ttl
-
-
-
-if __name__ == '__main__':
-	fg = FeedGenerator()
-	fg.id('http://lernfunk.de/_MEDIAID_123')
-	fg.title('Testfeed')
-	fg.author( {'name':'Lars Kiesow','email':'lkiesow@uos.de'} )
-	fg.link( href='http://example.com', rel='alternate' )
-	fg.category(term='test')
-	fg.contributor( name='Lars Kiesow', email='lkiesow@uos.de' )
-	fg.contributor( name='John Doe', email='jdoe@example.com' )
-	fg.icon('http://ex.com/icon.jpg')
-	fg.logo('http://ex.com/logo.jpg')
-	fg.rights('cc-by')
-	fg.subtitle('This is a cool feed!')
-	fg.link( href='http://larskiesow.de/test.atom', rel='self' )
-	fg.language('de')
-	fe = fg.add_entry()
-	fe.id('http://lernfunk.de/_MEDIAID_123#1')
-	fe.title('First Element')
-	fe.content('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
-			aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista
-			mala sunt, placet. Aut etiam, ut vestitum, sic sententiam habeas aliam
-			domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
-			occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
-			verba.''')
-	fe.summary('Lorem ipsum dolor sit amet, consectetur adipiscing elit...')
-	fe.link( href='http://example.com', rel='alternate' )
-	fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
-
-	fg.atom_file('test.atom')
-	fg.rss_file('test.rss')
-
-	#print fg.atom_str(pretty=True)
-	print fg.rss_str(pretty=True)
