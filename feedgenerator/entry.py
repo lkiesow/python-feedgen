@@ -50,6 +50,11 @@ class FeedEntry:
 
 
 	def atom_entry(self, feed):
+		'''Insert an ATOM entry into a existing XML structure. Normally you
+		would pass the feed node of an ATOM feed XML to this function.
+
+		:param feed: The XML element to use as parent node for the element.
+		'''
 		entry = etree.SubElement(feed, 'entry')
 		if not ( self.__atom_id and self.__atom_title and self.__atom_updated ):
 			raise ValueError('Required fields not set')
@@ -134,6 +139,11 @@ class FeedEntry:
 
 
 	def rss_entry(self, feed):
+		'''Insert an RSS item into a existing XML structure. Normally you
+		would pass the channel node of an RSS feed XML to this function.
+
+		:param feed: The XML element to use as parent node for the item.
+		'''
 		entry = etree.SubElement(feed, 'item')
 		if not ( self.__rss_title or self.__rss_description ):
 			raise ValueError('Required fields not set')
@@ -174,6 +184,13 @@ class FeedEntry:
 
 	
 	def title(self, title=None):
+		'''Get or set the title value of the entry. It should contain a human
+		readable title for the entry. Title is mandatory for both ATOM and RSS
+		and should not be blank.
+
+		:param title: The new title of the entry.
+		:returns: The entriess title.
+		'''
 		if not title is None:
 			self.__atom_title = title
 			self.__rss_title = title
@@ -181,6 +198,14 @@ class FeedEntry:
 
 
 	def id(self, id=None):
+		'''Get or set the entry id which identifies the entry using a universally
+		unique and permanent URI. Two entries in a feed can have the same value
+		for id if they represent the same entry at different points in time. This
+		method will also set rss:guid.  Id is mandatory for an ATOM entry.
+
+		:param id: New Id of the entry.
+		:returns: Id of the entry.
+		'''
 		if not id is None:
 			self.__atom_id = id
 			self.__rss_guid = id
@@ -188,6 +213,12 @@ class FeedEntry:
 
 
 	def guid(self, guid=None):
+		'''Get or set the entries guid which is a string that uniquely identifies
+		the item. This will also set atom:id.
+
+		:param guid: Id of the entry.
+		:returns: Id of the entry.
+		'''
 		return self.id(guid)
 
 
@@ -219,6 +250,16 @@ class FeedEntry:
 		'''Get or set autor data. An author element is a dict containing a name,
 		an email adress and a uri. Name is mandatory for ATOM, email is mandatory
 		for RSS.
+
+		This method can be called with:
+		- the fields of an author as keyword arguments
+		- the fields of an author as a dictionary
+		- a list of dictionaries containing the author fields
+
+		An author has the following fields:
+		- *name* conveys a human-readable name for the person.
+		- *uri* contains a home page for the person.
+		- *email* contains an email address for the person.
 		
 		:param author:  Dict or list of dicts with author data.
 		:param replace: Add or replace old data.
@@ -251,6 +292,16 @@ class FeedEntry:
 
 
 	def content(self, content=None, src=None):
+		'''Get or set the cntent of the entry which contains or links to the
+		complete content of the entry. Content must be provided for ATOM entries
+		if there is no alternate link, and should be provided if there is no
+		summary. If the content is set (not linked) it will also set
+		rss:description.
+
+		:param content: The content of the feed entry.
+		:param src: Link to the entries content.
+		:returns: Content element of the entry.
+		'''
 		if not src is None:
 			self.__atom_content = {'src':src}
 		elif not content is None:
@@ -263,15 +314,40 @@ class FeedEntry:
 		'''Get or set link data. An link element is a dict with the fields href,
 		rel, type, hreflang, title, and length. Href is mandatory for ATOM.
 
-		RSS only supports one link with URL only.
+		This method can be called with:
+		- the fields of a link as keyword arguments
+		- the fields of a link as a dictionary
+		- a list of dictionaries containing the link fields
+
+		A link has the following fields:
+		- *href* is the URI of the referenced resource (typically a Web page)
+		- *rel* contains a single link relationship type. It can be a full URI,
+		  or one of the following predefined values (default=alternate):
+			- *alternate* an alternate representation of the entry or feed, for
+			  example a permalink to the html version of the entry, or the front
+			  page of the weblog.
+			- *enclosure* a related resource which is potentially large in size
+			  and might require special handling, for example an audio or video
+			  recording.
+			- *related* an document related to the entry or feed.
+			- *self* the feed itself.
+			- *via* the source of the information provided in the entry.
+		- *type* indicates the media type of the resource.
+		- *hreflang* indicates the language of the referenced resource.
+		- *title* human readable information about the link, typically for
+		  display purposes.
+		- *length* the length of the resource, in bytes.
+
+		RSS only supports one link with nothing but a URL. So for the RSS link
+		element the last link with rel=alternate is used.
+
+		RSS also supports one enclusure element per entry which is covered by the
+		link element in ATOM feed entries. So for the RSS enclusure element the
+		last link with rel=enclosure is used.
 		
 		:param link:    Dict or list of dicts with data.
 		:param replace: Add or replace old data.
-
-		Example::
-
-			link(...)
-
+		:returns: List of link data.
 		'''
 		if link is None and kwargs:
 			link = kwargs
@@ -295,6 +371,17 @@ class FeedEntry:
 
 
 	def summary(self, summary=None):
+		'''Get or set the summary element of an entry which conveys a short
+		summary, abstract, or excerpt of the entry. Summary is an ATOM only
+		element and should be provided if there either is no content provided for
+		the entry, or that content is not inline (i.e., contains a src
+		attribute), or if the content is encoded in base64.
+		This method will also set the rss:description field if it wasn't
+		previously set or contains the old value of summary.
+
+		:param summary: Summary of the entries contents.
+		:returns: Summary of the entries contents.
+		'''
 		if not summary is None:
 			# Replace the RSS description with the summary if it was the summary
 			# before. Not if is the description.
@@ -310,6 +397,10 @@ class FeedEntry:
 		Description is an RSS only element. For ATOM feeds it is split in summary
 		and content. The isSummary parameter can be used to control which ATOM
 		value is set when setting description.
+
+		:param description: Description of the entry.
+		:param isSummary: If the description should be used as content or summary.
+		:returns: The entries description.
 		'''
 		if not description is None:
 			self.__rss_description = description
@@ -321,6 +412,25 @@ class FeedEntry:
 
 
 	def category(self, category=None, replace=False, **kwargs):
+		'''Get or set categories that the entry belongs to.
+
+		This method can be called with:
+		- the fields of a category as keyword arguments
+		- the fields of a category as a dictionary
+		- a list of dictionaries containing the category fields
+
+		A categories has the following fields:
+		- *term* identifies the category
+		- *scheme* identifies the categorization scheme via a URI.
+		- *label* provides a human-readable label for display
+
+		If a label is present it is used for the RSS feeds. Otherwise the term is
+		used. The scheme is used for the domain attribute in RSS.
+
+		:param link:    Dict or list of dicts with data.
+		:param replace: Add or replace old data.
+		:returns: List of category data.
+		'''
 		if category is None and kwargs:
 			category = kwargs
 		if not category is None:
@@ -328,7 +438,7 @@ class FeedEntry:
 				self.__atom_category = []
 			self.__atom_category += ensure_format( 
 					category, 
-					set(['term', 'schema', 'label']),
+					set(['term', 'scheme', 'label']),
 					set(['term']) )
 			# Map the ATOM categories to RSS categories. Use the atom:label as
 			# name or if not present the atom:term. The atom:schema is the
@@ -344,6 +454,23 @@ class FeedEntry:
 
 
 	def contributor(self, contributor=None, replace=False, **kwargs):
+		'''Get or set the contributor data of the feed. This is an ATOM only
+		value.
+
+		This method can be called with:
+		- the fields of an contributor as keyword arguments
+		- the fields of an contributor as a dictionary
+		- a list of dictionaries containing the contributor fields
+
+		An contributor has the following fields:
+		- *name* conveys a human-readable name for the person.
+		- *uri* contains a home page for the person.
+		- *email* contains an email address for the person.
+		
+		:param contributor: Dictionary or list of dictionaries with contributor data.
+		:param replace: Add or replace old data.
+		:returns: List of contributors as dictionaries.
+		'''
 		if contributor is None and kwargs:
 			contributor = kwargs
 		if not contributor is None:
@@ -379,10 +506,21 @@ class FeedEntry:
 
 	
 	def pubdate(self, pubDate=None):
+		'''Get or set the pubDate of the entry which indicates when the entry was
+		published. This method is just another name for the published(...)
+		method.
+		'''
 		return self.published(pubDate)
 
 
 	def rights(self, rights=None):
+		'''Get or set the rights value of the entry which conveys information
+		about rights, e.g. copyrights, held in and over the entry. This ATOM value
+		will also set rss:copyright.
+
+		:param rights: Rights information of the feed.
+		:returns: Rights information of the feed.
+		'''
 		if not rights is None:
 			self.__atom_rights = rights
 		return self.__atom_rights
@@ -391,6 +529,9 @@ class FeedEntry:
 	def comments(self, comments=None):
 		'''Get or set the the value of comments which is the url of the comments
 		page for the item. This is a RSS only value.
+
+		:param comments: URL to the comments page.
+		:returns: URL to the comments page.
 		'''
 		if not comments is None:
 			self.__rss_comments = comments
@@ -404,6 +545,10 @@ class FeedEntry:
 		enclosures while RSS may contain only one. That is why this method, if
 		repeatedly called, will add more than one enclosures to the feed.
 		However, only the last one is used for RSS.
+
+		:param url: URL of the media object.
+		:param length: Size of the media in bytes.
+		:param type: Mimetype of the linked media.
 		'''
 		if not uri is None:
 			self.link( href=url, rel='enclosure', type=type, length=length )
