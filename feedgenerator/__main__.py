@@ -10,13 +10,16 @@
 '''
 
 from feedgenerator.feed import FeedGenerator
+from feedgenerator.podcast import PodcastGenerator
 import sys
 
 
 
 if __name__ == '__main__':
 	if len(sys.argv) != 2 or not ( 
-			sys.argv[1].endswith('rss') or sys.argv[1].endswith('atom') ):
+			sys.argv[1].endswith('rss') \
+					or sys.argv[1].endswith('atom') \
+					or sys.argv[1].endswith('podcast') ):
 		print 'Usage: %s ( <file>.atom | atom | <file>.rss | rss )' % \
 				'pythom -m feedgenerator'
 		print ''
@@ -29,7 +32,7 @@ if __name__ == '__main__':
 
 	arg = sys.argv[1]
 
-	fg = FeedGenerator()
+	fg = PodcastGenerator() if arg.endswith('podcast') else FeedGenerator()
 	fg.id('http://lernfunk.de/_MEDIAID_123')
 	fg.title('Testfeed')
 	fg.author( {'name':'Lars Kiesow','email':'lkiesow@uos.de'} )
@@ -60,6 +63,10 @@ if __name__ == '__main__':
 		print fg.atom_str(pretty=True)
 	elif arg == 'rss':
 		print fg.rss_str(pretty=True)
+	elif arg == 'podcast':
+		fg.itunes_author('Lars Kiesow')
+		fg.itunes_category('Technology', 'Podcasting')
+		print fg.podcast_str(pretty=True)
 	elif arg.endswith('atom'):
 		fg.atom_file(arg)
 	elif arg.endswith('rss'):

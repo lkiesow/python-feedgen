@@ -16,7 +16,7 @@ import dateutil.tz
 from feedgenerator.util import ensure_format
 
 
-class FeedEntry:
+class FeedEntry(object):
 
 	# ATOM
 	# required

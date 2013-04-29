@@ -17,7 +17,7 @@ from feedgenerator.entry import FeedEntry
 from feedgenerator.util import ensure_format
 
 
-class FeedGenerator:
+class FeedGenerator(object):
 
 	__feed_entries = []
 
@@ -69,7 +69,7 @@ class FeedGenerator:
 
 
 
-	def __create_atom(self):
+	def _create_atom(self):
 		'''Create a ATOM feed xml structure containing all previously set fields.
 
 		:returns: Tuple containing the feed root element and the element tree.
@@ -176,7 +176,7 @@ class FeedGenerator:
 			properly indented.
 		:returns: String representation of the ATOM feed.
 		'''
-		feed, doc = self.__create_atom()
+		feed, doc = self._create_atom()
 		return etree.tostring(feed, pretty_print=pretty)
 
 
@@ -185,12 +185,12 @@ class FeedGenerator:
 		
 		:param filename: Name of file to write.
 		'''
-		feed, doc = self.__create_atom()
+		feed, doc = self._create_atom()
 		with open(filename, 'w') as f:
 			doc.write(f)
 
 
-	def __create_rss(self):
+	def _create_rss(self):
 		'''Create an RSS feed xml structure containing all previously set fields.
 
 		:returns: Tuple containing the feed root element and the element tree.
@@ -317,7 +317,7 @@ class FeedGenerator:
 			properly indented.
 		:returns: String representation of the RSS feed.
 		'''
-		feed, doc = self.__create_rss()
+		feed, doc = self._create_rss()
 		return etree.tostring(feed, pretty_print=pretty)
 
 
@@ -326,7 +326,7 @@ class FeedGenerator:
 		
 		:param filename: Name of file to write.
 		'''
-		feed, doc = self.__create_rss()
+		feed, doc = self._create_rss()
 		with open(filename, 'w') as f:
 			doc.write(f)
 
