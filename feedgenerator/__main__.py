@@ -66,6 +66,9 @@ if __name__ == '__main__':
 	elif arg == 'podcast':
 		fg.itunes_author('Lars Kiesow')
 		fg.itunes_category('Technology', 'Podcasting')
+		fg.itunes_explicit('no')
+		fg.itunes_complete('no')
+		fg.itunes_new_feed_url('http://example.com/new-feed.rss')
 		print fg.podcast_str(pretty=True)
 	elif arg.endswith('atom'):
 		fg.atom_file(arg)

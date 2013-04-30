@@ -24,9 +24,13 @@ class PodcastGenerator(FeedGenerator):
 
 	## ITunes tags
 	# http://www.apple.com/itunes/podcasts/specs.html#rss
-	__itunes_author   = None
-	__itunes_block    = None
-	__itunes_category = None
+	__itunes_author       = None
+	__itunes_block        = None
+	__itunes_category     = None
+	__itunes_image        = None
+	__itunes_explicit     = None
+	__itunes_complete     = None
+	__itunes_new_feed_url = None
 
 
 
@@ -61,6 +65,18 @@ class PodcastGenerator(FeedGenerator):
 			if self.__itunes_category.get('sub'):
 				subcategory = etree.SubElement(category, '{%s}category' % ITUNES_NS)
 				subcategory.attrib['text'] = self.__itunes_category['sub']
+
+		if self.__itunes_explicit in ('yes', 'no', 'clean'):
+			explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)
+			explicit.text = self.__itunes_explicit
+
+		if self.__itunes_complete in ('yes', 'no'):
+			complete = etree.SubElement(channel, '{%s}complete' % ITUNES_NS)
+			complete.text = self.__itunes_complete
+
+		if self.__itunes_new_feed_url:
+			new_feed_url = etree.SubElement(channel, '{%s}new-feed-url' % ITUNES_NS)
+			new_feed_url.text = self.__itunes_new_feed_url
 
 		return feed, doc
 
@@ -163,7 +179,66 @@ class PodcastGenerator(FeedGenerator):
 		return self.__itunes_image
 
 
+	def itunes_explicit(self, itunes_explicit=None):
+		'''Get or the the itunes:explicit value of the podcast. This tag should
+		be used to indicate whether your podcast contains explicit material. The
+		three values for this tag are "yes", "no", and "clean".
 
+		If you populate this tag with "yes", an "explicit" parental advisory
+		graphic will appear next to your podcast artwork on the iTunes Store and
+		in the Name column in iTunes. If the value is "clean", the parental
+		advisory type is considered Clean, meaning that no explicit language or
+		adult content is included anywhere in the episodes, and a "clean" graphic
+		will appear. If the explicit tag is present and has any other value
+		(e.g., "no"), you see no indicator — blank is the default advisory type.
+
+		:param itunes_explicit: If the podcast contains explicit material.
+		:returns: If the podcast contains explicit material.
+		'''
+		if not itunes_explicit is None:
+			if not itunes_explicit in ('', 'yes', 'no', 'clean'):
+				raise ValueError('Invalid value for explicit tag')
+			self.__itunes_explicit = itunes_explicit
+		return self.__itunes_explicit
+
+
+	def itunes_complete(self, itunes_complete=None):
+		'''Get or set the itunes:complete value of the podcast. This tag can be
+		used to indicate the completion of a podcast.
+
+		If you populate this tag with "yes", you are indicating that no more
+		episodes will be added to the podcast. If the <itunes:complete> tag is
+		present and has any other value (e.g. “no”), it will have no effect on
+		the podcast.
+
+		:param itunes_complete: If the podcast is complete.
+		:returns: If the podcast is complete.
+		'''
+		if not itunes_complete is None:
+			if not itunes_complete in ('yes', 'no', '', True, False):
+				raise ValueError('Invalid value for complete tag')
+			if itunes_complete == True:
+				itunes_complete = 'yes'
+			if itunes_complete == False:
+				itunes_complete = 'no'
+			self.__itunes_complete = itunes_complete
+		return self.__itunes_complete
+
+
+	def itunes_new_feed_url(self, itunes_new_feed_url=None):
+		'''Get or set the new-feed-url property of the podcast. This tag allows
+		you to change the URL where the podcast feed is located
+
+		After adding the tag to your old feed, you should maintain the old feed
+		for 48 hours before retiring it. At that point, iTunes will have updated
+		the directory with the new feed URL.
+
+		:param itunes_new_feed_url: New feed URL.
+		:returns: New feed URL.
+		'''
+		if not itunes_new_feed_url is None:
+			self.__itunes_new_feed_url = itunes_new_feed_url
+		return self.__itunes_new_feed_url
 
 
 	_itunes_categories = {
