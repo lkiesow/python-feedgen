@@ -31,6 +31,9 @@ class PodcastGenerator(FeedGenerator):
 	__itunes_explicit     = None
 	__itunes_complete     = None
 	__itunes_new_feed_url = None
+	__itunes_owner        = None
+	__itunes_subtitle     = None
+	__itunes_summary      = None
 
 
 
@@ -77,6 +80,21 @@ class PodcastGenerator(FeedGenerator):
 		if self.__itunes_new_feed_url:
 			new_feed_url = etree.SubElement(channel, '{%s}new-feed-url' % ITUNES_NS)
 			new_feed_url.text = self.__itunes_new_feed_url
+
+		if self.__itunes_owner:
+			owner = etree.SubElement(channel, '{%s}owner' % ITUNES_NS)
+			owner_name = etree.SubElement(owner, '{%s}name' % ITUNES_NS)
+			owner_name.text = self.__itunes_owner.get('name')
+			owner_email = etree.SubElement(owner, '{%s}email' % ITUNES_NS)
+			owner_email.text = self.__itunes_owner.get('email')
+
+		if self.__itunes_subtitle:
+			subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
+			subtitle.text = self.__itunes_subtitle
+
+		if self.__itunes_summary:
+			summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
+			summary.text = self.__itunes_summary
 
 		return feed, doc
 
@@ -239,6 +257,54 @@ class PodcastGenerator(FeedGenerator):
 		if not itunes_new_feed_url is None:
 			self.__itunes_new_feed_url = itunes_new_feed_url
 		return self.__itunes_new_feed_url
+
+
+	def itunes_owner(self, name=None, email=None):
+		'''Get or set the itunes:owner of the podcast. This tag contains
+		information that will be used to contact the owner of the podcast for
+		communication specifically about the podcast. It will not be publicly
+		displayed.
+
+		:param itunes_owner: The owner of the feed.
+		:returns: Data of the owner of the feed.
+		'''
+		if not name is None:
+			if name and email:
+				self.__itunes_owner = {'name':name, 'email':email}
+			elif not name and not email:
+				self.__itunes_owner = None
+			else:
+				raise ValueError('Both name and email have to be set.')
+		return self.__itunes_owner
+
+
+	def itunes_subtitle(self, itunes_subtitle=None):
+		'''Get or set the itunes:subtitle value for the podcast. The contents of
+		this tag are shown in the Description column in iTunes. The subtitle
+		displays best if it is only a few words long.
+
+		:param itunes_subtitle: Subtitle of the podcast.
+		:returns: Subtitle of the podcast.
+		'''
+		if not itunes_subtitle is None:
+			self.__itunes_subtitle = itunes_subtitle
+		return self.__itunes_subtitle
+
+
+	def itunes_summary(self, itunes_summary=None):
+		'''Get or set the itunes:summary value for the podcast. The contents of
+		this tag are shown in a separate window that appears when the "circled i"
+		in the Description column is clicked. It also appears on the iTunes page
+		for your podcast. This field can be up to 4000 characters. If
+		<itunes:summary> is not included, the contents of the <description> tag
+		are used.
+
+		:param itunes_summary: Summary of the podcast.
+		:returns: Summary of the podcast.
+		'''
+		if not itunes_summary is None:
+			self.__itunes_summary = itunes_summary
+		return self.__itunes_summary
 
 
 	_itunes_categories = {
