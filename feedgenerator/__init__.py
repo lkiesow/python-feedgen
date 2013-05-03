@@ -9,7 +9,7 @@
 	extension for Podcasts.
 
 	:copyright: 2013 by Lars Kiesow
-	:license: FreeBSD and LGPL, see LICENSE for more details.
+	:license: FreeBSD and LGPL, see license.* for more details.
 
 
 	-------------

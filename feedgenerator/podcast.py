@@ -8,7 +8,7 @@
 
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
-	:license: FreeBSD and LGPL, see LICENSE for more details.
+	:license: FreeBSD and LGPL, see license.* for more details.
 '''
 
 from lxml import etree
