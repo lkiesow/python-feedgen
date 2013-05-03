@@ -41,9 +41,9 @@ Example::
 	>>> fg.contributor({'name':'John Doe', 'email':'jdoe@example.com'})
 	>>> fg.contributor([{'name':'John Doe', 'email':'jdoe@example.com'}, ...])
 
------------------
-Generate the Feed
------------------
+---------------
+Generate output
+---------------
 
 After that you can generate both RSS or ATOM by calling the respective method::
 
@@ -102,3 +102,6 @@ You can test the module by simply executing::
 
 	%> pythom -m feedgenerator 
 
+If you want to have a look at the code for this test to have a working code
+example for a whole feed generation process, you can find it in the
+[__main__.py](https://github.com/lkiesow/pyFeedGenerator/blob/master/feedgenerator/__main__.py#L36).
