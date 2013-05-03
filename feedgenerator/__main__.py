@@ -20,13 +20,14 @@ if __name__ == '__main__':
 			sys.argv[1].endswith('rss') \
 					or sys.argv[1].endswith('atom') \
 					or sys.argv[1].endswith('podcast') ):
-		print 'Usage: %s ( <file>.atom | atom | <file>.rss | rss )' % \
+		print 'Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
 				'pythom -m feedgenerator'
 		print ''
 		print '  atom        -- Generate ATOM test output and print it to stdout.'
 		print '  rss         -- Generate RSS test output and print it to stdout.'
 		print '  <file>.atom -- Generate ATOM test feed and write it to file.atom.'
 		print '  <file>.rss  -- Generate RSS test teed and write it to file.rss.'
+		print '  podcast     -- Generator Podcast test output and print it to stdout.'
 		print ''
 		exit()
 
