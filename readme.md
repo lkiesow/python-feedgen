@@ -6,8 +6,8 @@ This module can be used to generate web feeds in both ATOM and RSS format.
 They included PodcastGenerator furthermore includes all of Apples RSS
 extension for Podcasts.
 
-:copyright: 2013 by Lars Kiesow
-:license: FreeBSD and LGPL, see license.* for more details.
+- copyright: 2013 by Lars Kiesow
+- license: FreeBSD and LGPL, see license.bsd or license.lgpl for more details.
 
 
 -------------
