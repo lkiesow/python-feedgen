@@ -137,6 +137,8 @@ class FeedEntry(object):
 			rights = etree.SubElement(feed, 'rights')
 			rights.text = self.__atom_rights
 
+		return entry
+
 
 	def rss_entry(self, feed):
 		'''Insert an RSS item into a existing XML structure. Normally you
@@ -180,6 +182,7 @@ class FeedEntry(object):
 			pubDate = etree.SubElement(channel, 'pubDate')
 			pubDate.text = self.__rss_pubDate.strftime(
 					'%a, %e %b %Y %H:%M:%S %z')
+		return entry
 
 
 	

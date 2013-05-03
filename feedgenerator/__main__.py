@@ -71,6 +71,7 @@ if __name__ == '__main__':
 		fg.itunes_new_feed_url('http://example.com/new-feed.rss')
 		fg.itunes_owner('John Doe', 'john@example.com')
 		fg.itunes_summary('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Verba tu fingas et ea dicas, quae non sentias?')
+		fe.itunes_author('Lars Kiesow')
 
 		print fg.podcast_str(pretty=True)
 	elif arg.endswith('atom'):

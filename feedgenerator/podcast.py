@@ -16,6 +16,7 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from feedgenerator.feed import FeedGenerator
+from feedgenerator.podcast_entry import PodcastEntry
 from feedgenerator.util import ensure_format
 
 
@@ -44,8 +45,8 @@ class PodcastGenerator(FeedGenerator):
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
 		rss_feed, _ = super(PodcastGenerator,self)._create_rss()
-		# Replace the root element to add the itunes namespace
 		ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
+		# Replace the root element to add the itunes namespace
 		feed = etree.Element('rss', version='2.0',
 				nsmap={
 					'atom'  :'http://www.w3.org/2005/Atom', 
@@ -68,6 +69,10 @@ class PodcastGenerator(FeedGenerator):
 			if self.__itunes_category.get('sub'):
 				subcategory = etree.SubElement(category, '{%s}category' % ITUNES_NS)
 				subcategory.attrib['text'] = self.__itunes_category['sub']
+
+		if self.__itunes_image:
+			image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
+			image.text = self.__itunes_image
 
 		if self.__itunes_explicit in ('yes', 'no', 'clean'):
 			explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)
@@ -305,6 +310,20 @@ class PodcastGenerator(FeedGenerator):
 		if not itunes_summary is None:
 			self.__itunes_summary = itunes_summary
 		return self.__itunes_summary
+
+
+	def add_entry(self, podcastEntry=None):
+		'''This method will add a new entry to the podcast. If the podcastEntry
+		argument is omittet a new PodcstEntry object is created automatically.
+		This is the prefered way to add new entries to a feed.
+
+		:param podcastEntry: PodcastEntry object to add.
+		:returns: PodcastEntry object created or passed to this function.
+		'''
+		if podcastEntry is None:
+			podcastEntry = PodcastEntry()
+		super(PodcastGenerator, self).add_entry( podcastEntry )
+		return podcastEntry
 
 
 	_itunes_categories = {
