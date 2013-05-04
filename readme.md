@@ -3,10 +3,10 @@ Feedgenerator
 =============
 
 This module can be used to generate web feeds in both ATOM and RSS format.
-The included PodcastGenerator furthermore includes all of Apples RSS
+The included PodcastGenerator can furthermore generate all of Apples RSS
 extension for Podcasts.
 
-It is licensed under the terms of both, the FreeBSD license and the LGPL.
+It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look
 at license.bsd and license.lgpl.
 
