@@ -11,6 +11,8 @@ setup(
 		author_email = 'lkiesow@uos.de',
 		url = 'https://github.com/lkiesow/pyFeedGenerator',
 		keywords = ['feed','ATOM','RSS','podcast'],
+		license = 'FreeBSD and LGPLv3+',
+		requires = ['lxml', 'dateutils'],
 		classifiers = [
 			'Development Status :: 4 - Beta',
 			'Development Status :: 5 - Production/Stable',
