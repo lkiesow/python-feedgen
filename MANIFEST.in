@@ -1,0 +1,2 @@
+include license.bsd license.lgpl readme.md
+recursive-include docs *.html *.css *.png *.gif *.js
