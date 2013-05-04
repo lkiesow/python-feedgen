@@ -1,16 +1,16 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 '''
-	feedgenerator
-	~~~~~~~~~~~~~
+	feedgen
+	~~~~~~~
 
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
 	:license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from feedgenerator.feed import FeedGenerator
-from feedgenerator.podcast import PodcastGenerator
+from feedgen.feed import FeedGenerator
+from feedgen.podcast import PodcastGenerator
 import sys
 
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
 					or sys.argv[1].endswith('atom') \
 					or sys.argv[1].endswith('podcast') ):
 		print 'Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
-				'pythom -m feedgenerator'
+				'pythom -m feedgen'
 		print ''
 		print '  atom        -- Generate ATOM test output and print it to stdout.'
 		print '  rss         -- Generate RSS test output and print it to stdout.'

@@ -2,7 +2,7 @@
 API Documentation
 =================
 
-.. automodule:: feedgenerator
+.. automodule:: feedgen
    :members:
 
 Contents:

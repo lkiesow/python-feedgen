@@ -1,8 +1,8 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 '''
-	feedgenerator.util
-	~~~~~~~~~~~~~~~~~~
+	feedgen.util
+	~~~~~~~~~~~~
 
 	This file contains helper functions for the feed generator module.
 

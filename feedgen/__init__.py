@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-	=============
-	feedgenerator
-	=============
+	=======
+	feedgen
+	=======
 
 	This module can be used to generate web feeds in both ATOM and RSS format.
 	The included PodcastGenerator furthermore includes all of Apples RSS
@@ -19,7 +19,7 @@
 	To create a feed simply instanciate the FeedGenerator class and insert some
 	data::
 
-		>>> from feedgenerator.feed import FeedGenerator
+		>>> from feedgen.feed import FeedGenerator
 		>>> fg = FeedGenerator()
 		>>> fg.id('http://lernfunk.de/media/654321')
 		>>> fg.title('Some Testfeed')
@@ -78,12 +78,12 @@
 	-----------------
 
 	A podcast is an RSS feed with some additional elements for ITunes. The
-	feedgenerator has a PodcastGenerator class as extension to the default
+	feedgen has a PodcastGenerator class as extension to the default
 	FeedGenerator which you can use to set these additional fields.
 
 	To produce a podcast simply do something like this::
 
-		>>> from feedgenerator.podcast import PodcastGenerator
+		>>> from feedgen.podcast import PodcastGenerator
 		>>> fg = PodcastGenerator()
 		...
 		>>> fg.podcast_str(pretty=True)
@@ -102,6 +102,6 @@
 
 	You can test the module by simply executing::
 
-		%> pythom -m feedgenerator 
+		%> pythom -m feedgen 
 
 """

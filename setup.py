@@ -3,8 +3,8 @@
 
 from distutils.core import setup
 setup(
-		name = 'feedgenerator',
-		packages = ['feedgenerator'],
+		name = 'feedgen',
+		packages = ['feedgen'],
 		version = '0.1',
 		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',

@@ -18,7 +18,7 @@ Create a Feed
 To create a feed simply instantiate the FeedGenerator class and insert some
 data::
 
-	>>> from feedgenerator.feed import FeedGenerator
+	>>> from feedgen.feed import FeedGenerator
 	>>> fg = FeedGenerator()
 	>>> fg.id('http://lernfunk.de/media/654321')
 	>>> fg.title('Some Testfeed')
@@ -77,12 +77,12 @@ Produce a Podcast
 -----------------
 
 A podcast is an RSS feed with some additional elements for ITunes. The
-feedgenerator has a PodcastGenerator class as extension to the default
+feedgen has a PodcastGenerator class as extension to the default
 FeedGenerator which you can use to set these additional fields.
 
 To produce a podcast simply do something like this::
 
-	>>> from feedgenerator.podcast import PodcastGenerator
+	>>> from feedgen.podcast import PodcastGenerator
 	>>> fg = PodcastGenerator()
 	...
 	>>> fg.podcast_str(pretty=True)
@@ -101,7 +101,7 @@ Testing the Generator
 
 You can test the module by simply executing::
 
-	%> pythom -m feedgenerator 
+	%> pythom -m feedgen 
 
 If you want to have a look at the code for this test to have a working code
 example for a whole feed generation process, you can find it in the

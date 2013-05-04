@@ -1,10 +1,10 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 '''
-	feedgenerator.podcast
-	~~~~~~~~~~~~~~~~~~~~~
+	feedgen.podcast
+	~~~~~~~~~~~~~~~
 
-	Extends the feedgenerator to produce podcasts.
+	Extends the FeedGenerator to produce podcasts.
 
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
@@ -15,9 +15,9 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgenerator.feed import FeedGenerator
-from feedgenerator.podcast_entry import PodcastEntry
-from feedgenerator.util import ensure_format
+from feedgen.feed import FeedGenerator
+from feedgen.podcast_entry import PodcastEntry
+from feedgen.util import ensure_format
 
 
 class PodcastGenerator(FeedGenerator):

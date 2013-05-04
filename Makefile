@@ -3,8 +3,8 @@ sdist: doc
 
 clean: doc-clean
 	@echo Removing binary files...
-	@rm -f `find feedgenerator -name '*.pyc'`
-	@rm -f `find feedgenerator -name '*.pyo'`
+	@rm -f `find feedgen -name '*.pyc'`
+	@rm -f `find feedgen -name '*.pyo'`
 	@echo Removing source distribution files...
 	@rm -rf dist/
 	@rm MANIFEST

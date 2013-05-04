@@ -1,8 +1,8 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 '''
-	feedgenerator.feed
-	~~~~~~~~~~~~~~~~~~
+	feedgen.feed
+	~~~~~~~~~~~~
 
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
@@ -14,8 +14,8 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgenerator.entry import FeedEntry
-from feedgenerator.util import ensure_format
+from feedgen.entry import FeedEntry
+from feedgen.util import ensure_format
 
 
 class FeedGenerator(object):
