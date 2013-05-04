@@ -1,20 +1,21 @@
 =============
-feedgenerator
+Feedgenerator
 =============
 
 This module can be used to generate web feeds in both ATOM and RSS format.
 The included PodcastGenerator furthermore includes all of Apples RSS
 extension for Podcasts.
 
-- copyright: 2013 by Lars Kiesow
-- license: FreeBSD and LGPL, see license.bsd or license.lgpl for more details.
+It is licensed under the terms of both, the FreeBSD license and the LGPL.
+Choose the one which is more convenient for you. For more details have a look
+at license.bsd and license.lgpl.
 
 
 -------------
 Create a Feed
 -------------
 
-To create a feed simply instanciate the FeedGenerator class and insert some
+To create a feed simply instantiate the FeedGenerator class and insert some
 data::
 
 	>>> from feedgenerator.feed import FeedGenerator
@@ -31,9 +32,9 @@ data::
 Note that for the methods which set fields that can occur more than once in
 a feed you can use all of the following ways to provide data:
 
-- Provide the data for that element as keyword arguments::
-- Provide the data for that element as dictionary::
-- Provide a list of dictionaries with the data for several elements::
+- Provide the data for that element as keyword arguments
+- Provide the data for that element as dictionary
+- Provide a list of dictionaries with the data for several elements
 
 Example::
 
@@ -67,7 +68,7 @@ instantiation of the FeedEntry object::
 	>>> fe.title('The First Episode')
 
 The FeedGenerators method add_entry(...) without argument provides will
-automaticall generate a new FeedEntry object, append it to the feeds
+automatically generate a new FeedEntry object, append it to the feeds
 internal list of entries and return it, so that additional data can be
 added.
 
@@ -91,7 +92,7 @@ For the episodes of the podcast you should also use PodcastEntry instead of
 FeedEntry. However, if you use the add_entry(...) method to generator the
 entry objects, it will take care of that for you.
 
-Of cause you can still produce a normat ATOM or RSS feed, even if you use
+Of cause you can still produce a normal ATOM or RSS feed, even if you use
 the PodcastGenerator using the {atom,rss}_{str,file} methods.
 
 ---------------------

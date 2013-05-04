@@ -1,12 +1,13 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 '''
-	feedgenerator
-	~~~~~~~~~~~~~
+	feedgenerator.feed
+	~~~~~~~~~~~~~~~~~~
 
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
 	:license: FreeBSD and LGPL, see license.* for more details.
+
 '''
 
 from lxml import etree
@@ -18,6 +19,8 @@ from feedgenerator.util import ensure_format
 
 
 class FeedGenerator(object):
+	'''FeedGenerator for generating ATOM and RSS feeds.
+	'''
 
 	__feed_entries = []
 
@@ -459,9 +462,11 @@ class FeedGenerator(object):
 		- a list of dictionaries containing the link fields
 
 		A link has the following fields:
+
 		- *href* is the URI of the referenced resource (typically a Web page)
 		- *rel* contains a single link relationship type. It can be a full URI,
 		  or one of the following predefined values (default=alternate):
+
 			- *alternate* an alternate representation of the entry or feed, for
 			  example a permalink to the html version of the entry, or the front
 			  page of the weblog.
@@ -471,6 +476,7 @@ class FeedGenerator(object):
 			- *related* an document related to the entry or feed.
 			- *self* the feed itself.
 			- *via* the source of the information provided in the entry.
+
 		- *type* indicates the media type of the resource.
 		- *hreflang* indicates the language of the referenced resource.
 		- *title* human readable information about the link, typically for
@@ -744,7 +750,7 @@ class FeedGenerator(object):
 		The value should be an IETF language tag.
 
 		:param language: Language of the feed.
-		:: Language of the feed.
+		:returns: Language of the feed.
 		'''
 		if not language is None:
 			self.__rss_language = language

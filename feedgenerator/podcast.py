@@ -21,6 +21,8 @@ from feedgenerator.util import ensure_format
 
 
 class PodcastGenerator(FeedGenerator):
+	'''FeedGenerator extension for podcasts.
+	'''
 
 
 	## ITunes tags

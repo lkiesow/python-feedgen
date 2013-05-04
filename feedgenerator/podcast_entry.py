@@ -1,8 +1,8 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 '''
-	feedgenerator.podcast
-	~~~~~~~~~~~~~~~~~~~~~
+	feedgenerator.podcast_entry
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	Extends the feedgenerator to produce podcasts.
 
@@ -20,6 +20,8 @@ from feedgenerator.util import ensure_format
 
 
 class PodcastEntry(FeedEntry):
+	'''FeedEntry extension for podcasts.
+	'''
 
 
 	## ITunes tags

@@ -17,6 +17,9 @@ from feedgenerator.util import ensure_format
 
 
 class FeedEntry(object):
+	'''FeedEntry call representing an ATOM feeds entry node or an RSS feeds item
+	node.
+	'''
 
 	# ATOM
 	# required
@@ -323,9 +326,11 @@ class FeedEntry(object):
 		- a list of dictionaries containing the link fields
 
 		A link has the following fields:
+
 		- *href* is the URI of the referenced resource (typically a Web page)
 		- *rel* contains a single link relationship type. It can be a full URI,
 		  or one of the following predefined values (default=alternate):
+
 			- *alternate* an alternate representation of the entry or feed, for
 			  example a permalink to the html version of the entry, or the front
 			  page of the weblog.
@@ -335,6 +340,7 @@ class FeedEntry(object):
 			- *related* an document related to the entry or feed.
 			- *self* the feed itself.
 			- *via* the source of the information provided in the entry.
+
 		- *type* indicates the media type of the resource.
 		- *hreflang* indicates the language of the referenced resource.
 		- *title* human readable information about the link, typically for
