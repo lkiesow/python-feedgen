@@ -4,13 +4,13 @@
 %define srcname feedgen
 
 Name:           python-%{srcname}
-Version:        0.1
+Version:        0.2.2
 Release:        1%{?dist}
 Summary:        Feed Generator (ATOM, RSS, Podcasts)
 
 Group:          Development/Libraries
 License:        LGPLv3+ or BSD
-URL:            https://pypi.python.org/pypi/%{srcname}/
+URL:            http://lkiesow.github.io/%{name}/
 
 Source0:        https://pypi.python.org/packages/source/f/%{srcname}/%{srcname}-%{version}.tar.gz
 
@@ -24,14 +24,13 @@ Requires:       python-lxml
 Requires:       python-dateutil
 
 %description
-This module can be used to generate web feeds in both ATOM and RSS format. The
-included PodcastGenerator can furthermore generate all of Apples RSS extension
-for Podcasts.
+This module can be used to generate web feeds in both ATOM and RSS format. It
+has support for extensions. Included is for example an extension to produce
+Podcasts.
+
 
 %prep
 %setup -q -n %{srcname}-%{version}
-# remove shebang from library files
-sed -i '/^\#\!.*python$/d' %{srcname}/*.py
 
 
 %build
@@ -55,5 +54,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun May  5 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.2-1
+- Update to version 0.2.2
+
 * Sat May  4 2013 Lars Kiesow <lkiesow@uos.de> - 0.1-1
 - Initial build
