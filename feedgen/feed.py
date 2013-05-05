@@ -69,9 +69,12 @@ class FeedGenerator(object):
 	__rss_ttl            = None
 	__rss_webMaster      = None
 
+	# Extension list:
+	__extensions = {}
 
 
-	def _create_atom(self):
+
+	def _create_atom(self, extensions=True):
 		'''Create a ATOM feed xml structure containing all previously set fields.
 
 		:returns: Tuple containing the feed root element and the element tree.
@@ -81,7 +84,6 @@ class FeedGenerator(object):
 			feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
 					self.__atom_feed_xml_lang
 
-		doc     = etree.ElementTree(feed)
 		if not ( self.__atom_id and self.__atom_title and self.__atom_updated ):
 			raise ValueError('Required fields not set')
 		id      = etree.SubElement(feed, 'id')
@@ -165,41 +167,50 @@ class FeedGenerator(object):
 			subtitle = etree.SubElement(feed, 'subtitle')
 			subtitle.text = self.__atom_subtitle
 
+		if extensions:
+			for ext in self.__extensions.values() or []:
+				if ext.get('atom'):
+					feed = ext['inst'].extend_atom(feed)
+
 		for entry in self.__feed_entries:
 			entry.atom_entry(feed)
 
+		doc = etree.ElementTree(feed)
 		return feed, doc
 
 
-	def atom_str(self, pretty=False):
+	def atom_str(self, pretty=False, extensions=True):
 		'''Generates an ATOM feed and returns the feed XML as string.
 		
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
+		:param extensions: Enable or disable the loaded extensions for the xml
+			generation (default: enabled).
 		:returns: String representation of the ATOM feed.
 		'''
-		feed, doc = self._create_atom()
+		feed, doc = self._create_atom(extensions=extensions)
 		return etree.tostring(feed, pretty_print=pretty)
 
 
-	def atom_file(self, filename):
+	def atom_file(self, filename, extensions=True):
 		'''Generates an ATOM feed and write the resulting XML to a file.
 		
 		:param filename: Name of file to write.
+		:param extensions: Enable or disable the loaded extensions for the xml
+			generation (default: enabled).
 		'''
-		feed, doc = self._create_atom()
+		feed, doc = self._create_atom(extensions=extensions)
 		with open(filename, 'w') as f:
 			doc.write(f)
 
 
-	def _create_rss(self):
+	def _create_rss(self, extensions=True):
 		'''Create an RSS feed xml structure containing all previously set fields.
 
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
 		feed    = etree.Element('rss', version='2.0',
 				nsmap={'atom':  'http://www.w3.org/2005/Atom'} )
-		doc     = etree.ElementTree(feed)
 		channel = etree.SubElement(feed, 'channel')
 		if not ( self.__rss_title and self.__rss_link and self.__rss_description ):
 			raise ValueError('Required fields not set')
@@ -306,29 +317,39 @@ class FeedGenerator(object):
 			webMaster = etree.SubElement(channel, 'webMaster')
 			webMaster.text = self.__rss_webMaster
 
+		if extensions:
+			for ext in self.__extensions.values() or []:
+				if ext.get('rss'):
+					feed = ext['inst'].extend_rss(feed)
+
 		for entry in self.__feed_entries:
 			entry.rss_entry(channel)
 
+		doc = etree.ElementTree(feed)
 		return feed, doc
 
 
-	def rss_str(self, pretty=False):
+	def rss_str(self, pretty=False, extensions=True):
 		'''Generates an RSS feed and returns the feed XML as string.
 		
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
+		:param extensions: Enable or disable the loaded extensions for the xml
+			generation (default: enabled).
 		:returns: String representation of the RSS feed.
 		'''
-		feed, doc = self._create_rss()
+		feed, doc = self._create_rss(extensions=extensions)
 		return etree.tostring(feed, pretty_print=pretty)
 
 
-	def rss_file(self, filename):
+	def rss_file(self, filename, extensions=True):
 		'''Generates an RSS feed and write the resulting XML to a file.
 		
 		:param filename: Name of file to write.
+		:param extensions: Enable or disable the loaded extensions for the xml
+			generation (default: enabled).
 		'''
-		feed, doc = self._create_rss()
+		feed, doc = self._create_rss(extensions=extensions)
 		with open(filename, 'w') as f:
 			doc.write(f)
 
@@ -916,6 +937,14 @@ class FeedGenerator(object):
 		'''
 		if feedEntry is None:
 			feedEntry = FeedEntry()
+
+		# Try to load extensions:
+		for extname,ext in self.__extensions.iteritems():
+			try:
+				feedEntry.load_extension( extname, ext['atom'], ext['rss'] )
+			except ImportError:
+				pass
+
 		self.__feed_entries.append( feedEntry )
 		return feedEntry
 
@@ -942,6 +971,16 @@ class FeedGenerator(object):
 				entry = [entry]
 			if replace:
 				self.__feed_entries = []
+
+
+			# Try to load extensions:
+			for e in entry:
+				for extname,ext in self.__extensions.iteritems():
+					try:
+						e.load_extension( extname, ext['atom'], ext['rss'] )
+					except ImportError:
+						pass
+
 			self.__feed_entries += entry
 		return self.__feed_entries
 
@@ -969,3 +1008,33 @@ class FeedGenerator(object):
 		remove_entry.
 		'''
 		self.remove_entry(item)
+
+	
+	def load_extension(self, name, atom=True, rss=True):
+		'''Load a specific extension by name.
+
+		:param name: Name of the extension to load.
+		:param atom: If the extension should be used for ATOM feeds.
+		:param rss: If the extension should be used for RSS feeds.
+		'''
+		# Check loaded extensions
+		if not isinstance(self.__extensions, dict):
+			self.__extensions = {}
+		if name in self.__extensions.keys():
+			raise ImportError('Extension already loaded')
+
+		# Load extension
+		extname = name[0].upper() + name[1:] + 'Extension'
+		supmod = __import__('feedgen.ext.%s' % name)
+		extmod = getattr(supmod.ext, name)
+		ext    = getattr(extmod, extname)
+		extinst = ext()
+		setattr(self, name, extinst)
+		self.__extensions[name] = {'inst':extinst,'atom':atom,'rss':rss}
+
+		# Try to load the extension for already existing entries:
+		for entry in self.__feed_entries:
+			try:
+				entry.load_extension( name, atom, rss )
+			except ImportError:
+				pass

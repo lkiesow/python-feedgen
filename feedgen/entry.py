@@ -50,8 +50,11 @@ class FeedEntry(object):
 	__rss_source = None
 	__rss_title = None
 
+	# Extension list:
+	__extensions = {}
 
-	def atom_entry(self, feed):
+
+	def atom_entry(self, feed, extensions=True):
 		'''Insert an ATOM entry into a existing XML structure. Normally you
 		would pass the feed node of an ATOM feed XML to this function.
 
@@ -139,10 +142,15 @@ class FeedEntry(object):
 			rights = etree.SubElement(feed, 'rights')
 			rights.text = self.__atom_rights
 
+		if extensions:
+			for ext in self.__extensions.values() or []:
+				if ext.get('atom'):
+					entry = ext['inst'].extend_atom(entry)
+
 		return entry
 
 
-	def rss_entry(self, feed):
+	def rss_entry(self, feed, extensions=True):
 		'''Insert an RSS item into a existing XML structure. Normally you
 		would pass the channel node of an RSS feed XML to this function.
 
@@ -184,6 +192,12 @@ class FeedEntry(object):
 			pubDate = etree.SubElement(channel, 'pubDate')
 			pubDate.text = self.__rss_pubDate.strftime(
 					'%a, %e %b %Y %H:%M:%S %z')
+
+		if extensions:
+			for ext in self.__extensions.values() or []:
+				if ext.get('rss'):
+					entry = ext['inst'].extend_rss(entry)
+
 		return entry
 
 
@@ -575,3 +589,34 @@ class FeedEntry(object):
 		if not ttl is None:
 			self.__rss_ttl = int(ttl)
 		return self.__rss_ttl
+
+	
+	def load_extension(self, name, atom=True, rss=True):
+		'''Load a specific extension by name.
+
+		:param name: Name of the extension to load.
+		:param atom: If the extension should be used for ATOM feeds.
+		:param rss: If the extension should be used for RSS feeds.
+		'''
+		# Check loaded extensions
+		if not isinstance(self.__extensions, dict):
+			self.__extensions = {}
+		if name in self.__extensions.keys():
+			raise ImportError('Extension already loaded')
+
+		# Load extension
+		extname = name[0].upper() + name[1:] + 'EntryExtension'
+
+		# Try to import extension from dedicated module for entry:
+		try:
+			supmod = __import__('feedgen.ext.%s_entry' % name)
+			extmod = getattr(supmod.ext, name + '_entry')
+		except ImportError:
+			# Try the FeedExtension module instead
+			supmod = __import__('feedgen.ext.%s' % name)
+			extmod = getattr(supmod.ext, name)
+
+		ext    = getattr(extmod, extname)
+		extinst = ext()
+		setattr(self, name, extinst)
+		self.__extensions[name] = {'inst':extinst,'atom':atom,'rss':rss}

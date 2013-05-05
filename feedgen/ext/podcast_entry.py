@@ -14,11 +14,11 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.entry import FeedEntry
+from feedgen.ext.base import BaseExtension
 from feedgen.util import ensure_format
 
 
-class PodcastEntry(FeedEntry):
+class PodcastEntryExtension(BaseExtension):
 	'''FeedEntry extension for podcasts.
 	'''
 
@@ -36,13 +36,11 @@ class PodcastEntry(FeedEntry):
 	__itunes_summary             = None
 
 
-	def rss_entry(self, feed):
-		'''Insert an RSS item into a existing XML structure. Normally you
-		would pass the channel node of an RSS feed XML to this function.
+	def extend_rss(self, entry):
+		'''Add additional fields to an RSS item.
 
-		:param feed: The XML element to use as parent node for the item.
+		:param feed: The RSS item XML element to use.
 		'''
-		entry = super(PodcastEntry,self).rss_entry(feed)
 		ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
 
 		if self.__itunes_author:

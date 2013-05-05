@@ -14,12 +14,11 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.feed import FeedGenerator
-from feedgen.podcast_entry import PodcastEntry
+from feedgen.ext.base import BaseExtension
 from feedgen.util import ensure_format
 
 
-class PodcastGenerator(FeedGenerator):
+class PodcastExtension(BaseExtension):
 	'''FeedGenerator extension for podcasts.
 	'''
 
@@ -40,21 +39,18 @@ class PodcastGenerator(FeedGenerator):
 
 
 
-	def __create_podcast(self):
+	def extend_rss(self, rss_feed):
 		'''Create an RSS feed xml structure containing all previously set fields.
 
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
-		rss_feed, _ = super(PodcastGenerator,self)._create_rss()
 		ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
 		# Replace the root element to add the itunes namespace
-		feed = etree.Element('rss', version='2.0',
-				nsmap={
-					'atom'  :'http://www.w3.org/2005/Atom', 
-					'itunes':ITUNES_NS} )
+		nsmap = rss_feed.nsmap
+		nsmap['itunes'] = ITUNES_NS
+		feed = etree.Element('rss', version='2.0', nsmap=nsmap )
 		feed[:] = rss_feed[:]
 		channel = feed[0]
-		doc     = etree.ElementTree(feed)
 
 		if self.__itunes_author:
 			author = etree.SubElement(channel, '{%s}author' % ITUNES_NS)
@@ -102,28 +98,7 @@ class PodcastGenerator(FeedGenerator):
 			summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
 			summary.text = self.__itunes_summary
 
-		return feed, doc
-
-
-	def podcast_str(self, pretty=False):
-		'''Generates an RSS feed and returns the feed XML as string.
-		
-		:param pretty: If the feed should be split into multiple lines and
-			properly indented.
-		:returns: String representation of the RSS feed.
-		'''
-		feed, doc = self.__create_podcast()
-		return etree.tostring(feed, pretty_print=pretty)
-
-
-	def podcast_file(self, filename):
-		'''Generates an RSS feed and write the resulting XML to a file.
-		
-		:param filename: Name of file to write.
-		'''
-		feed, doc = self.__create_podcast()
-		with open(filename, 'w') as f:
-			doc.write(f)
+		return feed
 
 
 	def itunes_author(self, itunes_author=None):
@@ -311,20 +286,6 @@ class PodcastGenerator(FeedGenerator):
 		if not itunes_summary is None:
 			self.__itunes_summary = itunes_summary
 		return self.__itunes_summary
-
-
-	def add_entry(self, podcastEntry=None):
-		'''This method will add a new entry to the podcast. If the podcastEntry
-		argument is omittet a new PodcstEntry object is created automatically.
-		This is the prefered way to add new entries to a feed.
-
-		:param podcastEntry: PodcastEntry object to add.
-		:returns: PodcastEntry object created or passed to this function.
-		'''
-		if podcastEntry is None:
-			podcastEntry = PodcastEntry()
-		super(PodcastGenerator, self).add_entry( podcastEntry )
-		return podcastEntry
 
 
 	_itunes_categories = {
