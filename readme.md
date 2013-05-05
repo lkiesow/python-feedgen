@@ -20,8 +20,8 @@ Installation
 If you are running Fedora Linux, Redhat Enterprise Linux, CentOS or Scientific
 linux you can use one of the following packages:
 
-- [python-feedgen-0.1-1.fc17.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpclZUc2hwYnRKSUU/edit?usp=sharing)
-- [python-feedgen-0.1-1.el6.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpNXlKREYyWmhDR0U/edit?usp=sharing)
+- [python-feedgen-0.2.2-1.fc17.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpcjQtWm85QXZmbkU/edit?usp=sharing)
+- [python-feedgen-0.2.2-1.el6.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpOVVVWXZ1aDllVWs/edit?usp=sharing)
 
 Simply download the file and run::
 
@@ -29,7 +29,7 @@ Simply download the file and run::
 
 If you want to build RPMs for other distributions you can use the following Source RPM:
 
-- [python-feedgen-0.1-1.fc17.src.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpenJUcmJWWVN0OHM/edit?usp=sharing)
+- [python-feedgen-0.2.2-1.fc17.src.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpZHZXbTkzcFZTSlk/edit?usp=sharing)
 
 **Using pip**
 
