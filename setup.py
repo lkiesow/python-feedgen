@@ -5,7 +5,7 @@ from distutils.core import setup
 setup(
 		name = 'feedgen',
 		packages = ['feedgen'],
-		version = '0.1',
+		version = '0.2',
 		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',
 		author_email = 'lkiesow@uos.de',
@@ -35,9 +35,9 @@ setup(
 Feedgenerator
 =============
 
-This module can be used to generate web feeds in both ATOM and RSS format.
-The included PodcastGenerator can furthermore generate all of Apples RSS
-extension for Podcasts.
+This module can be used to generate web feeds in both ATOM and RSS format. It
+has support for extensions. Included is for example an extension to produce
+Podcasts.
 
 It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look
