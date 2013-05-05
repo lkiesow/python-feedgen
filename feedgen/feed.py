@@ -16,7 +16,7 @@ import dateutil.tz
 from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format
 
-_feedgen_version = 0.2.1
+_feedgen_version = '0.2.2'
 
 class FeedGenerator(object):
 	'''FeedGenerator for generating ATOM and RSS feeds.
