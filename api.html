@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API Documentation &mdash; pyFeedGen 0.1.s20130505 documentation</title>
+    
+    <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.s20130505',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="pyFeedGen 0.1.s20130505 documentation" href="index.html" />
+    <link rel="next" title="feedgen.feed" href="api.feed.html" />
+    <link rel="prev" title="Feedgenerator" href="index.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>pyFeedGen 0.1.s20130505 documentation</span></a></h1>
+        <h2 class="heading"><span>API Documentation</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Feedgenerator</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api.feed.html">feedgen.feed</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="module-feedgen">
+<span id="api-documentation"></span><h1>API Documentation<a class="headerlink" href="#module-feedgen" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="feedgen">
+<h2>feedgen<a class="headerlink" href="#feedgen" title="Permalink to this headline">¶</a></h2>
+<p>This module can be used to generate web feeds in both ATOM and RSS format.
+It has support for extensions. Included is for example an extension to
+produce Podcasts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013 by Lars Kiesow</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="create-a-feed">
+<h3>Create a Feed<a class="headerlink" href="#create-a-feed" title="Permalink to this headline">¶</a></h3>
+<p>To create a feed simply instanciate the FeedGenerator class and insert some
+data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span> <span class="o">=</span> <span class="n">FeedGenerator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s">&#39;http://lernfunk.de/media/654321&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Some Testfeed&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span><span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;john@example.de&#39;</span><span class="p">}</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s">&#39;alternate&#39;</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">logo</span><span class="p">(</span><span class="s">&#39;http://ex.com/logo.jpg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">subtitle</span><span class="p">(</span><span class="s">&#39;This is a cool feed!&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s">&#39;http://larskiesow.de/test.atom&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s">&#39;self&#39;</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">language</span><span class="p">(</span><span class="s">&#39;en&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that for the methods which set fields that can occur more than once in
+a feed you can use all of the following ways to provide data:</p>
+<ul class="simple">
+<li>Provide the data for that element as keyword arguments</li>
+<li>Provide the data for that element as dictionary</li>
+<li>Provide a list of dictionaries with the data for several elements</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;jdoe@example.com&#39;</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">([{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">},</span> <span class="o">...</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generate-the-feed">
+<h3>Generate the Feed<a class="headerlink" href="#generate-the-feed" title="Permalink to this headline">¶</a></h3>
+<p>After that you can generate both RSS or ATOM by calling the respective method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">atomfeed</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">atom_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># Get the ATOM feed as string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rssfeed</span>  <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">rss_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># Get the RSS feed as string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">atom_file</span><span class="p">(</span><span class="s">&#39;atom.xml&#39;</span><span class="p">)</span> <span class="c"># Write the ATOM feed to a file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s">&#39;rss.xml&#39;</span><span class="p">)</span> <span class="c"># Write the RSS feed to a file</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-feed-entries">
+<h3>Add Feed Entries<a class="headerlink" href="#add-feed-entries" title="Permalink to this headline">¶</a></h3>
+<p>To add entries (items) to a feed you need to create new FeedEntry objects
+and append them to the list of entries in the FeedGenerator. The most
+convenient way to go is to use the FeedGenerator itself for the
+instantiation of the FeedEntry object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">add_entry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s">&#39;http://lernfunk.de/media/654321/1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;The First Episode&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The FeedGenerators method add_entry(...) without argument provides will
+automatically generate a new FeedEntry object, append it to the feeds
+internal list of entries and return it, so that additional data can be
+added.</p>
+</div>
+<div class="section" id="extensions">
+<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h3>
+<p>The FeedGenerator supports extension to include additional data into the XML
+structure of the feeds. Extensions can be loaded like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s">&#39;someext&#39;</span><span class="p">,</span> <span class="n">atom</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rss</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will try to load the extension “someext” from the file
+<cite>ext/someext.py</cite>. It is required that <cite>someext.py</cite> contains a class named
+“SomextExtension” which is required to have at least the two methods
+<cite>extend_rss(...)</cite> and <cite>extend_atom(...)</cite>. Although not required, it is
+strongly suggested to use BaseExtension from <cite>ext/base.py</cite> as superclass.</p>
+<p><cite>load_extension(&#8216;someext&#8217;, ...)</cite> will also try to load a class named
+“SomextEntryExtension” for every entry of the feed. This class can be
+located either in the same file as SomextExtension or in
+<cite>ext/someext_entry.py</cite> which is suggested especially for large extensions.</p>
+<p>The parameters <cite>atom</cite> and <cite>rss</cite> tell the FeedGenerator if the extensions
+should only be used for either ATOM or RSS feeds. The default value for both
+parameters is true which means that the extension would be used for both
+kinds of feeds.</p>
+<p><strong>Example: Produceing a Podcast</strong></p>
+<p>One extension already provided is the podcast extension. A podcast is an RSS
+feed with some additional elements for ITunes.</p>
+<p>To produce a podcast simply load the <cite>podcast</cite> extension:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span> <span class="o">=</span> <span class="n">FeedGenerator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s">&#39;podcast&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">podcast</span><span class="o">.</span><span class="n">itunes_category</span><span class="p">(</span><span class="s">&#39;Technology&#39;</span><span class="p">,</span> <span class="s">&#39;Podcasting&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s">&#39;podcast.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Of cause the extension has to be loaded for the FeedEntry objects as well
+but this is done automatically by the FeedGenerator for every feed entry if
+the extension is loaded for the whole feed. You can, however, load an
+extension for a specific FeedEntry by calling <cite>load_extension(...)</cite> on that
+entry. But this is a rather uncommon use.</p>
+<p>Of cause you can still produce a normal ATOM or RSS feed, even if you have
+loaded some plugins by temporary disabling them during the feed generation.
+This can be done by calling the generating method with the keyword argument
+<cite>extensions</cite> set to <cite>False</cite>.</p>
+</div>
+<div class="section" id="testing-the-generator">
+<h3>Testing the Generator<a class="headerlink" href="#testing-the-generator" title="Permalink to this headline">¶</a></h3>
+<p>You can test the module by simply executing:</p>
+<div class="highlight-python"><pre>$ pythom -m feedgen </pre>
+</div>
+</div>
+</div>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.feed.html">feedgen.feed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.entry.html">feedgen.entry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.util.html">feedgen.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.base.html">feedgen.ext.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast.html">feedgen.ext.podcast</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast_entry.html">feedgen.ext.podcast_entry</a></li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Feedgenerator</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api.feed.html">feedgen.feed</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Lars Kiesow.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

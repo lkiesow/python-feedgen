@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>feedgen.entry &mdash; pyFeedGen 0.1.s20130505 documentation</title>
+    
+    <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.s20130505',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="pyFeedGen 0.1.s20130505 documentation" href="index.html" />
+    <link rel="up" title="API Documentation" href="api.html" />
+    <link rel="next" title="feedgen.util" href="api.util.html" />
+    <link rel="prev" title="feedgen.feed" href="api.feed.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>pyFeedGen 0.1.s20130505 documentation</span></a></h1>
+        <h2 class="heading"><span>feedgen.entry</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="api.feed.html">feedgen.feed</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api.util.html">feedgen.util</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="apititle"><b>Contents</b></div>
+<div class="apitoc"></div><span class="target" id="module-feedgen.entry"></span><div class="section" id="feedgen-entry">
+<h1>feedgen.entry<a class="headerlink" href="#feedgen-entry" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="feedgen.entry.FeedEntry">
+<em class="property">class </em><tt class="descclassname">feedgen.entry.</tt><tt class="descname">FeedEntry</tt><a class="headerlink" href="#feedgen.entry.FeedEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>FeedEntry call representing an ATOM feeds entry node or an RSS feeds item
+node.</p>
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.atom_entry">
+<tt class="descname">atom_entry</tt><big>(</big><em>feed</em>, <em>extensions=True</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.atom_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an ATOM entry into a existing XML structure. Normally you
+would pass the feed node of an ATOM feed XML to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feed</strong> &#8211; The XML element to use as parent node for the element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.author">
+<tt class="descname">author</tt><big>(</big><em>author=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.author" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set autor data. An author element is a dict containing a name,
+an email adress and a uri. Name is mandatory for ATOM, email is mandatory
+for RSS.</p>
+<p>This method can be called with:
+- the fields of an author as keyword arguments
+- the fields of an author as a dictionary
+- a list of dictionaries containing the author fields</p>
+<p>An author has the following fields:
+- <em>name</em> conveys a human-readable name for the person.
+- <em>uri</em> contains a home page for the person.
+- <em>email</em> contains an email address for the person.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>author</strong> &#8211; Dict or list of dicts with author data.</li>
+<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">(</span> <span class="p">{</span> <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span> <span class="p">}</span> <span class="p">)</span>
+<span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">([{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Mr. X&#39;</span><span class="p">},{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Max&#39;</span><span class="p">}])</span>
+<span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;},</span>
+<span class="go">        {&#39;name&#39;:&#39;John Doe&#39;}, {&#39;name&#39;:&#39;Max&#39;}]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span> <span class="p">)</span>
+<span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.category">
+<tt class="descname">category</tt><big>(</big><em>category=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.category" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set categories that the entry belongs to.</p>
+<p>This method can be called with:
+- the fields of a category as keyword arguments
+- the fields of a category as a dictionary
+- a list of dictionaries containing the category fields</p>
+<p>A categories has the following fields:
+- <em>term</em> identifies the category
+- <em>scheme</em> identifies the categorization scheme via a URI.
+- <em>label</em> provides a human-readable label for display</p>
+<p>If a label is present it is used for the RSS feeds. Otherwise the term is
+used. The scheme is used for the domain attribute in RSS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>link</strong> &#8211; Dict or list of dicts with data.</li>
+<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of category data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.comments">
+<tt class="descname">comments</tt><big>(</big><em>comments=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the the value of comments which is the url of the comments
+page for the item. This is a RSS only value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comments</strong> &#8211; URL to the comments page.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">URL to the comments page.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.content">
+<tt class="descname">content</tt><big>(</big><em>content=None</em>, <em>src=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the cntent of the entry which contains or links to the
+complete content of the entry. Content must be provided for ATOM entries
+if there is no alternate link, and should be provided if there is no
+summary. If the content is set (not linked) it will also set
+rss:description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>content</strong> &#8211; The content of the feed entry.</li>
+<li><strong>src</strong> &#8211; Link to the entries content.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Content element of the entry.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.contributor">
+<tt class="descname">contributor</tt><big>(</big><em>contributor=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.contributor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the contributor data of the feed. This is an ATOM only
+value.</p>
+<p>This method can be called with:
+- the fields of an contributor as keyword arguments
+- the fields of an contributor as a dictionary
+- a list of dictionaries containing the contributor fields</p>
+<p>An contributor has the following fields:
+- <em>name</em> conveys a human-readable name for the person.
+- <em>uri</em> contains a home page for the person.
+- <em>email</em> contains an email address for the person.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>contributor</strong> &#8211; Dictionary or list of dictionaries with contributor data.</li>
+<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of contributors as dictionaries.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.description">
+<tt class="descname">description</tt><big>(</big><em>description=None</em>, <em>isSummary=False</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the description value which is the item synopsis.
+Description is an RSS only element. For ATOM feeds it is split in summary
+and content. The isSummary parameter can be used to control which ATOM
+value is set when setting description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>description</strong> &#8211; Description of the entry.</li>
+<li><strong>isSummary</strong> &#8211; If the description should be used as content or summary.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The entries description.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.enclosure">
+<tt class="descname">enclosure</tt><big>(</big><em>url=None</em>, <em>length=None</em>, <em>type=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.enclosure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the value of enclosure which describes a media object that
+is attached to the item. This is a RSS only value which is represented by
+link(rel=enclosure) in ATOM. ATOM feeds can furthermore contain several
+enclosures while RSS may contain only one. That is why this method, if
+repeatedly called, will add more than one enclosures to the feed.
+However, only the last one is used for RSS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>url</strong> &#8211; URL of the media object.</li>
+<li><strong>length</strong> &#8211; Size of the media in bytes.</li>
+<li><strong>type</strong> &#8211; Mimetype of the linked media.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Data of the enclosure element.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.guid">
+<tt class="descname">guid</tt><big>(</big><em>guid=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.guid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the entries guid which is a string that uniquely identifies
+the item. This will also set atom:id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>guid</strong> &#8211; Id of the entry.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Id of the entry.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.id">
+<tt class="descname">id</tt><big>(</big><em>id=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the entry id which identifies the entry using a universally
+unique and permanent URI. Two entries in a feed can have the same value
+for id if they represent the same entry at different points in time. This
+method will also set rss:guid.  Id is mandatory for an ATOM entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> &#8211; New Id of the entry.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Id of the entry.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.link">
+<tt class="descname">link</tt><big>(</big><em>link=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set link data. An link element is a dict with the fields href,
+rel, type, hreflang, title, and length. Href is mandatory for ATOM.</p>
+<p>This method can be called with:
+- the fields of a link as keyword arguments
+- the fields of a link as a dictionary
+- a list of dictionaries containing the link fields</p>
+<p>A link has the following fields:</p>
+<ul>
+<li><p class="first"><em>href</em> is the URI of the referenced resource (typically a Web page)</p>
+</li>
+<li><p class="first"><em>rel</em> contains a single link relationship type. It can be a full URI,
+or one of the following predefined values (default=alternate):</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>alternate</em> an alternate representation of the entry or feed, for
+example a permalink to the html version of the entry, or the front
+page of the weblog.</li>
+<li><em>enclosure</em> a related resource which is potentially large in size
+and might require special handling, for example an audio or video
+recording.</li>
+<li><em>related</em> an document related to the entry or feed.</li>
+<li><em>self</em> the feed itself.</li>
+<li><em>via</em> the source of the information provided in the entry.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><em>type</em> indicates the media type of the resource.</p>
+</li>
+<li><p class="first"><em>hreflang</em> indicates the language of the referenced resource.</p>
+</li>
+<li><p class="first"><em>title</em> human readable information about the link, typically for
+display purposes.</p>
+</li>
+<li><p class="first"><em>length</em> the length of the resource, in bytes.</p>
+</li>
+</ul>
+<p>RSS only supports one link with nothing but a URL. So for the RSS link
+element the last link with rel=alternate is used.</p>
+<p>RSS also supports one enclusure element per entry which is covered by the
+link element in ATOM feed entries. So for the RSS enclusure element the
+last link with rel=enclosure is used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>link</strong> &#8211; Dict or list of dicts with data.</li>
+<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of link data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.load_extension">
+<tt class="descname">load_extension</tt><big>(</big><em>name</em>, <em>atom=True</em>, <em>rss=True</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.load_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a specific extension by name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the extension to load.</li>
+<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.pubdate">
+<tt class="descname">pubdate</tt><big>(</big><em>pubDate=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.pubdate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the pubDate of the entry which indicates when the entry was
+published. This method is just another name for the published(...)
+method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.published">
+<tt class="descname">published</tt><big>(</big><em>published=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.published" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set or get the published value which ontains the time of the initial
+creation or first availability of the entry.</p>
+<p>The value can either be a string which will automatically be parsed or a
+datetime.datetime object. In any case it is necessary that the value
+include timezone information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>published</strong> &#8211; The creation date.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Creation date as datetime.datetime</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.rights">
+<tt class="descname">rights</tt><big>(</big><em>rights=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.rights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the rights value of the entry which conveys information
+about rights, e.g. copyrights, held in and over the entry. This ATOM value
+will also set rss:copyright.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rights</strong> &#8211; Rights information of the feed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Rights information of the feed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.rss_entry">
+<tt class="descname">rss_entry</tt><big>(</big><em>feed</em>, <em>extensions=True</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.rss_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an RSS item into a existing XML structure. Normally you
+would pass the channel node of an RSS feed XML to this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feed</strong> &#8211; The XML element to use as parent node for the item.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.summary">
+<tt class="descname">summary</tt><big>(</big><em>summary=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the summary element of an entry which conveys a short
+summary, abstract, or excerpt of the entry. Summary is an ATOM only
+element and should be provided if there either is no content provided for
+the entry, or that content is not inline (i.e., contains a src
+attribute), or if the content is encoded in base64.
+This method will also set the rss:description field if it wasn&#8217;t
+previously set or contains the old value of summary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>summary</strong> &#8211; Summary of the entries contents.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Summary of the entries contents.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.title">
+<tt class="descname">title</tt><big>(</big><em>title=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the title value of the entry. It should contain a human
+readable title for the entry. Title is mandatory for both ATOM and RSS
+and should not be blank.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> &#8211; The new title of the entry.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The entriess title.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.ttl">
+<tt class="descname">ttl</tt><big>(</big><em>ttl=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.ttl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the ttl value. It is an RSS only element. ttl stands for
+time to live. It&#8217;s a number of minutes that indicates how long a channel
+can be cached before refreshing from the source.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ttl</strong> &#8211; Integer value representing the time to live.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Time to live of of the entry.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.entry.FeedEntry.updated">
+<tt class="descname">updated</tt><big>(</big><em>updated=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.updated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set or get the updated value which indicates the last time the entry
+was modified in a significant way.</p>
+<p>The value can either be a string which will automatically be parsed or a
+datetime.datetime object. In any case it is necessary that the value
+include timezone information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>updated</strong> &#8211; The modification date.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Modification date as datetime.datetime</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="api.feed.html">feedgen.feed</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api.util.html">feedgen.util</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Lars Kiesow.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

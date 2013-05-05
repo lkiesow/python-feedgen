@@ -1,0 +1,91 @@
+@import url("haiku.css");
+
+dl.function > dt, dl.method > dt,dl.attribute > dt,  dl.class > dt, dl.get > dt, dl.post > dt, dl.put > dt, dl.delete > dt, dl.data > dt, div.apititle {
+	padding: 5px;
+	padding-left: 15px;
+	border-radius: 3px;
+	border-top: 1px solid gray;
+	background-color: silver;
+}
+
+dl.class {
+	border-left: 5px solid silver;
+	padding-bottom: 10px;
+	margin-bottom: 30px;
+}
+
+table.docutils td, table.docutils th, table.docutils tr {
+	border: none;
+}
+
+table.docutils thead tr {
+	border-bottom: 1px solid gray;
+}
+
+table.docutils {
+	border-top: 2px solid gray;
+	border-bottom: 2px solid gray;
+}
+
+div.apitoc {
+	border-bottom: 2px solid silver;
+	border-left: 10px solid silver;
+}
+
+div.apitoc a {
+	display: block;
+	padding: 0px;
+	padding-left: 10px;
+	color: black;
+}
+
+div.apitoc a:hover {
+	background-color: #eee;
+}
+
+div.apitoc a.second {
+	padding-left: 25px;
+}
+
+div.apitoc a.partOfClass {
+	padding-left: 25px;
+	border-left: 3px solid silver;
+	margin-left: 25px;
+}
+
+div.apitoc span.apilnclassname, div.apitoc big, div.apitoc em {
+	font-weight: lighter;
+}
+
+div.apitoc big, div.apitoc em {
+	color: #666;
+}
+
+div.apitoc span.apilnname {
+	font-weight: bold;
+}
+
+
+a.headerlink {
+	color: gray;
+}
+
+/*
+li.toctree-l3 {
+	display: inline-block;
+	min-width: 200px;
+	padding: 0px;
+	margin: 0px;
+}
+
+li.toctree-l3 a {
+	display: block;
+	margin: 1px 10px;
+	padding: 3px 10px;
+	border-radius: 3px;
+}
+
+li.toctree-l3 a:hover {
+	background-color: #eee;
+}
+*/
