@@ -12,6 +12,7 @@ Contents:
 
    api.feed
    api.entry
-   api.podcast
-   api.podcast_entry
    api.util
+   ext/api.ext.base
+   ext/api.ext.podcast
+   ext/api.ext.podcast_entry

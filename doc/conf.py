@@ -3,7 +3,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os, time
+import sys, os, time, codecs, re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -264,5 +264,18 @@ def process_docstring(app, what, name, obj, options, lines):
 		ll.append( (' '*newlen) + l.lstrip(' ') )
 	lines[:] = ll
 
+
+# Include the GitHub readme file in index.rst
+r = re.compile(r'\[`*([^\]`]+)`*\]\(([^\)]+)\)')
+r2 = re.compile(r'.. include-github-readme')
+def substitute_link(app, docname, text):
+	if docname == 'index':
+		readme_text = ''
+		with codecs.open(os.path.abspath('../readme.md'), 'r', 'utf-8') as f:
+			readme_text = r.sub(r'`\1 <\2>`_', f.read())
+		text[0] = r2.sub(readme_text, text[0])
+
+
 def setup(app):
 	app.connect('autodoc-process-docstring', process_docstring)
+	app.connect('source-read', substitute_link)

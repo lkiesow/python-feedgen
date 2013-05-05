@@ -1,6 +1,6 @@
 .. contents:: Table of Contents
 
-.. include:: main-readme.rst
+.. include-github-readme
 
 .. raw:: html
 

@@ -3,5 +3,5 @@
    <div class="apititle"><b>Contents</b></div>
    <div class="apitoc"></div>
 
-.. automodule:: feedgen.podcast_entry
+.. automodule:: feedgen.ext.base
    :members:
