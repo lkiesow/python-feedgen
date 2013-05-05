@@ -5,8 +5,8 @@
 	=======
 
 	This module can be used to generate web feeds in both ATOM and RSS format.
-	The included PodcastGenerator furthermore includes all of Apples RSS
-	extension for Podcasts.
+	It has support for extensions. Included is for example an extension to
+	produce Podcasts.
 
 	:copyright: 2013 by Lars Kiesow
 	:license: FreeBSD and LGPL, see license.* for more details.
@@ -69,32 +69,61 @@
 		>>> fe.title('The First Episode')
 
 	The FeedGenerators method add_entry(...) without argument provides will
-	automaticall generate a new FeedEntry object, append it to the feeds
+	automatically generate a new FeedEntry object, append it to the feeds
 	internal list of entries and return it, so that additional data can be
 	added.
 
-	-----------------
-	Produce a Podcast
-	-----------------
+	----------
+	Extensions
+	----------
 
-	A podcast is an RSS feed with some additional elements for ITunes. The
-	feedgen has a PodcastGenerator class as extension to the default
-	FeedGenerator which you can use to set these additional fields.
+	The FeedGenerator supports extension to include additional data into the XML
+	structure of the feeds. Extensions can be loaded like this::
 
-	To produce a podcast simply do something like this::
+		>>> fg.load_extension('someext', atom=True, rss=True)
 
-		>>> from feedgen.podcast import PodcastGenerator
-		>>> fg = PodcastGenerator()
+	This will try to load the extension “someext” from the file
+	`ext/someext.py`. It is required that `someext.py` contains a class named
+	“SomextExtension” which is required to have at least the two methods
+	`extend_rss(...)` and `extend_atom(...)`. Although not required, it is
+	strongly suggested to use BaseExtension from `ext/base.py` as superclass.
+
+	`load_extension('someext', ...)` will also try to load a class named
+	“SomextEntryExtension” for every entry of the feed. This class can be
+	located either in the same file as SomextExtension or in
+	`ext/someext_entry.py` which is suggested especially for large extensions.
+
+	The parameters `atom` and `rss` tell the FeedGenerator if the extensions
+	should only be used for either ATOM or RSS feeds. The default value for both
+	parameters is true which means that the extension would be used for both
+	kinds of feeds.
+
+	**Example: Produceing a Podcast**
+
+	One extension already provided is the podcast extension. A podcast is an RSS
+	feed with some additional elements for ITunes.
+
+	To produce a podcast simply load the `podcast` extension::
+
+		>>> from feedgen.feed import FeedGenerator
+		>>> fg = FeedGenerator()
+		>>> fg.load_extension('podcast')
 		...
-		>>> fg.podcast_str(pretty=True)
-		>>> fg.podcast_file('podcast.xml')
+		>>> fg.podcast.itunes_category('Technology', 'Podcasting')
+		...
+		>>> fg.rss_str(pretty=True)
+		>>> fg.rss_file('podcast.xml')
 
-	For the episodes of the podcast you should also use PodcastEntry instead of
-	FeedEntry. However, if you use the add_entry(...) method to generator the
-	entry objects, it will take care of that for you.
+	Of cause the extension has to be loaded for the FeedEntry objects as well
+	but this is done automatically by the FeedGenerator for every feed entry if
+	the extension is loaded for the whole feed. You can, however, load an
+	extension for a specific FeedEntry by calling `load_extension(...)` on that
+	entry. But this is a rather uncommon use.
 
-	Of cause you can still produce a normat ATOM or RSS feed, even if you use
-	the PodcastGenerator using the {atom,rss}_{str,file} methods.
+	Of cause you can still produce a normal ATOM or RSS feed, even if you have
+	loaded some plugins by temporary disabling them during the feed generation.
+	This can be done by calling the generating method with the keyword argument
+	`extensions` set to `False`.
 
 	---------------------
 	Testing the Generator
@@ -102,6 +131,6 @@
 
 	You can test the module by simply executing::
 
-		%> pythom -m feedgen 
+		$ pythom -m feedgen 
 
 """

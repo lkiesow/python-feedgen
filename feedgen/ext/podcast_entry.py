@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
-	feedgen.podcast_entry
-	~~~~~~~~~~~~~~~~~~~~~
+	feedgen.ext.podcast_entry
+	~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	Extends the feedgen to produce podcasts.
 
@@ -11,14 +11,10 @@
 '''
 
 from lxml import etree
-from datetime import datetime
-import dateutil.parser
-import dateutil.tz
-from feedgen.ext.base import BaseExtension
-from feedgen.util import ensure_format
+from feedgen.ext.base import BaseEntryExtension
 
 
-class PodcastEntryExtension(BaseExtension):
+class PodcastEntryExtension(BaseEntryExtension):
 	'''FeedEntry extension for podcasts.
 	'''
 

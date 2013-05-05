@@ -3,7 +3,8 @@
 	feedgen.ext.base
 	~~~~~~~~~~~~~~~~
 
-	Basic FeedGenerator which does nothing but provides all necessary methods.
+	Basic FeedGenerator extension which does nothing but provides all necessary
+	methods.
 
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
