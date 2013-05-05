@@ -24,6 +24,7 @@ doc-html:
 	@cp doc/_build/html/*.html docs/html/
 	@cp doc/_build/html/*.js docs/html/
 	@cp -r doc/_build/html/_static/ docs/html/
+	@cp -r doc/_build/html/ext/ docs/html/
 
 doc-man:
 	@echo 'Generating manpage'
@@ -38,3 +39,6 @@ doc-latexpdf:
 	@mkdir -p docs/pdf
 	@echo 'Copying pdf to into docs dir'
 	@cp doc/_build/latex/*.pdf docs/pdf/
+
+publish: sdist
+	python setup.py register upload
