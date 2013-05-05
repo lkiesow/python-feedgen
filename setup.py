@@ -5,7 +5,7 @@ from distutils.core import setup
 setup(
 		name = 'feedgen',
 		packages = ['feedgen'],
-		version = '0.2',
+		version = '0.2.1',
 		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',
 		author_email = 'lkiesow@uos.de',
