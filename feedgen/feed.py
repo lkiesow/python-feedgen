@@ -535,11 +535,13 @@ class FeedGenerator(object):
 		'''Get or set categories that the feed belongs to.
 
 		This method can be called with:
+
 		- the fields of a category as keyword arguments
 		- the fields of a category as a dictionary
 		- a list of dictionaries containing the category fields
 
 		A categories has the following fields:
+
 		- *term* identifies the category
 		- *scheme* identifies the categorization scheme via a URI.
 		- *label* provides a human-readable label for display
