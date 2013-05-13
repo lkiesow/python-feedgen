@@ -22,7 +22,7 @@ $(document).ready(function() {
 				$('div.apitoc').append('<a class="second" href="'+ln+'">'+name+'</a>');
 			}
 		} else {
-			alert( type );
+			// alert( type );
 		}
 	});
 });
