@@ -188,14 +188,18 @@ for RSS.</p>
 <dt id="feedgen.feed.FeedGenerator.category">
 <tt class="descname">category</tt><big>(</big><em>category=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.category" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set categories that the feed belongs to.</p>
-<p>This method can be called with:
-- the fields of a category as keyword arguments
-- the fields of a category as a dictionary
-- a list of dictionaries containing the category fields</p>
-<p>A categories has the following fields:
-- <em>term</em> identifies the category
-- <em>scheme</em> identifies the categorization scheme via a URI.
-- <em>label</em> provides a human-readable label for display</p>
+<p>This method can be called with:</p>
+<ul class="simple">
+<li>the fields of a category as keyword arguments</li>
+<li>the fields of a category as a dictionary</li>
+<li>a list of dictionaries containing the category fields</li>
+</ul>
+<p>A categories has the following fields:</p>
+<ul class="simple">
+<li><em>term</em> identifies the category</li>
+<li><em>scheme</em> identifies the categorization scheme via a URI.</li>
+<li><em>label</em> provides a human-readable label for display</li>
+</ul>
 <p>If a label is present it is used for the RSS feeds. Otherwise the term is
 used. The scheme is used for the domain attribute in RSS.</p>
 <table class="docutils field-list" frame="void" rules="none">
