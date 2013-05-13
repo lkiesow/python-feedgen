@@ -402,7 +402,7 @@ class FeedGenerator(object):
 		:returns: Modification date as datetime.datetime
 		'''
 		if not updated is None:
-			if isinstance(updated, basestr):
+			if isinstance(updated, basestring):
 				updated = dateutil.parser.parse(updated)
 			if not isinstance(updated, datetime.datetime):
 				ValueError('Invalid datetime format')
@@ -817,7 +817,7 @@ class FeedGenerator(object):
 		:returns: Publication date as datetime.datetime
 		'''
 		if not pubDate is None:
-			if isinstance(pubDate, basestr):
+			if isinstance(pubDate, basestring):
 				pubDate = dateutil.parser.parse(pubDate)
 			if not isinstance(pubDate, datetime.datetime):
 				ValueError('Invalid datetime format')

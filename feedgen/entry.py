@@ -253,7 +253,7 @@ class FeedEntry(object):
 		:returns: Modification date as datetime.datetime
 		'''
 		if not updated is None:
-			if isinstance(updated, basestr):
+			if isinstance(updated, basestring):
 				updated = dateutil.parser.parse(updated)
 			if not isinstance(updated, datetime.datetime):
 				ValueError('Invalid datetime format')
@@ -515,7 +515,7 @@ class FeedEntry(object):
 		:returns: Creation date as datetime.datetime
 		'''
 		if not published is None:
-			if isinstance(published, basestr):
+			if isinstance(published, basestring):
 				published = dateutil.parser.parse(published)
 			if not isinstance(published, datetime.datetime):
 				ValueError('Invalid datetime format')
