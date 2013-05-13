@@ -504,7 +504,7 @@ class FeedEntry(object):
 
 
 	def published(self, published=None):
-		'''Set or get the published value which ontains the time of the initial
+		'''Set or get the published value which contains the time of the initial
 		creation or first availability of the entry.
 
 		The value can either be a string which will automatically be parsed or a

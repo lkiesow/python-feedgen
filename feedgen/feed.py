@@ -395,6 +395,9 @@ class FeedGenerator(object):
 
 		This will set both atom:updated and rss:lastBuildDate.
 
+		Default value
+			If not set, updated has as value the current date and time.
+
 		:param updated: The modification date.
 		:returns: Modification date as datetime.datetime
 		'''
@@ -421,6 +424,9 @@ class FeedGenerator(object):
 
 		This will set both atom:updated and rss:lastBuildDate.
 
+		Default value
+			If not set, lastBuildDate has as value the current date and time.
+
 		:param lastBuildDate: The modification date.
 		:returns: Modification date as datetime.datetime
 		'''
@@ -433,11 +439,13 @@ class FeedGenerator(object):
 		for RSS.
 
 		This method can be called with:
+
 		- the fields of an author as keyword arguments
 		- the fields of an author as a dictionary
 		- a list of dictionaries containing the author fields
 
 		An author has the following fields:
+
 		- *name* conveys a human-readable name for the person.
 		- *uri* contains a home page for the person.
 		- *email* contains an email address for the person.
