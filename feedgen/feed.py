@@ -284,14 +284,14 @@ class FeedGenerator(object):
 		if self.__rss_lastBuildDate:
 			lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
 			lastBuildDate.text = self.__rss_lastBuildDate.strftime(
-					'%a, %e %b %Y %H:%M:%S %z')
+					'%a, %d %b %Y %H:%M:%S %z')
 		if self.__rss_managingEditor:
 			managingEditor = etree.SubElement(channel, 'managingEditor')
 			managingEditor.text = self.__rss_managingEditor
 		if self.__rss_pubDate:
 			pubDate = etree.SubElement(channel, 'pubDate')
 			pubDate.text = self.__rss_pubDate.strftime(
-					'%a, %e %b %Y %H:%M:%S %z')
+					'%a, %d %b %Y %H:%M:%S %z')
 		if self.__rss_rating:
 			rating = etree.SubElement(channel, 'rating')
 			rating.text = self.__rss_rating

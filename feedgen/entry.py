@@ -191,7 +191,7 @@ class FeedEntry(object):
 		if self.__rss_pubDate:
 			pubDate = etree.SubElement(entry, 'pubDate')
 			pubDate.text = self.__rss_pubDate.strftime(
-					'%a, %e %b %Y %H:%M:%S %z')
+					'%a, %d %b %Y %H:%M:%S %z')
 
 		if extensions:
 			for ext in self.__extensions.values() or []:
