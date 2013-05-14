@@ -405,9 +405,9 @@ class FeedGenerator(object):
 			if isinstance(updated, basestring):
 				updated = dateutil.parser.parse(updated)
 			if not isinstance(updated, datetime.datetime):
-				ValueError('Invalid datetime format')
+				raise ValueError('Invalid datetime format')
 			if updated.tzinfo is None:
-				ValueError('Datetime object has no timezone info')
+				raise ValueError('Datetime object has no timezone info')
 			self.__atom_updated = updated
 			self.__rss_lastBuildDate = updated
 
@@ -820,9 +820,9 @@ class FeedGenerator(object):
 			if isinstance(pubDate, basestring):
 				pubDate = dateutil.parser.parse(pubDate)
 			if not isinstance(pubDate, datetime.datetime):
-				ValueError('Invalid datetime format')
+				raise ValueError('Invalid datetime format')
 			if pubDate.tzinfo is None:
-				ValueError('Datetime object has no timezone info')
+				raise ValueError('Datetime object has no timezone info')
 			self.__rss_pubDate = pubDate
 
 		return self.__rss_pubDate
@@ -853,7 +853,7 @@ class FeedGenerator(object):
 				hours = [hours]
 			for h in hours:
 				if not h in xrange(24):
-					ValueError('Invalid hour %s' % h)
+					raise ValueError('Invalid hour %s' % h)
 			if replace or not self.__rss_skipHours:
 				self.__rss_skipHours = set()
 			self.__rss_skipHours |= set(hours)
@@ -877,7 +877,7 @@ class FeedGenerator(object):
 			for d in days:
 				if not d in ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
 						'Friday', 'Saturday', 'Sunday']:
-					ValueError('Invalid day %s' % h)
+					raise ValueError('Invalid day %s' % h)
 			if replace or not self.__rss_skipDays:
 				self.__rss_skipDays = set()
 			self.__rss_skipDays |= set(days)
