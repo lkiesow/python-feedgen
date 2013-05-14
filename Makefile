@@ -41,4 +41,4 @@ doc-latexpdf:
 	@cp doc/_build/latex/*.pdf docs/pdf/
 
 publish: sdist
-	python setup.py register upload
+	python setup.py register sdist upload
