@@ -5,11 +5,11 @@ from distutils.core import setup
 setup(
 		name = 'feedgen',
 		packages = ['feedgen', 'feedgen/ext'],
-		version = '0.2.2',
+		version = '0.2.3',
 		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',
 		author_email = 'lkiesow@uos.de',
-		url = 'https://github.com/lkiesow/pyFeedGenerator',
+		url = 'http://lkiesow.github.io/python-feedgen',
 		keywords = ['feed','ATOM','RSS','podcast'],
 		license = 'FreeBSD and LGPLv3+',
 		requires = ['lxml', 'dateutils'],
