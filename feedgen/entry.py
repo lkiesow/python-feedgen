@@ -176,7 +176,7 @@ class FeedEntry(object):
 			guid.text = self.__rss_guid
 			guid.attrib['isPermaLink'] = 'false'
 		for cat in self.__rss_category or []:
-			category = etree.SubElement(channel, 'category')
+			category = etree.SubElement(entry, 'category')
 			category.text = cat['value']
 			if cat.get('domain'):
 				category.attrib['domain'] = cat['domain']
@@ -189,7 +189,7 @@ class FeedEntry(object):
 			enclosure.attrib['length'] = self.__rss_enclosure['length']
 			enclosure.attrib['type'] = self.__rss_enclosure['type']
 		if self.__rss_pubDate:
-			pubDate = etree.SubElement(channel, 'pubDate')
+			pubDate = etree.SubElement(entry, 'pubDate')
 			pubDate.text = self.__rss_pubDate.strftime(
 					'%a, %e %b %Y %H:%M:%S %z')
 
@@ -255,7 +255,7 @@ class FeedEntry(object):
 		if not updated is None:
 			if isinstance(updated, basestring):
 				updated = dateutil.parser.parse(updated)
-			if not isinstance(updated, datetime.datetime):
+			if not isinstance(updated, datetime):
 				ValueError('Invalid datetime format')
 			if updated.tzinfo is None:
 				ValueError('Datetime object has no timezone info')
@@ -517,7 +517,7 @@ class FeedEntry(object):
 		if not published is None:
 			if isinstance(published, basestring):
 				published = dateutil.parser.parse(published)
-			if not isinstance(published, datetime.datetime):
+			if not isinstance(published, datetime):
 				ValueError('Invalid datetime format')
 			if published.tzinfo is None:
 				ValueError('Datetime object has no timezone info')
