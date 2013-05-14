@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.feed &mdash; pyFeedGen 0.2.2 documentation</title>
+    <title>feedgen.feed &mdash; pyFeedGen 0.2.3 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.2',
+        VERSION:     '0.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,14 +27,14 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/theme_extras.js"></script>
-    <link rel="top" title="pyFeedGen 0.2.2 documentation" href="index.html" />
+    <link rel="top" title="pyFeedGen 0.2.3 documentation" href="index.html" />
     <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.entry" href="api.entry.html" />
     <link rel="prev" title="API Documentation" href="api.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>pyFeedGen 0.2.2 documentation</span></a></h1>
+          <span>pyFeedGen 0.2.3 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.feed</span></h2>
       </div>
       <div class="topnav">
@@ -147,14 +147,18 @@ generation (default: enabled).</li>
 <dd><p>Get or set author data. An author element is a dictionary containing a name,
 an email address and a URI. Name is mandatory for ATOM, email is mandatory
 for RSS.</p>
-<p>This method can be called with:
-- the fields of an author as keyword arguments
-- the fields of an author as a dictionary
-- a list of dictionaries containing the author fields</p>
-<p>An author has the following fields:
-- <em>name</em> conveys a human-readable name for the person.
-- <em>uri</em> contains a home page for the person.
-- <em>email</em> contains an email address for the person.</p>
+<p>This method can be called with:</p>
+<ul class="simple">
+<li>the fields of an author as keyword arguments</li>
+<li>the fields of an author as a dictionary</li>
+<li>a list of dictionaries containing the author fields</li>
+</ul>
+<p>An author has the following fields:</p>
+<ul class="simple">
+<li><em>name</em> conveys a human-readable name for the person.</li>
+<li><em>uri</em> contains a home page for the person.</li>
+<li><em>email</em> contains an email address for the person.</li>
+</ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -471,6 +475,10 @@ content of the channel changed.</p>
 datetime.datetime object. In any case it is necessary that the value
 include timezone information.</p>
 <p>This will set both atom:updated and rss:lastBuildDate.</p>
+<dl class="docutils">
+<dt>Default value</dt>
+<dd>If not set, lastBuildDate has as value the current date and time.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -845,6 +853,10 @@ was modified in a significant way.</p>
 datetime.datetime object. In any case it is necessary that the value
 include timezone information.</p>
 <p>This will set both atom:updated and rss:lastBuildDate.</p>
+<dl class="docutils">
+<dt>Default value</dt>
+<dd>If not set, updated has as value the current date and time.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
