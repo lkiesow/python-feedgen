@@ -19,17 +19,18 @@ class PodcastEntryExtension(BaseEntryExtension):
 	'''
 
 
-	## ITunes tags
-	# http://www.apple.com/itunes/podcasts/specs.html#rss
-	__itunes_author              = None
-	__itunes_block               = None
-	__itunes_image               = None
-	__itunes_duration            = None
-	__itunes_explicit            = None
-	__itunes_is_closed_captioned = None
-	__itunes_order               = None
-	__itunes_subtitle            = None
-	__itunes_summary             = None
+	def __init__(self):
+		## ITunes tags
+		# http://www.apple.com/itunes/podcasts/specs.html#rss
+		self.__itunes_author              = None
+		self.__itunes_block               = None
+		self.__itunes_image               = None
+		self.__itunes_duration            = None
+		self.__itunes_explicit            = None
+		self.__itunes_is_closed_captioned = None
+		self.__itunes_order               = None
+		self.__itunes_subtitle            = None
+		self.__itunes_summary             = None
 
 
 	def extend_rss(self, entry):

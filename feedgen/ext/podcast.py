@@ -19,18 +19,19 @@ class PodcastExtension(BaseExtension):
 	'''
 
 
-	## ITunes tags
-	# http://www.apple.com/itunes/podcasts/specs.html#rss
-	__itunes_author       = None
-	__itunes_block        = None
-	__itunes_category     = None
-	__itunes_image        = None
-	__itunes_explicit     = None
-	__itunes_complete     = None
-	__itunes_new_feed_url = None
-	__itunes_owner        = None
-	__itunes_subtitle     = None
-	__itunes_summary      = None
+	def __init__(self):
+		## ITunes tags
+		# http://www.apple.com/itunes/podcasts/specs.html#rss
+		self.__itunes_author       = None
+		self.__itunes_block        = None
+		self.__itunes_category     = None
+		self.__itunes_image        = None
+		self.__itunes_explicit     = None
+		self.__itunes_complete     = None
+		self.__itunes_new_feed_url = None
+		self.__itunes_owner        = None
+		self.__itunes_subtitle     = None
+		self.__itunes_summary      = None
 
 
 

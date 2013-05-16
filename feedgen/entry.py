@@ -20,38 +20,39 @@ class FeedEntry(object):
 	node.
 	'''
 
-	# ATOM
-	# required
-	__atom_id = None
-	__atom_title = None
-	__atom_updated = datetime.now(dateutil.tz.tzutc())
+	def __init__(self):
+		# ATOM
+		# required
+		self.__atom_id      = None
+		self.__atom_title   = None
+		self.__atom_updated = datetime.now(dateutil.tz.tzutc())
 
-	# recommended
-	__atom_author = None
-	__atom_content = None
-	__atom_link = None
-	__atom_summary = None
+		# recommended
+		self.__atom_author  = None
+		self.__atom_content = None
+		self.__atom_link    = None
+		self.__atom_summary = None
 
-	# optional
-	__atom_category = None
-	__atom_contributor = None
-	__atom_source = None
-	__atom_rights = None
+		# optional
+		self.__atom_category    = None
+		self.__atom_contributor = None
+		self.__atom_source      = None
+		self.__atom_rights      = None
 
-	# RSS
-	__rss_author = None
-	__rss_category = None
-	__rss_comments = None
-	__rss_description = None
-	__rss_enclosure = None
-	__rss_guid = None
-	__rss_link = None
-	__rss_pubDate = None
-	__rss_source = None
-	__rss_title = None
+		# RSS
+		self.__rss_author      = None
+		self.__rss_category    = None
+		self.__rss_comments    = None
+		self.__rss_description = None
+		self.__rss_enclosure   = None
+		self.__rss_guid        = None
+		self.__rss_link        = None
+		self.__rss_pubDate     = None
+		self.__rss_source      = None
+		self.__rss_title       = None
 
-	# Extension list:
-	__extensions = {}
+		# Extension list:
+		self.__extensions = {}
 
 
 	def atom_entry(self, feed, extensions=True):

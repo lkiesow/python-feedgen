@@ -15,64 +15,72 @@ import dateutil.parser
 import dateutil.tz
 from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format
+import feedgen.version
 
-_feedgen_version = '0.2.3'
+
+_feedgen_version = feedgen.version.version
+
 
 class FeedGenerator(object):
 	'''FeedGenerator for generating ATOM and RSS feeds.
 	'''
 
-	__feed_entries = []
 
-	## ATOM
-	# http://www.atomenabled.org/developers/syndication/
-	# required
-	__atom_id = None
-	__atom_title = None
-	__atom_updated = datetime.now(dateutil.tz.tzutc())
+	def __init__(self):
+		self.__extensions = {}
+		self.__feed_entries = []
 
-	# recommended
-	__atom_author = None # {name*, uri, email}
-	__atom_link = None # {href*, rel, type, hreflang, title, length}
+		## ATOM
+		# http://www.atomenabled.org/developers/syndication/
+		# required
+		self.__atom_id      = None
+		self.__atom_title   = None
+		self.__atom_updated = datetime.now(dateutil.tz.tzutc())
 
-	# optional
-	__atom_category = None # {term*, schema, label}
-	__atom_contributor = None
-	__atom_generator = {'value':'Lernfunk3 FeedGenerator'} #{value*,uri,version}
-	__atom_icon = None
-	__atom_logo = None
-	__atom_rights = None
-	__atom_subtitle = None
+		# recommended
+		self.__atom_author = None # {name*, uri, email}
+		self.__atom_link   = None # {href*, rel, type, hreflang, title, length}
 
-	# other
-	__atom_feed_xml_lang = None
+		# optional
+		self.__atom_category    = None # {term*, schema, label}
+		self.__atom_contributor = None
+		self.__atom_generator   = {
+				'value'  :'python-feedgen',
+				'url'    :'http://lkiesow.github.io/python-feedgen',
+				'version':feedgen.version.version } #{value*,uri,version}
+		self.__atom_icon     = None
+		self.__atom_logo     = None
+		self.__atom_rights   = None
+		self.__atom_subtitle = None
 
-	## RSS
-	# http://www.rssboard.org/rss-specification
-	__rss_title = None
-	__rss_link = None
-	__rss_description = None
+		# other
+		self.__atom_feed_xml_lang = None
 
-	__rss_category       = None
-	__rss_cloud          = None
-	__rss_copyright      = None
-	__rss_docs           = 'http://www.rssboard.org/rss-specification'
-	__rss_generator      = 'Lernfunk3 FeedGenerator'
-	__rss_image          = None
-	__rss_language       = None
-	__rss_lastBuildDate  = datetime.now(dateutil.tz.tzutc())
-	__rss_managingEditor = None
-	__rss_pubDate        = None
-	__rss_rating         = None
-	__rss_skipHours      = None
-	__rss_skipDays       = None
-	__rss_textInput      = None
-	__rss_ttl            = None
-	__rss_webMaster      = None
+		## RSS
+		# http://www.rssboard.org/rss-specification
+		self.__rss_title       = None
+		self.__rss_link        = None
+		self.__rss_description = None
 
-	# Extension list:
-	__extensions = {}
+		self.__rss_category       = None
+		self.__rss_cloud          = None
+		self.__rss_copyright      = None
+		self.__rss_docs           = 'http://www.rssboard.org/rss-specification'
+		self.__rss_generator      = 'python-feedgen'
+		self.__rss_image          = None
+		self.__rss_language       = None
+		self.__rss_lastBuildDate  = datetime.now(dateutil.tz.tzutc())
+		self.__rss_managingEditor = None
+		self.__rss_pubDate        = None
+		self.__rss_rating         = None
+		self.__rss_skipHours      = None
+		self.__rss_skipDays       = None
+		self.__rss_textInput      = None
+		self.__rss_ttl            = None
+		self.__rss_webMaster      = None
 
+		# Extension list:
+		__extensions = {}
 
 
 	def _create_atom(self, extensions=True):
