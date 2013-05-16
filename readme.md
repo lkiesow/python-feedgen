@@ -10,6 +10,12 @@ It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look
 at license.bsd and license.lgpl.
 
+More details about the project:
+
+- Repository: https://github.com/lkiesow/python-feedgen
+- Documentation: http://lkiesow.github.io/python-feedgen/
+- Python Package Index: https://pypi.python.org/pypi/feedgen/
+
 
 ------------
 Installation
@@ -18,7 +24,7 @@ Installation
 **Prebuild packages**
 
 If you are running Fedora Linux, Redhat Enterprise Linux, CentOS or Scientific
-linux you can use one of the following packages:
+Linux you can use one of the following packages:
 
 - [python-feedgen-0.2.3-1.fc18.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpSDFxaC00VC1JSlE/edit?usp=sharing)
 - [python-feedgen-0.2.3-1.fc17.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpd2R0dFRfX0tCVXM/edit?usp=sharing)
