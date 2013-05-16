@@ -18,7 +18,7 @@ from feedgen.util import ensure_format
 import feedgen.version
 
 
-_feedgen_version = feedgen.version.version
+_feedgen_version = feedgen.version.version_str
 
 
 class FeedGenerator(object):
@@ -47,7 +47,7 @@ class FeedGenerator(object):
 		self.__atom_generator   = {
 				'value'  :'python-feedgen',
 				'url'    :'http://lkiesow.github.io/python-feedgen',
-				'version':feedgen.version.version } #{value*,uri,version}
+				'version':feedgen.version.version_str } #{value*,uri,version}
 		self.__atom_icon     = None
 		self.__atom_logo     = None
 		self.__atom_rights   = None

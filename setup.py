@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from distutils.core import setup
+import feedgen.version
+
 setup(
 		name = 'feedgen',
 		packages = ['feedgen', 'feedgen/ext'],
-		version = '0.2.3',
+		version = feedgen.version.version_full_str,
 		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',
 		author_email = 'lkiesow@uos.de',
