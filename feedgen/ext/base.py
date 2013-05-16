@@ -25,14 +25,14 @@ class BaseExtension(object):
 		return feed
 
 
-	def extend_atom(self, feed, doc=None):
+	def extend_atom(self, feed):
 		'''Create an ATOM feed xml structure containing all previously set
 		fields.
 
 		:param feed: The feed xml root element.
 		:returns: The feed root element.
 		'''
-		return feed, doc
+		return feed
 
 
 class BaseEntryExtension(BaseExtension):
