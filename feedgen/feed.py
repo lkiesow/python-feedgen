@@ -94,7 +94,10 @@ class FeedGenerator(object):
 					self.__atom_feed_xml_lang
 
 		if not ( self.__atom_id and self.__atom_title and self.__atom_updated ):
-			raise ValueError('Required fields not set')
+			missing = ', '.join(([] if self.__atom_title else ['title']) + \
+					([] if self.__atom_id else ['id']) + \
+					([] if self.__atom_updated else ['updated']))
+			raise ValueError('Required fields not set (%s)' % missing)
 		id      = etree.SubElement(feed, 'id')
 		id.text = self.__atom_id
 		title   = etree.SubElement(feed, 'title')
@@ -222,7 +225,10 @@ class FeedGenerator(object):
 				nsmap={'atom':  'http://www.w3.org/2005/Atom'} )
 		channel = etree.SubElement(feed, 'channel')
 		if not ( self.__rss_title and self.__rss_link and self.__rss_description ):
-			raise ValueError('Required fields not set')
+			missing = ', '.join(([] if self.__rss_title else ['title']) + \
+					([] if self.__rss_link else ['link']) + \
+					([] if self.__rss_description else ['description']))
+			raise ValueError('Required fields not set (%s)' % missing)
 		title = etree.SubElement(channel, 'title')
 		title.text = self.__rss_title
 		link = etree.SubElement(channel, 'link')
@@ -375,6 +381,7 @@ class FeedGenerator(object):
 		if not title is None:
 			self.__atom_title = title
 			self.__rss_title = title
+			print 'rss-title: ', self.__rss_title
 		return self.__atom_title
 
 
