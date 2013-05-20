@@ -12,9 +12,9 @@ at license.bsd and license.lgpl.
 
 More details about the project:
 
-- Repository: https://github.com/lkiesow/python-feedgen
-- Documentation: http://lkiesow.github.io/python-feedgen/
-- Python Package Index: https://pypi.python.org/pypi/feedgen/
+- Repository:            https://github.com/lkiesow/python-feedgen
+- Documentation:         http://lkiesow.github.io/python-feedgen/
+- Python Package Index:  https://pypi.python.org/pypi/feedgen/
 
 
 ------------
@@ -26,9 +26,9 @@ Installation
 If you are running Fedora Linux, Redhat Enterprise Linux, CentOS or Scientific
 Linux you can use one of the following packages:
 
-- [python-feedgen-0.2.3-1.fc18.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpSDFxaC00VC1JSlE/edit?usp=sharing)
-- [python-feedgen-0.2.3-1.fc17.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpd2R0dFRfX0tCVXM/edit?usp=sharing)
-- [python-feedgen-0.2.3-1.el6.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpN3BOQTh2dTk1X1U/edit?usp=sharing)
+- [python-feedgen-0.2.4-1.fc18.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpVTVLZDEwenM5VkE/edit?usp=sharing)
+- [python-feedgen-0.2.4-1.fc17.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpWDNvQlVQLVVlTEU/edit?usp=sharing)
+- [python-feedgen-0.2.4-1.el6.noarch.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpZ2ZJVHRPWGRub2s/edit?usp=sharing)
 
 Simply download the file and run::
 
@@ -36,7 +36,7 @@ Simply download the file and run::
 
 If you want to build RPMs for other distributions you can use the following Source RPM:
 
-- [python-feedgen-0.2.3-1.fc18.src.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpWDNsVjRVQ0p5UkU/edit?usp=sharing)
+- [python-feedgen-0.2.4-1.fc18.src.rpm](https://docs.google.com/file/d/0B_bDfxNKSsxpQkJzWTdnSEUwMms/edit?usp=sharing)
 
 **Using pip**
 
