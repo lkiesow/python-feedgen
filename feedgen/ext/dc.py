@@ -3,7 +3,7 @@
 	feedgen.ext.podcast
 	~~~~~~~~~~~~~~~~~~~
 
-	Extends the FeedGenerator to produce podcasts.
+	Extends the FeedGenerator to add Dubline Core Elements to the feeds.
 
 	Descriptions partly taken from
 	http://dublincore.org/documents/dcmi-terms/#elements-coverage
@@ -14,11 +14,11 @@
 '''
 
 from lxml import etree
-from feedgen.ext.base import BaseExtension
+from feedgen.ext.base import BaseExtension, BaseEntryExtension
 
 
-class PodcastExtension(BaseExtension):
-	'''FeedGenerator extension for podcasts.
+class DcBaseExtension(BaseExtension):
+	'''Dublin Core Elements extension for podcasts.
 	'''
 
 
@@ -26,21 +26,55 @@ class PodcastExtension(BaseExtension):
 		# http://dublincore.org/documents/usageguide/elements.shtml
 		# http://dublincore.org/documents/dces/
 		# http://dublincore.org/documents/dcmi-terms/
-		self.__dcelem_contributor = None
-		self.__dcelem_coverage    = None
-		self.__dcelem_creator     = None
-		self.__dcelem_date        = None
-		self.__dcelem_description = None
-		self.__dcelem_format      = None
-		self.__dcelem_identifier  = None
-		self.__dcelem_language    = None
-		self.__dcelem_publisher   = None
-		self.__dcelem_relation    = None
-		self.__dcelem_rights      = None
-		self.__dcelem_source      = None
-		self.__dcelem_subject     = None
-		self.__dcelem_title       = None
-		self.__dcelem_type        = None
+		self._dcelem_contributor = None
+		self._dcelem_coverage    = None
+		self._dcelem_creator     = None
+		self._dcelem_date        = None
+		self._dcelem_description = None
+		self._dcelem_format      = None
+		self._dcelem_identifier  = None
+		self._dcelem_language    = None
+		self._dcelem_publisher   = None
+		self._dcelem_relation    = None
+		self._dcelem_rights      = None
+		self._dcelem_source      = None
+		self._dcelem_subject     = None
+		self._dcelem_title       = None
+		self._dcelem_type        = None
+
+
+	def extend_atom(self, atom_feed):
+		'''Create an Atom feed xml structure containing all previously set fields.
+
+		:returns: Tuple containing the feed root element
+		'''
+		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
+		# Replace the root element to add the new namespace
+		nsmap = atom_feed.nsmap
+		nsmap['dc'] = DCELEMENTS_NS
+		feed = etree.Element('feed', nsmap=nsmap)
+		if '{http://www.w3.org/XML/1998/namespace}lang' in atom_feed.attrib:
+			feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
+					atom_feed.attrib['{http://www.w3.org/XML/1998/namespace}lang']
+		feed[:] = atom_feed[:]
+
+		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
+				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
+				'title', 'type']:
+			if hasattr(self, '_dcelem_%s' % elem):
+				for val in getattr(self, '_dcelem_%s' % elem) or []:
+					node = etree.SubElement(feed, '{%s}%s' % (DCELEMENTS_NS,elem))
+					node.text = val
+
+		if self._dcelem_format:
+			node = etree.SubElement(feed, '{%s}format' % DCELEMENTS_NS)
+			node.text = format
+
+		if self._dcelem_identifier:
+			node = etree.SubElement(feed, '{%s}identifier' % DCELEMENTS_NS)
+			node.text = identifier
+
+		return feed
 
 
 	def extend_rss(self, rss_feed):
@@ -56,71 +90,21 @@ class PodcastExtension(BaseExtension):
 		feed[:] = rss_feed[:]
 		channel = feed[0]
 
-		for elem in ('contributor'):
-			if hasattr(self, '__dcelem_%s' % elem):
-				for val in getattr(self, '__dcelem_%s' % elem) or []:
+		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
+				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
+				'title', 'type']:
+			if hasattr(self, '_dcelem_%s' % elem):
+				for val in getattr(self, '_dcelem_%s' % elem) or []:
 					node = etree.SubElement(channel, '{%s}%s' % (DCELEMENTS_NS,elem))
 					node.text = val
 
-		for contributor in self.__dcelem_contributor or []:
-			node = etree.SubElement(channel, '{%s}contributor' % DCELEMENTS_NS)
-			node.text = contributor
-
-		for coverage in self.__dcelem_coverage or []:
-			node = etree.SubElement(channel, '{%s}coverage' % DCELEMENTS_NS)
-			node.text = coverage
-
-		for creator in self.__dcelem_creator or []:
-			node = etree.SubElement(channel, '{%s}creator' % DCELEMENTS_NS)
-			node.text = creator
-
-		for date in self.__dcelem_date or []:
-			node = etree.SubElement(channel, '{%s}date' % DCELEMENTS_NS)
-			node.text = date
-
-		for description in self.__dcelem_description or []:
-			node = etree.SubElement(channel, '{%s}description' % DCELEMENTS_NS)
-			node.text = description
-
-		if self.__dcelem_format:
+		if self._dcelem_format:
 			node = etree.SubElement(channel, '{%s}format' % DCELEMENTS_NS)
 			node.text = format
 
-		if self.__dcelem_identifier:
+		if self._dcelem_identifier:
 			node = etree.SubElement(channel, '{%s}identifier' % DCELEMENTS_NS)
 			node.text = identifier
-
-		for language in self.__dcelem_language or []:
-			node = etree.SubElement(channel, '{%s}language' % DCELEMENTS_NS)
-			node.text = language
-
-		for publisher in self.__dcelem_publisher or []:
-			node = etree.SubElement(channel, '{%s}publisher' % DCELEMENTS_NS)
-			node.text = publisher
-
-		for relation in self.__dcelem_relation or []:
-			node = etree.SubElement(channel, '{%s}relation' % DCELEMENTS_NS)
-			node.text = relation
-
-		for rights in self.__dcelem_rights or []:
-			node = etree.SubElement(channel, '{%s}rights' % DCELEMENTS_NS)
-			node.text = rights
-
-		for source in self.__dcelem_source or []:
-			node = etree.SubElement(channel, '{%s}source' % DCELEMENTS_NS)
-			node.text = source
-
-		for subject in self.__dcelem_subject or []:
-			node = etree.SubElement(channel, '{%s}subject' % DCELEMENTS_NS)
-			node.text = subject
-
-		for title in self.__dcelem_title or []:
-			node = etree.SubElement(channel, '{%s}title' % DCELEMENTS_NS)
-			node.text = title
-
-		for type in self.__dcelem_type or []:
-			node = etree.SubElement(channel, '{%s}type' % DCELEMENTS_NS)
-			node.text = type
 
 		return feed
 
@@ -139,10 +123,10 @@ class PodcastExtension(BaseExtension):
 		if not contributor is None:
 			if not isinstance(contributor, list):
 				contributor = [contributor]
-			if replace or not self.__dcelem_contributor:
-				self.__dcelem_contributor = []
-			self.__dcelem_contributor += contributor
-		return self.__dcelem_contributor
+			if replace or not self._dcelem_contributor:
+				self._dcelem_contributor = []
+			self._dcelem_contributor += contributor
+		return self._dcelem_contributor
 
 
 	def dc_coverage(self, coverage=None, replace=True):
@@ -168,10 +152,10 @@ class PodcastExtension(BaseExtension):
 		if not coverage is None:
 			if not isinstance(coverage, list):
 				coverage = [coverage]
-			if replace or not self.__dcelem_coverage:
-				self.__dcelem_coverage = []
-			self.__dcelem_coverage = coverage
-		return self.__dcelem_coverage
+			if replace or not self._dcelem_coverage:
+				self._dcelem_coverage = []
+			self._dcelem_coverage = coverage
+		return self._dcelem_coverage
 
 
 	def dc_creator(self, creator=None, replace=False):
@@ -188,10 +172,10 @@ class PodcastExtension(BaseExtension):
 		if not creator is None:
 			if not isinstance(creator, list):
 				creator = [creator]
-			if replace or not self.__dcelem_creator:
-				self.__dcelem_creator = []
-			self.__dcelem_creator += creator
-		return self.__dcelem_creator
+			if replace or not self._dcelem_creator:
+				self._dcelem_creator = []
+			self._dcelem_creator += creator
+		return self._dcelem_creator
 
 
 	def dc_date(self, date=None, replace=True):
@@ -208,10 +192,10 @@ class PodcastExtension(BaseExtension):
 		if not date is None:
 			if not isinstance(date, list):
 				date = [date]
-			if replace or not self.__dcelem_date:
-				self.__dcelem_date = []
-			self.__dcelem_date += date
-		return self.__dcelem_date
+			if replace or not self._dcelem_date:
+				self._dcelem_date = []
+			self._dcelem_date += date
+		return self._dcelem_date
 
 
 	def dc_description(self, description=None, replace=True):
@@ -227,28 +211,33 @@ class PodcastExtension(BaseExtension):
 		if not description is None:
 			if not isinstance(description, list):
 				description = [description]
-			if replace or not self.__dcelem_description:
-				self.__dcelem_description = []
-			self.__dcelem_description += description
-		return self.__dcelem_description
+			if replace or not self._dcelem_description:
+				self._dcelem_description = []
+			self._dcelem_description += description
+		return self._dcelem_description
 
 
-	def dc_format(self, format=None):
+	def dc_format(self, format=None, replace=True):
 		'''Get or set the dc:format which describes the file format, physical
 		medium, or dimensions of the resource.
 
 		For more information see:
 		http://dublincore.org/documents/dcmi-terms/#elements-format
 
-		:param format: Format of the resource.
+		:param format: Format of the resource or list of formats.
+		:param replace: Replace alredy set format (deault: True).
 		:returns: Format of the resource.
 		'''
 		if not format is None:
-			self.__dcelem_format = format
-		return self.__dcelem_format
+			if not isinstance(format, list):
+				format = [format]
+			if replace or not self._dcelem_format:
+				self._dcelem_format = []
+			self._dcelem_format += format
+		return self._dcelem_format
 
 
-	def dc_identifier(self, identifier=None):
+	def dc_identifier(self, identifier=None, replace=True):
 		'''Get or set the dc:identifier which should be an unambiguous reference
 		to the resource within a given context.
 
@@ -258,12 +247,16 @@ class PodcastExtension(BaseExtension):
 		For more inidentifierion see:
 		http://dublincore.org/documents/dcmi-terms/#elements-identifier
 
-		:param identifier: Identifier of the resource.
-		:returns: Identifier of the resource.
+		:param identifier: Identifier of the resource or list of identifiers.
+		:param replace: Replace alredy set format (deault: True).
+		:returns: Identifiers of the resource.
 		'''
 		if not identifier is None:
-			self.__dcelem_identifier = identifier
-		return self.__dcelem_identifier
+			if not isinstance(identifier, list):
+				identifier = [identifier]
+			if replace or not self._dcelem_identifier:
+				self._dcelem_identifier = []
+			self._dcelem_identifier += identifier
 
 
 	def dc_language(self, language=None, replace=True):
@@ -279,10 +272,10 @@ class PodcastExtension(BaseExtension):
 		if not language is None:
 			if not isinstance(language, list):
 				language = [language]
-			if replace or not self.__dcelem_language:
-				self.__dcelem_language = []
-			self.__dcelem_language += language
-		return self.__dcelem_language
+			if replace or not self._dcelem_language:
+				self._dcelem_language = []
+			self._dcelem_language += language
+		return self._dcelem_language
 
 
 	def dc_publisher(self, publisher=None, replace=False):
@@ -299,10 +292,10 @@ class PodcastExtension(BaseExtension):
 		if not publisher is None:
 			if not isinstance(publisher, list):
 				publisher = [publisher]
-			if replace or not self.__dcelem_publisher:
-				self.__dcelem_publisher = []
-			self.__dcelem_publisher += publisher
-		return self.__dcelem_publisher
+			if replace or not self._dcelem_publisher:
+				self._dcelem_publisher = []
+			self._dcelem_publisher += publisher
+		return self._dcelem_publisher
 
 
 	def dc_relation(self, relation=None, replace=False):
@@ -318,10 +311,10 @@ class PodcastExtension(BaseExtension):
 		if not relation is None:
 			if not isinstance(relation, list):
 				relation = [relation]
-			if replace or not self.__dcelem_relation:
-				self.__dcelem_relation = []
-			self.__dcelem_relation += relation
-		return self.__dcelem_relation
+			if replace or not self._dcelem_relation:
+				self._dcelem_relation = []
+			self._dcelem_relation += relation
+		return self._dcelem_relation
 
 
 	def dc_rights(self, rights=None, replace=False):
@@ -338,10 +331,10 @@ class PodcastExtension(BaseExtension):
 		if not rights is None:
 			if not isinstance(rights, list):
 				rights = [rights]
-			if replace or not self.__dcelem_rights:
-				self.__dcelem_rights = []
-			self.__dcelem_rights += rights
-		return self.__dcelem_rights
+			if replace or not self._dcelem_rights:
+				self._dcelem_rights = []
+			self._dcelem_rights += rights
+		return self._dcelem_rights
 
 
 	def dc_source(self, source=None, replace=False):
@@ -363,10 +356,10 @@ class PodcastExtension(BaseExtension):
 		if not source is None:
 			if not isinstance(source, list):
 				source = [source]
-			if replace or not self.__dcelem_source:
-				self.__dcelem_source = []
-			self.__dcelem_source += source
-		return self.__dcelem_source
+			if replace or not self._dcelem_source:
+				self._dcelem_source = []
+			self._dcelem_source += source
+		return self._dcelem_source
 
 
 	def dc_subject(self, subject=None, replace=False):
@@ -382,10 +375,10 @@ class PodcastExtension(BaseExtension):
 		if not subject is None:
 			if not isinstance(subject, list):
 				subject = [subject]
-			if replace or not self.__dcelem_subject:
-				self.__dcelem_subject = []
-			self.__dcelem_subject += subject
-		return self.__dcelem_subject
+			if replace or not self._dcelem_subject:
+				self._dcelem_subject = []
+			self._dcelem_subject += subject
+		return self._dcelem_subject
 
 
 	def dc_title(self, title=None, replace=True):
@@ -401,10 +394,10 @@ class PodcastExtension(BaseExtension):
 		if not title is None:
 			if not isinstance(title, list):
 				title = [title]
-			if replace or not self.__dcelem_title:
-				self.__dcelem_title = []
-			self.__dcelem_title += title
-		return self.__dcelem_title
+			if replace or not self._dcelem_title:
+				self._dcelem_title = []
+			self._dcelem_title += title
+		return self._dcelem_title
 
 
 	def dc_type(self, type=None, replace=False):
@@ -421,7 +414,16 @@ class PodcastExtension(BaseExtension):
 		if not type is None:
 			if not isinstance(type, list):
 				type = [type]
-			if replace or not self.__dcelem_type:
-				self.__dcelem_type = []
-			self.__dcelem_type += type
-		return self.__dcelem_type
+			if replace or not self._dcelem_type:
+				self._dcelem_type = []
+			self._dcelem_type += type
+		return self._dcelem_type
+
+class DcExtension(DcBaseExtension):
+	'''Dublin Core Elements extension for podcasts.
+	'''
+
+class DcEntryExtension(DcBaseExtension):
+	'''Dublin Core Elements extension for podcasts.
+	'''
+

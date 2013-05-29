@@ -76,9 +76,21 @@ if __name__ == '__main__':
 				'consectetur adipiscing elit. ' + \
 				'Verba tu fingas et ea dicas, quae non sentias?')
 		fe.podcast.itunes_author('Lars Kiesow')
-
 		print fg.rss_str(pretty=True)
+
+	elif arg == 'dc.atom':
+		fg.load_extension('dc')
+		fg.dc.dc_contributor('Lars Kiesow')
+		fe.dc.dc_contributor('Lars Kiesow')
+		print fg.atom_str(pretty=True)
+
+	elif arg == 'dc.rss':
+		fg.load_extension('dc')
+		fg.dc.dc_contributor('Lars Kiesow')
+		print fg.rss_str(pretty=True)
+
 	elif arg.endswith('atom'):
 		fg.atom_file(arg)
+
 	elif arg.endswith('rss'):
 		fg.rss_file(arg)
