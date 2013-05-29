@@ -56,15 +56,71 @@ class PodcastExtension(BaseExtension):
 		feed[:] = rss_feed[:]
 		channel = feed[0]
 
-		#if self.__itunes_author:
-		#	author = etree.SubElement(channel, '{%s}author' % ITUNES_NS)
-		#	author.text = self.__itunes_author
+		for elem in ('contributor'):
+			if hasattr(self, '__dcelem_%s' % elem):
+				for val in getattr(self, '__dcelem_%s' % elem) or []:
+					node = etree.SubElement(channel, '{%s}%s' % (DCELEMENTS_NS,elem))
+					node.text = val
 
-		# ...
+		for contributor in self.__dcelem_contributor or []:
+			node = etree.SubElement(channel, '{%s}contributor' % DCELEMENTS_NS)
+			node.text = contributor
 
-		#if self.__itunes_summary:
-		#	summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
-		#	summary.text = self.__itunes_summary
+		for coverage in self.__dcelem_coverage or []:
+			node = etree.SubElement(channel, '{%s}coverage' % DCELEMENTS_NS)
+			node.text = coverage
+
+		for creator in self.__dcelem_creator or []:
+			node = etree.SubElement(channel, '{%s}creator' % DCELEMENTS_NS)
+			node.text = creator
+
+		for date in self.__dcelem_date or []:
+			node = etree.SubElement(channel, '{%s}date' % DCELEMENTS_NS)
+			node.text = date
+
+		for description in self.__dcelem_description or []:
+			node = etree.SubElement(channel, '{%s}description' % DCELEMENTS_NS)
+			node.text = description
+
+		if self.__dcelem_format:
+			node = etree.SubElement(channel, '{%s}format' % DCELEMENTS_NS)
+			node.text = format
+
+		if self.__dcelem_identifier:
+			node = etree.SubElement(channel, '{%s}identifier' % DCELEMENTS_NS)
+			node.text = identifier
+
+		for language in self.__dcelem_language or []:
+			node = etree.SubElement(channel, '{%s}language' % DCELEMENTS_NS)
+			node.text = language
+
+		for publisher in self.__dcelem_publisher or []:
+			node = etree.SubElement(channel, '{%s}publisher' % DCELEMENTS_NS)
+			node.text = publisher
+
+		for relation in self.__dcelem_relation or []:
+			node = etree.SubElement(channel, '{%s}relation' % DCELEMENTS_NS)
+			node.text = relation
+
+		for rights in self.__dcelem_rights or []:
+			node = etree.SubElement(channel, '{%s}rights' % DCELEMENTS_NS)
+			node.text = rights
+
+		for source in self.__dcelem_source or []:
+			node = etree.SubElement(channel, '{%s}source' % DCELEMENTS_NS)
+			node.text = source
+
+		for subject in self.__dcelem_subject or []:
+			node = etree.SubElement(channel, '{%s}subject' % DCELEMENTS_NS)
+			node.text = subject
+
+		for title in self.__dcelem_title or []:
+			node = etree.SubElement(channel, '{%s}title' % DCELEMENTS_NS)
+			node.text = title
+
+		for type in self.__dcelem_type or []:
+			node = etree.SubElement(channel, '{%s}type' % DCELEMENTS_NS)
+			node.text = type
 
 		return feed
 
@@ -75,9 +131,6 @@ class PodcastExtension(BaseExtension):
 
 		For more information see:
 		http://dublincore.org/documents/dcmi-terms/#elements-contributor
-
-		If not set, the value of atom:contributor will be used. But setting this
-		will on the other hand not set atom:contributor.
 
 		:param contributor: Contributor or list of contributors.
 		:param replace: Replace alredy set contributors (deault: False).
@@ -106,7 +159,7 @@ class PodcastExtension(BaseExtension):
 		places or time periods can be used in preference to numeric identifiers
 		such as sets of coordinates or date ranges.
 
-		References:	[TGN] http://www.getty.edu/research/tools/vocabulary/tgn/index.html
+		References: [TGN] http://www.getty.edu/research/tools/vocabulary/tgn/index.html
 
 		:param coverage: Coverage of the feed.
 		:param replace: Replace already set coverage (default: True).
@@ -128,9 +181,6 @@ class PodcastExtension(BaseExtension):
 		For more information see:
 		http://dublincore.org/documents/dcmi-terms/#elements-creator
 
-		If not set, the value of atom:author will be used. But setting this
-		will on the other hand not set atom:author.
-
 		:param creator: Creator or list of creators.
 		:param replace: Replace alredy set creators (deault: False).
 		:returns: List of creators.
@@ -151,9 +201,6 @@ class PodcastExtension(BaseExtension):
 		For more information see:
 		http://dublincore.org/documents/dcmi-terms/#elements-date
 
-		If not set, the value of atom:updated will be used. But setting this
-		will on the other hand not set atom:updated.
-
 		:param date: Date or list of dates.
 		:param replace: Replace alredy set dates (deault: True).
 		:returns: List of dates.
@@ -172,9 +219,6 @@ class PodcastExtension(BaseExtension):
 
 		For more information see:
 		http://dublincore.org/documents/dcmi-terms/#elements-description
-
-		If not set, the value of atom:subtitle will be used. But setting this
-		will on the other hand not set atom:subtitle.
 
 		:param description: Description or list of descriptions.
 		:param replace: Replace alredy set descriptions (deault: True).
@@ -202,3 +246,182 @@ class PodcastExtension(BaseExtension):
 		if not format is None:
 			self.__dcelem_format = format
 		return self.__dcelem_format
+
+
+	def dc_identifier(self, identifier=None):
+		'''Get or set the dc:identifier which should be an unambiguous reference
+		to the resource within a given context.
+
+		If not set, the value of atom:id will be used. But setting this value
+		will on the other hand not set atom:id.
+
+		For more inidentifierion see:
+		http://dublincore.org/documents/dcmi-terms/#elements-identifier
+
+		:param identifier: Identifier of the resource.
+		:returns: Identifier of the resource.
+		'''
+		if not identifier is None:
+			self.__dcelem_identifier = identifier
+		return self.__dcelem_identifier
+
+
+	def dc_language(self, language=None, replace=True):
+		'''Get or set the dc:language which describes a language of the resource.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-language
+
+		:param language: Language or list of languages.
+		:param replace: Replace alredy set languages (deault: True).
+		:returns: List of languages.
+		'''
+		if not language is None:
+			if not isinstance(language, list):
+				language = [language]
+			if replace or not self.__dcelem_language:
+				self.__dcelem_language = []
+			self.__dcelem_language += language
+		return self.__dcelem_language
+
+
+	def dc_publisher(self, publisher=None, replace=False):
+		'''Get or set the dc:publisher which is an entity responsible for making
+		the resource available.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-publisher
+
+		:param publisher: Publisher or list of publishers.
+		:param replace: Replace alredy set publishers (deault: False).
+		:returns: List of publishers.
+		'''
+		if not publisher is None:
+			if not isinstance(publisher, list):
+				publisher = [publisher]
+			if replace or not self.__dcelem_publisher:
+				self.__dcelem_publisher = []
+			self.__dcelem_publisher += publisher
+		return self.__dcelem_publisher
+
+
+	def dc_relation(self, relation=None, replace=False):
+		'''Get or set the dc:relation which describes a related ressource.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-relation
+
+		:param relation: Relation or list of relations.
+		:param replace: Replace alredy set relations (deault: False).
+		:returns: List of relations.
+		'''
+		if not relation is None:
+			if not isinstance(relation, list):
+				relation = [relation]
+			if replace or not self.__dcelem_relation:
+				self.__dcelem_relation = []
+			self.__dcelem_relation += relation
+		return self.__dcelem_relation
+
+
+	def dc_rights(self, rights=None, replace=False):
+		'''Get or set the dc:rights which may contain information about rights
+		held in and over the resource.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-rights
+
+		:param rights: Rights information or list of rights information.
+		:param replace: Replace alredy set rightss (deault: False).
+		:returns: List of rights information.
+		'''
+		if not rights is None:
+			if not isinstance(rights, list):
+				rights = [rights]
+			if replace or not self.__dcelem_rights:
+				self.__dcelem_rights = []
+			self.__dcelem_rights += rights
+		return self.__dcelem_rights
+
+
+	def dc_source(self, source=None, replace=False):
+		'''Get or set the dc:source which is a related resource from which the
+		described resource is derived.
+
+		The described resource may be derived from the related resource in whole
+		or in part. Recommended best practice is to identify the related resource
+		by means of a string conforming to a formal identification system.
+
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-source
+
+		:param source: Source or list of sources.
+		:param replace: Replace alredy set sources (deault: False).
+		:returns: List of sources.
+		'''
+		if not source is None:
+			if not isinstance(source, list):
+				source = [source]
+			if replace or not self.__dcelem_source:
+				self.__dcelem_source = []
+			self.__dcelem_source += source
+		return self.__dcelem_source
+
+
+	def dc_subject(self, subject=None, replace=False):
+		'''Get or set the dc:subject which describes the topic of the resource.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-subject
+
+		:param subject: Subject or list of subjects.
+		:param replace: Replace alredy set subjects (deault: False).
+		:returns: List of subjects.
+		'''
+		if not subject is None:
+			if not isinstance(subject, list):
+				subject = [subject]
+			if replace or not self.__dcelem_subject:
+				self.__dcelem_subject = []
+			self.__dcelem_subject += subject
+		return self.__dcelem_subject
+
+
+	def dc_title(self, title=None, replace=True):
+		'''Get or set the dc:title which is a name given to the resource.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-title
+
+		:param title: Title or list of titles.
+		:param replace: Replace alredy set titles (deault: False).
+		:returns: List of titles.
+		'''
+		if not title is None:
+			if not isinstance(title, list):
+				title = [title]
+			if replace or not self.__dcelem_title:
+				self.__dcelem_title = []
+			self.__dcelem_title += title
+		return self.__dcelem_title
+
+
+	def dc_type(self, type=None, replace=False):
+		'''Get or set the dc:type which describes the nature or genre of the
+		resource.
+
+		For more information see:
+		http://dublincore.org/documents/dcmi-terms/#elements-type
+
+		:param type: Type or list of types.
+		:param replace: Replace alredy set types (deault: False).
+		:returns: List of types.
+		'''
+		if not type is None:
+			if not isinstance(type, list):
+				type = [type]
+			if replace or not self.__dcelem_type:
+				self.__dcelem_type = []
+			self.__dcelem_type += type
+		return self.__dcelem_type
