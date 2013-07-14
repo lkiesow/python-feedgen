@@ -574,7 +574,7 @@ class FeedEntry(object):
 		:param type: Mimetype of the linked media.
 		:returns: Data of the enclosure element.
 		'''
-		if not uri is None:
+		if not url is None:
 			self.link( href=url, rel='enclosure', type=type, length=length )
 		return self.__rss_enclosure
 
