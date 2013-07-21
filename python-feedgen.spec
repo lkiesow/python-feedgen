@@ -15,7 +15,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 
 BuildArch:      noarch
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 Requires:       python-lxml
 Requires:       python-dateutil
@@ -52,7 +52,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Jul 22 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.5-1
-- Update to version 0.2.5
+- Updated to 0.2.5-1
+
+* Thu May 16 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.4-1
+- Update to 0.2.4
+
+* Tue May 14 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.3-1
+- Update to 0.2.3
 
 * Sun May  5 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.2-1
 - Update to version 0.2.2
