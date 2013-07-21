@@ -7,7 +7,7 @@ clean: doc-clean
 	@rm -f `find feedgen -name '*.pyo'`
 	@echo Removing source distribution files...
 	@rm -rf dist/
-	@rm MANIFEST
+	@rm -f MANIFEST
 
 doc: doc-clean doc-html doc-man doc-latexpdf
 

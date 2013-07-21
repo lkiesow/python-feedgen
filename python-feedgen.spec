@@ -1,10 +1,7 @@
-# sitelib for noarch packages, sitearch for others (remove the unneeded one)
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
 %define srcname feedgen
 
 Name:           python-%{srcname}
-Version:        0.2.2
+Version:        0.2.5
 Release:        1%{?dist}
 Summary:        Feed Generator (ATOM, RSS, Podcasts)
 
@@ -54,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 22 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.5-1
+- Update to version 0.2.5
+
 * Sun May  5 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.2-1
 - Update to version 0.2.2
 
