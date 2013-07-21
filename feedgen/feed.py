@@ -419,7 +419,7 @@ class FeedGenerator(object):
 		if not updated is None:
 			if isinstance(updated, basestring):
 				updated = dateutil.parser.parse(updated)
-			if not isinstance(updated, datetime.datetime):
+			if not isinstance(updated, datetime):
 				raise ValueError('Invalid datetime format')
 			if updated.tzinfo is None:
 				raise ValueError('Datetime object has no timezone info')
@@ -834,7 +834,7 @@ class FeedGenerator(object):
 		if not pubDate is None:
 			if isinstance(pubDate, basestring):
 				pubDate = dateutil.parser.parse(pubDate)
-			if not isinstance(pubDate, datetime.datetime):
+			if not isinstance(pubDate, datetime):
 				raise ValueError('Invalid datetime format')
 			if pubDate.tzinfo is None:
 				raise ValueError('Datetime object has no timezone info')
