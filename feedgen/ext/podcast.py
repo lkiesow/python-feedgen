@@ -66,7 +66,7 @@ class PodcastExtension(BaseExtension):
 
 		if self.__itunes_image:
 			image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
-			image.text = self.__itunes_image
+			image.attrib['href'] = self.__itunes_image
 
 		if self.__itunes_explicit in ('yes', 'no', 'clean'):
 			explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)

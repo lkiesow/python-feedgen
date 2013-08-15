@@ -50,7 +50,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 
 		if self.__itunes_image:
 			image = etree.SubElement(entry, '{%s}image' % ITUNES_NS)
-			image.text = self.__itunes_image
+			image.attrib['href'] = self.__itunes_image
 
 		if self.__itunes_duration:
 			duration = etree.SubElement(entry, '{%s}duration' % ITUNES_NS)
