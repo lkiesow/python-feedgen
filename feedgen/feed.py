@@ -381,7 +381,6 @@ class FeedGenerator(object):
 		if not title is None:
 			self.__atom_title = title
 			self.__rss_title = title
-			print 'rss-title: ', self.__rss_title
 		return self.__atom_title
 
 
