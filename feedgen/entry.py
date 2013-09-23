@@ -73,7 +73,7 @@ class FeedEntry(object):
 
 		# An entry must contain an alternate link if there is no content element.
 		if not self.__atom_content:
-			if not True in [ l.get('type') == 'alternate' \
+			if not True in [ l.get('rel') == 'alternate' \
 					for l in self.__atom_link or [] ]:
 				raise ValueError('Entry must contain an alternate link or '
 						+ 'a content element.')
