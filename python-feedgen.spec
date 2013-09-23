@@ -1,7 +1,7 @@
 %define srcname feedgen
 
 Name:           python-%{srcname}
-Version:        0.2.5
+Version:        0.2.6
 Release:        1%{?dist}
 Summary:        Feed Generator (ATOM, RSS, Podcasts)
 
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 23 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.6-1
+- Update to 0.2.6
+
 * Mon Jul 22 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.5-1
 - Updated to 0.2.5-1
 
