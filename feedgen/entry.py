@@ -95,10 +95,28 @@ class FeedEntry(object):
 
 		if self.__atom_content:
 			content = etree.SubElement(entry, 'content')
+			type = self.__atom_content.get('type')
 			if self.__atom_content.get('src'):
 				content.attrib['src'] = self.__atom_content['src']
 			elif self.__atom_content.get('content'):
-				content.text = self.__atom_content.get('content')
+				# Surround xhtml with a div tag, parse it and embed it
+				if type == 'xhtml':
+					content.append(etree.fromstring('''<div
+							xmlns="http://www.w3.org/1999/xhtml">%s</div>''' % \
+							self.__atom_content.get('content')))
+				# Parse XML and embed it
+				elif type.endswith('/xml') or type.endswith('+xml'):
+					content.append(etree.fromstring(self.__atom_content['content']))
+				# Emed the text in escaped form
+				elif not type or type.startswith('text') or type == 'html':
+					content.text = self.__atom_content.get('content')
+				# Everything else should be included base64 encoded
+				else:
+					raise ValueError('base64 encoded content is not supported at the moment.'
+							+ 'If you are interested , please file a bug report.')
+			# Add type description of the content
+			if type:
+				content.attrib['type'] = type
 
 		for l in self.__atom_link or []:
 			link = etree.SubElement(entry, 'link', href=l['href'])
@@ -311,7 +329,7 @@ class FeedEntry(object):
 		return self.__atom_author
 
 
-	def content(self, content=None, src=None):
+	def content(self, content=None, src=None, type=None):
 		'''Get or set the cntent of the entry which contains or links to the
 		complete content of the entry. Content must be provided for ATOM entries
 		if there is no alternate link, and should be provided if there is no
@@ -326,6 +344,8 @@ class FeedEntry(object):
 			self.__atom_content = {'src':src}
 		elif not content is None:
 			self.__atom_content = {'content':content}
+			if not type is None:
+				self.__atom_content['type'] = type
 			self.__rss_description = content
 		return self.__atom_content
 
