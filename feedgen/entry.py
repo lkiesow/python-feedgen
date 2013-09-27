@@ -36,6 +36,7 @@ class FeedEntry(object):
 		# optional
 		self.__atom_category    = None
 		self.__atom_contributor = None
+		self.__atom_published   = None
 		self.__atom_source      = None
 		self.__atom_rights      = None
 
@@ -156,6 +157,10 @@ class FeedEntry(object):
 			if c.get('uri'):
 				email = etree.SubElement(contrib, 'url')
 				email.text = c.get('uri')
+
+		if self.__atom_published:
+			published   = etree.SubElement(entry, 'published')
+			published.text = self.__atom_published.isoformat()
 
 		if self.__atom_rights:
 			rights = etree.SubElement(feed, 'rights')
