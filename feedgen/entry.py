@@ -105,12 +105,12 @@ class FeedEntry(object):
 					content.append(etree.fromstring('''<div
 							xmlns="http://www.w3.org/1999/xhtml">%s</div>''' % \
 							self.__atom_content.get('content')))
-				# Parse XML and embed it
-				elif type.endswith('/xml') or type.endswith('+xml'):
-					content.append(etree.fromstring(self.__atom_content['content']))
 				# Emed the text in escaped form
 				elif not type or type.startswith('text') or type == 'html':
 					content.text = self.__atom_content.get('content')
+				# Parse XML and embed it
+				elif type.endswith('/xml') or type.endswith('+xml'):
+					content.append(etree.fromstring(self.__atom_content['content']))
 				# Everything else should be included base64 encoded
 				else:
 					raise ValueError('base64 encoded content is not supported at the moment.'
