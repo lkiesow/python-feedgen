@@ -192,7 +192,7 @@ class FeedEntry(object):
 		if self.__rss_description:
 			description = etree.SubElement(entry, 'description')
 			description.text = self.__rss_description
-		for a in self.__rss_author:
+		for a in self.__rss_author or []:
 			author = etree.SubElement(entry, 'author')
 			author.text = a
 		if self.__rss_guid:
