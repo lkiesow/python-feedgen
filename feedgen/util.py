@@ -11,7 +11,7 @@
 
 
 
-def ensure_format(val, allowed, required, allowed_values={}):
+def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
 	'''Takes a dictionary or a list of dictionaries and check if all keys are in
 	the set of allowed keys, if all required keys are present and if the values
 	of a specific key are ok.
@@ -21,15 +21,23 @@ def ensure_format(val, allowed, required, allowed_values={}):
 	:param required: Set of required keys.
 	:param allowed_values: Dictionary with keys and sets of their allowed values.
 	:returns: List of checked dictionaries.
+	:param defaults: Dictionary with default values.
 	'''
 	if not val:
 		return None
+	if allowed_values is None:
+		allowed_values = {}
+	if defaults is None:
+		defaults = {}
 	# Make shure that we have a list of dicts. Even if there is only one.
 	if not isinstance(val, list):
 		val = [val]
 	for elem in val:
 		if not isinstance(elem, dict):
 			raise ValueError('Invalid data (value is no dictionary)')
+		# Set default values
+		for k,v in defaults.iteritems():
+			elem[k] = elem.get(k, v)
 		if not set(elem.keys()) <= allowed:
 			raise ValueError('Data contains invalid keys')
 		if not set(elem.keys()) >= required:

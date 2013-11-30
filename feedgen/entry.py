@@ -192,7 +192,7 @@ class FeedEntry(object):
 		if self.__rss_description:
 			description = etree.SubElement(entry, 'description')
 			description.text = self.__rss_description
-		for a in self.__rss_author:
+		for a in self.__rss_author or []:
 			author = etree.SubElement(entry, 'author')
 			author.text = a
 		if self.__rss_guid:
@@ -405,7 +405,8 @@ class FeedEntry(object):
 			self.__atom_link += ensure_format( link, 
 					set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
 					set(['href']), 
-					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
+					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']},
+					{'rel': 'alternate'} )
 			# RSS only needs one URL. We use the first link for RSS:
 			for l in self.__atom_link:
 				if l.get('rel') == 'alternate':
