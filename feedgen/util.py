@@ -16,12 +16,12 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
 	the set of allowed keys, if all required keys are present and if the values
 	of a specific key are ok.
 
-	:param val: Dictionaries to check.
-	:param allowed: Set of allowed keys.
-	:param required: Set of required keys.
+	:param val:            Dictionaries to check.
+	:param allowed:        Set of allowed keys.
+	:param required:       Set of required keys.
 	:param allowed_values: Dictionary with keys and sets of their allowed values.
-	:returns: List of checked dictionaries.
-	:param defaults: Dictionary with default values.
+	:param defaults:       Dictionary with default values.
+	:returns:              List of checked dictionaries.
 	'''
 	if not val:
 		return None
