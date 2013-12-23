@@ -444,7 +444,7 @@ class FeedGenerator(object):
 		:param lastBuildDate: The modification date.
 		:returns: Modification date as datetime.datetime
 		'''
-		return updated( lastBuildDate )
+		return self.updated( lastBuildDate )
 
 
 	def author(self, author=None, replace=False, **kwargs):
