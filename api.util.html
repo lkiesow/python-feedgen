@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.util &mdash; python-feedgen 0.2.6 documentation</title>
+    <title>feedgen.util &mdash; python-feedgen 0.2.8 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.6',
+        VERSION:     '0.2.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,14 +27,14 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/theme_extras.js"></script>
-    <link rel="top" title="python-feedgen 0.2.6 documentation" href="index.html" />
+    <link rel="top" title="python-feedgen 0.2.8 documentation" href="index.html" />
     <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.ext.base" href="ext/api.ext.base.html" />
     <link rel="prev" title="feedgen.entry" href="api.entry.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.2.6 documentation</span></a></h1>
+          <span>python-feedgen 0.2.8 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.util</span></h2>
       </div>
       <div class="topnav">
@@ -67,7 +67,7 @@
 </table>
 <dl class="function">
 <dt id="feedgen.util.ensure_format">
-<tt class="descclassname">feedgen.util.</tt><tt class="descname">ensure_format</tt><big>(</big><em>val</em>, <em>allowed</em>, <em>required</em>, <em>allowed_values={}</em><big>)</big><a class="headerlink" href="#feedgen.util.ensure_format" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">feedgen.util.</tt><tt class="descname">ensure_format</tt><big>(</big><em>val</em>, <em>allowed</em>, <em>required</em>, <em>allowed_values=None</em>, <em>defaults=None</em><big>)</big><a class="headerlink" href="#feedgen.util.ensure_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a dictionary or a list of dictionaries and check if all keys are in
 the set of allowed keys, if all required keys are present and if the values
 of a specific key are ok.</p>
@@ -80,6 +80,7 @@ of a specific key are ok.</p>
 <li><strong>allowed</strong> &#8211; Set of allowed keys.</li>
 <li><strong>required</strong> &#8211; Set of required keys.</li>
 <li><strong>allowed_values</strong> &#8211; Dictionary with keys and sets of their allowed values.</li>
+<li><strong>defaults</strong> &#8211; Dictionary with default values.</li>
 </ul>
 </td>
 </tr>
