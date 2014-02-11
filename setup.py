@@ -14,7 +14,7 @@ setup(
 		url = 'http://lkiesow.github.io/python-feedgen',
 		keywords = ['feed','ATOM','RSS','podcast'],
 		license = 'FreeBSD and LGPLv3+',
-		requires = ['lxml', 'dateutils'],
+		install_requires = ['lxml', 'dateutils'],
 		classifiers = [
 			'Development Status :: 4 - Beta',
 			'Development Status :: 5 - Production/Stable',
