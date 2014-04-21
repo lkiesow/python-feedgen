@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-	feedgen.ext.podcast
+	feedgen.ext.dc
 	~~~~~~~~~~~~~~~~~~~
 
 	Extends the FeedGenerator to add Dubline Core Elements to the feeds.
@@ -46,7 +46,7 @@ class DcBaseExtension(BaseExtension):
 	def extend_atom(self, atom_feed):
 		'''Create an Atom feed xml structure containing all previously set fields.
 
-		:returns: Tuple containing the feed root element
+		:returns: The feed root element
 		'''
 		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
 		# Replace the root element to add the new namespace
@@ -426,4 +426,33 @@ class DcExtension(DcBaseExtension):
 class DcEntryExtension(DcBaseExtension):
 	'''Dublin Core Elements extension for podcasts.
 	'''
+	def extend_atom(self, entry):
+		'''NYI. Differs from RSS Implementation?
+		
+		'''
+		return entry
 
+	def extend_rss(self, item):
+		'''Add dc elements to a RSS item. Alters the item itself.
+
+		:returns: The item element.
+		'''
+		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
+
+		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
+				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
+				'title', 'type']:
+			if hasattr(self, '_dcelem_%s' % elem):
+				for val in getattr(self, '_dcelem_%s' % elem) or []:
+					node = etree.SubElement(item, '{%s}%s' % (DCELEMENTS_NS,elem))
+					node.text = val
+
+		if self._dcelem_format:
+			node = etree.SubElement(item, '{%s}format' % DCELEMENTS_NS)
+			node.text = format
+
+		if self._dcelem_identifier:
+			node = etree.SubElement(item, '{%s}identifier' % DCELEMENTS_NS)
+			node.text = identifier
+
+		return item
