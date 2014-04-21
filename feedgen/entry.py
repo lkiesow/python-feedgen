@@ -169,7 +169,7 @@ class FeedEntry(object):
 		if extensions:
 			for ext in self.__extensions.values() or []:
 				if ext.get('atom'):
-					entry = ext['inst'].extend_atom(entry)
+					ext['inst'].extend_atom(entry)
 
 		return entry
 
@@ -220,7 +220,7 @@ class FeedEntry(object):
 		if extensions:
 			for ext in self.__extensions.values() or []:
 				if ext.get('rss'):
-					entry = ext['inst'].extend_rss(entry)
+					ext['inst'].extend_rss(entry)
 
 		return entry
 

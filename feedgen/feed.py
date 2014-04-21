@@ -204,16 +204,15 @@ class FeedGenerator(object):
 		return etree.tostring(feed, pretty_print=pretty)
 
 
-	def atom_file(self, filename, extensions=True):
+	def atom_file(self, filename, extensions=True, pretty=False):
 		'''Generates an ATOM feed and write the resulting XML to a file.
 		
-		:param filename: Name of file to write.
+		:param filename: Name of file to write, or a file-like object, or a URL.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
-		with open(filename, 'w') as f:
-			doc.write(f)
+		doc.write(filename, pretty_print=pretty)
 
 
 	def _create_rss(self, extensions=True):
@@ -357,16 +356,15 @@ class FeedGenerator(object):
 		return etree.tostring(feed, pretty_print=pretty)
 
 
-	def rss_file(self, filename, extensions=True):
+	def rss_file(self, filename, extensions=True, pretty=False):
 		'''Generates an RSS feed and write the resulting XML to a file.
 		
-		:param filename: Name of file to write.
+		:param filename: Name of file to write, or a file-like object, or a URL.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
-		with open(filename, 'w') as f:
-			doc.write(f)
+		doc.write(filename, pretty_print=pretty)
 
 	
 	def title(self, title=None):
