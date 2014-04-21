@@ -165,7 +165,7 @@ Testing the Generator
 
 You can test the module by simply executing::
 
-	$ pythom -m feedgen 
+	$ python -m feedgen 
 
 If you want to have a look at the code for this test to have a working code
 example for a whole feed generation process, you can find it in the
