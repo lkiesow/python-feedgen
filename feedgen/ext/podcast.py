@@ -34,6 +34,8 @@ class PodcastExtension(BaseExtension):
 		self.__itunes_summary      = None
 
 
+	def extend_ns(self):
+		return {'itunes' : 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
 
 
 	def extend_rss(self, rss_feed):
@@ -42,11 +44,7 @@ class PodcastExtension(BaseExtension):
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
 		ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
-		# Replace the root element to add the itunes namespace
-		nsmap = rss_feed.nsmap
-		nsmap['itunes'] = ITUNES_NS
-		feed = etree.Element('rss', version='2.0', nsmap=nsmap )
-		feed[:] = rss_feed[:]
+		feed = rss_feed
 		channel = feed[0]
 
 		if self.__itunes_author:

@@ -15,9 +15,12 @@
 class BaseExtension(object):
 	'''Basic FeedGenerator extension.
 	'''
+	def extend_ns(self):
+		'''Returns a dict that will be used in the namespace map for the feed.'''
+		return dict()
 
 	def extend_rss(self, feed):
-		'''Create an RSS feed xml structure containing all previously set fields.
+		'''Extend a RSS feed xml structure containing all previously set fields.
 
 		:param feed: The feed xml root element.
 		:returns: The feed root element.
@@ -26,7 +29,7 @@ class BaseExtension(object):
 
 
 	def extend_atom(self, feed):
-		'''Create an ATOM feed xml structure containing all previously set
+		'''Extend an ATOM feed xml structure containing all previously set
 		fields.
 
 		:param feed: The feed xml root element.

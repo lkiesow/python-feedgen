@@ -57,13 +57,9 @@ class FeedEntry(object):
 		self.__extensions = {}
 
 
-	def atom_entry(self, feed, extensions=True):
-		'''Insert an ATOM entry into a existing XML structure. Normally you
-		would pass the feed node of an ATOM feed XML to this function.
-
-		:param feed: The XML element to use as parent node for the element.
-		'''
-		entry = etree.SubElement(feed, 'entry')
+	def atom_entry(self, extensions=True):
+		'''Create an ATOM entry and return it.'''
+		entry = etree.Element('entry')
 		if not ( self.__atom_id and self.__atom_title and self.__atom_updated ):
 			raise ValueError('Required fields not set')
 		id      = etree.SubElement(entry, 'id')
@@ -175,13 +171,9 @@ class FeedEntry(object):
 		return entry
 
 
-	def rss_entry(self, feed, extensions=True):
-		'''Insert an RSS item into a existing XML structure. Normally you
-		would pass the channel node of an RSS feed XML to this function.
-
-		:param feed: The XML element to use as parent node for the item.
-		'''
-		entry = etree.SubElement(feed, 'item')
+	def rss_entry(self, extensions=True):
+		'''Create a RSS item and return it.'''
+		entry = etree.Element('item')
 		if not ( self.__rss_title or self.__rss_description or self.__rss_content):
 			raise ValueError('Required fields not set')
 		if self.__rss_title:
@@ -235,7 +227,7 @@ class FeedEntry(object):
 		return entry
 
 
-	
+
 	def title(self, title=None):
 		'''Get or set the title value of the entry. It should contain a human
 		readable title for the entry. Title is mandatory for both ATOM and RSS
@@ -313,7 +305,7 @@ class FeedEntry(object):
 		- *name* conveys a human-readable name for the person.
 		- *uri* contains a home page for the person.
 		- *email* contains an email address for the person.
-		
+
 		:param author:  Dict or list of dicts with author data.
 		:param replace: Add or replace old data.
 
@@ -335,7 +327,7 @@ class FeedEntry(object):
 		if not author is None:
 			if replace or self.__atom_author is None:
 				self.__atom_author = []
-			self.__atom_author += ensure_format( author, 
+			self.__atom_author += ensure_format( author,
 					set(['name', 'email', 'uri']), set(['name']))
 			self.__rss_author = []
 			for a in self.__atom_author:
@@ -402,7 +394,7 @@ class FeedEntry(object):
 		RSS also supports one enclusure element per entry which is covered by the
 		link element in ATOM feed entries. So for the RSS enclusure element the
 		last link with rel=enclosure is used.
-		
+
 		:param link:    Dict or list of dicts with data.
 		:param replace: Add or replace old data.
 		:returns: List of link data.
@@ -412,9 +404,9 @@ class FeedEntry(object):
 		if not link is None:
 			if replace or self.__atom_link is None:
 				self.__atom_link = []
-			self.__atom_link += ensure_format( link, 
+			self.__atom_link += ensure_format( link,
 					set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
-					set(['href']), 
+					set(['href']),
 					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']},
 					{'rel': 'alternate'} )
 			# RSS only needs one URL. We use the first link for RSS:
@@ -495,8 +487,8 @@ class FeedEntry(object):
 		if not category is None:
 			if replace or self.__atom_category is None:
 				self.__atom_category = []
-			self.__atom_category += ensure_format( 
-					category, 
+			self.__atom_category += ensure_format(
+					category,
 					set(['term', 'scheme', 'label']),
 					set(['term']) )
 			# Map the ATOM categories to RSS categories. Use the atom:label as
@@ -525,7 +517,7 @@ class FeedEntry(object):
 		- *name* conveys a human-readable name for the person.
 		- *uri* contains a home page for the person.
 		- *email* contains an email address for the person.
-		
+
 		:param contributor: Dictionary or list of dictionaries with contributor data.
 		:param replace: Add or replace old data.
 		:returns: List of contributors as dictionaries.
@@ -535,7 +527,7 @@ class FeedEntry(object):
 		if not contributor is None:
 			if replace or self.__atom_contributor is None:
 				self.__atom_contributor = []
-			self.__atom_contributor += ensure_format( contributor, 
+			self.__atom_contributor += ensure_format( contributor,
 					set(['name', 'email', 'uri']), set(['name']))
 		return self.__atom_contributor
 
@@ -563,7 +555,7 @@ class FeedEntry(object):
 
 		return self.__atom_published
 
-	
+
 	def pubdate(self, pubDate=None):
 		'''Get or set the pubDate of the entry which indicates when the entry was
 		published. This method is just another name for the published(...)
@@ -627,7 +619,7 @@ class FeedEntry(object):
 			self.__rss_ttl = int(ttl)
 		return self.__rss_ttl
 
-	
+
 	def load_extension(self, name, atom=True, rss=True):
 		'''Load a specific extension by name.
 
