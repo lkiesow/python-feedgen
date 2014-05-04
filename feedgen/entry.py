@@ -45,6 +45,7 @@ class FeedEntry(object):
 		self.__rss_category    = None
 		self.__rss_comments    = None
 		self.__rss_description = None
+		self.__rss_content     = None
 		self.__rss_enclosure   = None
 		self.__rss_guid        = None
 		self.__rss_link        = None
@@ -181,7 +182,7 @@ class FeedEntry(object):
 		:param feed: The XML element to use as parent node for the item.
 		'''
 		entry = etree.SubElement(feed, 'item')
-		if not ( self.__rss_title or self.__rss_description ):
+		if not ( self.__rss_title or self.__rss_description or self.__rss_content):
 			raise ValueError('Required fields not set')
 		if self.__rss_title:
 			title = etree.SubElement(entry, 'title')
@@ -189,9 +190,18 @@ class FeedEntry(object):
 		if self.__rss_link:
 			link = etree.SubElement(entry, 'link')
 			link.text = self.__rss_link
-		if self.__rss_description:
+		if self.__rss_description and self.__rss_content:
 			description = etree.SubElement(entry, 'description')
 			description.text = self.__rss_description
+			content = etree.SubElement(entry, '{%s}encoded' %
+									'http://purl.org/rss/1.0/modules/content/')
+			content.text = self.__rss_content
+		elif self.__rss_description:
+			description = etree.SubElement(entry, 'description')
+			description.text = self.__rss_description
+		elif self.__rss_content:
+			description = etree.SubElement(entry, 'description')
+			description.text = self.__rss_content
 		for a in self.__rss_author or []:
 			author = etree.SubElement(entry, 'author')
 			author.text = a
@@ -351,7 +361,7 @@ class FeedEntry(object):
 			self.__atom_content = {'content':content}
 			if not type is None:
 				self.__atom_content['type'] = type
-			self.__rss_description = content
+			self.__rss_content = content
 		return self.__atom_content
 
 
@@ -476,7 +486,7 @@ class FeedEntry(object):
 		If a label is present it is used for the RSS feeds. Otherwise the term is
 		used. The scheme is used for the domain attribute in RSS.
 
-		:param link:    Dict or list of dicts with data.
+		:param category:    Dict or list of dicts with data.
 		:param replace: Add or replace old data.
 		:returns: List of category data.
 		'''

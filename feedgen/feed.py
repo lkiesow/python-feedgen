@@ -220,8 +220,9 @@ class FeedGenerator(object):
 
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
-		feed    = etree.Element('rss', version='2.0',
-				nsmap={'atom':  'http://www.w3.org/2005/Atom'} )
+		feed = etree.Element('rss', version='2.0',
+				nsmap={'atom':  'http://www.w3.org/2005/Atom',
+					'content': 'http://purl.org/rss/1.0/modules/content/'} )
 		channel = etree.SubElement(feed, 'channel')
 		if not ( self.__rss_title and self.__rss_link and self.__rss_description ):
 			missing = ', '.join(([] if self.__rss_title else ['title']) + \
