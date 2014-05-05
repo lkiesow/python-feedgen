@@ -738,7 +738,7 @@ class FeedGenerator(object):
 		:param copyright: The copyright notice.
 		:returns: The copyright notice.
 		'''
-		return rights( copyright )
+		return self.rights( copyright )
 
 
 	def subtitle(self, subtitle=None):
