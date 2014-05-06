@@ -88,7 +88,13 @@ class FeedGenerator(object):
 
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
-		feed    = etree.Element('feed',  xmlns='http://www.w3.org/2005/Atom')
+		nsmap = dict()
+		if extensions:
+			for ext in self.__extensions.values() or []:
+				if ext.get('atom'):
+					 nsmap.update( ext['inst'].extend_ns() )
+
+		feed = etree.Element('feed', xmlns='http://www.w3.org/2005/Atom', nsmap=nsmap)
 		if self.__atom_feed_xml_lang:
 			feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
 					self.__atom_feed_xml_lang
@@ -182,10 +188,11 @@ class FeedGenerator(object):
 		if extensions:
 			for ext in self.__extensions.values() or []:
 				if ext.get('atom'):
-					feed = ext['inst'].extend_atom(feed)
+					ext['inst'].extend_atom(feed)
 
 		for entry in self.__feed_entries:
-			entry.atom_entry(feed)
+			entry = entry.atom_entry()
+			feed.append(entry)
 
 		doc = etree.ElementTree(feed)
 		return feed, doc
@@ -193,7 +200,7 @@ class FeedGenerator(object):
 
 	def atom_str(self, pretty=False, extensions=True):
 		'''Generates an ATOM feed and returns the feed XML as string.
-		
+
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
 		:param extensions: Enable or disable the loaded extensions for the xml
@@ -206,7 +213,7 @@ class FeedGenerator(object):
 
 	def atom_file(self, filename, extensions=True, pretty=False):
 		'''Generates an ATOM feed and write the resulting XML to a file.
-		
+
 		:param filename: Name of file to write, or a file-like object, or a URL.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
@@ -220,9 +227,16 @@ class FeedGenerator(object):
 
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
-		feed = etree.Element('rss', version='2.0',
-				nsmap={'atom':  'http://www.w3.org/2005/Atom',
-					'content': 'http://purl.org/rss/1.0/modules/content/'} )
+		nsmap = dict()
+		if extensions:
+			for ext in self.__extensions.values() or []:
+				if ext.get('rss'):
+					 nsmap.update( ext['inst'].extend_ns() )
+
+		nsmap.update({'atom':  'http://www.w3.org/2005/Atom',
+			'content': 'http://purl.org/rss/1.0/modules/content/'})
+
+		feed = etree.Element('rss', version='2.0', nsmap=nsmap )
 		channel = etree.SubElement(feed, 'channel')
 		if not ( self.__rss_title and self.__rss_link and self.__rss_description ):
 			missing = ', '.join(([] if self.__rss_title else ['title']) + \
@@ -238,8 +252,8 @@ class FeedGenerator(object):
 		for ln in  self.__atom_link or []:
 			# It is recommended to include a atom self link in rss documents…
 			if ln.get('rel') == 'self':
-				selflink = etree.SubElement(channel, 
-						'{http://www.w3.org/2005/Atom}link', 
+				selflink = etree.SubElement(channel,
+						'{http://www.w3.org/2005/Atom}link',
 						href=ln['href'], rel='self')
 				if ln.get('type'):
 					selflink.attrib['type'] = ln['type']
@@ -335,10 +349,11 @@ class FeedGenerator(object):
 		if extensions:
 			for ext in self.__extensions.values() or []:
 				if ext.get('rss'):
-					feed = ext['inst'].extend_rss(feed)
+					ext['inst'].extend_rss(feed)
 
 		for entry in self.__feed_entries:
-			entry.rss_entry(channel)
+			item = entry.rss_entry()
+			channel.append(item)
 
 		doc = etree.ElementTree(feed)
 		return feed, doc
@@ -346,7 +361,7 @@ class FeedGenerator(object):
 
 	def rss_str(self, pretty=False, extensions=True):
 		'''Generates an RSS feed and returns the feed XML as string.
-		
+
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
 		:param extensions: Enable or disable the loaded extensions for the xml
@@ -359,7 +374,7 @@ class FeedGenerator(object):
 
 	def rss_file(self, filename, extensions=True, pretty=False):
 		'''Generates an RSS feed and write the resulting XML to a file.
-		
+
 		:param filename: Name of file to write, or a file-like object, or a URL.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
@@ -367,7 +382,7 @@ class FeedGenerator(object):
 		feed, doc = self._create_rss(extensions=extensions)
 		doc.write(filename, pretty_print=pretty)
 
-	
+
 	def title(self, title=None):
 		'''Get or set the title value of the feed. It should contain a human
 		readable title for the feed. Often the same as the title of the
@@ -392,7 +407,7 @@ class FeedGenerator(object):
 		:param id: New Id of the ATOM feed.
 		:returns: Id of the feed.
 		'''
-		
+
 		if not id is None:
 			self.__atom_id = id
 		return self.__atom_id
@@ -462,7 +477,7 @@ class FeedGenerator(object):
 		- *name* conveys a human-readable name for the person.
 		- *uri* contains a home page for the person.
 		- *email* contains an email address for the person.
-		
+
 		:param author:  Dictionary or list of dictionaries with author data.
 		:param replace: Add or replace old data.
 		:returns: List of authors as dictionaries.
@@ -485,7 +500,7 @@ class FeedGenerator(object):
 		if not author is None:
 			if replace or self.__atom_author is None:
 				self.__atom_author = []
-			self.__atom_author += ensure_format( author, 
+			self.__atom_author += ensure_format( author,
 					set(['name', 'email', 'uri']), set(['name']))
 			self.__rss_author = []
 			for a in self.__atom_author:
@@ -526,7 +541,7 @@ class FeedGenerator(object):
 		- *length* the length of the resource, in bytes.
 
 		RSS only supports one link with URL only.
-		
+
 		:param link:    Dict or list of dicts with data.
 		:param replace: Add or replace old data.
 
@@ -541,9 +556,9 @@ class FeedGenerator(object):
 		if not link is None:
 			if replace or self.__atom_link is None:
 				self.__atom_link = []
-			self.__atom_link += ensure_format( link, 
+			self.__atom_link += ensure_format( link,
 					set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
-					set(['href']), 
+					set(['href']),
 					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
 			# RSS only needs one URL. We use the first link for RSS:
 			if len(self.__atom_link) > 0:
@@ -579,8 +594,8 @@ class FeedGenerator(object):
 		if not category is None:
 			if replace or self.__atom_category is None:
 				self.__atom_category = []
-			self.__atom_category += ensure_format( 
-					category, 
+			self.__atom_category += ensure_format(
+					category,
 					set(['term', 'scheme', 'label']),
 					set(['term']) )
 			# Map the ATOM categories to RSS categories. Use the atom:label as
@@ -628,7 +643,7 @@ class FeedGenerator(object):
 		- *name* conveys a human-readable name for the person.
 		- *uri* contains a home page for the person.
 		- *email* contains an email address for the person.
-		
+
 		:param contributor: Dictionary or list of dictionaries with contributor data.
 		:param replace: Add or replace old data.
 		:returns: List of contributors as dictionaries.
@@ -638,7 +653,7 @@ class FeedGenerator(object):
 		if not contributor is None:
 			if replace or self.__atom_contributor is None:
 				self.__atom_contributor = []
-			self.__atom_contributor += ensure_format( contributor, 
+			self.__atom_contributor += ensure_format( contributor,
 					set(['name', 'email', 'uri']), set(['name']))
 		return self.__atom_contributor
 
@@ -856,7 +871,7 @@ class FeedGenerator(object):
 
 		This method can be called with an hour or a list of hours. The hours are
 		represented as integer values from 0 to 23.
-		
+
 		:param hours:   List of hours the feedreaders should not check the feed.
 		:param replace: Add or replace old data.
 		:returns:       List of hours the feedreaders should not check the feed.
@@ -879,7 +894,7 @@ class FeedGenerator(object):
 
 		This method can be called with a day name or a list of day names. The days are
 		represented as strings from 'Monday' to 'Sunday'.
-		
+
 		:param hours:   List of days the feedreaders should not check the feed.
 		:param replace: Add or replace old data.
 		:returns:       List of days the feedreaders should not check the feed.
@@ -953,7 +968,7 @@ class FeedGenerator(object):
 		:returns: FeedEntry object created or passed to this function.
 
 		Example::
-			
+
 			...
 			>>> entry = feedgen.add_entry()
 			>>> entry.title('First feed entry')
@@ -984,7 +999,7 @@ class FeedGenerator(object):
 	def entry(self, entry=None, replace=False):
 		'''Get or set feed entries. Use the add_entry() method instead to
 		automatically create the FeedEntry objects.
-		
+
 		This method takes both a single FeedEntry object or a list of objects.
 
 		:param entry: FeedEntry object or list of FeedEntry objects.
@@ -1025,7 +1040,7 @@ class FeedGenerator(object):
 			self.__feed_entries.remove(entry)
 		else:
 			self.__feed_entries.pop(entry)
-	
+
 
 	def remove_item(self, item):
 		'''Remove a single item from the feed. This is another name for
@@ -1033,7 +1048,7 @@ class FeedGenerator(object):
 		'''
 		self.remove_entry(item)
 
-	
+
 	def load_extension(self, name, atom=True, rss=True):
 		'''Load a specific extension by name.
 

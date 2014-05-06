@@ -42,6 +42,8 @@ class DcBaseExtension(BaseExtension):
 		self._dcelem_title       = None
 		self._dcelem_type        = None
 
+	def extend_ns(self):
+		return {'dc' : 'http://purl.org/dc/elements/1.1/'}
 
 	def extend_atom(self, atom_feed):
 		'''Create an Atom feed xml structure containing all previously set fields.
@@ -49,14 +51,8 @@ class DcBaseExtension(BaseExtension):
 		:returns: The feed root element
 		'''
 		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
-		# Replace the root element to add the new namespace
-		nsmap = atom_feed.nsmap
-		nsmap['dc'] = DCELEMENTS_NS
-		feed = etree.Element('feed', nsmap=nsmap)
-		if '{http://www.w3.org/XML/1998/namespace}lang' in atom_feed.attrib:
-			feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
-					atom_feed.attrib['{http://www.w3.org/XML/1998/namespace}lang']
-		feed[:] = atom_feed[:]
+		
+		feed = atom_feed
 
 		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
 				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
@@ -83,12 +79,7 @@ class DcBaseExtension(BaseExtension):
 		:returns: Tuple containing the feed root element and the element tree.
 		'''
 		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
-		# Replace the root element to add the new namespace
-		nsmap = rss_feed.nsmap
-		nsmap['dc'] = DCELEMENTS_NS
-		feed = etree.Element('rss', version='2.0', nsmap=nsmap )
-		feed[:] = rss_feed[:]
-		channel = feed[0]
+		channel = rss_feed[0]
 
 		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
 				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
@@ -106,7 +97,7 @@ class DcBaseExtension(BaseExtension):
 			node = etree.SubElement(channel, '{%s}identifier' % DCELEMENTS_NS)
 			node.text = identifier
 
-		return feed
+		return rss_feed
 
 
 	def dc_contributor(self, contributor=None, replace=False):
