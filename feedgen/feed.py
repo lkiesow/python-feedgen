@@ -16,6 +16,7 @@ import dateutil.tz
 from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format
 import feedgen.version
+import sys
 
 
 _feedgen_version = feedgen.version.version_str
@@ -962,8 +963,15 @@ class FeedGenerator(object):
 		if feedEntry is None:
 			feedEntry = FeedEntry()
 
+		version = sys.version_info[0]
+
+		if version == 2:
+			items = self.__extensions.iteritems()
+		else:
+			items = self.__extensions.items()
+
 		# Try to load extensions:
-		for extname,ext in self.__extensions.iteritems():
+		for extname,ext in items:
 			try:
 				feedEntry.load_extension( extname, ext['atom'], ext['rss'] )
 			except ImportError:
@@ -996,10 +1004,16 @@ class FeedGenerator(object):
 			if replace:
 				self.__feed_entries = []
 
+			version = sys.version_info[0]
+
+			if version == 2:
+				items = self.__extensions.iteritems()
+			else:
+				items = self.__extensions.items()
 
 			# Try to load extensions:
 			for e in entry:
-				for extname,ext in self.__extensions.iteritems():
+				for extname,ext in items:
 					try:
 						e.load_extension( extname, ext['atom'], ext['rss'] )
 					except ImportError:
