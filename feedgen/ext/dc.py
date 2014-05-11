@@ -51,7 +51,7 @@ class DcBaseExtension(BaseExtension):
 		:returns: The feed root element
 		'''
 		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
-		
+
 		feed = atom_feed
 
 		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
@@ -151,7 +151,7 @@ class DcBaseExtension(BaseExtension):
 
 	def dc_creator(self, creator=None, replace=False):
 		'''Get or set the dc:creator which is an entity primarily responsible for
-		making the resource. 
+		making the resource.
 
 		For more information see:
 		http://dublincore.org/documents/dcmi-terms/#elements-creator
@@ -419,7 +419,7 @@ class DcEntryExtension(DcBaseExtension):
 	'''
 	def extend_atom(self, entry):
 		'''NYI. Differs from RSS Implementation?
-		
+
 		'''
 		return entry
 

@@ -95,7 +95,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 
 	def itunes_block(self, itunes_block=None):
 		'''Get or set the ITunes block attribute. Use this to prevent episodes
-		from appearing in the iTunes podcast directory. 
+		from appearing in the iTunes podcast directory.
 
 		:param itunes_block: Block podcast episodes.
 		:returns: If the podcast episode is blocked.

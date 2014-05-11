@@ -20,12 +20,12 @@ def print_enc(s):
 
 
 if __name__ == '__main__':
-	if len(sys.argv) != 2 or not ( 
+	if len(sys.argv) != 2 or not (
 			sys.argv[1].endswith('rss') \
 					or sys.argv[1].endswith('atom') \
 					or sys.argv[1].endswith('podcast') ):
 		print_enc ('Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
-				'pythom -m feedgen')
+				'python -m feedgen')
 		print_enc ('')
 		print_enc ('  atom        -- Generate ATOM test output and print it to stdout.')
 		print_enc ('  rss         -- Generate RSS test output and print it to stdout.')

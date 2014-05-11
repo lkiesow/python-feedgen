@@ -32,7 +32,7 @@
 
 	Note that for the methods which set fields that can occur more than once in
 	a feed you can use all of the following ways to provide data:
-	
+
 	- Provide the data for that element as keyword arguments
 	- Provide the data for that element as dictionary
 	- Provide a list of dictionaries with the data for several elements
@@ -131,6 +131,6 @@
 
 	You can test the module by simply executing::
 
-		$ pythom -m feedgen 
+		$ python -m feedgen
 
 """

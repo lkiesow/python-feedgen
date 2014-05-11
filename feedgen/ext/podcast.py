@@ -112,7 +112,7 @@ class PodcastExtension(BaseExtension):
 
 	def itunes_block(self, itunes_block=None):
 		'''Get or set the ITunes block attribute. Use this to prevent the entire
-		podcast from appearing in the iTunes podcast directory. 
+		podcast from appearing in the iTunes podcast directory.
 
 		:param itunes_block: Block the podcast.
 		:returns: If the podcast is blocked.
@@ -286,10 +286,10 @@ class PodcastExtension(BaseExtension):
 	_itunes_categories = {
 			'Arts': [ 'Design', 'Fashion & Beauty', 'Food', 'Literature',
 				'Performing Arts', 'Visual Arts' ],
-			'Business' : [ 'Business News', 'Careers', 'Investing', 
+			'Business' : [ 'Business News', 'Careers', 'Investing',
 				'Management & Marketing', 'Shopping' ],
 			'Comedy' : [],
-			'Education' : [ 'Education', 'Education Technology', 
+			'Education' : [ 'Education', 'Education Technology',
 				'Higher Education', 'K-12', 'Language Courses', 'Training' ],
 			'Games & Hobbies' : [ 'Automotive', 'Aviation', 'Hobbies',
 				'Other Games', 'Video Games' ],
