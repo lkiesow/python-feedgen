@@ -8,7 +8,7 @@
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 	:license: FreeBSD and LGPL, see license.* for more details.
 '''
-
+import sys
 
 
 def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
@@ -36,13 +36,27 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
 		if not isinstance(elem, dict):
 			raise ValueError('Invalid data (value is no dictionary)')
 		# Set default values
-		for k,v in defaults.iteritems():
+
+		version = sys.version_info[0]
+
+		if version == 2:
+			items = defaults.iteritems()
+		else:
+			items = defaults.items()
+
+		for k,v in items:
 			elem[k] = elem.get(k, v)
 		if not set(elem.keys()) <= allowed:
 			raise ValueError('Data contains invalid keys')
 		if not set(elem.keys()) >= required:
 			raise ValueError('Data contains not all required keys')
-		for k,v in allowed_values.iteritems():
+
+		if version == 2:
+			values = allowed_values.iteritems()
+		else:
+			values = allowed_values.items()
+
+		for k,v in values:
 			if elem.get(k) and not elem[k] in v:
 				raise ValueError('Invalid value for %s' % k )
 	return val

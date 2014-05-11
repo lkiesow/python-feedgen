@@ -11,6 +11,14 @@
 from feedgen.feed import FeedGenerator
 import sys
 
+def print_enc(string):
+	version = sys.version_info[0]
+
+	if version == 2:
+		print(string)
+	elif version == 3:
+		sys.stdout.buffer.write(string)
+
 
 
 if __name__ == '__main__':
@@ -18,15 +26,15 @@ if __name__ == '__main__':
 			sys.argv[1].endswith('rss') \
 					or sys.argv[1].endswith('atom') \
 					or sys.argv[1].endswith('podcast') ):
-		print 'Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
-				'pythom -m feedgen'
-		print ''
-		print '  atom        -- Generate ATOM test output and print it to stdout.'
-		print '  rss         -- Generate RSS test output and print it to stdout.'
-		print '  <file>.atom -- Generate ATOM test feed and write it to file.atom.'
-		print '  <file>.rss  -- Generate RSS test teed and write it to file.rss.'
-		print '  podcast     -- Generator Podcast test output and print it to stdout.'
-		print ''
+		print_enc ('Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
+				'pythom -m feedgen')
+		print_enc ('')
+		print_enc ('  atom        -- Generate ATOM test output and print it to stdout.')
+		print_enc ('  rss         -- Generate RSS test output and print it to stdout.')
+		print_enc ('  <file>.atom -- Generate ATOM test feed and write it to file.atom.')
+		print_enc ('  <file>.rss  -- Generate RSS test teed and write it to file.rss.')
+		print_enc ('  podcast     -- Generator Podcast test output and print it to stdout.')
+		print_enc ('')
 		exit()
 
 	arg = sys.argv[1]
@@ -59,9 +67,9 @@ if __name__ == '__main__':
 	fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
 
 	if arg == 'atom':
-		print fg.atom_str(pretty=True)
+		print_enc (fg.atom_str(pretty=True))
 	elif arg == 'rss':
-		print fg.rss_str(pretty=True)
+		print_enc (fg.rss_str(pretty=True))
 	elif arg == 'podcast':
 		# Load the podcast extension. It will automatically be loaded for all
 		# entries in the feed, too. Thus also for our “fe”.
@@ -76,18 +84,18 @@ if __name__ == '__main__':
 				'consectetur adipiscing elit. ' + \
 				'Verba tu fingas et ea dicas, quae non sentias?')
 		fe.podcast.itunes_author('Lars Kiesow')
-		print fg.rss_str(pretty=True)
+		print_enc (fg.rss_str(pretty=True))
 
 	elif arg == 'dc.atom':
 		fg.load_extension('dc')
 		fg.dc.dc_contributor('Lars Kiesow')
 		fe.dc.dc_contributor('Lars Kiesow')
-		print fg.atom_str(pretty=True)
+		print_enc (fg.atom_str(pretty=True))
 
 	elif arg == 'dc.rss':
 		fg.load_extension('dc')
 		fg.dc.dc_contributor('Lars Kiesow')
-		print fg.rss_str(pretty=True)
+		print_enc (fg.rss_str(pretty=True))
 
 	elif arg.endswith('atom'):
 		fg.atom_file(arg)
