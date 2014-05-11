@@ -11,13 +11,11 @@
 from feedgen.feed import FeedGenerator
 import sys
 
-def print_enc(string):
-	version = sys.version_info[0]
-
-	if version == 2:
-		print(string)
-	elif version == 3:
-		sys.stdout.buffer.write(string)
+def print_enc(s):
+	'''Print function compatible with both python2 and python3 accepting strings
+	and byte arrays.
+	'''
+	print(s.decode('utf-8') if type(s) == type(b'') else s)
 
 
 
