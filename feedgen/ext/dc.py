@@ -45,57 +45,50 @@ class DcBaseExtension(BaseExtension):
 	def extend_ns(self):
 		return {'dc' : 'http://purl.org/dc/elements/1.1/'}
 
-	def extend_atom(self, atom_feed):
-		'''Create an Atom feed xml structure containing all previously set fields.
+	def _extend_xml(self, xml_elem):
+		'''Extend xml_elem with set DC fields.
 
-		:returns: The feed root element
+		:param xml_elem: etree element
 		'''
 		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
 
-		feed = atom_feed
-
 		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
-				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
-				'title', 'type']:
+		             'language', 'publisher', 'relation', 'rights', 'source', 'subject',
+		             'title', 'type']:
 			if hasattr(self, '_dcelem_%s' % elem):
 				for val in getattr(self, '_dcelem_%s' % elem) or []:
-					node = etree.SubElement(feed, '{%s}%s' % (DCELEMENTS_NS,elem))
+					node = etree.SubElement(xml_elem, '{%s}%s' % (DCELEMENTS_NS, elem))
 					node.text = val
 
 		if self._dcelem_format:
-			node = etree.SubElement(feed, '{%s}format' % DCELEMENTS_NS)
+			node = etree.SubElement(xml_elem, '{%s}format' % DCELEMENTS_NS)
 			node.text = format
 
 		if self._dcelem_identifier:
-			node = etree.SubElement(feed, '{%s}identifier' % DCELEMENTS_NS)
+			node = etree.SubElement(xml_elem, '{%s}identifier' % DCELEMENTS_NS)
 			node.text = identifier
 
-		return feed
+	def extend_atom(self, atom_feed):
+		'''Extend an Atom feed with the set DC fields.
+
+		:param atom_feed: The feed root element
+		:returns: The feed root element
+		'''
+
+		self._extend_xml(atom_feed)
+
+		return atom_feed
+
 
 
 	def extend_rss(self, rss_feed):
-		'''Create an RSS feed xml structure containing all previously set fields.
+		'''Extend a RSS feed with the set DC fields.
 
-		:returns: Tuple containing the feed root element and the element tree.
+		:param rss_feed: The feed root element
+		:returns: The feed root element.
 		'''
-		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
 		channel = rss_feed[0]
-
-		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
-				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
-				'title', 'type']:
-			if hasattr(self, '_dcelem_%s' % elem):
-				for val in getattr(self, '_dcelem_%s' % elem) or []:
-					node = etree.SubElement(channel, '{%s}%s' % (DCELEMENTS_NS,elem))
-					node.text = val
-
-		if self._dcelem_format:
-			node = etree.SubElement(channel, '{%s}format' % DCELEMENTS_NS)
-			node.text = format
-
-		if self._dcelem_identifier:
-			node = etree.SubElement(channel, '{%s}identifier' % DCELEMENTS_NS)
-			node.text = identifier
+		self._extend_xml(channel)
 
 		return rss_feed
 
@@ -418,32 +411,19 @@ class DcEntryExtension(DcBaseExtension):
 	'''Dublin Core Elements extension for podcasts.
 	'''
 	def extend_atom(self, entry):
-		'''NYI. Differs from RSS Implementation?
+		'''Add dc elements to an atom item. Alters the item itself.
 
+		:param entry: An atom entry element.
+		:returns: The entry element.
 		'''
+		self._extend_xml(entry)
 		return entry
 
 	def extend_rss(self, item):
 		'''Add dc elements to a RSS item. Alters the item itself.
 
+		:param item: A RSS item element.
 		:returns: The item element.
 		'''
-		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
-
-		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
-				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
-				'title', 'type']:
-			if hasattr(self, '_dcelem_%s' % elem):
-				for val in getattr(self, '_dcelem_%s' % elem) or []:
-					node = etree.SubElement(item, '{%s}%s' % (DCELEMENTS_NS,elem))
-					node.text = val
-
-		if self._dcelem_format:
-			node = etree.SubElement(item, '{%s}format' % DCELEMENTS_NS)
-			node.text = format
-
-		if self._dcelem_identifier:
-			node = etree.SubElement(item, '{%s}identifier' % DCELEMENTS_NS)
-			node.text = identifier
-
+		self._extend_xml(item)
 		return item
