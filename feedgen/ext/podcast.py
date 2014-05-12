@@ -39,13 +39,12 @@ class PodcastExtension(BaseExtension):
 
 
 	def extend_rss(self, rss_feed):
-		'''Create an RSS feed xml structure containing all previously set fields.
+		'''Extend an RSS feed root with set itunes fields.
 
-		:returns: Tuple containing the feed root element and the element tree.
+		:returns: The feed root element.
 		'''
 		ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
-		feed = rss_feed
-		channel = feed[0]
+		channel = rss_feed[0]
 
 		if self.__itunes_author:
 			author = etree.SubElement(channel, '{%s}author' % ITUNES_NS)
@@ -93,7 +92,7 @@ class PodcastExtension(BaseExtension):
 			summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
 			summary.text = self.__itunes_summary
 
-		return feed
+		return rss_feed
 
 
 	def itunes_author(self, itunes_author=None):
