@@ -15,6 +15,9 @@ class TestSequenceFunctions(unittest.TestCase):
 		from feedgen.feed import FeedGenerator
 		fg = FeedGenerator()
 
+		self.nsAtom = "http://www.w3.org/2005/Atom"
+		self.nsRss = "http://purl.org/rss/1.0/modules/content/"
+
 		self.feedId = 'http://lernfunk.de/media/654321'
 		self.title = 'Some Testfeed'
 		
@@ -32,6 +35,34 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.link2Rel = 'self'
 
 		self.language = 'en'
+		
+		self.categoryTerm = 'This category term'
+		self.categoryScheme = 'This category scheme'
+		self.categoryLabel = 'This category label'
+
+		self.cloudDomain = 'example.com'
+		self.cloudPort = '4711'
+		self.cloudPath = '/ws/example'
+		self.cloudRegisterProcedure = 'registerProcedure'
+		self.cloudProtocol = 'SOAP 1.1'
+
+		self.icon = "http://example.com/icon.png"
+		self.contributor = {'name':"Contributor Name", 'uri':"Contributor Uri", 'email': 'Contributor email'}
+		self.copyright = "The copyright notice"
+		self.docs = 'http://www.rssboard.org/rss-specification'
+		self.managingEditor = 'mail@example.com'
+		self.rating = '(PICS-1.1 "http://www.classify.org/safesurf/" 1 r (SS~~000 1))'
+		self.skipDays = 'Tuesday'
+		self.skipHours = 23
+
+		self.textInputTitle = "Text input title"
+		self.textInputDescription = "Text input description"
+		self.textInputName = "Text input name"
+		self.textInputLink = "Text input link"
+
+		self.ttl = 900
+
+		self.webMaster = 'webmaster@example.com'
 
 		fg.id(self.feedId)
 		fg.title(self.title)
@@ -41,8 +72,22 @@ class TestSequenceFunctions(unittest.TestCase):
 		fg.subtitle(self.subtitle)
 		fg.link( href=self.link2Href, rel=self.link2Rel )
 		fg.language(self.language)
+		fg.cloud(domain=self.cloudDomain, port=self.cloudPort, path=self.cloudPath, registerProcedure=self.cloudRegisterProcedure, protocol=self.cloudProtocol)
+		fg.icon(self.icon)
+		fg.category(term=self.categoryTerm, scheme=self.categoryScheme, label=self.categoryLabel)
+		fg.contributor(self.contributor)
+		fg.copyright(self.copyright)
+		fg.docs(docs=self.docs)
+		fg.managingEditor(self.managingEditor)
+		fg.rating(self.rating)
+		fg.skipDays(self.skipDays)
+		fg.skipHours(self.skipHours)
+		fg.textInput(title=self.textInputTitle, description=self.textInputDescription, name=self.textInputName, link=self.textInputLink)
+		fg.ttl(self.ttl)
+		fg.webMaster(self.webMaster)
 
 		self.fg = fg
+
 
 	def test_baseFeed(self):
 		fg = self.fg
@@ -64,37 +109,73 @@ class TestSequenceFunctions(unittest.TestCase):
 
 		assert fg.language() == self.language
 
-	def test_atomFeed(self):
+	def test_atomFeedFile(self):
 		fg = self.fg
+		filename = 'tmp_Atomfeed.xml'
+		fg.atom_file(filename=filename, pretty=True)
+		
+		with open (filename, "r") as myfile:
+    			atomString=myfile.read().replace('\n', '')
+		
+		self.checkAtomString(atomString)
 
+	def test_atomFeedString(self):
+		fg = self.fg
+		
 		atomString = fg.atom_str(pretty=True)
+		self.checkAtomString(atomString)
+
+
+	def checkAtomString(self, atomString):
+
 		feed = etree.fromstring(atomString)
 
-		nsAtom = "http://www.w3.org/2005/Atom"
+		print (atomString)
+		nsAtom = self.nsAtom
 
 		assert feed.find("{%s}title" % nsAtom).text == self.title
 		assert feed.find("{%s}updated" % nsAtom).text != None
 		assert feed.find("{%s}id" % nsAtom).text == self.feedId
-		
+		assert feed.find("{%s}category" % nsAtom).get('term') == self.categoryTerm
+		assert feed.find("{%s}category" % nsAtom).get('label') == self.categoryLabel
 		assert feed.find("{%s}author" % nsAtom).find("{%s}name" % nsAtom).text == self.authorName
 		assert feed.find("{%s}author" % nsAtom).find("{%s}email" % nsAtom).text == self.authorMail
-
 		assert feed.findall("{%s}link" % nsAtom)[0].get('href') == self.linkHref
 		assert feed.findall("{%s}link" % nsAtom)[0].get('rel') == self.linkRel
 		assert feed.findall("{%s}link" % nsAtom)[1].get('href') == self.link2Href
 		assert feed.findall("{%s}link" % nsAtom)[1].get('rel') == self.link2Rel
-		
 		assert feed.find("{%s}logo" % nsAtom).text == self.logo
+		assert feed.find("{%s}icon" % nsAtom).text == self.icon
 		assert feed.find("{%s}subtitle" % nsAtom).text == self.subtitle
+		assert feed.find("{%s}contributor" % nsAtom).find("{%s}name" % nsAtom).text == self.contributor['name']
+		assert feed.find("{%s}contributor" % nsAtom).find("{%s}email" % nsAtom).text == self.contributor['email']
+		assert feed.find("{%s}contributor" % nsAtom).find("{%s}url" % nsAtom).text == self.contributor['uri']
+		assert feed.find("{%s}rights" % nsAtom).text == self.copyright
 
-	def test_rssFeed(self):
+	def test_rssFeedFile(self):
+		fg = self.fg
+		filename = 'tmp_Rssfeed.xml'
+		fg.rss_file(filename=filename, pretty=True)
+		
+		with open (filename, "r") as myfile:
+    			rssString=myfile.read().replace('\n', '')
+		
+		self.checkRssString(rssString)
+
+	def test_rssFeedString(self):
 		fg = self.fg
 		
 		rssString = fg.rss_str(pretty=True)
-		feed = etree.fromstring(rssString)
+		self.checkRssString(rssString)
 
-		nsAtom = "http://www.w3.org/2005/Atom"
-		nsRss = "http://purl.org/rss/1.0/modules/content/"
+	def test_loadExtension(self):
+		raise Exception('Not yet implemented')
+		
+	def checkRssString(self, rssString):
+
+		feed = etree.fromstring(rssString)
+		nsAtom = self.nsAtom
+		nsRss = self.nsRss
 
 		channel = feed.find("channel")
 		assert channel != None
@@ -104,13 +185,25 @@ class TestSequenceFunctions(unittest.TestCase):
 		assert channel.find("lastBuildDate").text != None
 		assert channel.find("docs").text == "http://www.rssboard.org/rss-specification"
 		assert channel.find("generator").text == "python-feedgen"
-
 		assert channel.findall("{%s}link" % nsAtom)[0].get('href') == self.link2Href
 		assert channel.findall("{%s}link" % nsAtom)[0].get('rel') == self.link2Rel
-		
 		assert channel.find("image").find("url").text == self.logo
 		assert channel.find("image").find("title").text == self.title
 		assert channel.find("image").find("link").text == self.link2Href
+		assert channel.find("category").text == self.categoryLabel
+		assert channel.find("cloud").text == self.cloud
+		assert channel.find("copyright").text == self.copyright
+		assert channel.find("docs").text == self.docs
+		assert channel.find("managingEditor").text == self.managingEditor
+		assert channel.find("rating").text == self.rating
+		assert channel.find("skipDays").find("day").text == self.skipDays
+		assert int(channel.find("skipHours").find("hour").text) == self.skipHours
+		assert channel.find("textInput").get('title') == self.textInputTitle
+		assert channel.find("textInput").get('description') == self.textInputDescription
+		assert channel.find("textInput").get('name') == self.textInputName
+		assert channel.find("textInput").get('link') == self.textInputLink
+		assert channel.find("ttl").text == self.ttl
+		assert channel.find("webMaster").text == self.webMaster
 
 if __name__ == '__main__':
     unittest.main()
