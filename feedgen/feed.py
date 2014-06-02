@@ -342,7 +342,7 @@ class FeedGenerator(object):
 			textInput.attrib['link'] = self.__rss_textInput.get('link')
 		if self.__rss_ttl:
 			ttl = etree.SubElement(channel, 'ttl')
-			ttl.text = self.__rss_ttl
+			ttl.text = str(self.__rss_ttl)
 		if self.__rss_webMaster:
 			webMaster = etree.SubElement(channel, 'webMaster')
 			webMaster.text = self.__rss_webMaster
@@ -626,7 +626,7 @@ class FeedGenerator(object):
 		:returns: Dictionary containing the cloud data.
 		'''
 		if not domain is None:
-			self.__rss_cloud = {'donain':domain, 'port':port, 'path':path,
+			self.__rss_cloud = {'domain':domain, 'port':port, 'path':path,
 					'registerProcedure':registerProcedure, 'protocol':protocol}
 		return self.__rss_cloud
 
