@@ -881,7 +881,7 @@ class FeedGenerator(object):
 			if not (isinstance(hours, list) or isinstance(hours, set)):
 				hours = [hours]
 			for h in hours:
-				if not h in xrange(24):
+				if not h in range(24):
 					raise ValueError('Invalid hour %s' % h)
 			if replace or not self.__rss_skipHours:
 				self.__rss_skipHours = set()
