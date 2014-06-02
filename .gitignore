@@ -6,3 +6,7 @@ venv
 feedgen/tests/tmp_Atomfeed.xml
 
 feedgen/tests/tmp_Rssfeed.xml
+
+tmp_Atomfeed.xml
+
+tmp_Rssfeed.xml

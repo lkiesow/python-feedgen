@@ -8,11 +8,12 @@ These test cases contain test cases for a basic feed. A basic feed does not cont
 
 import unittest
 from lxml import etree
+from ..feed import FeedGenerator
 
 class TestSequenceFunctions(unittest.TestCase):
 
 	def setUp(self):
-		from feedgen.feed import FeedGenerator
+
 		fg = FeedGenerator()
 
 		self.nsAtom = "http://www.w3.org/2005/Atom"
@@ -164,18 +165,24 @@ class TestSequenceFunctions(unittest.TestCase):
 
 	def test_rssFeedString(self):
 		fg = self.fg
-		
 		rssString = fg.rss_str(pretty=True)
 		self.checkRssString(rssString)
 
-	def test_loadExtension(self):
-		raise Exception('Not yet implemented')
+	def test_loadPodcastExtension(self):
+		fg = self.fg
+		fg.load_extension('podcast', atom=True, rss=True)
+
+	def test_loadDcExtension(self):
+		fg = self.fg
+		fg.load_extension('dc', atom=True, rss=True)
 		
 	def checkRssString(self, rssString):
 
 		feed = etree.fromstring(rssString)
 		nsAtom = self.nsAtom
 		nsRss = self.nsRss
+
+		print (rssString)
 
 		channel = feed.find("channel")
 		assert channel != None
@@ -191,7 +198,11 @@ class TestSequenceFunctions(unittest.TestCase):
 		assert channel.find("image").find("title").text == self.title
 		assert channel.find("image").find("link").text == self.link2Href
 		assert channel.find("category").text == self.categoryLabel
-		assert channel.find("cloud").text == self.cloud
+		assert channel.find("cloud").get('domain') == self.cloudDomain
+		assert channel.find("cloud").get('port') == self.cloudPort
+		assert channel.find("cloud").get('path') == self.cloudPath
+		assert channel.find("cloud").get('registerProcedure') == self.cloudRegisterProcedure
+		assert channel.find("cloud").get('protocol') == self.cloudProtocol
 		assert channel.find("copyright").text == self.copyright
 		assert channel.find("docs").text == self.docs
 		assert channel.find("managingEditor").text == self.managingEditor
@@ -202,7 +213,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		assert channel.find("textInput").get('description') == self.textInputDescription
 		assert channel.find("textInput").get('name') == self.textInputName
 		assert channel.find("textInput").get('link') == self.textInputLink
-		assert channel.find("ttl").text == self.ttl
+		assert int(channel.find("ttl").text) == self.ttl
 		assert channel.find("webMaster").text == self.webMaster
 
 if __name__ == '__main__':

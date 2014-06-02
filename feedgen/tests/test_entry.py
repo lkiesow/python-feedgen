@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Tests for a basic feed
+Tests for a basic entry
 
-These test cases contain test cases for a basic feed. A basic feed does not contain entries so far.
+These test cases contain test cases for a basic entry.
 """
 
 import unittest
 from lxml import etree
-from feedgen.feed import FeedGenerator
-
+from ..feed import FeedGenerator
 
 class TestSequenceFunctions(unittest.TestCase):
 
