@@ -199,7 +199,7 @@ class FeedGenerator(object):
 		return feed, doc
 
 
-	def atom_str(self, pretty=False, extensions=True):
+	def atom_str(self, pretty=False, extensions=True, encoding="unicode"):
 		'''Generates an ATOM feed and returns the feed XML as string.
 
 		:param pretty: If the feed should be split into multiple lines and
@@ -209,10 +209,10 @@ class FeedGenerator(object):
 		:returns: String representation of the ATOM feed.
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
-		return etree.tostring(feed, pretty_print=pretty)
+		return etree.tostring(feed, pretty_print=pretty, encoding=encoding)
 
 
-	def atom_file(self, filename, extensions=True, pretty=False):
+	def atom_file(self, filename, extensions=True, pretty=False, encoding="UTF-8"):
 		'''Generates an ATOM feed and write the resulting XML to a file.
 
 		:param filename: Name of file to write, or a file-like object, or a URL.
@@ -220,7 +220,7 @@ class FeedGenerator(object):
 			generation (default: enabled).
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
-		doc.write(filename, pretty_print=pretty)
+		doc.write(filename, pretty_print=pretty, encoding=encoding)
 
 
 	def _create_rss(self, extensions=True):
@@ -360,7 +360,7 @@ class FeedGenerator(object):
 		return feed, doc
 
 
-	def rss_str(self, pretty=False, extensions=True):
+	def rss_str(self, pretty=False, extensions=True, encoding="unicode"):
 		'''Generates an RSS feed and returns the feed XML as string.
 
 		:param pretty: If the feed should be split into multiple lines and
@@ -370,10 +370,10 @@ class FeedGenerator(object):
 		:returns: String representation of the RSS feed.
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
-		return etree.tostring(feed, pretty_print=pretty)
+		return etree.tostring(feed, pretty_print=pretty, encoding=encoding)
 
 
-	def rss_file(self, filename, extensions=True, pretty=False):
+	def rss_file(self, filename, extensions=True, pretty=False, encoding="UTF-8"):
 		'''Generates an RSS feed and write the resulting XML to a file.
 
 		:param filename: Name of file to write, or a file-like object, or a URL.
@@ -381,7 +381,7 @@ class FeedGenerator(object):
 			generation (default: enabled).
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
-		doc.write(filename, pretty_print=pretty)
+		doc.write(filename, pretty_print=pretty, encoding=encoding)
 
 
 	def title(self, title=None):

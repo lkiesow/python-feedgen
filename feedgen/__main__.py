@@ -62,7 +62,7 @@ if __name__ == '__main__':
 			domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
 			occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
 			verba.''')
-	fe.summary('Lorem ipsum dolor sit amet, consectetur adipiscing elit...')
+	fe.summary(u'Lorem ipsum dolor sit amet, consectetur adipiscing elit…')
 	fe.link( href='http://example.com', rel='alternate' )
 	fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
 
