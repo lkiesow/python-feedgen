@@ -3,14 +3,14 @@
 	feedgen.version
 	~~~~~~~~~~~~~~~
 
-	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
+	:copyright: 2013-2014, Lars Kiesow <lkiesow@uos.de>
 
 	:license: FreeBSD and LGPL, see license.* for more details.
 
 '''
 
 'Version of python-feedgen represented as tuple'
-version = (0, 2, 8)
+version = (0, 3, 0)
 
 
 'Version of python-feedgen represented as string'
