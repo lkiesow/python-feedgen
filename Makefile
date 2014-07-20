@@ -42,3 +42,8 @@ doc-latexpdf:
 
 publish: sdist
 	python setup.py register sdist upload
+
+test:
+	python -m unittest feedgen.tests.test_feed
+	python -m unittest feedgen.tests.test_entry
+	python -m unittest feedgen.tests.test_extension

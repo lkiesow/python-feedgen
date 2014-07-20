@@ -3,7 +3,8 @@
 """
 Tests for a basic feed
 
-These test cases contain test cases for a basic feed. A basic feed does not contain entries so far.
+These are test cases for a basic feed.
+A basic feed does not contain entries so far.
 """
 
 import unittest
@@ -21,7 +22,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
 		self.feedId = 'http://lernfunk.de/media/654321'
 		self.title = 'Some Testfeed'
-		
+
 		self.authorName = 'John Doe'
 		self.authorMail = 'john@example.de'
 		self.author = {'name': self.authorName,'email': self.authorMail}
@@ -36,7 +37,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.link2Rel = 'self'
 
 		self.language = 'en'
-		
+
 		self.categoryTerm = 'This category term'
 		self.categoryScheme = 'This category scheme'
 		self.categoryLabel = 'This category label'
@@ -48,7 +49,8 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.cloudProtocol = 'SOAP 1.1'
 
 		self.icon = "http://example.com/icon.png"
-		self.contributor = {'name':"Contributor Name", 'uri':"Contributor Uri", 'email': 'Contributor email'}
+		self.contributor = {'name':"Contributor Name", 'uri':"Contributor Uri",
+				'email': 'Contributor email'}
 		self.copyright = "The copyright notice"
 		self.docs = 'http://www.rssboard.org/rss-specification'
 		self.managingEditor = 'mail@example.com'
@@ -73,9 +75,12 @@ class TestSequenceFunctions(unittest.TestCase):
 		fg.subtitle(self.subtitle)
 		fg.link( href=self.link2Href, rel=self.link2Rel )
 		fg.language(self.language)
-		fg.cloud(domain=self.cloudDomain, port=self.cloudPort, path=self.cloudPath, registerProcedure=self.cloudRegisterProcedure, protocol=self.cloudProtocol)
+		fg.cloud(domain=self.cloudDomain, port=self.cloudPort,
+				path=self.cloudPath, registerProcedure=self.cloudRegisterProcedure,
+				protocol=self.cloudProtocol)
 		fg.icon(self.icon)
-		fg.category(term=self.categoryTerm, scheme=self.categoryScheme, label=self.categoryLabel)
+		fg.category(term=self.categoryTerm, scheme=self.categoryScheme,
+				label=self.categoryLabel)
 		fg.contributor(self.contributor)
 		fg.copyright(self.copyright)
 		fg.docs(docs=self.docs)
@@ -83,7 +88,9 @@ class TestSequenceFunctions(unittest.TestCase):
 		fg.rating(self.rating)
 		fg.skipDays(self.skipDays)
 		fg.skipHours(self.skipHours)
-		fg.textInput(title=self.textInputTitle, description=self.textInputDescription, name=self.textInputName, link=self.textInputLink)
+		fg.textInput(title=self.textInputTitle,
+				description=self.textInputDescription, name=self.textInputName,
+				link=self.textInputLink)
 		fg.ttl(self.ttl)
 		fg.webMaster(self.webMaster)
 
@@ -114,15 +121,15 @@ class TestSequenceFunctions(unittest.TestCase):
 		fg = self.fg
 		filename = 'tmp_Atomfeed.xml'
 		fg.atom_file(filename=filename, pretty=True)
-		
+
 		with open (filename, "r") as myfile:
-    			atomString=myfile.read().replace('\n', '')
-		
+			atomString=myfile.read().replace('\n', '')
+
 		self.checkAtomString(atomString)
 
 	def test_atomFeedString(self):
 		fg = self.fg
-		
+
 		atomString = fg.atom_str(pretty=True)
 		self.checkAtomString(atomString)
 
@@ -131,7 +138,6 @@ class TestSequenceFunctions(unittest.TestCase):
 
 		feed = etree.fromstring(atomString)
 
-		print (atomString)
 		nsAtom = self.nsAtom
 
 		assert feed.find("{%s}title" % nsAtom).text == self.title
@@ -157,10 +163,10 @@ class TestSequenceFunctions(unittest.TestCase):
 		fg = self.fg
 		filename = 'tmp_Rssfeed.xml'
 		fg.rss_file(filename=filename, pretty=True)
-		
+
 		with open (filename, "r") as myfile:
-    			rssString=myfile.read().replace('\n', '')
-		
+			rssString=myfile.read().replace('\n', '')
+
 		self.checkRssString(rssString)
 
 	def test_rssFeedString(self):
@@ -175,14 +181,12 @@ class TestSequenceFunctions(unittest.TestCase):
 	def test_loadDcExtension(self):
 		fg = self.fg
 		fg.load_extension('dc', atom=True, rss=True)
-		
+
 	def checkRssString(self, rssString):
 
 		feed = etree.fromstring(rssString)
 		nsAtom = self.nsAtom
 		nsRss = self.nsRss
-
-		print (rssString)
 
 		channel = feed.find("channel")
 		assert channel != None
@@ -217,4 +221,4 @@ class TestSequenceFunctions(unittest.TestCase):
 		assert channel.find("webMaster").text == self.webMaster
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()

@@ -3,7 +3,7 @@
 """
 Tests for a basic entry
 
-These test cases contain test cases for a basic entry.
+These are test cases for a basic entry.
 """
 
 import unittest
@@ -13,7 +13,7 @@ from ..feed import FeedGenerator
 class TestSequenceFunctions(unittest.TestCase):
 
 	def setUp(self):
-		
+
 		fg = FeedGenerator()
 		self.feedId = 'http://example.com'
 		self.title = 'Some Testfeed'
@@ -71,12 +71,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		fe = fg.add_entry()
 		fe.id('http://lernfunk.de/media/654321/1')
 		fe.title('The Third Episode')
-		
+
 		assert len(fg.entry()) == 1
 		fg.remove_entry(fe)
 		assert len(fg.entry()) == 0
-		
-
-
-
-
