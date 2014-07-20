@@ -14,5 +14,6 @@ Contents:
    api.entry
    api.util
    ext/api.ext.base
+   ext/api.ext.dc
    ext/api.ext.podcast
    ext/api.ext.podcast_entry
