@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.feed &mdash; python-feedgen 0.2.8 documentation</title>
+    <title>feedgen.feed &mdash; python-feedgen 0.3.0 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.8',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,14 +27,14 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/theme_extras.js"></script>
-    <link rel="top" title="python-feedgen 0.2.8 documentation" href="index.html" />
+    <link rel="top" title="python-feedgen 0.3.0 documentation" href="index.html" />
     <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.entry" href="api.entry.html" />
     <link rel="prev" title="API Documentation" href="api.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.2.8 documentation</span></a></h1>
+          <span>python-feedgen 0.3.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.feed</span></h2>
       </div>
       <div class="topnav">
@@ -101,14 +101,14 @@ another name for add_entry(...)</p>
 
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.atom_file">
-<tt class="descname">atom_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.atom_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">atom_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em>, <em>pretty=False</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.atom_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates an ATOM feed and write the resulting XML to a file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> &#8211; Name of file to write.</li>
+<li><strong>filename</strong> &#8211; Name of file to write, or a file-like object, or a URL.</li>
 <li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
 </ul>
@@ -675,14 +675,14 @@ will also set rss:copyright.</p>
 
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.rss_file">
-<tt class="descname">rss_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.rss_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">rss_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em>, <em>pretty=False</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.rss_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates an RSS feed and write the resulting XML to a file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> &#8211; Name of file to write.</li>
+<li><strong>filename</strong> &#8211; Name of file to write, or a file-like object, or a URL.</li>
 <li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
 </ul>

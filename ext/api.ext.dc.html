@@ -1,0 +1,539 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>feedgen.ext.dc &mdash; python-feedgen 0.3.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/theme_extras.js"></script>
+    <link rel="top" title="python-feedgen 0.3.0 documentation" href="../index.html" />
+    <link rel="up" title="API Documentation" href="../api.html" />
+    <link rel="next" title="feedgen.ext.podcast" href="api.ext.podcast.html" />
+    <link rel="prev" title="feedgen.ext.base" href="api.ext.base.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="../index.html">
+          <span>python-feedgen 0.3.0 documentation</span></a></h1>
+        <h2 class="heading"><span>feedgen.ext.dc</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="api.ext.base.html">feedgen.ext.base</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api.ext.podcast.html">feedgen.ext.podcast</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="apititle"><b>Contents</b></div>
+<div class="apitoc"></div><span class="target" id="module-feedgen.ext.dc"></span><div class="section" id="feedgen-ext-dc">
+<h1>feedgen.ext.dc<a class="headerlink" href="#feedgen-ext-dc" title="Permalink to this headline">¶</a></h1>
+<p>Extends the FeedGenerator to add Dubline Core Elements to the feeds.</p>
+<p>Descriptions partly taken from
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-coverage">http://dublincore.org/documents/dcmi-terms/#elements-coverage</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="feedgen.ext.dc.DcBaseExtension">
+<em class="property">class </em><tt class="descclassname">feedgen.ext.dc.</tt><tt class="descname">DcBaseExtension</tt><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dublin Core Elements extension for podcasts.</p>
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_contributor">
+<tt class="descname">dc_contributor</tt><big>(</big><em>contributor=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_contributor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:contributor which is an entity responsible for
+making contributions to the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-contributor">http://dublincore.org/documents/dcmi-terms/#elements-contributor</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>contributor</strong> &#8211; Contributor or list of contributors.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set contributors (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of contributors.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_coverage">
+<tt class="descname">dc_coverage</tt><big>(</big><em>coverage=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_coverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:coverage which indicated the spatial or temporal
+topic of the resource, the spatial applicability of the resource, or the
+jurisdiction under which the resource is relevant.</p>
+<p>Spatial topic and spatial applicability may be a named place or a
+location specified by its geographic coordinates. Temporal topic may be a
+named period, date, or date range. A jurisdiction may be a named
+administrative entity or a geographic place to which the resource
+applies. Recommended best practice is to use a controlled vocabulary such
+as the Thesaurus of Geographic Names [TGN]. Where appropriate, named
+places or time periods can be used in preference to numeric identifiers
+such as sets of coordinates or date ranges.</p>
+<p>References: [TGN] <a class="reference external" href="http://www.getty.edu/research/tools/vocabulary/tgn/index.html">http://www.getty.edu/research/tools/vocabulary/tgn/index.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coverage</strong> &#8211; Coverage of the feed.</li>
+<li><strong>replace</strong> &#8211; Replace already set coverage (default: True).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Coverage of the feed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_creator">
+<tt class="descname">dc_creator</tt><big>(</big><em>creator=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_creator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:creator which is an entity primarily responsible for
+making the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-creator">http://dublincore.org/documents/dcmi-terms/#elements-creator</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>creator</strong> &#8211; Creator or list of creators.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set creators (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of creators.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_date">
+<tt class="descname">dc_date</tt><big>(</big><em>date=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:date which describes a point or period of time
+associated with an event in the lifecycle of the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-date">http://dublincore.org/documents/dcmi-terms/#elements-date</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>date</strong> &#8211; Date or list of dates.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set dates (deault: True).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of dates.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_description">
+<tt class="descname">dc_description</tt><big>(</big><em>description=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:description which is an account of the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-description">http://dublincore.org/documents/dcmi-terms/#elements-description</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>description</strong> &#8211; Description or list of descriptions.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set descriptions (deault: True).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of descriptions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_format">
+<tt class="descname">dc_format</tt><big>(</big><em>format=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:format which describes the file format, physical
+medium, or dimensions of the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-format">http://dublincore.org/documents/dcmi-terms/#elements-format</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>format</strong> &#8211; Format of the resource or list of formats.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set format (deault: True).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Format of the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_identifier">
+<tt class="descname">dc_identifier</tt><big>(</big><em>identifier=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:identifier which should be an unambiguous reference
+to the resource within a given context.</p>
+<p>For more inidentifierion see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-identifier">http://dublincore.org/documents/dcmi-terms/#elements-identifier</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>identifier</strong> &#8211; Identifier of the resource or list of identifiers.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set identifier (deault: True).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Identifiers of the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_language">
+<tt class="descname">dc_language</tt><big>(</big><em>language=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_language" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:language which describes a language of the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-language">http://dublincore.org/documents/dcmi-terms/#elements-language</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>language</strong> &#8211; Language or list of languages.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set languages (deault: True).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of languages.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_publisher">
+<tt class="descname">dc_publisher</tt><big>(</big><em>publisher=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_publisher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:publisher which is an entity responsible for making
+the resource available.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-publisher">http://dublincore.org/documents/dcmi-terms/#elements-publisher</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>publisher</strong> &#8211; Publisher or list of publishers.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set publishers (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of publishers.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_relation">
+<tt class="descname">dc_relation</tt><big>(</big><em>relation=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_relation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:relation which describes a related ressource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-relation">http://dublincore.org/documents/dcmi-terms/#elements-relation</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>relation</strong> &#8211; Relation or list of relations.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set relations (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of relations.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_rights">
+<tt class="descname">dc_rights</tt><big>(</big><em>rights=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_rights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:rights which may contain information about rights
+held in and over the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-rights">http://dublincore.org/documents/dcmi-terms/#elements-rights</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rights</strong> &#8211; Rights information or list of rights information.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set rightss (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of rights information.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_source">
+<tt class="descname">dc_source</tt><big>(</big><em>source=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:source which is a related resource from which the
+described resource is derived.</p>
+<p>The described resource may be derived from the related resource in whole
+or in part. Recommended best practice is to identify the related resource
+by means of a string conforming to a formal identification system.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-source">http://dublincore.org/documents/dcmi-terms/#elements-source</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> &#8211; Source or list of sources.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set sources (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of sources.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_subject">
+<tt class="descname">dc_subject</tt><big>(</big><em>subject=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_subject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:subject which describes the topic of the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-subject">http://dublincore.org/documents/dcmi-terms/#elements-subject</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>subject</strong> &#8211; Subject or list of subjects.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set subjects (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of subjects.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_title">
+<tt class="descname">dc_title</tt><big>(</big><em>title=None</em>, <em>replace=True</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:title which is a name given to the resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-title">http://dublincore.org/documents/dcmi-terms/#elements-title</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>title</strong> &#8211; Title or list of titles.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set titles (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of titles.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.dc_type">
+<tt class="descname">dc_type</tt><big>(</big><em>type=None</em>, <em>replace=False</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the dc:type which describes the nature or genre of the
+resource.</p>
+<p>For more information see:
+<a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-type">http://dublincore.org/documents/dcmi-terms/#elements-type</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>type</strong> &#8211; Type or list of types.</li>
+<li><strong>replace</strong> &#8211; Replace alredy set types (deault: False).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of types.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.extend_atom">
+<tt class="descname">extend_atom</tt><big>(</big><em>atom_feed</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_atom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend an Atom feed with the set DC fields.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>atom_feed</strong> &#8211; The feed root element</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The feed root element</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcBaseExtension.extend_rss">
+<tt class="descname">extend_rss</tt><big>(</big><em>rss_feed</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend a RSS feed with the set DC fields.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rss_feed</strong> &#8211; The feed root element</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The feed root element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="feedgen.ext.dc.DcEntryExtension">
+<em class="property">class </em><tt class="descclassname">feedgen.ext.dc.</tt><tt class="descname">DcEntryExtension</tt><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dublin Core Elements extension for podcasts.</p>
+<dl class="method">
+<dt id="feedgen.ext.dc.DcEntryExtension.extend_atom">
+<tt class="descname">extend_atom</tt><big>(</big><em>entry</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension.extend_atom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add dc elements to an atom item. Alters the item itself.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry</strong> &#8211; An atom entry element.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The entry element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.dc.DcEntryExtension.extend_rss">
+<tt class="descname">extend_rss</tt><big>(</big><em>item</em><big>)</big><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add dc elements to a RSS item. Alters the item itself.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> &#8211; A RSS item element.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The item element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="feedgen.ext.dc.DcExtension">
+<em class="property">class </em><tt class="descclassname">feedgen.ext.dc.</tt><tt class="descname">DcExtension</tt><a class="headerlink" href="#feedgen.ext.dc.DcExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dublin Core Elements extension for podcasts.</p>
+</dd></dl>
+
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="api.ext.base.html">feedgen.ext.base</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api.ext.podcast.html">feedgen.ext.podcast</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Lars Kiesow.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
