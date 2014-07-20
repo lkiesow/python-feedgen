@@ -31,7 +31,9 @@ if __name__ == '__main__':
 		print_enc ('  rss         -- Generate RSS test output and print it to stdout.')
 		print_enc ('  <file>.atom -- Generate ATOM test feed and write it to file.atom.')
 		print_enc ('  <file>.rss  -- Generate RSS test teed and write it to file.rss.')
-		print_enc ('  podcast     -- Generator Podcast test output and print it to stdout.')
+		print_enc ('  podcast     -- Generate Podcast test output and print it to stdout.')
+		print_enc ('  dc.atom     -- Generate DC extension test output (atom format) and print it to stdout.')
+		print_enc ('  dc.rss      -- Generate DC extension test output (rss format) and print it to stdout.')
 		print_enc ('')
 		exit()
 

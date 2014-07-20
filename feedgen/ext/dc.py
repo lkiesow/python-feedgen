@@ -53,20 +53,13 @@ class DcBaseExtension(BaseExtension):
 		DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
 
 		for elem in ['contributor', 'coverage', 'creator', 'date', 'description',
-		             'language', 'publisher', 'relation', 'rights', 'source', 'subject',
-		             'title', 'type']:
+				'language', 'publisher', 'relation', 'rights', 'source', 'subject',
+				'title', 'type', 'format', 'identifier']:
 			if hasattr(self, '_dcelem_%s' % elem):
 				for val in getattr(self, '_dcelem_%s' % elem) or []:
 					node = etree.SubElement(xml_elem, '{%s}%s' % (DCELEMENTS_NS, elem))
 					node.text = val
 
-		if self._dcelem_format:
-			node = etree.SubElement(xml_elem, '{%s}format' % DCELEMENTS_NS)
-			node.text = format
-
-		if self._dcelem_identifier:
-			node = etree.SubElement(xml_elem, '{%s}identifier' % DCELEMENTS_NS)
-			node.text = identifier
 
 	def extend_atom(self, atom_feed):
 		'''Extend an Atom feed with the set DC fields.
@@ -225,14 +218,11 @@ class DcBaseExtension(BaseExtension):
 		'''Get or set the dc:identifier which should be an unambiguous reference
 		to the resource within a given context.
 
-		If not set, the value of atom:id will be used. But setting this value
-		will on the other hand not set atom:id.
-
 		For more inidentifierion see:
 		http://dublincore.org/documents/dcmi-terms/#elements-identifier
 
 		:param identifier: Identifier of the resource or list of identifiers.
-		:param replace: Replace alredy set format (deault: True).
+		:param replace: Replace alredy set identifier (deault: True).
 		:returns: Identifiers of the resource.
 		'''
 		if not identifier is None:
