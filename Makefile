@@ -8,6 +8,7 @@ clean: doc-clean
 	@echo Removing source distribution files...
 	@rm -rf dist/
 	@rm -f MANIFEST
+	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
 
 doc: doc-clean doc-html doc-man doc-latexpdf
 
@@ -47,3 +48,4 @@ test:
 	python -m unittest feedgen.tests.test_feed
 	python -m unittest feedgen.tests.test_entry
 	python -m unittest feedgen.tests.test_extension
+	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
