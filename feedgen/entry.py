@@ -102,6 +102,8 @@ class FeedEntry(object):
 					content.append(etree.fromstring('''<div
 							xmlns="http://www.w3.org/1999/xhtml">%s</div>''' % \
 							self.__atom_content.get('content')))
+				elif type == 'CDATA':
+					content.text = etree.CDATA(self.__atom_content)
 				# Emed the text in escaped form
 				elif not type or type.startswith('text') or type == 'html':
 					content.text = self.__atom_content.get('content')
@@ -187,13 +189,14 @@ class FeedEntry(object):
 			description.text = self.__rss_description
 			content = etree.SubElement(entry, '{%s}encoded' %
 									'http://purl.org/rss/1.0/modules/content/')
-			content.text = self.__rss_content
+			content.text = etree.CDATA(self.__rss_content['content']) \
+				if self.__rss_content.get('type', '') == 'CDATA' else self.__rss_content['content']
 		elif self.__rss_description:
 			description = etree.SubElement(entry, 'description')
 			description.text = self.__rss_description
 		elif self.__rss_content:
 			description = etree.SubElement(entry, 'description')
-			description.text = self.__rss_content
+			description.text = self.__rss_content['content']
 		for a in self.__rss_author or []:
 			author = etree.SubElement(entry, 'author')
 			author.text = a
@@ -345,15 +348,17 @@ class FeedEntry(object):
 
 		:param content: The content of the feed entry.
 		:param src: Link to the entries content.
+		:param type: If type is CDATA content would not be escaped.
 		:returns: Content element of the entry.
 		'''
 		if not src is None:
 			self.__atom_content = {'src':src}
 		elif not content is None:
 			self.__atom_content = {'content':content}
+			self.__rss_content = {'content':content}
 			if not type is None:
 				self.__atom_content['type'] = type
-			self.__rss_content = content
+				self.__rss_content['type'] = type
 		return self.__atom_content
 
 
