@@ -13,6 +13,7 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from feedgen.util import ensure_format
+from six import string_types
 
 
 class FeedEntry(object):
@@ -282,7 +283,7 @@ class FeedEntry(object):
 		:returns: Modification date as datetime.datetime
 		'''
 		if not updated is None:
-			if isinstance(updated, basestring):
+			if isinstance(updated, string_types):
 				updated = dateutil.parser.parse(updated)
 			if not isinstance(updated, datetime):
 				raise ValueError('Invalid datetime format')
@@ -549,7 +550,7 @@ class FeedEntry(object):
 		:returns: Creation date as datetime.datetime
 		'''
 		if not published is None:
-			if isinstance(published, basestring):
+			if isinstance(published, string_types):
 				published = dateutil.parser.parse(published)
 			if not isinstance(published, datetime):
 				raise ValueError('Invalid datetime format')

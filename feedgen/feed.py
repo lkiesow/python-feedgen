@@ -17,6 +17,7 @@ from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format
 import feedgen.version
 import sys
+from six import string_types
 
 
 _feedgen_version = feedgen.version.version_str
@@ -431,7 +432,7 @@ class FeedGenerator(object):
 		:returns: Modification date as datetime.datetime
 		'''
 		if not updated is None:
-			if isinstance(updated, basestring):
+			if isinstance(updated, string_types):
 				updated = dateutil.parser.parse(updated)
 			if not isinstance(updated, datetime):
 				raise ValueError('Invalid datetime format')
@@ -670,9 +671,9 @@ class FeedGenerator(object):
 		'''
 		if not generator is None:
 			self.__atom_generator = {'value':generator}
-			if not version in None:
+			if not version is None:
 				self.__atom_generator['version'] = version
-			if not uri in None:
+			if not uri is None:
 				self.__atom_generator['uri'] = uri
 			self.__rss_generator = generator
 		return self.__atom_generator
@@ -846,7 +847,7 @@ class FeedGenerator(object):
 		:returns: Publication date as datetime.datetime
 		'''
 		if not pubDate is None:
-			if isinstance(pubDate, basestring):
+			if isinstance(pubDate, string_types):
 				pubDate = dateutil.parser.parse(pubDate)
 			if not isinstance(pubDate, datetime):
 				raise ValueError('Invalid datetime format')
