@@ -142,6 +142,12 @@ To produce a podcast simply load the `podcast` extension::
 	...
 	>>> fg.podcast.itunes_category('Technology', 'Podcasting')
 	...
+	>>> fe = fg.add_entry()
+	>>> fe.id('http://lernfunk.de/media/654321/1/file.mp3')
+	>>> fe.title('The First Episode')
+	>>> fe.description('Enjoy our first episode.')
+	>>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
+	...
 	>>> fg.rss_str(pretty=True)
 	>>> fg.rss_file('podcast.xml')
 
