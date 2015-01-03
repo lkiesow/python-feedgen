@@ -6,6 +6,6 @@ python:
   - "3.2"
   - "3.3"
 
-before_install: pip install lxml python-dateutil
+before_install: pip install --quiet lxml python-dateutil
 
 script: make test
