@@ -26,8 +26,14 @@ Installation
 If you are running Fedora Linux, Redhat Enterprise Linux, CentOS or Scientific
 Linux you can use one of the following packages:
 
-- [python-feedgen-0.3.0-1.fc20.noarch.rpm](http://repo.virtuos.uos.de/repository/feedgen/python-feedgen-0.3.0-1.fc20.noarch.rpm)
-- [python-feedgen-0.3.0-1.el6.noarch.rpm](http://repo.virtuos.uos.de/repository/feedgen/python-feedgen-0.3.0-1.el6.noarch.rpm)
+- [python-feedgen-0.3.0-1.fc21.noarch.rpm
+  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.0-1.fc21.noarch.rpm)
+- [python-feedgen-0.3.0-1.fc20.noarch.rpm
+  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.0-1.fc20.noarch.rpm)
+- [python-feedgen-0.3.0-1.el7.centos.noarch.rpm
+  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.0-1.el7.centos.noarch.rpm)
+- [python-feedgen-0.3.0-1.el6.noarch.rpm
+  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.0-1.el6.noarch.rpm)
 
 Simply download the file and run::
 
@@ -35,7 +41,8 @@ Simply download the file and run::
 
 If you want to build RPMs for other distributions you can use the following Source RPM:
 
-- [python-feedgen-0.3.0-1.fc20.src.rpm](http://repo.virtuos.uos.de/repository/feedgen/python-feedgen-0.3.0-1.fc20.src.rpm)
+- [python-feedgen-0.3.0-1.fc20.src.rpm
+  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.0-1.fc21.src.rpm)
 
 **Using pip**
 
