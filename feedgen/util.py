@@ -8,7 +8,7 @@
 	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 	:license: FreeBSD and LGPL, see license.* for more details.
 '''
-import sys
+import sys, locale
 
 
 def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
@@ -60,3 +60,13 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
 			if elem.get(k) and not elem[k] in v:
 				raise ValueError('Invalid value for %s' % k )
 	return val
+
+
+def formatRFC2822(d):
+	'''Make sure the locale setting do not interfere with the time format.
+	'''
+	l = locale.setlocale(locale.LC_ALL)
+	locale.setlocale(locale.LC_ALL, 'C')
+	d = d.strftime('%a, %d %b %Y %H:%M:%S %z')
+	locale.setlocale(locale.LC_ALL, l)
+	return d

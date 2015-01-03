@@ -14,7 +14,7 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from feedgen.entry import FeedEntry
-from feedgen.util import ensure_format
+from feedgen.util import ensure_format, formatRFC2822
 import feedgen.version
 import sys
 from feedgen.compat import string_types
@@ -313,15 +313,14 @@ class FeedGenerator(object):
 			language.text = self.__rss_language
 		if self.__rss_lastBuildDate:
 			lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
-			lastBuildDate.text = self.__rss_lastBuildDate.strftime(
-					'%a, %d %b %Y %H:%M:%S %z')
+
+			lastBuildDate.text = formatRFC2822(self.__rss_lastBuildDate)
 		if self.__rss_managingEditor:
 			managingEditor = etree.SubElement(channel, 'managingEditor')
 			managingEditor.text = self.__rss_managingEditor
 		if self.__rss_pubDate:
 			pubDate = etree.SubElement(channel, 'pubDate')
-			pubDate.text = self.__rss_pubDate.strftime(
-					'%a, %d %b %Y %H:%M:%S %z')
+			pubDate.text = formatRFC2822(self.__rss_pubDate)
 		if self.__rss_rating:
 			rating = etree.SubElement(channel, 'rating')
 			rating.text = self.__rss_rating

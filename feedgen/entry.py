@@ -12,7 +12,7 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.util import ensure_format
+from feedgen.util import ensure_format, formatRFC2822
 from feedgen.compat import string_types
 
 
@@ -220,8 +220,7 @@ class FeedEntry(object):
 			enclosure.attrib['type'] = self.__rss_enclosure['type']
 		if self.__rss_pubDate:
 			pubDate = etree.SubElement(entry, 'pubDate')
-			pubDate.text = self.__rss_pubDate.strftime(
-					'%a, %d %b %Y %H:%M:%S %z')
+			pubDate.text = formatRFC2822(self.__rss_pubDate)
 
 		if extensions:
 			for ext in self.__extensions.values() or []:
