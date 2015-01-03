@@ -137,7 +137,7 @@ class FeedEntry(object):
 			summary.text = self.__atom_summary
 
 		for c in self.__atom_category or []:
-			cat = etree.SubElement(feed, 'category', term=c['term'])
+			cat = etree.SubElement(entry, 'category', term=c['term'])
 			if c.get('schema'):
 				cat.attrib['schema'] = c['schema']
 			if c.get('label'):
