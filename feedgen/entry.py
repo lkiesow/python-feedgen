@@ -13,7 +13,7 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from feedgen.util import ensure_format
-from six import string_types
+from feedgen.compat import string_types
 
 
 class FeedEntry(object):
