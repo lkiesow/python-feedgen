@@ -607,8 +607,8 @@ class FeedGenerator(object):
 			for cat in self.__atom_category:
 				rss_cat = {}
 				rss_cat['value'] = cat['label'] if cat.get('label') else cat['term']
-				if cat.get('schema'):
-					rss_cat['domain'] = cat['schema']
+				if cat.get('scheme'):
+					rss_cat['domain'] = cat['scheme']
 				self.__rss_category.append( rss_cat )
 		return self.__atom_category
 
