@@ -120,7 +120,7 @@ class TestSequenceFunctions(unittest.TestCase):
 	def test_atomFeedFile(self):
 		fg = self.fg
 		filename = 'tmp_Atomfeed.xml'
-		fg.atom_file(filename=filename, pretty=True)
+		fg.atom_file(filename=filename, pretty=True, xml_declaration=False)
 
 		with open (filename, "r") as myfile:
 			atomString=myfile.read().replace('\n', '')
@@ -130,7 +130,7 @@ class TestSequenceFunctions(unittest.TestCase):
 	def test_atomFeedString(self):
 		fg = self.fg
 
-		atomString = fg.atom_str(pretty=True)
+		atomString = fg.atom_str(pretty=True, xml_declaration=False)
 		self.checkAtomString(atomString)
 
 
@@ -162,7 +162,7 @@ class TestSequenceFunctions(unittest.TestCase):
 	def test_rssFeedFile(self):
 		fg = self.fg
 		filename = 'tmp_Rssfeed.xml'
-		fg.rss_file(filename=filename, pretty=True)
+		fg.rss_file(filename=filename, pretty=True, xml_declaration=False)
 
 		with open (filename, "r") as myfile:
 			rssString=myfile.read().replace('\n', '')
@@ -171,7 +171,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
 	def test_rssFeedString(self):
 		fg = self.fg
-		rssString = fg.rss_str(pretty=True)
+		rssString = fg.rss_str(pretty=True, xml_declaration=False)
 		self.checkRssString(rssString)
 
 	def test_loadPodcastExtension(self):
