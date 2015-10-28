@@ -2,6 +2,9 @@
 Feedgenerator
 =============
 
+[![Build Status](https://travis-ci.org/lkiesow/python-feedgen.svg?branch=master)
+](https://travis-ci.org/lkiesow/python-feedgen)
+
 This module can be used to generate web feeds in both ATOM and RSS format.  It
 has support for extensions. Included is for example an extension to produce
 Podcasts.
