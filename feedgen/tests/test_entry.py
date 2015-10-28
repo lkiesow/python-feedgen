@@ -75,3 +75,20 @@ class TestSequenceFunctions(unittest.TestCase):
 		assert len(fg.entry()) == 1
 		fg.remove_entry(fe)
 		assert len(fg.entry()) == 0
+
+	def test_categoryHasDomain(self):
+		fg = FeedGenerator()
+		fg.title('some title')
+		fg.link( href='http://www.dontcare.com', rel='alternate' )
+		fg.description('description')
+		fe = fg.add_entry()
+		fe.id('http://lernfunk.de/media/654321/1')
+		fe.title('some title')
+		fe.category([
+			 {'term' : 'category',
+			  'scheme': 'http://www.somedomain.com/category',
+			  'label' : 'Category',
+			  }])
+
+		result = fg.rss_str()
+		assert 'domain="http://www.somedomain.com/category"' in result
