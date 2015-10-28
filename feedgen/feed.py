@@ -17,7 +17,7 @@ from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format
 import feedgen.version
 import sys
-from six import string_types
+from feedgen.compat import string_types
 
 
 _feedgen_version = feedgen.version.version_str
