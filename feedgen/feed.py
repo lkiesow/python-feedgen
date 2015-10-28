@@ -200,28 +200,40 @@ class FeedGenerator(object):
 		return feed, doc
 
 
-	def atom_str(self, pretty=False, extensions=True, encoding="unicode"):
+	def atom_str(self, pretty=False, extensions=True, encoding='UTF-8',
+			xml_declaration=True):
 		'''Generates an ATOM feed and returns the feed XML as string.
 
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:param xml_declaration: If an XML declaration should be added to the
+			output (Default: enabled).
 		:returns: String representation of the ATOM feed.
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
-		return etree.tostring(feed, pretty_print=pretty, encoding=encoding)
+		return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
+				xml_declaration=xml_declaration)
 
 
-	def atom_file(self, filename, extensions=True, pretty=False, encoding="UTF-8"):
+	def atom_file(self, filename, extensions=True, pretty=False,
+			encoding='UTF-8', xml_declaration=True):
 		'''Generates an ATOM feed and write the resulting XML to a file.
 
 		:param filename: Name of file to write, or a file-like object, or a URL.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:param pretty: If the feed should be split into multiple lines and
+			properly indented.
+		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:param xml_declaration: If an XML declaration should be added to the
+			output (Default: enabled).
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
-		doc.write(filename, pretty_print=pretty, encoding=encoding)
+		doc.write(filename, pretty_print=pretty, encoding=encoding,
+				xml_declaration=xml_declaration)
 
 
 	def _create_rss(self, extensions=True):
@@ -360,28 +372,40 @@ class FeedGenerator(object):
 		return feed, doc
 
 
-	def rss_str(self, pretty=False, extensions=True, encoding="unicode"):
+	def rss_str(self, pretty=False, extensions=True, encoding='UTF-8',
+			xml_declaration=True):
 		'''Generates an RSS feed and returns the feed XML as string.
 
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:param xml_declaration: If an XML declaration should be added to the
+			output (Default: enabled).
 		:returns: String representation of the RSS feed.
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
-		return etree.tostring(feed, pretty_print=pretty, encoding=encoding)
+		return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
+				xml_declaration=xml_declaration)
 
 
-	def rss_file(self, filename, extensions=True, pretty=False, encoding="UTF-8"):
+	def rss_file(self, filename, extensions=True, pretty=False,
+			encoding='UTF-8', xml_declaration=True):
 		'''Generates an RSS feed and write the resulting XML to a file.
 
 		:param filename: Name of file to write, or a file-like object, or a URL.
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:param pretty: If the feed should be split into multiple lines and
+			properly indented.
+		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:param xml_declaration: If an XML declaration should be added to the
+			output (Default: enabled).
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
-		doc.write(filename, pretty_print=pretty, encoding=encoding)
+		doc.write(filename, pretty_print=pretty, encoding=encoding,
+				xml_declaration=xml_declaration)
 
 
 	def title(self, title=None):
