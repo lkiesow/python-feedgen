@@ -23,32 +23,22 @@ Installation
 
 **Prebuild packages**
 
-If you are running Fedora Linux, Redhat Enterprise Linux, CentOS or Scientific
-Linux you can use one of the following packages:
+If you are running Fedora Linux, RedHat Enterprise Linux, CentOS or Scientific
+Linux you can use the RPM Copr repostiory:
 
-- [python-feedgen-0.3.1-1.fc21.noarch.rpm
-  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.1-1.fc21.noarch.rpm)
-- [python-feedgen-0.3.1-1.fc20.noarch.rpm
-  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.1-1.fc20.noarch.rpm)
-- [python-feedgen-0.3.1-1.el7.centos.noarch.rpm
-  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.1-1.el7.centos.noarch.rpm)
-- [python-feedgen-0.3.1-1.el6.noarch.rpm
-  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.1-1.el6.noarch.rpm)
+[http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/
+](http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/)
 
-Simply download the file and run::
+Simply enable the repository and run:
 
-	$ yum localinstall python-feedgen-...noarch.rpm
+    $ yum install python-feedgen
 
-If you want to build RPMs for other distributions you can use the following Source RPM:
-
-- [python-feedgen-0.3.1-1.fc20.src.rpm
-  ](http://data.larskiesow.de/feedgen/python-feedgen-0.3.1-1.fc21.src.rpm)
 
 **Using pip**
 
 You can also use pip to install the feedgen module. Simply run::
 
-	$ pip install feedgen
+    $ pip install feedgen
 
 
 -------------
@@ -58,16 +48,16 @@ Create a Feed
 To create a feed simply instanciate the FeedGenerator class and insert some
 data::
 
-	>>> from feedgen.feed import FeedGenerator
-	>>> fg = FeedGenerator()
-	>>> fg.id('http://lernfunk.de/media/654321')
-	>>> fg.title('Some Testfeed')
-	>>> fg.author( {'name':'John Doe','email':'john@example.de'} )
-	>>> fg.link( href='http://example.com', rel='alternate' )
-	>>> fg.logo('http://ex.com/logo.jpg')
-	>>> fg.subtitle('This is a cool feed!')
-	>>> fg.link( href='http://larskiesow.de/test.atom', rel='self' )
-	>>> fg.language('en')
+    >>> from feedgen.feed import FeedGenerator
+    >>> fg = FeedGenerator()
+    >>> fg.id('http://lernfunk.de/media/654321')
+    >>> fg.title('Some Testfeed')
+    >>> fg.author( {'name':'John Doe','email':'john@example.de'} )
+    >>> fg.link( href='http://example.com', rel='alternate' )
+    >>> fg.logo('http://ex.com/logo.jpg')
+    >>> fg.subtitle('This is a cool feed!')
+    >>> fg.link( href='http://larskiesow.de/test.atom', rel='self' )
+    >>> fg.language('en')
 
 Note that for the methods which set fields that can occur more than once in a
 feed you can use all of the following ways to provide data:
@@ -78,9 +68,9 @@ feed you can use all of the following ways to provide data:
 
 Example::
 
-	>>> fg.contributor( name='John Doe', email='jdoe@example.com' )
-	>>> fg.contributor({'name':'John Doe', 'email':'jdoe@example.com'})
-	>>> fg.contributor([{'name':'John Doe', 'email':'jdoe@example.com'}, ...])
+    >>> fg.contributor( name='John Doe', email='jdoe@example.com' )
+    >>> fg.contributor({'name':'John Doe', 'email':'jdoe@example.com'})
+    >>> fg.contributor([{'name':'John Doe', 'email':'jdoe@example.com'}, ...])
 
 -----------------
 Generate the Feed
@@ -88,10 +78,10 @@ Generate the Feed
 
 After that you can generate both RSS or ATOM by calling the respective method::
 
-	>>> atomfeed = fg.atom_str(pretty=True) # Get the ATOM feed as string
-	>>> rssfeed  = fg.rss_str(pretty=True) # Get the RSS feed as string
-	>>> fg.atom_file('atom.xml') # Write the ATOM feed to a file
-	>>> fg.rss_file('rss.xml') # Write the RSS feed to a file
+    >>> atomfeed = fg.atom_str(pretty=True) # Get the ATOM feed as string
+    >>> rssfeed  = fg.rss_str(pretty=True) # Get the RSS feed as string
+    >>> fg.atom_file('atom.xml') # Write the ATOM feed to a file
+    >>> fg.rss_file('rss.xml') # Write the RSS feed to a file
 
 
 ----------------
@@ -103,11 +93,11 @@ append them to the list of entries in the FeedGenerator. The most convenient
 way to go is to use the FeedGenerator itself for the instantiation of the
 FeedEntry object::
 
-	>>> fe = fg.add_entry()
-	>>> fe.id('http://lernfunk.de/media/654321/1')
-	>>> fe.title('The First Episode')
+    >>> fe = fg.add_entry()
+    >>> fe.id('http://lernfunk.de/media/654321/1')
+    >>> fe.title('The First Episode')
 
-The FeedGenerators method add_entry(...) without argument provides will
+The FeedGenerators method `add_entry(...)` without argument provides will
 automatically generate a new FeedEntry object, append it to the feeds internal
 list of entries and return it, so that additional data can be added.
 
@@ -118,7 +108,7 @@ Extensions
 The FeedGenerator supports extension to include additional data into the XML
 structure of the feeds. Extensions can be loaded like this::
 
-	>>> fg.load_extension('someext', atom=True, rss=True)
+    >>> fg.load_extension('someext', atom=True, rss=True)
 
 This will try to load the extension “someext” from the file `ext/someext.py`.
 It is required that `someext.py` contains a class named “SomextExtension” which
@@ -143,20 +133,20 @@ feed with some additional elements for ITunes.
 
 To produce a podcast simply load the `podcast` extension::
 
-	>>> from feedgen.feed import FeedGenerator
-	>>> fg = FeedGenerator()
-	>>> fg.load_extension('podcast')
-	...
-	>>> fg.podcast.itunes_category('Technology', 'Podcasting')
-	...
-	>>> fe = fg.add_entry()
-	>>> fe.id('http://lernfunk.de/media/654321/1/file.mp3')
-	>>> fe.title('The First Episode')
-	>>> fe.description('Enjoy our first episode.')
-	>>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
-	...
-	>>> fg.rss_str(pretty=True)
-	>>> fg.rss_file('podcast.xml')
+    >>> from feedgen.feed import FeedGenerator
+    >>> fg = FeedGenerator()
+    >>> fg.load_extension('podcast')
+    ...
+    >>> fg.podcast.itunes_category('Technology', 'Podcasting')
+    ...
+    >>> fe = fg.add_entry()
+    >>> fe.id('http://lernfunk.de/media/654321/1/file.mp3')
+    >>> fe.title('The First Episode')
+    >>> fe.description('Enjoy our first episode.')
+    >>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
+    ...
+    >>> fg.rss_str(pretty=True)
+    >>> fg.rss_file('podcast.xml')
 
 Of cause the extension has to be loaded for the FeedEntry objects as well but
 this is done automatically by the FeedGenerator for every feed entry if the
@@ -176,7 +166,7 @@ Testing the Generator
 
 You can test the module by simply executing::
 
-	$ python -m feedgen 
+    $ python -m feedgen
 
 If you want to have a look at the code for this test to have a working code
 example for a whole feed generation process, you can find it in the
