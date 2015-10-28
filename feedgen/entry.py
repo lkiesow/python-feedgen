@@ -138,8 +138,8 @@ class FeedEntry(object):
 
 		for c in self.__atom_category or []:
 			cat = etree.SubElement(entry, 'category', term=c['term'])
-			if c.get('schema'):
-				cat.attrib['schema'] = c['schema']
+			if c.get('scheme'):
+				cat.attrib['scheme'] = c['scheme']
 			if c.get('label'):
 				cat.attrib['label'] = c['label']
 
@@ -498,14 +498,14 @@ class FeedEntry(object):
 					set(['term', 'scheme', 'label']),
 					set(['term']) )
 			# Map the ATOM categories to RSS categories. Use the atom:label as
-			# name or if not present the atom:term. The atom:schema is the
+			# name or if not present the atom:term. The atom:scheme is the
 			# rss:domain.
 			self.__rss_category = []
 			for cat in self.__atom_category:
 				rss_cat = {}
 				rss_cat['value'] = cat['label'] if cat.get('label') else cat['term']
-				if cat.get('schema'):
-					rss_cat['domain'] = cat['schema']
+				if cat.get('scheme'):
+					rss_cat['domain'] = cat['scheme']
 				self.__rss_category.append( rss_cat )
 		return self.__atom_category
 

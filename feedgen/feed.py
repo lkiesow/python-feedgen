@@ -44,7 +44,7 @@ class FeedGenerator(object):
 		self.__atom_link   = None # {href*, rel, type, hreflang, title, length}
 
 		# optional
-		self.__atom_category    = None # {term*, schema, label}
+		self.__atom_category    = None # {term*, scheme, label}
 		self.__atom_contributor = None
 		self.__atom_generator   = {
 				'value'  :'python-feedgen',
@@ -143,8 +143,8 @@ class FeedGenerator(object):
 
 		for c in self.__atom_category or []:
 			cat = etree.SubElement(feed, 'category', term=c['term'])
-			if c.get('schema'):
-				cat.attrib['schema'] = c['schema']
+			if c.get('scheme'):
+				cat.attrib['scheme'] = c['scheme']
 			if c.get('label'):
 				cat.attrib['label'] = c['label']
 
@@ -601,14 +601,14 @@ class FeedGenerator(object):
 					set(['term', 'scheme', 'label']),
 					set(['term']) )
 			# Map the ATOM categories to RSS categories. Use the atom:label as
-			# name or if not present the atom:term. The atom:schema is the
+			# name or if not present the atom:term. The atom:scheme is the
 			# rss:domain.
 			self.__rss_category = []
 			for cat in self.__atom_category:
 				rss_cat = {}
 				rss_cat['value'] = cat['label'] if cat.get('label') else cat['term']
-				if cat.get('schema'):
-					rss_cat['domain'] = cat['schema']
+				if cat.get('scheme'):
+					rss_cat['domain'] = cat['scheme']
 				self.__rss_category.append( rss_cat )
 		return self.__atom_category
 
