@@ -27,13 +27,15 @@ if __name__ == '__main__':
 		print_enc ('Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
 				'python -m feedgen')
 		print_enc ('')
-		print_enc ('  atom        -- Generate ATOM test output and print it to stdout.')
-		print_enc ('  rss         -- Generate RSS test output and print it to stdout.')
-		print_enc ('  <file>.atom -- Generate ATOM test feed and write it to file.atom.')
-		print_enc ('  <file>.rss  -- Generate RSS test teed and write it to file.rss.')
-		print_enc ('  podcast     -- Generate Podcast test output and print it to stdout.')
-		print_enc ('  dc.atom     -- Generate DC extension test output (atom format) and print it to stdout.')
-		print_enc ('  dc.rss      -- Generate DC extension test output (rss format) and print it to stdout.')
+		print_enc ('  atom             -- Generate ATOM test output and print it to stdout.')
+		print_enc ('  rss              -- Generate RSS test output and print it to stdout.')
+		print_enc ('  <file>.atom      -- Generate ATOM test feed and write it to file.atom.')
+		print_enc ('  <file>.rss       -- Generate RSS test teed and write it to file.rss.')
+		print_enc ('  podcast          -- Generate Podcast test output and print it to stdout.')
+		print_enc ('  dc.atom          -- Generate DC extension test output (atom format) and print it to stdout.')
+		print_enc ('  dc.rss           -- Generate DC extension test output (rss format) and print it to stdout.')
+		print_enc ('  syndication.atom -- Generate DC extension test output (atom format) and print it to stdout.')
+		print_enc ('  syndication.rss  -- Generate DC extension test output (rss format) and print it to stdout.')
 		print_enc ('')
 		exit()
 
@@ -86,16 +88,23 @@ if __name__ == '__main__':
 		fe.podcast.itunes_author('Lars Kiesow')
 		print_enc (fg.rss_str(pretty=True))
 
-	elif arg == 'dc.atom':
+	elif arg.startswith('dc.'):
 		fg.load_extension('dc')
 		fg.dc.dc_contributor('Lars Kiesow')
-		fe.dc.dc_contributor('Lars Kiesow')
-		print_enc (fg.atom_str(pretty=True))
+		if arg.endswith('.atom'):
+			print_enc (fg.atom_str(pretty=True))
+		else:
+			print_enc (fg.rss_str(pretty=True))
 
-	elif arg == 'dc.rss':
-		fg.load_extension('dc')
-		fg.dc.dc_contributor('Lars Kiesow')
-		print_enc (fg.rss_str(pretty=True))
+	elif arg.startswith('syndication'):
+		fg.load_extension('syndication')
+		fg.syndication.update_period('daily')
+		fg.syndication.update_frequency(2)
+		fg.syndication.update_base('2000-01-01T12:00+00:00')
+		if arg.endswith('.rss'):
+			print_enc (fg.rss_str(pretty=True))
+		else:
+			print_enc (fg.atom_str(pretty=True))
 
 	elif arg.endswith('atom'):
 		fg.atom_file(arg)
