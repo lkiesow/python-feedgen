@@ -10,7 +10,7 @@
 '''
 
 'Version of python-feedgen represented as tuple'
-version = (0, 3, 1)
+version = (0, 3, 2)
 
 
 'Version of python-feedgen represented as string'
