@@ -36,6 +36,10 @@ Simply enable the repository and run:
 
     $ yum install python-feedgen
 
+or for the Python 3 package:
+
+    $ yum install python3-feedgen
+
 
 **Using pip**
 
