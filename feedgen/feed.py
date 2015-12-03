@@ -584,7 +584,19 @@ class FeedGenerator(object):
 			self.__atom_link += ensure_format( link,
 					set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
 					set(['href']),
-					{'rel':['alternate', 'enclosure', 'related', 'self', 'via']} )
+					{'rel': [
+						'about', 'alternate', 'appendix', 'archives', 'author', 'bookmark',
+						'canonical', 'chapter', 'collection', 'contents', 'copyright', 'create-form',
+						'current', 'derivedfrom', 'describedby', 'describes', 'disclosure',
+						'duplicate', 'edit', 'edit-form', 'edit-media', 'enclosure', 'first', 'glossary',
+						'help', 'hosts', 'hub', 'icon', 'index', 'item', 'last', 'latest-version', 'license',
+						'lrdd', 'memento', 'monitor', 'monitor-group', 'next', 'next-archive', 'nofollow',
+						'noreferrer', 'original', 'payment', 'predecessor-version', 'prefetch', 'prev', 'preview',
+						'previous', 'prev-archive', 'privacy-policy', 'profile', 'related', 'replies', 'search',
+						'section', 'self', 'service', 'start', 'stylesheet', 'subsection', 'successor-version',
+						'tag', 'terms-of-service', 'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
+						'working-copy', 'working-copy-of'
+					]})
 			# RSS only needs one URL. We use the first link for RSS:
 			if len(self.__atom_link) > 0:
 				self.__rss_link = self.__atom_link[-1]['href']

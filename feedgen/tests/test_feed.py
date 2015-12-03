@@ -133,6 +133,64 @@ class TestSequenceFunctions(unittest.TestCase):
 		atomString = fg.atom_str(pretty=True, xml_declaration=False)
 		self.checkAtomString(atomString)
 
+	def test_rel_values_for_atom(self):
+		values_for_rel = [
+			'about', 'alternate', 'appendix', 'archives', 'author', 'bookmark',
+			'canonical', 'chapter', 'collection', 'contents', 'copyright', 'create-form',
+			'current', 'derivedfrom', 'describedby', 'describes', 'disclosure',
+			'duplicate', 'edit', 'edit-form', 'edit-media', 'enclosure', 'first', 'glossary',
+			'help', 'hosts', 'hub', 'icon', 'index', 'item', 'last', 'latest-version', 'license',
+			'lrdd', 'memento', 'monitor', 'monitor-group', 'next', 'next-archive', 'nofollow',
+			'noreferrer', 'original', 'payment', 'predecessor-version', 'prefetch', 'prev', 'preview',
+			'previous', 'prev-archive', 'privacy-policy', 'profile', 'related', 'replies', 'search',
+			'section', 'self', 'service', 'start', 'stylesheet', 'subsection', 'successor-version',
+			'tag', 'terms-of-service', 'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
+			'working-copy', 'working-copy-of'
+		]
+		links = [{'href': '%s/%s' % (self.linkHref, val.replace('-', '_')), 'rel': val} for val in values_for_rel]
+		fg = self.fg
+		fg.link(links, replace=True)
+		atomString = fg.atom_str(pretty=True, xml_declaration=False)
+		feed = etree.fromstring(atomString)
+		nsAtom = self.nsAtom
+		feed_links = feed.findall("{%s}link" % nsAtom)
+		idx = 0
+		assert len(links) == len(feed_links)
+		while idx < len(values_for_rel):
+			assert feed_links[idx].get('href') == links[idx]['href']
+			assert feed_links[idx].get('rel') == links[idx]['rel']
+			idx += 1
+
+	def test_rel_values_for_rss(self):
+		values_for_rel = [
+			'about', 'alternate', 'appendix', 'archives', 'author', 'bookmark',
+			'canonical', 'chapter', 'collection', 'contents', 'copyright', 'create-form',
+			'current', 'derivedfrom', 'describedby', 'describes', 'disclosure',
+			'duplicate', 'edit', 'edit-form', 'edit-media', 'enclosure', 'first', 'glossary',
+			'help', 'hosts', 'hub', 'icon', 'index', 'item', 'last', 'latest-version', 'license',
+			'lrdd', 'memento', 'monitor', 'monitor-group', 'next', 'next-archive', 'nofollow',
+			'noreferrer', 'original', 'payment', 'predecessor-version', 'prefetch', 'prev', 'preview',
+			'previous', 'prev-archive', 'privacy-policy', 'profile', 'related', 'replies', 'search',
+			'section', 'self', 'service', 'start', 'stylesheet', 'subsection', 'successor-version',
+			'tag', 'terms-of-service', 'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
+			'working-copy', 'working-copy-of'
+		]
+		links = [{'href': '%s/%s' % (self.linkHref, val.replace('-', '_')), 'rel': val} for val in values_for_rel]
+		fg = self.fg
+		fg.link(links, replace=True)
+		rssString = fg.rss_str(pretty=True, xml_declaration=False)
+		feed = etree.fromstring(rssString)
+		channel = feed.find("channel")
+		nsAtom = self.nsAtom
+
+		atom_links = channel.findall("{%s}link" % nsAtom)
+		assert len(atom_links) == 1 # rss feed only implements atom's 'self' link
+		assert atom_links[0].get('href') == '%s/%s' % (self.linkHref, 'self')
+		assert atom_links[0].get('rel') == 'self'
+
+		rss_links = channel.findall('link')
+		assert len(rss_links) == 1 # RSS only needs one URL. We use the first link for RSS:
+		assert rss_links[0].text == '%s/%s' % (self.linkHref, 'working-copy-of'.replace('-', '_'))
 
 	def checkAtomString(self, atomString):
 
