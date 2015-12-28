@@ -187,14 +187,15 @@ class FeedEntry(object):
 			link.text = self.__rss_link
 		if self.__rss_description and self.__rss_content:
 			description = etree.SubElement(entry, 'description')
-			description.text = self.__rss_description
+			description.text = self.__rss_description['content']
 			content = etree.SubElement(entry, '{%s}encoded' %
 									'http://purl.org/rss/1.0/modules/content/')
 			content.text = etree.CDATA(self.__rss_content['content']) \
 				if self.__rss_content.get('type', '') == 'CDATA' else self.__rss_content['content']
 		elif self.__rss_description:
 			description = etree.SubElement(entry, 'description')
-			description.text = self.__rss_description
+			description.text = etree.CDATA(self.__rss_description['content']) \
+				if self.__rss_description.get('type', '') == 'CDATA' else self.__rss_description['content']
 		elif self.__rss_content:
 			description = etree.SubElement(entry, 'description')
 			description.text = self.__rss_content['content']
@@ -442,13 +443,13 @@ class FeedEntry(object):
 			# Replace the RSS description with the summary if it was the summary
 			# before. Not if is the description.
 			if not self.__rss_description or \
-					self.__rss_description == self.__atom_summary:
-				self.__rss_description = summary
+					self.__rss_description['content'] == self.__atom_summary:
+				self.__rss_description['content'] = summary
 			self.__atom_summary = summary
 		return self.__atom_summary
 
 
-	def description(self, description=None, isSummary=False):
+	def description(self, description=None, isSummary=False, type=None):
 		'''Get or set the description value which is the item synopsis.
 		Description is an RSS only element. For ATOM feeds it is split in summary
 		and content. The isSummary parameter can be used to control which ATOM
@@ -456,14 +457,17 @@ class FeedEntry(object):
 
 		:param description: Description of the entry.
 		:param isSummary: If the description should be used as content or summary.
+		:param type: If type is CDATA content would not be escaped.
 		:returns: The entries description.
 		'''
 		if not description is None:
-			self.__rss_description = description
+			self.__rss_description = {'content': description}
 			if isSummary:
 				self.__atom_summary = description
 			else:
 				self.__atom_content = description
+			if type is not None:
+				self.__rss_description['type'] = type
 		return self.__rss_description
 
 
