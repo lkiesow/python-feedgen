@@ -133,7 +133,7 @@ only be used for either ATOM or RSS feeds. The default value for both
 parameters is true which means that the extension would be used for both kinds
 of feeds.
 
-**Example: Produceing a Podcast**
+**Example: Producing a Podcast**
 
 One extension already provided is the podcast extension. A podcast is an RSS
 feed with some additional elements for ITunes.
