@@ -92,3 +92,15 @@ class TestSequenceFunctions(unittest.TestCase):
 
 		result = fg.rss_str()
 		assert b'domain="http://www.somedomain.com/category"' in result
+		
+	def test_content_cdata_type(self):
+		fg = FeedGenerator()
+		fg.title('some title')
+		fg.id('http://lernfunk.de/media/654322/1')
+		fe = fg.add_entry()
+		fe.id('http://lernfunk.de/media/654322/1')
+		fe.title('some title')
+		fe.content('content', type='CDATA')
+		result = fg.atom_str()
+		assert b'<content type="CDATA"><![CDATA[content]]></content>' in result
+

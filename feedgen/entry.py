@@ -104,7 +104,7 @@ class FeedEntry(object):
 							xmlns="http://www.w3.org/1999/xhtml">%s</div>''' % \
 							self.__atom_content.get('content')))
 				elif type == 'CDATA':
-					content.text = etree.CDATA(self.__atom_content)
+					content.text = etree.CDATA(self.__atom_content.get('content'))
 				# Emed the text in escaped form
 				elif not type or type.startswith('text') or type == 'html':
 					content.text = self.__atom_content.get('content')
