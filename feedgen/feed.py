@@ -29,7 +29,6 @@ class FeedGenerator(object):
 
 
 	def __init__(self):
-		self.__extensions = {}
 		self.__feed_entries = []
 
 		## ATOM
@@ -82,7 +81,8 @@ class FeedGenerator(object):
 		self.__rss_webMaster      = None
 
 		# Extension list:
-		__extensions = {}
+		self.__extensions = {}
+		self.__extensions_register = {}
 
 
 	def _create_atom(self, extensions=True):
@@ -1024,7 +1024,14 @@ class FeedGenerator(object):
 		# Try to load extensions:
 		for extname,ext in items:
 			try:
-				feedEntry.load_extension( extname, ext['atom'], ext['rss'] )
+				if extname in self.__extensions_register:
+					ext_reg = self.__extensions_register[extname]
+					feedEntry.register_extension(extname,
+												 ext_reg['extension_class_feed'],
+												 ext_reg['extension_class_entry'],
+												 ext_reg['atom'], ext_reg['rss'] )
+				else:
+					feedEntry.load_extension( extname, ext['atom'], ext['rss'] )
 			except ImportError:
 				pass
 
@@ -1066,7 +1073,14 @@ class FeedGenerator(object):
 			for e in entry:
 				for extname,ext in items:
 					try:
-						e.load_extension( extname, ext['atom'], ext['rss'] )
+						if extname in self.__extensions_register:
+							ext_reg = self.__extensions_register[extname]
+							e.register_extension(extname,
+												 ext_reg['extension_class_feed'],
+												 ext_reg['extension_class_entry'],
+												 ext_reg['atom'], ext_reg['rss'] )
+						else:
+							e.load_extension( extname, ext['atom'], ext['rss'] )
 					except ImportError:
 						pass
 
@@ -1127,3 +1141,54 @@ class FeedGenerator(object):
 				entry.load_extension( name, atom, rss )
 			except ImportError:
 				pass
+
+	def register_extension(
+		self,
+		namespace,
+		extension_class_feed = None,
+		extension_class_entry = None,
+		atom=True,
+		rss=True
+	):
+		'''Registers an extension by class.
+
+		:param namespace: namespace for the extension
+		:param extension_class_feed: Class of the feed extension to load.
+		:param extension_class_entry: Class of the entry extension to load
+		:param atom: If the extension should be used for ATOM feeds.
+		:param rss: If the extension should be used for RSS feeds.
+		'''
+		# Check loaded extensions
+		# `load_extension` ignores the "Extension" suffix.
+		if not isinstance(self.__extensions, dict):
+			self.__extensions = {}
+		if namespace in self.__extensions.keys():
+			raise ImportError('Extension already loaded')
+
+		# Load extension
+		extinst = extension_class_entry()
+		setattr(self, namespace, extinst)
+
+		# `load_extension` registry
+		self.__extensions[namespace] = {'inst':extinst,
+										'atom':atom,
+										'rss':rss
+										}
+
+		# `register_extension` registry
+		self.__extensions_register[namespace] = {
+			'extension_class_feed': extension_class_feed,
+			'extension_class_entry': extension_class_entry,
+			'atom': atom,
+			'rss': rss,
+		}
+
+		# Try to load the extension for already existing entries:
+		for entry in self.__feed_entries:
+			try:
+				entry.register_extension(namespace,
+										 extension_class_entry,
+										 extension_class_feed,
+										 atom, rss)
+			except ImportError:
+				raise
