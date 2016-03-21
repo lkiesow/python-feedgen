@@ -12,6 +12,7 @@
 
 from lxml import etree
 from feedgen.ext.base import BaseExtension
+from feedgen.util import ensure_format
 
 
 class PodcastExtension(BaseExtension):
@@ -54,12 +55,17 @@ class PodcastExtension(BaseExtension):
 			block = etree.SubElement(channel, '{%s}block' % ITUNES_NS)
 			block.text = 'yes' if self.__itunes_block else 'no'
 
-		if self.__itunes_category:
-			category = etree.SubElement(channel, '{%s}category' % ITUNES_NS)
-			category.attrib['text'] = self.__itunes_category['cat']
-			if self.__itunes_category.get('sub'):
+		for c in self.__itunes_category or []:
+			if not c.get('cat'):
+				continue
+			category = channel.find('{%s}category[@text="%s"]' % (ITUNES_NS,c.get('cat')))
+			if category == None:
+				category = etree.SubElement(channel, '{%s}category' % ITUNES_NS)
+				category.attrib['text'] = c.get('cat')
+
+			if c.get('sub'):
 				subcategory = etree.SubElement(category, '{%s}category' % ITUNES_NS)
-				subcategory.attrib['text'] = self.__itunes_category['sub']
+				subcategory.attrib['text'] = c.get('sub')
 
 		if self.__itunes_image:
 			image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
@@ -120,27 +126,43 @@ class PodcastExtension(BaseExtension):
 			self.__itunes_block = itunes_block
 		return self.__itunes_block
 
-
-	def itunes_category(self, itunes_category=None, itunes_subcategory=None):
+	def itunes_category(self, itunes_category=None, replace=False, **kwargs):
 		'''Get or set the ITunes category which appears in the category column
 		and in iTunes Store Browser.
 
 		The (sub-)category has to be one from the values defined at
 		http://www.apple.com/itunes/podcasts/specs.html#categories
 
-		:param itunes_category: Category of the podcast.
-		:param itunes_subcategory: Subcategory of the podcast.
-		:returns: Category data of the podcast.
+		This method can be called with:
+		- the fields of an itunes_category as keyword arguments
+		- the fields of an itunes_category as a dictionary
+		- a list of dictionaries containing the itunes_category fields
+
+		An itunes_category has the following fields:
+		- *cat* name for a category.
+		- *sub* name for a subcategory, child of category
+
+		If a podcast has more than one subcategory from the same category, the 
+		category is called more than once.
+		Like: [{"cat":"Arts","sub":"Design"},{"cat":"Arts","sub":"Food"}]
+		The code will be:
+		<itunes:category text="Arts">
+	    	<itunes:category text="Design"/>
+	    	<itunes:category text="Food"/>
+	    </itunes:category>
+
+
+		:param itunes_category: Dictionary or list of dictionaries with itunes_category data.
+		:param replace: Add or replace old data.
+		:returns: List of itunes_categories as dictionaries.
 		'''
+		if itunes_category is None and kwargs:
+			itunes_category = kwargs
 		if not itunes_category is None:
-			if not itunes_category in self._itunes_categories.keys():
-				raise ValueError('Invalid category')
-			cat = {'cat':itunes_category}
-			if not itunes_subcategory is None:
-				if not itunes_subcategory in self._itunes_categories[itunes_category]:
-					raise ValueError('Invalid subcategory')
-				cat['sub'] = itunes_subcategory
-			self.__itunes_category = cat
+			if replace or self.__itunes_category is None:
+				self.__itunes_category = []
+			self.__itunes_category += ensure_format( itunes_category,
+					set(['cat', 'sub']), set(['cat']))
 		return self.__itunes_category
 
 
