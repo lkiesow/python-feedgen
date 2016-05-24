@@ -17,3 +17,4 @@ Contents:
    ext/api.ext.dc
    ext/api.ext.podcast
    ext/api.ext.podcast_entry
+   ext/api.ext.torrent

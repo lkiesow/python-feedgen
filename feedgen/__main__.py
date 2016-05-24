@@ -26,8 +26,9 @@ if __name__ == '__main__':
 	if len(sys.argv) != 2 or not (
 			sys.argv[1].endswith('rss') \
 					or sys.argv[1].endswith('atom') \
+                                        or sys.argv[1].endswith('torrent') \
 					or sys.argv[1].endswith('podcast') ):
-		print_enc ('Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast )' % \
+		print_enc ('Usage: %s ( <file>.atom | atom | <file>.rss | rss | podcast | torrent )' % \
 				'python -m feedgen')
 		print_enc ('')
 		print_enc ('  atom             -- Generate ATOM test output and print it to stdout.')
@@ -39,6 +40,7 @@ if __name__ == '__main__':
 		print_enc ('  dc.rss           -- Generate DC extension test output (rss format) and print it to stdout.')
 		print_enc ('  syndication.atom -- Generate DC extension test output (atom format) and print it to stdout.')
 		print_enc ('  syndication.rss  -- Generate DC extension test output (rss format) and print it to stdout.')
+		print_enc ('  torrent          -- Generate Torrent test output and print it to stdout.')
 		print_enc ('')
 		exit()
 
@@ -89,6 +91,17 @@ if __name__ == '__main__':
 				'consectetur adipiscing elit. ' + \
 				'Verba tu fingas et ea dicas, quae non sentias?')
 		fe.podcast.itunes_author('Lars Kiesow')
+		print_enc (fg.rss_str(pretty=True))
+	
+	elif arg == 'torrent':
+		fg.load_extension('torrent')
+		fe.link( href='http://somewhere.behind.the.sea/torrent/debian-8.4.0-i386-netint.iso.torrent', rel='alternate', type='application/x-bittorrent, length=1000' )
+		fe.torrent.filename('debian-8.4.0-i386-netint.iso.torrent')
+		fe.torrent.infohash('7661229811ef32014879ceedcdf4a48f256c88ba')
+		fe.torrent.contentlength('331350016')
+		fe.torrent.seeds('789')
+		fe.torrent.peers('456')
+		fe.torrent.verified('123')
 		print_enc (fg.rss_str(pretty=True))
 
 	elif arg.startswith('dc.'):
