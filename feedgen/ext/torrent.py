@@ -44,7 +44,7 @@ class TorrentEntryExtension(BaseEntryExtension):
 		'''
 		enclosure	= etree.SubElement(entry, '{%s}enclosure' % TORRENT_NS)
 		guid		= etree.SubElement(entry, '{%s}guid' % TORRENT_NS)
-		torrent		= etree.SubElement(entry, '{%s]torrent' % TORRENT_NS)
+		torrent		= etree.SubElement(entry, '{%s}torrent' % TORRENT_NS)
 
 		enclosure.attrib['type'] = 'application/x-bittorrent'
 
@@ -66,7 +66,7 @@ class TorrentEntryExtension(BaseEntryExtension):
 		if self.__torrent_hash:
 			torrent_hash = etree.SubElement(torrent, '{%s}infohash' % TORRENT_NS)
 			torrent_hash.text = self.__torrent_hash
-			torrent.magnet = etree.SubElement(torrent, '{%s}magneturi' % TORRENT_NS)
+			torrent_magnet = etree.SubElement(torrent, '{%s}magneturi' % TORRENT_NS)
 			torrent_magnet.text = 'magnet:?xt=urn:btih:' + self.__torrent_hash
 
 
