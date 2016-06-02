@@ -48,7 +48,7 @@ publish_wheel: sdist
 	python setup.py bdist_wheel upload
 
 test:
-	python -m unittest feedgen.tests.test_feed
-	python -m unittest feedgen.tests.test_entry
-	python -m unittest feedgen.tests.test_extension
+	python -I -m unittest feedgen.tests.test_feed
+	python -I -m unittest feedgen.tests.test_entry
+	python -I -m unittest feedgen.tests.test_extension
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml

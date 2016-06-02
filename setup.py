@@ -1,13 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+MAGIC_BUILD_FLAG = '--include-test-subpackage'
+if MAGIC_BUILD_FLAG in sys.argv:
+    sys.argv.remove(MAGIC_BUILD_FLAG)
+    with_tests = True
+else:
+    with_tests = False
+
 import setuptools
 from distutils.core import setup
 import feedgen.version
 
+packages = ['feedgen', 'feedgen/ext']
+if with_tests:
+    packages.append('feedgen/tests')
+
 setup(
 		name = 'feedgen',
-		packages = ['feedgen', 'feedgen/ext'],
+		packages = packages,
 		version = feedgen.version.version_full_str,
 		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',
