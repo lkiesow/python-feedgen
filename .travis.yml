@@ -11,5 +11,6 @@ python:
 before_install:
   - python setup.py bdist_wheel --include-test-subpackage
   - pip install dist/feedgen*
+  - rm -rf feedgen
 
 script: make test
