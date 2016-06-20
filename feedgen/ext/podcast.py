@@ -137,11 +137,12 @@ class PodcastExtension(BaseExtension):
 		'''
 		if not itunes_category is None:
 			if not itunes_category in self._itunes_categories.keys():
-				raise ValueError('Invalid category')
+				raise ValueError('Invalid category %s' % itunes_category)
 			cat = {'cat':itunes_category}
 			if not itunes_subcategory is None:
 				if not itunes_subcategory in self._itunes_categories[itunes_category]:
-					raise ValueError('Invalid subcategory')
+					raise ValueError('Invalid subcategory "%s" under category "%s"'
+									 % (itunes_subcategory, itunes_category))
 				cat['sub'] = itunes_subcategory
 			self.__itunes_category = cat
 		return self.__itunes_category
@@ -196,7 +197,7 @@ class PodcastExtension(BaseExtension):
 		'''
 		if not itunes_explicit is None:
 			if not itunes_explicit in ('', 'yes', 'no', 'clean'):
-				raise ValueError('Invalid value for explicit tag')
+				raise ValueError('Invalid value "%s" for explicit tag' % itunes_explicit)
 			self.__itunes_explicit = itunes_explicit
 		return self.__itunes_explicit
 
@@ -216,7 +217,7 @@ class PodcastExtension(BaseExtension):
 		'''
 		if not itunes_complete is None:
 			if not itunes_complete in ('yes', 'no', '', True, False):
-				raise ValueError('Invalid value for complete tag')
+				raise ValueError('Invalid value "%s" for complete tag' % itunes_complete)
 			if itunes_complete == True:
 				itunes_complete = 'yes'
 			if itunes_complete == False:
