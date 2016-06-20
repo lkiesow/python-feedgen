@@ -172,7 +172,7 @@ class PodcastExtension(BaseExtension):
 		'''
 		if not itunes_image is None:
 			if not ( itunes_image.endswith('.jpg') or itunes_image.endswith('.png') ):
-				ValueError('Image file must be png or jpg')
+				ValueError('Image filename must end with png or jpg, not .%s' % itunes_image.split(".")[-1])
 			self.__itunes_image = itunes_image
 		return self.__itunes_image
 
