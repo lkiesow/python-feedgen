@@ -166,7 +166,8 @@ class PodcastExtension(BaseExtension):
 		:returns: Image of the podcast.
 		'''
 		if not itunes_image is None:
-			if not ( itunes_image.endswith('.jpg') or itunes_image.endswith('.png') ):
+			lowercase_itunes_image = itunes_image.lower()
+			if not ( lowercase_itunes_image.endswith(('.jpg', '.jpeg', '.png')) ):
 				ValueError('Image file must be png or jpg')
 			self.__itunes_image = itunes_image
 		return self.__itunes_image
