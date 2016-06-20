@@ -206,11 +206,15 @@ class FeedGenerator(object):
 
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
+		:type pretty: bool
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:type extensions: bool
 		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:type encoding: str
 		:param xml_declaration: If an XML declaration should be added to the
 			output (Default: enabled).
+		:type xml_declaration: bool
 		:returns: String representation of the ATOM feed.
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
@@ -223,13 +227,18 @@ class FeedGenerator(object):
 		'''Generates an ATOM feed and write the resulting XML to a file.
 
 		:param filename: Name of file to write, or a file-like object, or a URL.
+		:type filename: str, fd
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:type extensions: bool
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
+		:type pretty: bool
 		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:type encoding: str
 		:param xml_declaration: If an XML declaration should be added to the
 			output (Default: enabled).
+		:type xml_declaration: bool
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
 		doc.write(filename, pretty_print=pretty, encoding=encoding,
@@ -378,11 +387,15 @@ class FeedGenerator(object):
 
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
+		:type pretty: bool
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:type extensions: bool
 		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:type encoding: str
 		:param xml_declaration: If an XML declaration should be added to the
 			output (Default: enabled).
+		:type xml_declaration: bool
 		:returns: String representation of the RSS feed.
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
@@ -395,13 +408,18 @@ class FeedGenerator(object):
 		'''Generates an RSS feed and write the resulting XML to a file.
 
 		:param filename: Name of file to write, or a file-like object, or a URL.
+		:type filename: str or fd
 		:param extensions: Enable or disable the loaded extensions for the xml
 			generation (default: enabled).
+		:type extensions: bool
 		:param pretty: If the feed should be split into multiple lines and
 			properly indented.
+		:type pretty: bool
 		:param encoding: Encoding used in the  XML file (default: UTF-8).
+		:type encoding: str
 		:param xml_declaration: If an XML declaration should be added to the
 			output (Default: enabled).
+		:type xml_declaration: bool
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
 		doc.write(filename, pretty_print=pretty, encoding=encoding,
@@ -415,6 +433,7 @@ class FeedGenerator(object):
 		not be blank.
 
 		:param title: The new title of the feed.
+		:type title: str
 		:returns: The feeds title.
 		'''
 		if not title is None:
@@ -452,6 +471,7 @@ class FeedGenerator(object):
 			If not set, updated has as value the current date and time.
 
 		:param updated: The modification date.
+		:type updated: str or datetime.datetime
 		:returns: Modification date as datetime.datetime
 		'''
 		if not updated is None:
@@ -481,6 +501,7 @@ class FeedGenerator(object):
 			If not set, lastBuildDate has as value the current date and time.
 
 		:param lastBuildDate: The modification date.
+		:type updated: str or datetime.datetime
 		:returns: Modification date as datetime.datetime
 		'''
 		return self.updated( lastBuildDate )
@@ -565,7 +586,7 @@ class FeedGenerator(object):
 		  display purposes.
 		- *length* the length of the resource, in bytes.
 
-		RSS only supports one link with URL only.
+		RSS only supports one link with URL only. If multiple links are given, the last one will be used.
 
 		:param link:    Dict or list of dicts with data.
 		:param replace: Add or replace old data.

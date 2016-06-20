@@ -102,6 +102,7 @@ class PodcastExtension(BaseExtension):
 		feed level, iTunes will use the contents of <managingEditor>.
 
 		:param itunes_author: The author of the podcast.
+		:type itunes_author: str
 		:returns: The author of the podcast.
 		'''
 		if not itunes_author is None:
@@ -128,9 +129,11 @@ class PodcastExtension(BaseExtension):
 		The (sub-)category has to be one from the values defined at
 		http://www.apple.com/itunes/podcasts/specs.html#categories
 
-		:param itunes_category: Category of the podcast.
-		:param itunes_subcategory: Subcategory of the podcast.
-		:returns: Category data of the podcast.
+		:param itunes_category: Category of the podcast, unescaped.
+		:type itunes_category: str
+		:param itunes_subcategory: Subcategory of the podcast, unescaped. The subcategory need not be set.
+		:type itunes_subcategory: str
+		:returns: Dictionary which has category with key 'cat', and optionally subcategory with key 'sub'.
 		'''
 		if not itunes_category is None:
 			if not itunes_category in self._itunes_categories.keys():
@@ -163,6 +166,7 @@ class PodcastExtension(BaseExtension):
 		requests for iTS to be able to automatically update your cover art.
 
 		:param itunes_image: Image of the podcast.
+		:type itunes_image: str
 		:returns: Image of the podcast.
 		'''
 		if not itunes_image is None:
@@ -185,7 +189,9 @@ class PodcastExtension(BaseExtension):
 		will appear. If the explicit tag is present and has any other value
 		(e.g., "no"), you see no indicator — blank is the default advisory type.
 
-		:param itunes_explicit: If the podcast contains explicit material.
+		:param itunes_explicit: "yes" if the podcast contains explicit material, "clean" if it doesn't. "no" counts
+			as blank.
+		:type itunes_explicit: str
 		:returns: If the podcast contains explicit material.
 		'''
 		if not itunes_explicit is None:
@@ -205,6 +211,7 @@ class PodcastExtension(BaseExtension):
 		the podcast.
 
 		:param itunes_complete: If the podcast is complete.
+		:type itunes_complete: bool
 		:returns: If the podcast is complete.
 		'''
 		if not itunes_complete is None:
@@ -227,6 +234,7 @@ class PodcastExtension(BaseExtension):
 		the directory with the new feed URL.
 
 		:param itunes_new_feed_url: New feed URL.
+		:type itunes_new_feed_url: bool
 		:returns: New feed URL.
 		'''
 		if not itunes_new_feed_url is None:
@@ -240,7 +248,12 @@ class PodcastExtension(BaseExtension):
 		communication specifically about the podcast. It will not be publicly
 		displayed.
 
-		:param itunes_owner: The owner of the feed.
+		Both the name and email are required; you cannot use one or the other alone.
+
+		:param name: The name of the owner of the feed.
+		:type name: str
+		:param email: The feed owner's email.
+		:type email: str
 		:returns: Data of the owner of the feed.
 		'''
 		if not name is None:
@@ -259,6 +272,7 @@ class PodcastExtension(BaseExtension):
 		displays best if it is only a few words long.
 
 		:param itunes_subtitle: Subtitle of the podcast.
+		:type itunes_subtitle: str
 		:returns: Subtitle of the podcast.
 		'''
 		if not itunes_subtitle is None:
@@ -275,6 +289,7 @@ class PodcastExtension(BaseExtension):
 		are used.
 
 		:param itunes_summary: Summary of the podcast.
+		:type itunes_summary: str
 		:returns: Summary of the podcast.
 		'''
 		if not itunes_summary is None:

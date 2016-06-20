@@ -86,6 +86,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 		<managingEditor>.
 
 		:param itunes_author: The author of the podcast.
+		:type itunes_author: str
 		:returns: The author of the podcast.
 		'''
 		if not itunes_author is None:
@@ -95,9 +96,11 @@ class PodcastEntryExtension(BaseEntryExtension):
 
 	def itunes_block(self, itunes_block=None):
 		'''Get or set the ITunes block attribute. Use this to prevent episodes
-		from appearing in the iTunes podcast directory.
+		from appearing in the iTunes podcast directory. Note that the episode can still be
+		found by inspecting the XML, thus it is public.
 
 		:param itunes_block: Block podcast episodes.
+		:type itunes_block: bool
 		:returns: If the podcast episode is blocked.
 		'''
 		if not itunes_block is None:
@@ -124,6 +127,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 		requests for iTS to be able to automatically update your cover art.
 
 		:param itunes_image: Image of the podcast.
+		:type itunes_image: str
 		:returns: Image of the podcast.
 		'''
 		if not itunes_image is None:
@@ -145,6 +149,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 		numbers farthest to the right are ignored.
 
 		:param itunes_duration: Duration of the podcast episode.
+		:type itunes_duration: str or int
 		:returns: Duration of the podcast episode.
 		'''
 		if not itunes_duration is None:
@@ -169,7 +174,9 @@ class PodcastEntryExtension(BaseEntryExtension):
 		will appear. If the explicit tag is present and has any other value
 		(e.g., "no"), you see no indicator — blank is the default advisory type.
 
-		:param itunes_explicit: If the podcast episode contains explicit material.
+		:param itunes_explicit: "yes" if the podcast contains explicit material, "clean" if it doesn't. "no" counts
+			as blank.
+		:type itunes_explicit: str
 		:returns: If the podcast episode contains explicit material.
 		'''
 		if not itunes_explicit is None:
@@ -185,7 +192,8 @@ class PodcastEntryExtension(BaseEntryExtension):
 		closed captioning support. The two values for this tag are "yes" and
 		"no”.
 
-		:param is_closed_captioned: If the episode has closed captioning support.
+		:param itunes_is_closed_captioned: If the episode has closed captioning support.
+		:type itunes_is_closed_captioned: bool or str
 		:returns: If the episode has closed captioning support.
 		'''
 		if not itunes_is_closed_captioned is None:
@@ -207,6 +215,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 		To remove the order from the episode set the order to a value below zero.
 
 		:param itunes_order: The order of the episode.
+		:type itunes_order: int
 		:returns: The order of the episode.
 		'''
 		if not itunes_order is None:
@@ -220,6 +229,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 		subtitle displays best if it is only a few words long.
 
 		:param itunes_subtitle: Subtitle of the podcast episode.
+		:type itunes_subtitle: str
 		:returns: Subtitle of the podcast episode.
 		'''
 		if not itunes_subtitle is None:
@@ -236,6 +246,7 @@ class PodcastEntryExtension(BaseEntryExtension):
 		are used.
 
 		:param itunes_summary: Summary of the podcast episode.
+		:type itunes_summary: str
 		:returns: Summary of the podcast episode.
 		'''
 		if not itunes_summary is None:
