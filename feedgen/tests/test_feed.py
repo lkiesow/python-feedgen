@@ -236,10 +236,6 @@ class TestSequenceFunctions(unittest.TestCase):
         fg = self.fg
         fg.load_extension('podcast', atom=True, rss=True)
 
-    def test_loadDcExtension(self):
-        fg = self.fg
-        fg.load_extension('dc', atom=True, rss=True)
-
     def checkRssString(self, rssString):
 
         feed = etree.fromstring(rssString)
