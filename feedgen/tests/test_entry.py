@@ -15,23 +15,21 @@ class TestSequenceFunctions(unittest.TestCase):
     def setUp(self):
 
         fg = FeedGenerator()
-        self.feedId = 'http://example.com'
         self.title = 'Some Testfeed'
 
-        fg.id(self.feedId)
         fg.title(self.title)
 
         fe = fg.add_entry()
-        fe.id('http://lernfunk.de/media/654321/1')
+        fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The First Episode')
 
         #Use also the different name add_item
         fe = fg.add_item()
-        fe.id('http://lernfunk.de/media/654321/1')
+        fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Second Episode')
 
         fe = fg.add_entry()
-        fe.id('http://lernfunk.de/media/654321/1')
+        fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
 
         self.fg = fg
@@ -57,7 +55,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.title = 'Some Testfeed'
 
         fe = fg.add_entry()
-        fe.id('http://lernfunk.de/media/654321/1')
+        fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
         assert len(fg.entry()) == 1
         fg.remove_entry(0)
@@ -69,7 +67,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.title = 'Some Testfeed'
 
         fe = fg.add_entry()
-        fe.id('http://lernfunk.de/media/654321/1')
+        fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
 
         assert len(fg.entry()) == 1
@@ -79,15 +77,14 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_categoryHasDomain(self):
         fg = FeedGenerator()
         fg.title('some title')
-        fg.link( href='http://www.dontcare.com', rel='alternate' )
+        fg.link( href='http://www.dontcare.com')
         fg.description('description')
         fe = fg.add_entry()
-        fe.id('http://lernfunk.de/media/654321/1')
+        fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('some title')
         fe.category([
              {'term' : 'category',
               'scheme': 'http://www.somedomain.com/category',
-              'label' : 'Category',
               }])
 
         result = fg.rss_str()
