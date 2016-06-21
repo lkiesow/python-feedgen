@@ -731,7 +731,9 @@ class FeedGenerator(object):
 				self.__atom_generator['version'] = version
 			if not uri is None:
 				self.__atom_generator['uri'] = uri
-			self.__rss_generator = generator
+			self.__rss_generator = generator + \
+				(("/" + str(version)) if version is not None else "") + \
+				((" " + uri) if uri else "")
 		return self.__atom_generator
 
 
