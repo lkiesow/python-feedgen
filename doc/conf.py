@@ -21,10 +21,10 @@ import feedgen.version
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-		'sphinx.ext.intersphinx',
-		'sphinx.ext.coverage',
-		'sphinx.ext.autodoc'
-	]
+        'sphinx.ext.intersphinx',
+        'sphinx.ext.coverage',
+        'sphinx.ext.autodoc'
+    ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -185,8 +185,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-	('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-		u'Lars Kiesow', 'manual'),
+    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
+        u'Lars Kiesow', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -215,8 +215,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-	('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-		[u'Lars Kiesow'], 1)
+    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
+        [u'Lars Kiesow'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -229,9 +229,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-	('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-		u'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
-		'Miscellaneous'),
+    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
+        u'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
+        'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -252,32 +252,32 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 import re
 
 def process_docstring(app, what, name, obj, options, lines):
-	'''
-	spaces_pat = re.compile(r"(?<=        )( {8})")
-	ll = []
-	for l in lines:
-		ll.append(spaces_pat.sub("   ",l))
-	'''
-	spaces_pat = re.compile(r"^ *")
-	ll = []
-	for l in lines:
-		spacelen = len(spaces_pat.search(l).group(0))
-		newlen = (spacelen % 8) + (spacelen / 8 * 4)
-		ll.append( (' '*newlen) + l.lstrip(' ') )
-	lines[:] = ll
+    '''
+    spaces_pat = re.compile(r"(?<=        )( {8})")
+    ll = []
+    for l in lines:
+        ll.append(spaces_pat.sub("   ",l))
+    '''
+    spaces_pat = re.compile(r"^ *")
+    ll = []
+    for l in lines:
+        spacelen = len(spaces_pat.search(l).group(0))
+        newlen = (spacelen % 8) + (spacelen / 8 * 4)
+        ll.append( (' '*newlen) + l.lstrip(' ') )
+    lines[:] = ll
 
 
 # Include the GitHub readme file in index.rst
 r = re.compile(r'\[`*([^\]`]+)`*\]\(([^\)]+)\)')
 r2 = re.compile(r'.. include-github-readme')
 def substitute_link(app, docname, text):
-	if docname == 'index':
-		readme_text = ''
-		with codecs.open(os.path.abspath('../readme.md'), 'r', 'utf-8') as f:
-			readme_text = r.sub(r'`\1 <\2>`_', f.read())
-		text[0] = r2.sub(readme_text, text[0])
+    if docname == 'index':
+        readme_text = ''
+        with codecs.open(os.path.abspath('../readme.md'), 'r', 'utf-8') as f:
+            readme_text = r.sub(r'`\1 <\2>`_', f.read())
+        text[0] = r2.sub(readme_text, text[0])
 
 
 def setup(app):
-	app.connect('autodoc-process-docstring', process_docstring)
-	app.connect('source-read', substitute_link)
+    app.connect('autodoc-process-docstring', process_docstring)
+    app.connect('source-read', substitute_link)
