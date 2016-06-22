@@ -105,18 +105,27 @@ is required to have at least the method `extend_rss(...)`. Although not required
 either in the same file as SomextExtension or in `ext/someext_entry.py` which
 is suggested especially for large extensions.
 
+Of cause the extension has to be loaded for the FeedEntry objects as well but
+this is done automatically by the FeedGenerator for every feed entry if the
+extension is loaded for the whole feed. You can, however, load an extension for
+a specific FeedEntry by calling `load_extension(...)` on that entry. But this
+is a rather uncommon use.
+
+Of cause you can still produce a normal feed, even if you have
+loaded some plugins by temporary disabling them during the feed generation.
+This can be done by calling the generating method with the keyword argument
+`extensions` set to `False`.
+
 **Example: Producing a Podcast**
 
-One extension already provided is the podcast extension. A podcast is an RSS
-feed with some additional elements for ITunes.
-
-To produce a podcast simply load the `podcast` extension::
+NOTE: The podcast extension is currently baked in, and can thus be used without loading any
+extensions. This will therefore not be an example on how to use an extension, but rather how
+to use the podcast features.
 
     >>> from feedgen.feed import FeedGenerator
     >>> fg = FeedGenerator()
-    >>> fg.load_extension('podcast')
     ...
-    >>> fg.podcast.itunes_category('Technology', 'Podcasting')
+    >>> fg.itunes_category('Technology', 'Podcasting')
     ...
     >>> fe = fg.add_entry()
     >>> fe.guid('http://lernfunk.de/media/654321/1/file.mp3')
@@ -127,16 +136,6 @@ To produce a podcast simply load the `podcast` extension::
     >>> fg.rss_str(pretty=True)
     >>> fg.rss_file('podcast.xml')
 
-Of cause the extension has to be loaded for the FeedEntry objects as well but
-this is done automatically by the FeedGenerator for every feed entry if the
-extension is loaded for the whole feed. You can, however, load an extension for
-a specific FeedEntry by calling `load_extension(...)` on that entry. But this
-is a rather uncommon use.
-
-Of cause you can still produce a normal RSS feed, even if you have
-loaded some plugins by temporary disabling them during the feed generation.
-This can be done by calling the generating method with the keyword argument
-`extensions` set to `False`.
 
 
 ---------------------

@@ -1,14 +1,34 @@
 # -*- coding: utf-8 -*-
 """
-    =======
-    feedgen (forked)
-    =======
+    =============
+    Feedgenerator (forked)
+    =============
 
-    This module can be used to generate podcast feeds in RSS format.
-    It has support for extensions.
+    Ignore:
+    [![Build Status](https://travis-ci.org/lkiesow/python-feedgen.svg?branch=master)
+    ](https://travis-ci.org/lkiesow/python-feedgen)
 
-    :copyright: 2013 by Lars Kiesow
-    :license: FreeBSD and LGPL, see license.* for more details.
+    This module can be used to generate web feeds in RSS format.  It
+    has support for extensions. Included is for example an extension to produce
+    Podcasts.
+
+    It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
+    Choose the one which is more convenient for you. For more details have a look
+    at license.bsd and license.lgpl.
+
+    More details about the project:
+
+    - Repository:            https://github.com/lkiesow/python-feedgen
+    - Documentation:         http://lkiesow.github.io/python-feedgen/
+    - Python Package Index:  https://pypi.python.org/pypi/feedgen/
+
+
+    ------------
+    Installation
+    ------------
+
+    Currently, you'll need to clone this repository, and create a virtualenv and
+    install lxml and dateutils.
 
 
     -------------
@@ -28,8 +48,8 @@
         >>> fg.link( href='http://larskiesow.de/test.atom')
         >>> fg.language('en')
 
-    Note that for the methods which set fields that can occur more than once in
-    a feed you can use all of the following ways to provide data:
+    Note that for the methods which set fields that can occur more than once in a
+    feed you can use all of the following ways to provide data:
 
     - Provide the data for that element as keyword arguments
     - Provide the data for that element as dictionary
@@ -55,19 +75,18 @@
     Add Feed Entries
     ----------------
 
-    To add entries (items) to a feed you need to create new FeedEntry objects
-    and append them to the list of entries in the FeedGenerator. The most
-    convenient way to go is to use the FeedGenerator itself for the
-    instantiation of the FeedEntry object::
+    To add entries (items) to a feed you need to create new FeedEntry objects and
+    append them to the list of entries in the FeedGenerator. The most convenient
+    way to go is to use the FeedGenerator itself for the instantiation of the
+    FeedEntry object::
 
         >>> fe = fg.add_entry()
-        >>> fe.id('http://lernfunk.de/media/654321/1')
+        >>> fe.guid('http://lernfunk.de/media/654321/1')
         >>> fe.title('The First Episode')
 
-    The FeedGenerators method add_entry(...) without argument provides will
-    automatically generate a new FeedEntry object, append it to the feeds
-    internal list of entries and return it, so that additional data can be
-    added.
+    The FeedGenerators method `add_entry(...)` without argument provides will
+    automatically generate a new FeedEntry object, append it to the feeds internal
+    list of entries and return it, so that additional data can be added.
 
     ----------
     Extensions
@@ -78,43 +97,48 @@
 
         >>> fg.load_extension('someext')
 
-    This will try to load the extension “someext” from the file
-    `ext/someext.py`. It is required that `someext.py` contains a class named
-    “SomextExtension” which is required to have at least one method,
-    `extend_rss(...)`. Although not required, it is
-    strongly suggested to use BaseExtension from `ext/base.py` as superclass.
+    This will try to load the extension “someext” from the file `ext/someext.py`.
+    It is required that `someext.py` contains a class named “SomextExtension” which
+    is required to have at least the method `extend_rss(...)`. Although not required, it is strongly suggested to use
+    `BaseExtension` from `ext/base.py` as superclass.
 
-    `load_extension('someext', ...)` will also try to load a class named
-    “SomextEntryExtension” for every entry of the feed. This class can be
-    located either in the same file as SomextExtension or in
-    `ext/someext_entry.py` which is suggested especially for large extensions.
+    `load_extension('someext')` will also try to load a class named
+    “SomextEntryExtension” for every entry of the feed. This class can be located
+    either in the same file as SomextExtension or in `ext/someext_entry.py` which
+    is suggested especially for large extensions.
+
+    Of cause the extension has to be loaded for the FeedEntry objects as well but
+    this is done automatically by the FeedGenerator for every feed entry if the
+    extension is loaded for the whole feed. You can, however, load an extension for
+    a specific FeedEntry by calling `load_extension(...)` on that entry. But this
+    is a rather uncommon use.
+
+    Of cause you can still produce a normal feed, even if you have
+    loaded some plugins by temporary disabling them during the feed generation.
+    This can be done by calling the generating method with the keyword argument
+    `extensions` set to `False`.
 
     **Example: Producing a Podcast**
 
-    One extension already provided is the podcast extension. A podcast is an RSS
-    feed with some additional elements for ITunes.
-
-    To produce a podcast simply load the `podcast` extension::
+    NOTE: The podcast extension is currently baked in, and can thus be used without loading any
+    extensions. This will therefore not be an example on how to use an extension, but rather how
+    to use the podcast features::
 
         >>> from feedgen.feed import FeedGenerator
         >>> fg = FeedGenerator()
-        >>> fg.load_extension('podcast')
         ...
-        >>> fg.podcast.itunes_category('Technology', 'Podcasting')
+        >>> fg.itunes_category('Technology', 'Podcasting')
+        ...
+        >>> fe = fg.add_entry()
+        >>> fe.guid('http://lernfunk.de/media/654321/1/file.mp3')
+        >>> fe.title('The First Episode')
+        >>> fe.description('Enjoy our first episode.')
+        >>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
         ...
         >>> fg.rss_str(pretty=True)
         >>> fg.rss_file('podcast.xml')
 
-    Of cause the extension has to be loaded for the FeedEntry objects as well
-    but this is done automatically by the FeedGenerator for every feed entry if
-    the extension is loaded for the whole feed. You can, however, load an
-    extension for a specific FeedEntry by calling `load_extension(...)` on that
-    entry. But this is a rather uncommon use.
 
-    Of cause you can still produce a normal RSS feed, even if you have
-    loaded some plugins by temporary disabling them during the feed generation.
-    This can be done by calling the generating method with the keyword argument
-    `extensions` set to `False`.
 
     ---------------------
     Testing the Generator
@@ -123,5 +147,10 @@
     You can test the module by simply executing::
 
         $ python -m feedgen
+
+    If you want to have a look at the code for this test to have a working code
+    example for a whole feed generation process, you can find it in the
+    [`__main__.py`](https://github.com/tobinus/python-feedgen/blob/podcastgen/feedgen/__main__.py).
+
 
 """

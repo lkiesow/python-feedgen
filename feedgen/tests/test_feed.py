@@ -114,9 +114,6 @@ class TestSequenceFunctions(unittest.TestCase):
         rssString = fg.rss_str(pretty=True, xml_declaration=False)
         self.checkRssString(rssString)
 
-    def test_loadPodcastExtension(self):
-        fg = self.fg
-        fg.load_extension('podcast')
 
     def checkRssString(self, rssString):
 

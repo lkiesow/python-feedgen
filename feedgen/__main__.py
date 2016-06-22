@@ -62,19 +62,16 @@ if __name__ == '__main__':
     if arg == 'rss':
         print_enc (fg.rss_str(pretty=True))
     elif arg == 'podcast':
-        # Load the podcast extension. It will automatically be loaded for all
-        # entries in the feed, too. Thus also for our “fe”.
-        fg.load_extension('podcast')
-        fg.podcast.itunes_author('Lars Kiesow')
-        fg.podcast.itunes_category('Technology', 'Podcasting')
-        fg.podcast.itunes_explicit('no')
-        fg.podcast.itunes_complete('no')
-        fg.podcast.itunes_new_feed_url('http://example.com/new-feed.rss')
-        fg.podcast.itunes_owner('John Doe', 'john@example.com')
-        fg.podcast.itunes_summary('Lorem ipsum dolor sit amet, ' + \
+        fg.itunes_author('Lars Kiesow')
+        fg.itunes_category('Technology', 'Podcasting')
+        fg.itunes_explicit('no')
+        fg.itunes_complete('no')
+        fg.itunes_new_feed_url('http://example.com/new-feed.rss')
+        fg.itunes_owner('John Doe', 'john@example.com')
+        fg.itunes_summary('Lorem ipsum dolor sit amet, ' + \
                 'consectetur adipiscing elit. ' + \
                 'Verba tu fingas et ea dicas, quae non sentias?')
-        fe.podcast.itunes_author('Lars Kiesow')
+        fe.itunes_author('Lars Kiesow')
         print_enc (fg.rss_str(pretty=True))
     elif arg.endswith('rss'):
         fg.rss_file(arg)
