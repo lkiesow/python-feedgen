@@ -30,7 +30,6 @@ class FeedGenerator(object):
 
 
     def __init__(self):
-        self.__extensions = {}
         self.__feed_entries = []
 
         ## RSS
@@ -71,8 +70,7 @@ class FeedGenerator(object):
         self.__itunes_summary = None
 
 
-
-    def _create_rss(self, extensions=True):
+    def _create_rss(self):
         '''Create an RSS feed xml structure containing all previously set fields.
 
         :returns: Tuple containing the feed root element and the element tree.
@@ -226,11 +224,6 @@ class FeedGenerator(object):
             summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
             summary.text = self.__itunes_summary
 
-        if extensions:
-            for ext in self.__extensions.values() or []:
-                if ext.get('rss'):
-                    ext['inst'].extend_rss(feed)
-
         for entry in self.__feed_entries:
             item = entry.rss_entry()
             channel.append(item)
@@ -239,16 +232,13 @@ class FeedGenerator(object):
         return feed, doc
 
 
-    def rss_str(self, pretty=False, extensions=True, encoding='UTF-8',
+    def rss_str(self, pretty=False, encoding='UTF-8',
             xml_declaration=True):
         '''Generates an RSS feed and returns the feed XML as string.
 
         :param pretty: If the feed should be split into multiple lines and
             properly indented.
         :type pretty: bool
-        :param extensions: Enable or disable the loaded extensions for the xml
-            generation (default: enabled).
-        :type extensions: bool
         :param encoding: Encoding used in the  XML file (default: UTF-8).
         :type encoding: str
         :param xml_declaration: If an XML declaration should be added to the
@@ -256,20 +246,17 @@ class FeedGenerator(object):
         :type xml_declaration: bool
         :returns: String representation of the RSS feed.
         '''
-        feed, doc = self._create_rss(extensions=extensions)
+        feed, doc = self._create_rss()
         return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
                 xml_declaration=xml_declaration)
 
 
-    def rss_file(self, filename, extensions=True, pretty=False,
+    def rss_file(self, filename, pretty=False,
             encoding='UTF-8', xml_declaration=True):
         '''Generates an RSS feed and write the resulting XML to a file.
 
         :param filename: Name of file to write, or a file-like object, or a URL.
         :type filename: str or fd
-        :param extensions: Enable or disable the loaded extensions for the xml
-            generation (default: enabled).
-        :type extensions: bool
         :param pretty: If the feed should be split into multiple lines and
             properly indented.
         :type pretty: bool
@@ -279,7 +266,7 @@ class FeedGenerator(object):
             output (Default: enabled).
         :type xml_declaration: bool
         '''
-        feed, doc = self._create_rss(extensions=extensions)
+        feed, doc = self._create_rss()
         doc.write(filename, pretty_print=pretty, encoding=encoding,
                 xml_declaration=xml_declaration)
 
@@ -947,18 +934,6 @@ class FeedGenerator(object):
 
         version = sys.version_info[0]
 
-        if version == 2:
-            items = self.__extensions.iteritems()
-        else:
-            items = self.__extensions.items()
-
-        # Try to load extensions:
-        for extname,ext in items:
-            try:
-                feedEntry.load_extension( extname, ext['atom'], ext['rss'] )
-            except ImportError:
-                pass
-
         self.__feed_entries.append( feedEntry )
         return feedEntry
 
@@ -1028,32 +1003,3 @@ class FeedGenerator(object):
         remove_entry.
         '''
         self.remove_entry(item)
-
-
-    def load_extension(self, name):
-        '''Load a specific extension by name.
-
-        :param name: Name of the extension to load.
-        :param rss: If the extension should be used for RSS feeds.
-        '''
-        # Check loaded extensions
-        if not isinstance(self.__extensions, dict):
-            self.__extensions = {}
-        if name in self.__extensions.keys():
-            raise ImportError('Extension already loaded')
-
-        # Load extension
-        extname = name[0].upper() + name[1:] + 'Extension'
-        supmod = __import__('feedgen.ext.%s' % name)
-        extmod = getattr(supmod.ext, name)
-        ext    = getattr(extmod, extname)
-        extinst = ext()
-        setattr(self, name, extinst)
-        self.__extensions[name] = {'inst':extinst}
-
-        # Try to load the extension for already existing entries:
-        for entry in self.__feed_entries:
-            try:
-                entry.load_extension( name)
-            except ImportError:
-                pass

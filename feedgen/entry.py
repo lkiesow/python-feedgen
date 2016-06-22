@@ -48,9 +48,6 @@ class FeedEntry(object):
         self.__itunes_subtitle = None
         self.__itunes_summary = None
 
-        # Extension list:
-        self.__extensions = {}
-
 
     def rss_entry(self, extensions=True):
         '''Create a RSS item and return it.'''
@@ -138,10 +135,6 @@ class FeedEntry(object):
         if self.__itunes_summary:
             summary = etree.SubElement(entry, '{%s}summary' % ITUNES_NS)
             summary.text = self.__itunes_summary
-
-        if extensions:
-            for ext in self.__extensions.values() or []:
-                ext['inst'].extend_rss(entry)
 
         return entry
 
@@ -509,31 +502,3 @@ class FeedEntry(object):
         if not itunes_summary is None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
-
-    def load_extension(self, name):
-        '''Load a specific extension by name.
-
-        :param name: Name of the extension to load.
-        '''
-        # Check loaded extensions
-        if not isinstance(self.__extensions, dict):
-            self.__extensions = {}
-        if name in self.__extensions.keys():
-            raise ImportError('Extension already loaded')
-
-        # Load extension
-        extname = name[0].upper() + name[1:] + 'EntryExtension'
-
-        # Try to import extension from dedicated module for entry:
-        try:
-            supmod = __import__('feedgen.ext.%s_entry' % name)
-            extmod = getattr(supmod.ext, name + '_entry')
-        except ImportError:
-            # Try the FeedExtension module instead
-            supmod = __import__('feedgen.ext.%s' % name)
-            extmod = getattr(supmod.ext, name)
-
-        ext    = getattr(extmod, extname)
-        extinst = ext()
-        setattr(self, name, extinst)
-        self.__extensions[name] = {'inst':extinst}

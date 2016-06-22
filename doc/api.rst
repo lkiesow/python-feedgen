@@ -13,4 +13,3 @@ Contents:
    api.feed
    api.entry
    api.util
-   ext/api.ext.base

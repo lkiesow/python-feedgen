@@ -8,9 +8,7 @@
     [![Build Status](https://travis-ci.org/lkiesow/python-feedgen.svg?branch=master)
     ](https://travis-ci.org/lkiesow/python-feedgen)
 
-    This module can be used to generate web feeds in RSS format.  It
-    has support for extensions. Included is for example an extension to produce
-    Podcasts.
+    This module can be used to generate podcast feeds in RSS format.
 
     It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
     Choose the one which is more convenient for you. For more details have a look
@@ -88,41 +86,12 @@
     automatically generate a new FeedEntry object, append it to the feeds internal
     list of entries and return it, so that additional data can be added.
 
-    ----------
-    Extensions
-    ----------
+    --------------------------
+    Using the podcast features
+    --------------------------
 
-    The FeedGenerator supports extension to include additional data into the XML
-    structure of the feeds. Extensions can be loaded like this::
-
-        >>> fg.load_extension('someext')
-
-    This will try to load the extension “someext” from the file `ext/someext.py`.
-    It is required that `someext.py` contains a class named “SomextExtension” which
-    is required to have at least the method `extend_rss(...)`. Although not required, it is strongly suggested to use
-    `BaseExtension` from `ext/base.py` as superclass.
-
-    `load_extension('someext')` will also try to load a class named
-    “SomextEntryExtension” for every entry of the feed. This class can be located
-    either in the same file as SomextExtension or in `ext/someext_entry.py` which
-    is suggested especially for large extensions.
-
-    Of cause the extension has to be loaded for the FeedEntry objects as well but
-    this is done automatically by the FeedGenerator for every feed entry if the
-    extension is loaded for the whole feed. You can, however, load an extension for
-    a specific FeedEntry by calling `load_extension(...)` on that entry. But this
-    is a rather uncommon use.
-
-    Of cause you can still produce a normal feed, even if you have
-    loaded some plugins by temporary disabling them during the feed generation.
-    This can be done by calling the generating method with the keyword argument
-    `extensions` set to `False`.
-
-    **Example: Producing a Podcast**
-
-    NOTE: The podcast extension is currently baked in, and can thus be used without loading any
-    extensions. This will therefore not be an example on how to use an extension, but rather how
-    to use the podcast features::
+    All iTunes-specific features are available as methods that start with `itunes_`,
+    although most features are platform agnostic::
 
         >>> from feedgen.feed import FeedGenerator
         >>> fg = FeedGenerator()
@@ -144,7 +113,7 @@
     Testing the Generator
     ---------------------
 
-    You can test the module by simply executing::
+    You can test the module integration-testing-style by simply executing::
 
         $ python -m feedgen
 
