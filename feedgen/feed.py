@@ -122,9 +122,19 @@ class Podcast(object):
         if self.__rss_managingEditor:
             managingEditor = etree.SubElement(channel, 'managingEditor')
             managingEditor.text = self.__rss_managingEditor
-        if self.__rss_pubDate:
+
+        if not self.__rss_pubDate:
+            episode_dates = [e.pubdate() for e in self.__feed_entries if e.pubdate() is not None]
+            if episode_dates:
+                actual_pubDate = max(episode_dates)
+            else:
+                actual_pubDate = None
+        else:
+            actual_pubDate = self.__rss_pubDate
+        if actual_pubDate:
             pubDate = etree.SubElement(channel, 'pubDate')
-            pubDate.text = formatRFC2822(self.__rss_pubDate)
+            pubDate.text = formatRFC2822(actual_pubDate)
+
         if self.__rss_skipHours:
             skipHours = etree.SubElement(channel, 'skipHours')
             for h in self.__rss_skipHours:
@@ -260,7 +270,6 @@ class Podcast(object):
         :type updated: str or datetime.datetime
         :returns: Modification date as datetime.datetime
         '''
-        # TODO: Standardize on one way to set publication date
         if not updated is None:
             if isinstance(updated, string_types):
                 updated = dateutil.parser.parse(updated)
@@ -271,26 +280,6 @@ class Podcast(object):
             self.__rss_lastBuildDate = updated
 
         return self.__rss_lastBuildDate
-
-
-    def lastBuildDate(self, lastBuildDate=None):
-        '''Set or get the lastBuildDate value which indicates the last time the
-        content of the channel changed.
-
-        The value can either be a string which will automatically be parsed or a
-        datetime.datetime object. In any case it is necessary that the value
-        include timezone information.
-
-        This will set both atom:updated and rss:lastBuildDate.
-
-        Default value
-            If not set, lastBuildDate has as value the current date and time.
-
-        :param lastBuildDate: The modification date.
-        :type updated: str or datetime.datetime
-        :returns: Modification date as datetime.datetime
-        '''
-        return self.updated( lastBuildDate )
 
 
     def link(self, href=None):
@@ -412,7 +401,7 @@ class Podcast(object):
         return self.__rss_managingEditor
 
 
-    def pubDate(self, pubDate=None):
+    def published(self, pubDate=None):
         '''Set or get the publication date for the content in the channel. For
         example, the New York Times publishes on a daily basis, the publication
         date flips once every 24 hours. That's when the pubDate of the channel
@@ -422,10 +411,14 @@ class Podcast(object):
         datetime.datetime object. In any case it is necessary that the value
         include timezone information.
 
+        Default value
+            If not set, published will use the value of the episode with the
+            latest publication date (which may be in the future). If there
+            are no episodes, the publication date is omitted from the feed.
+
         :param pubDate: The publication date.
         :returns: Publication date as datetime.datetime
         '''
-        # TODO Add/rename to lastBuildDate
         if not pubDate is None:
             if isinstance(pubDate, string_types):
                 pubDate = dateutil.parser.parse(pubDate)

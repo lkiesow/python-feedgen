@@ -10,6 +10,8 @@
 
 from feedgen.feed import Podcast
 import sys
+import datetime
+import pytz
 
 def print_enc(s):
     '''Print function compatible with both python2 and python3 accepting strings
@@ -67,6 +69,7 @@ if __name__ == '__main__':
         fg.itunes_new_feed_url('http://example.com/new-feed.rss')
         fg.itunes_owner('John Doe', 'john@example.com')
         fe.itunes_author('Lars Kiesow')
+        fe.pubdate(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
         print_enc(fg.rss_str(pretty=True))
     elif arg.endswith('rss'):
         fg.rss_file(arg)
