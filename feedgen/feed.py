@@ -34,26 +34,22 @@ class FeedGenerator(object):
 
         ## RSS
         # http://www.rssboard.org/rss-specification
+        # Mandatory:
         self.__rss_title       = None
         self.__rss_link        = None
         self.__rss_description = None
 
-        self.__rss_author = None
-        self.__rss_category       = None
+        # Optional:
         self.__rss_cloud          = None
         self.__rss_copyright      = None
         self.__rss_docs           = 'http://www.rssboard.org/rss-specification'
         self.__rss_generator      = 'python-feedgen'
-        self.__rss_image          = None
         self.__rss_language       = None
         self.__rss_lastBuildDate  = datetime.now(dateutil.tz.tzutc())
         self.__rss_managingEditor = None
         self.__rss_pubDate        = None
-        self.__rss_rating         = None
         self.__rss_skipHours      = None
         self.__rss_skipDays       = None
-        self.__rss_textInput      = None
-        self.__rss_ttl            = None
         self.__rss_webMaster      = None
 
         ## ITunes tags
@@ -67,7 +63,6 @@ class FeedGenerator(object):
         self.__itunes_new_feed_url = None
         self.__itunes_owner = None
         self.__itunes_subtitle = None
-        self.__itunes_summary = None
 
 
     def _create_rss(self):
@@ -97,12 +92,9 @@ class FeedGenerator(object):
         link.text = self.__rss_link
         desc = etree.SubElement(channel, 'description')
         desc.text = self.__rss_description
-        if self.__rss_category:
-            for cat in self.__rss_category:
-                category = etree.SubElement(channel, 'category')
-                category.text = cat['value']
-                if cat.get('domain'):
-                    category.attrib['domain'] = cat['domain']
+
+        summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
+        summary.text = self.__rss_description
         if self.__rss_cloud:
             cloud = etree.SubElement(channel, 'cloud')
             cloud.attrib['domain'] = self.__rss_cloud.get('domain')
@@ -120,25 +112,6 @@ class FeedGenerator(object):
         if self.__rss_generator:
             generator = etree.SubElement(channel, 'generator')
             generator.text = self.__rss_generator
-        if self.__rss_image:
-            image = etree.SubElement(channel, 'image')
-            url = etree.SubElement(image, 'url')
-            url.text = self.__rss_image.get('url')
-            title = etree.SubElement(image, 'title')
-            title.text = self.__rss_image['title'] \
-                    if self.__rss_image.get('title') else self.__rss_title
-            link = etree.SubElement(image, 'link')
-            link.text = self.__rss_image['link'] \
-                    if self.__rss_image.get('link') else self.__rss_link
-            if self.__rss_image.get('width'):
-                width = etree.SubElement(image, 'width')
-                width.text = self.__rss_image.get('width')
-            if self.__rss_image.get('height'):
-                height = etree.SubElement(image, 'height')
-                height.text = self.__rss_image.get('height')
-            if self.__rss_image.get('description'):
-                description = etree.SubElement(image, 'description')
-                description.text = self.__rss_image.get('description')
         if self.__rss_language:
             language = etree.SubElement(channel, 'language')
             language.text = self.__rss_language
@@ -152,9 +125,6 @@ class FeedGenerator(object):
         if self.__rss_pubDate:
             pubDate = etree.SubElement(channel, 'pubDate')
             pubDate.text = formatRFC2822(self.__rss_pubDate)
-        if self.__rss_rating:
-            rating = etree.SubElement(channel, 'rating')
-            rating.text = self.__rss_rating
         if self.__rss_skipHours:
             skipHours = etree.SubElement(channel, 'skipHours')
             for h in self.__rss_skipHours:
@@ -165,15 +135,6 @@ class FeedGenerator(object):
             for d in self.__rss_skipDays:
                 day = etree.SubElement(skipDays, 'day')
                 day.text = d
-        if self.__rss_textInput:
-            textInput = etree.SubElement(channel, 'textInput')
-            textInput.attrib['title'] = self.__rss_textInput.get('title')
-            textInput.attrib['description'] = self.__rss_textInput.get('description')
-            textInput.attrib['name'] = self.__rss_textInput.get('name')
-            textInput.attrib['link'] = self.__rss_textInput.get('link')
-        if self.__rss_ttl:
-            ttl = etree.SubElement(channel, 'ttl')
-            ttl.text = str(self.__rss_ttl)
         if self.__rss_webMaster:
             webMaster = etree.SubElement(channel, 'webMaster')
             webMaster.text = self.__rss_webMaster
@@ -219,10 +180,6 @@ class FeedGenerator(object):
         if self.__itunes_subtitle:
             subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
             subtitle.text = self.__itunes_subtitle
-
-        if self.__itunes_summary:
-            summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
-            summary.text = self.__itunes_summary
 
         for entry in self.__feed_entries:
             item = entry.rss_entry()
@@ -336,50 +293,6 @@ class FeedGenerator(object):
         return self.updated( lastBuildDate )
 
 
-    def author(self, author=None, replace=False, **kwargs):
-        '''Get or set author data. An author element is a dictionary containing a name,
-        an email address and a URI. Name is mandatory for ATOM, email is mandatory
-        for RSS.
-
-        This method can be called with:
-
-        - the fields of an author as keyword arguments
-        - the fields of an author as a dictionary
-        - a list of dictionaries containing the author fields
-
-        An author has the following fields:
-
-        - *name* conveys a human-readable name for the person.
-        - *uri* contains a home page for the person.
-        - *email* contains an email address for the person.
-
-        :param author:  Dictionary or list of dictionaries with author data.
-        :param replace: Add or replace old data.
-        :returns: List of authors as dictionaries.
-
-        Example::
-
-            >>> feedgen.author( { 'name':'John Doe', 'email':'jdoe@example.com' } )
-            [{'name':'John Doe','email':'jdoe@example.com'}]
-
-            >>> feedgen.author([{'name':'Mr. X'},{'name':'Max'}])
-            [{'name':'John Doe','email':'jdoe@example.com'},
-                    {'name':'John Doe'}, {'name':'Max'}]
-
-            >>> feedgen.author( name='John Doe', email='jdoe@example.com', replace=True )
-            [{'name':'John Doe','email':'jdoe@example.com'}]
-
-        '''
-        if author is None and kwargs:
-            author = kwargs
-        if not author is None:
-            if replace or self.__rss_author is None:
-                self.__rss_author = []
-            self.__rss_author += ensure_format( author,
-                    set(['name', 'email']), set(['name', 'email']))
-        return self.__rss_author
-
-
     def link(self, href=None):
         '''Get or set the feed's link (website).
 
@@ -394,43 +307,6 @@ class FeedGenerator(object):
         if not href is None:
             self.__rss_link = href
         return self.__rss_link
-
-
-    def category(self, category=None, replace=False, **kwargs):
-        '''Get or set categories that the feed belongs to.
-
-        This method can be called with:
-
-        - the fields of a category as keyword arguments
-        - the fields of a category as a dictionary
-        - a list of dictionaries containing the category fields
-
-        A categories has the following fields:
-
-        - *term* identifies the category
-        - *scheme* identifies the categorization scheme via a URI.
-
-        If a label is present it is used for the RSS feeds. Otherwise the term is
-        used. The scheme is used for the domain attribute in RSS.
-
-        :param category:    Dict or list of dicts with data.
-        :param replace: Add or replace old data.
-        :returns: List of category data.
-        '''
-        if category is None and kwargs:
-            category = kwargs
-        if not category is None:
-            if replace or self.__rss_category is None:
-                self.__rss_category = []
-            if isinstance(category, collections.Mapping):
-                category = [category]
-            for cat in category:
-                rss_cat = dict()
-                rss_cat['value'] = cat['label'] if cat.get('label') else cat['term']
-                if cat.get('scheme'):
-                    rss_cat['domain'] = cat['scheme']
-                self.__rss_category.append( rss_cat )
-        return self.__rss_category
 
 
     def cloud(self, domain=None, port=None, path=None, registerProcedure=None,
@@ -465,34 +341,6 @@ class FeedGenerator(object):
                 (("/" + str(version)) if version is not None else "") + \
                 ((" " + uri) if uri else "")
         return self.__rss_generator
-
-
-    def image(self, url=None, title=None, link=None, width=None, height=None,
-            description=None):
-        '''Set the image of the feed.
-
-        Don't confuse with itunes:image.
-
-        :param url: The URL of a GIF, JPEG or PNG image.
-        :param title: Describes the image. The default value is the feeds title.
-        :param link: URL of the site the image will link to. The default is to
-            use the feeds first altertate link.
-        :param width: Width of the image in pixel. The maximum is 144.
-        :param height: The height of the image. The maximum is 400.
-        :param description: Title of the link.
-        :returns: Data of the image as dictionary.
-        '''
-        if not url is None:
-            self.__rss_image = { 'url' : url }
-            if not title is None:
-                self.__rss_image['title'] = title
-            if not link is None:
-                self.__rss_image['link'] = link
-            if width:
-                self.__rss_image['width'] = width
-            if height:
-                self.__rss_image['height'] = height
-        return self.__rss_image
 
 
     def copyright(self, copyright=None):
@@ -590,14 +438,6 @@ class FeedGenerator(object):
         return self.__rss_pubDate
 
 
-    def rating(self, rating=None):
-        '''Set and get the PICS rating for the channel.
-        '''
-        if not rating is None:
-            self.__rss_rating = rating
-        return self.__rss_rating
-
-
     def skipHours(self, hours=None, replace=False):
         '''Set or get the value of skipHours, a hint for aggregators telling them
         which hours they can skip.
@@ -643,40 +483,6 @@ class FeedGenerator(object):
                 self.__rss_skipDays = set()
             self.__rss_skipDays |= set(days)
         return self.__rss_skipDays
-
-
-    def textInput(self, title=None, description=None, name=None, link=None):
-        '''Get or set the value of textInput. The
-        purpose of the <textInput> element is something of a mystery. You can use
-        it to specify a search engine box. Or to allow a reader to provide
-        feedback. Most aggregators ignore it.
-
-        :param title: The label of the Submit button in the text input area.
-        :param description: Explains the text input area.
-        :param name: The name of the text object in the text input area.
-        :param link: The URL of the CGI script that processes text input requests.
-        :returns: Dictionary containing textInput values.
-        '''
-        if not title is None:
-            self.__rss_textInput = {}
-            self.__rss_textInput['title'] = title
-            self.__rss_textInput['description'] = description
-            self.__rss_textInput['name'] = name
-            self.__rss_textInput['link'] = link
-        return self.__rss_textInput
-
-
-    def ttl(self, ttl=None):
-        '''Get or set the ttl value. ttl stands for
-        time to live. It's a number of minutes that indicates how long a channel
-        can be cached before refreshing from the source.
-
-        :param ttl: Integer value indicating how long the channel may be cached.
-        :returns: Time to live.
-        '''
-        if not ttl is None:
-            self.__rss_ttl = int(ttl)
-        return self.__rss_ttl
 
 
     def webMaster(self, webMaster=None):
@@ -897,22 +703,6 @@ class FeedGenerator(object):
         if not itunes_subtitle is None:
             self.__itunes_subtitle = itunes_subtitle
         return self.__itunes_subtitle
-
-    def itunes_summary(self, itunes_summary=None):
-        '''Get or set the itunes:summary value for the podcast. The contents of
-        this tag are shown in a separate window that appears when the "circled i"
-        in the Description column is clicked. It also appears on the iTunes page
-        for your podcast. This field can be up to 4000 characters. If
-        <itunes:summary> is not included, the contents of the <description> tag
-        are used.
-
-        :param itunes_summary: Summary of the podcast.
-        :type itunes_summary: str
-        :returns: Summary of the podcast.
-        '''
-        if not itunes_summary is None:
-            self.__itunes_summary = itunes_summary
-        return self.__itunes_summary
 
 
     def add_entry(self, feedEntry=None):

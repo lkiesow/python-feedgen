@@ -39,10 +39,8 @@ if __name__ == '__main__':
 
     fg = FeedGenerator()
     fg.title('Testfeed')
-    fg.author( {'name':'Lars Kiesow','email':'lkiesow@uos.de'} )
-    fg.link( href='http://example.com')
-    fg.category(term='test')
-    fg.image('http://ex.com/logo.jpg')
+    fg.managingEditor('lkiesow@uos.de (Lars Kiesow)')
+    fg.link(href='http://example.com')
     fg.copyright('cc-by')
     fg.description('This is a cool feed!')
     fg.language('de')
@@ -60,7 +58,7 @@ if __name__ == '__main__':
     fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
 
     if arg == 'rss':
-        print_enc (fg.rss_str(pretty=True))
+        print_enc(fg.rss_str(pretty=True))
     elif arg == 'podcast':
         fg.itunes_author('Lars Kiesow')
         fg.itunes_category('Technology', 'Podcasting')
@@ -68,10 +66,7 @@ if __name__ == '__main__':
         fg.itunes_complete('no')
         fg.itunes_new_feed_url('http://example.com/new-feed.rss')
         fg.itunes_owner('John Doe', 'john@example.com')
-        fg.itunes_summary('Lorem ipsum dolor sit amet, ' + \
-                'consectetur adipiscing elit. ' + \
-                'Verba tu fingas et ea dicas, quae non sentias?')
         fe.itunes_author('Lars Kiesow')
-        print_enc (fg.rss_str(pretty=True))
+        print_enc(fg.rss_str(pretty=True))
     elif arg.endswith('rss'):
         fg.rss_file(arg)
