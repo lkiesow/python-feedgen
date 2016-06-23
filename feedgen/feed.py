@@ -740,6 +740,36 @@ class FeedGenerator(object):
             self.__itunes_category = cat
         return self.__itunes_category
 
+    _itunes_categories = {
+        'Arts': ['Design', 'Fashion & Beauty', 'Food', 'Literature',
+                 'Performing Arts', 'Visual Arts'],
+        'Business': ['Business News', 'Careers', 'Investing',
+                     'Management & Marketing', 'Shopping'],
+        'Comedy': [],
+        'Education': ['Education', 'Education Technology',
+                      'Higher Education', 'K-12', 'Language Courses', 'Training'],
+        'Games & Hobbies': ['Automotive', 'Aviation', 'Hobbies',
+                            'Other Games', 'Video Games'],
+        'Government & Organizations': ['Local', 'National', 'Non-Profit',
+                                       'Regional'],
+        'Health': ['Alternative Health', 'Fitness & Nutrition', 'Self-Help',
+                   'Sexuality'],
+        'Kids & Family': [],
+        'Music': [],
+        'News & Politics': [],
+        'Religion & Spirituality': ['Buddhism', 'Christianity', 'Hinduism',
+                                    'Islam', 'Judaism', 'Other', 'Spirituality'],
+        'Science & Medicine': ['Medicine', 'Natural Sciences',
+                               'Social Sciences'],
+        'Society & Culture': ['History', 'Personal Journals', 'Philosophy',
+                              'Places & Travel'],
+        'Sports & Recreation': ['Amateur', 'College & High School',
+                                'Outdoor', 'Professional'],
+        'Technology': ['Gadgets', 'Tech News', 'Podcasting',
+                       'Software How-To'],
+        'TV & Film': []
+    }
+
     def itunes_image(self, itunes_image=None):
         '''Get or set the image for the podcast. This tag specifies the artwork
         for your podcast. Put the URL to the image in the href attribute. iTunes
@@ -884,35 +914,6 @@ class FeedGenerator(object):
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
 
-    _itunes_categories = {
-        'Arts': ['Design', 'Fashion & Beauty', 'Food', 'Literature',
-                 'Performing Arts', 'Visual Arts'],
-        'Business': ['Business News', 'Careers', 'Investing',
-                     'Management & Marketing', 'Shopping'],
-        'Comedy': [],
-        'Education': ['Education', 'Education Technology',
-                      'Higher Education', 'K-12', 'Language Courses', 'Training'],
-        'Games & Hobbies': ['Automotive', 'Aviation', 'Hobbies',
-                            'Other Games', 'Video Games'],
-        'Government & Organizations': ['Local', 'National', 'Non-Profit',
-                                       'Regional'],
-        'Health': ['Alternative Health', 'Fitness & Nutrition', 'Self-Help',
-                   'Sexuality'],
-        'Kids & Family': [],
-        'Music': [],
-        'News & Politics': [],
-        'Religion & Spirituality': ['Buddhism', 'Christianity', 'Hinduism',
-                                    'Islam', 'Judaism', 'Other', 'Spirituality'],
-        'Science & Medicine': ['Medicine', 'Natural Sciences',
-                               'Social Sciences'],
-        'Society & Culture': ['History', 'Personal Journals', 'Philosophy',
-                              'Places & Travel'],
-        'Sports & Recreation': ['Amateur', 'College & High School',
-                                'Outdoor', 'Professional'],
-        'Technology': ['Gadgets', 'Tech News', 'Podcasting',
-                       'Software How-To'],
-        'TV & Film': []
-    }
 
     def add_entry(self, feedEntry=None):
         '''This method will add a new entry to the feed. If the feedEntry
