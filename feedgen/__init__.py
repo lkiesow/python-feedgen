@@ -33,11 +33,11 @@
     Create a Feed
     -------------
 
-    To create a feed simply instantiate the FeedGenerator class and insert some
+    To create a feed simply instantiate the Podcast class and insert some
     data::
 
-        >>> from feedgen.feed import FeedGenerator
-        >>> fg = FeedGenerator()
+        >>> from feedgen.feed import Podcast
+        >>> fg = Podcast()
         >>> fg.title('Some Testfeed')
         >>> fg.author( {'name':'John Doe','email':'john@example.de'} )
         >>> fg.link( href='http://example.com', rel='alternate' )
@@ -73,17 +73,17 @@
     Add Feed Entries
     ----------------
 
-    To add entries (items) to a feed you need to create new FeedEntry objects and
-    append them to the list of entries in the FeedGenerator. The most convenient
-    way to go is to use the FeedGenerator itself for the instantiation of the
-    FeedEntry object::
+    To add entries (items) to a feed you need to create new Episode objects and
+    append them to the list of entries in the Podcast. The most convenient
+    way to go is to use the Podcast itself for the instantiation of the
+    Episode object::
 
         >>> fe = fg.add_entry()
         >>> fe.guid('http://lernfunk.de/media/654321/1')
         >>> fe.title('The First Episode')
 
     The FeedGenerators method `add_entry(...)` without argument provides will
-    automatically generate a new FeedEntry object, append it to the feeds internal
+    automatically generate a new Episode object, append it to the feeds internal
     list of entries and return it, so that additional data can be added.
 
     --------------------------
@@ -93,8 +93,8 @@
     All iTunes-specific features are available as methods that start with `itunes_`,
     although most features are platform agnostic::
 
-        >>> from feedgen.feed import FeedGenerator
-        >>> fg = FeedGenerator()
+        >>> from feedgen.feed import Podcast
+        >>> fg = Podcast()
         ...
         >>> fg.itunes_category('Technology', 'Podcasting')
         ...

@@ -13,7 +13,7 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.entry import FeedEntry
+from feedgen.item import Episode
 from feedgen.util import ensure_format, formatRFC2822
 import feedgen.version
 import sys
@@ -24,8 +24,8 @@ import collections
 _feedgen_version = feedgen.version.version_str
 
 
-class FeedGenerator(object):
-    '''FeedGenerator for generating RSS feeds.
+class Podcast(object):
+    '''Class representing one podcast feed.
     '''
 
 
@@ -710,8 +710,8 @@ class FeedGenerator(object):
         argument is omittet a new Entry object is created automatically. This is
         the prefered way to add new entries to a feed.
 
-        :param feedEntry: FeedEntry object to add.
-        :returns: FeedEntry object created or passed to this function.
+        :param feedEntry: Episode object to add.
+        :returns: Episode object created or passed to this function.
 
         Example::
 
@@ -721,7 +721,7 @@ class FeedGenerator(object):
 
         '''
         if feedEntry is None:
-            feedEntry = FeedEntry()
+            feedEntry = Episode()
 
         version = sys.version_info[0]
 
@@ -731,7 +731,7 @@ class FeedGenerator(object):
 
     def add_item(self, item=None):
         '''This method will add a new item to the feed. If the item argument is
-        omittet a new FeedEntry object is created automatically. This is just
+        omittet a new Episode object is created automatically. This is just
         another name for add_entry(...)
         '''
         return self.add_entry(item)
@@ -739,11 +739,11 @@ class FeedGenerator(object):
 
     def entry(self, entry=None, replace=False):
         '''Get or set feed entries. Use the add_entry() method instead to
-        automatically create the FeedEntry objects.
+        automatically create the Episode objects.
 
-        This method takes both a single FeedEntry object or a list of objects.
+        This method takes both a single Episode object or a list of objects.
 
-        :param entry: FeedEntry object or list of FeedEntry objects.
+        :param entry: Episode object or list of Episode objects.
         :returns: List ob all feed entries.
         '''
         if not entry is None:
@@ -779,11 +779,11 @@ class FeedGenerator(object):
 
     def remove_entry(self, entry):
         '''Remove a single entry from the feed. This method accepts both the
-        FeedEntry object to remove or the index of the entry as argument.
+        Episode object to remove or the index of the entry as argument.
 
         :param entry: Entry or index of entry to remove.
         '''
-        if isinstance(entry, FeedEntry):
+        if isinstance(entry, Episode):
             self.__feed_entries.remove(entry)
         else:
             self.__feed_entries.pop(entry)

@@ -8,7 +8,7 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from feedgen.feed import FeedGenerator
+from feedgen.feed import Podcast
 import sys
 
 def print_enc(s):
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     arg = sys.argv[1]
 
-    fg = FeedGenerator()
+    fg = Podcast()
     fg.title('Testfeed')
     fg.managingEditor('lkiesow@uos.de (Lars Kiesow)')
     fg.link(href='http://example.com')

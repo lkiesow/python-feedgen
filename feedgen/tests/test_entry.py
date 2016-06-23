@@ -8,13 +8,13 @@ These are test cases for a basic entry.
 
 import unittest
 from lxml import etree
-from ..feed import FeedGenerator
+from ..feed import Podcast
 
 class TestSequenceFunctions(unittest.TestCase):
 
     def setUp(self):
 
-        fg = FeedGenerator()
+        fg = Podcast()
         self.title = 'Some Testfeed'
 
         fg.title(self.title)
@@ -50,7 +50,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert len(fg.entry()) != None
 
     def test_removeEntryByIndex(self):
-        fg = FeedGenerator()
+        fg = Podcast()
         self.feedId = 'http://example.com'
         self.title = 'Some Testfeed'
 
@@ -62,7 +62,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert len(fg.entry()) == 0
 
     def test_removeEntryByEntry(self):
-        fg = FeedGenerator()
+        fg = Podcast()
         self.feedId = 'http://example.com'
         self.title = 'Some Testfeed'
 
@@ -75,7 +75,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert len(fg.entry()) == 0
 
     def test_categoryHasDomain(self):
-        fg = FeedGenerator()
+        fg = Podcast()
         fg.title('some title')
         fg.link( href='http://www.dontcare.com')
         fg.description('description')

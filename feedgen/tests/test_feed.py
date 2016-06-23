@@ -9,13 +9,13 @@ A basic feed does not contain entries so far.
 
 import unittest
 from lxml import etree
-from ..feed import FeedGenerator
+from ..feed import Podcast
 
 class TestSequenceFunctions(unittest.TestCase):
 
     def setUp(self):
 
-        fg = FeedGenerator()
+        fg = Podcast()
 
         self.nsRss = "http://purl.org/rss/1.0/modules/content/"
 

@@ -17,9 +17,8 @@ from feedgen.util import ensure_format, formatRFC2822
 from feedgen.compat import string_types
 
 
-class FeedEntry(object):
-    '''FeedEntry call representing an ATOM feeds entry node or an RSS feeds item
-    node.
+class Episode(object):
+    '''Class representing an episode in a podcast. Corresponds to an RSS Item element.
     '''
 
     def __init__(self):
