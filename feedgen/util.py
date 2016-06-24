@@ -70,3 +70,18 @@ def formatRFC2822(d):
     d = d.strftime('%a, %d %b %Y %H:%M:%S %z')
     locale.setlocale(locale.LC_ALL, l)
     return d
+
+# Define htmlencode
+ver = sys.version_info
+
+if ver < (3, 2):
+    # cgi.escape was deprecated in 3.2
+    import cgi
+
+    def htmlencode(s):
+        return cgi.escape(s, quote=True)
+else:
+    import html
+
+    def htmlencode(s):
+        return html.escape(s)

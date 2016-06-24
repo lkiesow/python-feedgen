@@ -13,7 +13,7 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.util import ensure_format, formatRFC2822
+from feedgen.util import ensure_format, formatRFC2822, htmlencode
 from feedgen.compat import string_types
 
 
@@ -28,7 +28,6 @@ class BaseEpisode(object):
     def __init__(self):
         # RSS
         self.__rss_author      = None
-        self.__rss_description = None
         self.__rss_content     = None
         self.__rss_enclosure   = None
         self.__rss_guid        = None
@@ -46,13 +45,12 @@ class BaseEpisode(object):
         self.__itunes_is_closed_captioned = None
         self.__itunes_order = None
         self.__itunes_subtitle = None
-        self.__itunes_summary = None
 
 
     def rss_entry(self, extensions=True):
         """Create a RSS item and return it."""
         entry = etree.Element('item')
-        if not ( self.__rss_title or self.__rss_description or self.__rss_content):
+        if not ( self.__rss_title or self.__rss_content):
             raise ValueError('Required fields not set')
         if self.__rss_title:
             title = etree.SubElement(entry, 'title')
@@ -60,19 +58,12 @@ class BaseEpisode(object):
         if self.__rss_link:
             link = etree.SubElement(entry, 'link')
             link.text = self.__rss_link
-        if self.__rss_description and self.__rss_content:
+        if self.__rss_content:
             description = etree.SubElement(entry, 'description')
-            description.text = self.__rss_description
+            description.text = etree.CDATA(self.__rss_content)
             content = etree.SubElement(entry, '{%s}encoded' %
                                     'http://purl.org/rss/1.0/modules/content/')
-            content.text = etree.CDATA(self.__rss_content['content']) \
-                if self.__rss_content.get('type', '') == 'CDATA' else self.__rss_content['content']
-        elif self.__rss_description:
-            description = etree.SubElement(entry, 'description')
-            description.text = self.__rss_description
-        elif self.__rss_content:
-            description = etree.SubElement(entry, 'description')
-            description.text = self.__rss_content['content']
+            content.text = etree.CDATA(self.__rss_content)
         for a in self.__rss_author or []:
             author = etree.SubElement(entry, 'author')
             author.text = a
@@ -123,10 +114,6 @@ class BaseEpisode(object):
         if self.__itunes_subtitle:
             subtitle = etree.SubElement(entry, '{%s}subtitle' % ITUNES_NS)
             subtitle.text = self.__itunes_subtitle
-
-        if self.__itunes_summary:
-            summary = etree.SubElement(entry, '{%s}summary' % ITUNES_NS)
-            summary.text = self.__itunes_summary
 
         return entry
 
@@ -196,20 +183,27 @@ class BaseEpisode(object):
         return self.__rss_author
 
 
-    def content(self, content=None, type=None):
-        """Get or set the content of the entry which contains or links to the
-        complete content of the entry. If the content is set (not linked) it will also set
-        rss:description.
+    def summary(self, new_summary=None, html=True):
+        """Get or set the summary of this episode.
 
-        :param content: The content of the feed entry.
-        :param src: Link to the entries content.
-        :param type: If type is CDATA content would not be escaped.
-        :returns: Content element of the entry.
+        In iTunes, the summary is shown in a separate window that appears when
+        the "circled i" in the Description column is clicked. This field can be
+        up to 4000 characters in length.
+
+        See also :py:meth:`.itunes_subtitle`.
+
+        :param new_summary: The summary of this episode.
+        :param html: Treat the summary as HTML. If set to False, the summary
+            will be HTML escaped (thus, any tags will be displayed in plain
+            text). If set to True, the tags are parsed by clients which support
+            HTML, but if something is not to be regarded as HTML, you must
+            escape it yourself using HTML entities.
+        :returns: Summary of this episode.
         """
-        if not content is None:
-            self.__rss_content = {'content':content}
-            if not type is None:
-                self.__rss_content['type'] = type
+        if not new_summary is None:
+            if not html:
+                new_summary = htmlencode(new_summary)
+            self.__rss_content = new_summary
         return self.__rss_content
 
 
@@ -223,16 +217,6 @@ class BaseEpisode(object):
             self.__rss_link = href
         return self.__rss_link
 
-
-    def description(self, description=None):
-        """Get or set the description value which is the item synopsis.
-
-        :param description: Description of the entry.
-        :returns: The entries description.
-        """
-        if not description is None:
-            self.__rss_description = description
-        return self.__rss_description
 
     def published(self, published=None):
         """Set or get the published value which contains the time of the initial
@@ -421,19 +405,3 @@ class BaseEpisode(object):
         if not itunes_subtitle is None:
             self.__itunes_subtitle = itunes_subtitle
         return self.__itunes_subtitle
-
-    def itunes_summary(self, itunes_summary=None):
-        """Get or set the itunes:summary value for the podcast episode. The
-        contents of this tag are shown in a separate window that appears when the
-        "circled i" in the Description column is clicked. It also appears on the
-        iTunes page for your podcast. This field can be up to 4000 characters. If
-        <itunes:summary> is not included, the contents of the <description> tag
-        are used.
-
-        :param itunes_summary: Summary of the podcast episode.
-        :type itunes_summary: str
-        :returns: Summary of the podcast episode.
-        """
-        if not itunes_summary is None:
-            self.__itunes_summary = itunes_summary
-        return self.__itunes_summary

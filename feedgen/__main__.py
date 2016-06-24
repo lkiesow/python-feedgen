@@ -49,13 +49,12 @@ if __name__ == '__main__':
     fe = fg.add_episode()
     fe.guid('http://lernfunk.de/_MEDIAID_123#1')
     fe.title('First Element')
-    fe.content('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
+    fe.summary('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
             aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista
             mala sunt, placet. Aut etiam, ut vestitum, sic sententiam habeas aliam
             domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
             occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
-            verba.''')
-    fe.description(u'Lorem ipsum dolor sit amet, consectetur adipiscing elit…')
+            verba <3.''', html=False)
     fe.link( href='http://example.com')
     fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
 
