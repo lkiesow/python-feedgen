@@ -262,7 +262,7 @@ def process_docstring(app, what, name, obj, options, lines):
     ll = []
     for l in lines:
         spacelen = len(spaces_pat.search(l).group(0))
-        newlen = (spacelen % 8) + (spacelen / 8 * 4)
+        newlen = int((spacelen % 8) + (spacelen / 8 * 4))
         ll.append( (' '*newlen) + l.lstrip(' ') )
     lines[:] = ll
 
