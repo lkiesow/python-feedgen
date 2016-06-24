@@ -329,7 +329,7 @@ class Podcast(object):
         """
         feed = self._create_rss()
         return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
-                xml_declaration=xml_declaration)
+                xml_declaration=xml_declaration).decode(encoding)
 
 
     def rss_file(self, filename, pretty=False,

@@ -89,4 +89,4 @@ class TestSequenceFunctions(unittest.TestCase):
               }])
 
         result = fg.rss_str()
-        assert b'domain="http://www.somedomain.com/category"' in result
+        assert 'domain="http://www.somedomain.com/category"' in result
