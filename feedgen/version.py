@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
+"""
     feedgen.version
     ~~~~~~~~~~~~~~~
 
@@ -7,7 +7,7 @@
 
     :license: FreeBSD and LGPL, see license.* for more details.
 
-'''
+"""
 
 'Version of python-feedgen represented as tuple'
 version = (0, 3, 2)

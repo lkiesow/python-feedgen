@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
+"""
     feedgen.feed
     ~~~~~~~~~~~~
 
@@ -7,7 +7,7 @@
 
     :license: FreeBSD and LGPL, see license.* for more details.
 
-'''
+"""
 
 from lxml import etree
 from datetime import datetime
@@ -26,8 +26,8 @@ _feedgen_version = feedgen.version.version_str
 
 
 class Podcast(object):
-    '''Class representing one podcast feed.
-    '''
+    """Class representing one podcast feed.
+    """
 
 
     def __init__(self):
@@ -136,10 +136,10 @@ class Podcast(object):
             raise ValueError("New Episode must be Episode or a descendant of it (so the API still works).")
 
     def _create_rss(self):
-        '''Create an RSS feed xml structure containing all previously set fields.
+        """Create an RSS feed xml structure containing all previously set fields.
 
         :returns: Tuple containing the feed root element and the element tree.
-        '''
+        """
 
         nsmap = {
             'atom':  'http://www.w3.org/2005/Atom',
@@ -271,7 +271,7 @@ class Podcast(object):
 
     def rss_str(self, pretty=False, encoding='UTF-8',
             xml_declaration=True):
-        '''Generates an RSS feed and returns the feed XML as string.
+        """Generates an RSS feed and returns the feed XML as string.
 
         :param pretty: If the feed should be split into multiple lines and
             properly indented.
@@ -282,7 +282,7 @@ class Podcast(object):
             output (Default: enabled).
         :type xml_declaration: bool
         :returns: String representation of the RSS feed.
-        '''
+        """
         feed, doc = self._create_rss()
         return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
                 xml_declaration=xml_declaration)
@@ -290,7 +290,7 @@ class Podcast(object):
 
     def rss_file(self, filename, pretty=False,
             encoding='UTF-8', xml_declaration=True):
-        '''Generates an RSS feed and write the resulting XML to a file.
+        """Generates an RSS feed and write the resulting XML to a file.
 
         :param filename: Name of file to write, or a file-like object, or a URL.
         :type filename: str or fd
@@ -302,14 +302,14 @@ class Podcast(object):
         :param xml_declaration: If an XML declaration should be added to the
             output (Default: enabled).
         :type xml_declaration: bool
-        '''
+        """
         feed, doc = self._create_rss()
         doc.write(filename, pretty_print=pretty, encoding=encoding,
                 xml_declaration=xml_declaration)
 
 
     def title(self, title=None):
-        '''Get or set the title value of the feed. It should contain a human
+        """Get or set the title value of the feed. It should contain a human
         readable title for the feed. Often the same as the title of the
         associated website. Title is mandatory for both ATOM and RSS and should
         not be blank.
@@ -317,14 +317,14 @@ class Podcast(object):
         :param title: The new title of the feed.
         :type title: str
         :returns: The feeds title.
-        '''
+        """
         if not title is None:
             self.__rss_title = title
         return self.__rss_title
 
 
     def updated(self, updated=None):
-        '''Set or get the updated value which indicates the last time the feed
+        """Set or get the updated value which indicates the last time the feed
         was modified in a significant way.
 
         The value can either be a string which will automatically be parsed or a
@@ -339,7 +339,7 @@ class Podcast(object):
         :param updated: The modification date.
         :type updated: str or datetime.datetime
         :returns: Modification date as datetime.datetime
-        '''
+        """
         if not updated is None:
             if isinstance(updated, string_types):
                 updated = dateutil.parser.parse(updated)
@@ -353,7 +353,7 @@ class Podcast(object):
 
 
     def link(self, href=None):
-        '''Get or set the feed's link (website).
+        """Get or set the feed's link (website).
 
         :param href:    URI of this feed's website.
 
@@ -362,7 +362,7 @@ class Podcast(object):
             >>> feedgen.link( href='http://example.com/')
             [{'href':'http://example.com/', 'rel':'self'}]
 
-        '''
+        """
         if not href is None:
             self.__rss_link = href
         return self.__rss_link
@@ -370,7 +370,7 @@ class Podcast(object):
 
     def cloud(self, domain=None, port=None, path=None, registerProcedure=None,
             protocol=None):
-        '''Set or get the cloud data of the feed. It is an RSS only attribute. It
+        """Set or get the cloud data of the feed. It is an RSS only attribute. It
         specifies a web service that supports the rssCloud interface which can be
         implemented in HTTP-POST, XML-RPC or SOAP 1.1.
 
@@ -380,7 +380,7 @@ class Podcast(object):
         :param registerProcedure: The procedure to call.
         :param protocol: Can be either HTTP-POST, XML-RPC or SOAP 1.1.
         :returns: Dictionary containing the cloud data.
-        '''
+        """
         if not domain is None:
             self.__rss_cloud = {'domain':domain, 'port':port, 'path':path,
                     'registerProcedure':registerProcedure, 'protocol':protocol}
@@ -388,13 +388,13 @@ class Podcast(object):
 
 
     def generator(self, generator=None, version=None, uri=None):
-        '''Get or the generator of the feed which identifies the software used to
+        """Get or the generator of the feed which identifies the software used to
         generate the feed, for debugging and other purposes.
 
         :param generator: Software used to create the feed.
         :param version: (Optional) Version of the software.
         :param uri: (Optional) URI the software can be found.
-        '''
+        """
         if not generator is None:
             self.__rss_generator = generator + \
                 (("/" + str(version)) if version is not None else "") + \
@@ -403,11 +403,11 @@ class Podcast(object):
 
 
     def copyright(self, copyright=None):
-        '''Get or set the copyright notice for content in the channel.
+        """Get or set the copyright notice for content in the channel.
 
         :param copyright: The copyright notice.
         :returns: The copyright notice.
-        '''
+        """
 
         if not copyright is None:
             self.__rss_copyright = copyright
@@ -415,21 +415,21 @@ class Podcast(object):
 
 
     def description(self, description=None):
-        '''Set and get the description of the feed,
+        """Set and get the description of the feed,
         which is a phrase or sentence describing the channel. It is mandatory for
         RSS feeds.
 
         :param description: Description of the channel.
         :returns: Description of the channel.
 
-        '''
+        """
         if not description is None:
             self.__rss_description = description
         return self.__rss_description
 
 
     def docs(self, docs=None):
-        '''Get or set the docs value of the feed. It
+        """Get or set the docs value of the feed. It
         is a URL that points to the documentation for the format used in the RSS
         file. It is probably a pointer to [1]. It is for people who might stumble
         across an RSS file on a Web server 25 years from now and wonder what it
@@ -439,40 +439,40 @@ class Podcast(object):
 
         :param docs: URL of the format documentation.
         :returns: URL of the format documentation.
-        '''
+        """
         if not docs is None:
             self.__rss_docs = docs
         return self.__rss_docs
 
 
     def language(self, language=None):
-        '''Get or set the language of the feed. It indicates the language the
+        """Get or set the language of the feed. It indicates the language the
         channel is written in. This allows aggregators to group all Italian
         language sites, for example, on a single page.
         The value should be an IETF language tag.
 
         :param language: Language of the feed.
         :returns: Language of the feed.
-        '''
+        """
         if not language is None:
             self.__rss_language = language
         return self.__rss_language
 
 
     def managingEditor(self, managingEditor=None):
-        '''Set or get the value for managingEditor which is the email address for
+        """Set or get the value for managingEditor which is the email address for
         person responsible for editorial content.
 
         :param managingEditor: Email adress of the managing editor.
         :returns: Email adress of the managing editor.
-        '''
+        """
         if not managingEditor is None:
             self.__rss_managingEditor = managingEditor
         return self.__rss_managingEditor
 
 
     def published(self, pubDate=None):
-        '''Set or get the publication date for the content in the channel. For
+        """Set or get the publication date for the content in the channel. For
         example, the New York Times publishes on a daily basis, the publication
         date flips once every 24 hours. That's when the pubDate of the channel
         changes.
@@ -488,7 +488,7 @@ class Podcast(object):
 
         :param pubDate: The publication date.
         :returns: Publication date as datetime.datetime
-        '''
+        """
         if not pubDate is None:
             if isinstance(pubDate, string_types):
                 pubDate = dateutil.parser.parse(pubDate)
@@ -502,7 +502,7 @@ class Podcast(object):
 
 
     def skipHours(self, hours=None, replace=False):
-        '''Set or get the value of skipHours, a hint for aggregators telling them
+        """Set or get the value of skipHours, a hint for aggregators telling them
         which hours they can skip.
 
         This method can be called with an hour or a list of hours. The hours are
@@ -511,7 +511,7 @@ class Podcast(object):
         :param hours:   List of hours the feedreaders should not check the feed.
         :param replace: Add or replace old data.
         :returns:       List of hours the feedreaders should not check the feed.
-        '''
+        """
         if not hours is None:
             if not (isinstance(hours, list) or isinstance(hours, set)):
                 hours = [hours]
@@ -525,7 +525,7 @@ class Podcast(object):
 
 
     def skipDays(self, days=None, replace=False):
-        '''Set or get the value of skipDays, a hint for aggregators telling them
+        """Set or get the value of skipDays, a hint for aggregators telling them
         which days they can skip.
 
         This method can be called with a day name or a list of day names. The days are
@@ -534,7 +534,7 @@ class Podcast(object):
         :param hours:   List of days the feedreaders should not check the feed.
         :param replace: Add or replace old data.
         :returns:       List of days the feedreaders should not check the feed.
-        '''
+        """
         if not days is None:
             if not (isinstance(days, list) or isinstance(days, set)):
                 days = [days]
@@ -549,18 +549,18 @@ class Podcast(object):
 
 
     def webMaster(self, webMaster=None):
-        '''Get and set the value of webMaster, which represents the email address
+        """Get and set the value of webMaster, which represents the email address
         for the person responsible for technical issues relating to the feed.
 
         :param webMaster: Email address of the webmaster.
         :returns: Email address of the webmaster.
-        '''
+        """
         if not webMaster is None:
             self.__rss_webMaster = webMaster
         return self.__rss_webMaster
 
     def itunes_author(self, itunes_author=None):
-        '''Get or set the itunes:author. The content of this tag is shown in the
+        """Get or set the itunes:author. The content of this tag is shown in the
         Artist column in iTunes. If the tag is not present, iTunes uses the
         contents of the <author> tag. If <itunes:author> is not present at the
         feed level, iTunes will use the contents of <managingEditor>.
@@ -568,24 +568,24 @@ class Podcast(object):
         :param itunes_author: The author of the podcast.
         :type itunes_author: str
         :returns: The author of the podcast.
-        '''
+        """
         if not itunes_author is None:
             self.__itunes_author = itunes_author
         return self.__itunes_author
 
     def itunes_block(self, itunes_block=None):
-        '''Get or set the ITunes block attribute. Use this to prevent the entire
+        """Get or set the ITunes block attribute. Use this to prevent the entire
         podcast from appearing in the iTunes podcast directory.
 
         :param itunes_block: Block the podcast.
         :returns: If the podcast is blocked.
-        '''
+        """
         if not itunes_block is None:
             self.__itunes_block = itunes_block
         return self.__itunes_block
 
     def itunes_category(self, itunes_category=None, itunes_subcategory=None):
-        '''Get or set the ITunes category which appears in the category column
+        """Get or set the ITunes category which appears in the category column
         and in iTunes Store Browser.
 
         The (sub-)category has to be one from the values defined at
@@ -596,7 +596,7 @@ class Podcast(object):
         :param itunes_subcategory: Subcategory of the podcast, unescaped. The subcategory need not be set.
         :type itunes_subcategory: str
         :returns: Dictionary which has category with key 'cat', and optionally subcategory with key 'sub'.
-        '''
+        """
         if not itunes_category is None:
             if not itunes_category in self._itunes_categories.keys():
                 raise ValueError('Invalid category %s' % itunes_category)
@@ -640,7 +640,7 @@ class Podcast(object):
     }
 
     def itunes_image(self, itunes_image=None):
-        '''Get or set the image for the podcast. This tag specifies the artwork
+        """Get or set the image for the podcast. This tag specifies the artwork
         for your podcast. Put the URL to the image in the href attribute. iTunes
         prefers square .jpg images that are at least 1400x1400 pixels, which is
         different from what is specified for the standard RSS image tag. In order
@@ -660,7 +660,7 @@ class Podcast(object):
         :param itunes_image: Image of the podcast.
         :type itunes_image: str
         :returns: Image of the podcast.
-        '''
+        """
         if not itunes_image is None:
             lowercase_itunes_image = itunes_image.lower()
             if not (lowercase_itunes_image.endswith(('.jpg', '.jpeg', '.png'))):
@@ -669,7 +669,7 @@ class Podcast(object):
         return self.__itunes_image
 
     def itunes_explicit(self, itunes_explicit=None):
-        '''Get or the the itunes:explicit value of the podcast. This tag should
+        """Get or the the itunes:explicit value of the podcast. This tag should
         be used to indicate whether your podcast contains explicit material. The
         three values for this tag are "yes", "no", and "clean".
 
@@ -685,7 +685,7 @@ class Podcast(object):
             as blank.
         :type itunes_explicit: str
         :returns: If the podcast contains explicit material.
-        '''
+        """
         if not itunes_explicit is None:
             if not itunes_explicit in ('', 'yes', 'no', 'clean'):
                 raise ValueError('Invalid value "%s" for explicit tag' % itunes_explicit)
@@ -693,7 +693,7 @@ class Podcast(object):
         return self.__itunes_explicit
 
     def itunes_complete(self, itunes_complete=None):
-        '''Get or set the itunes:complete value of the podcast. This tag can be
+        """Get or set the itunes:complete value of the podcast. This tag can be
         used to indicate the completion of a podcast.
 
         If you populate this tag with "yes", you are indicating that no more
@@ -704,7 +704,7 @@ class Podcast(object):
         :param itunes_complete: If the podcast is complete.
         :type itunes_complete: bool or str
         :returns: If the podcast is complete.
-        '''
+        """
         if not itunes_complete is None:
             if not itunes_complete in ('yes', 'no', '', True, False):
                 raise ValueError('Invalid value "%s" for complete tag' % itunes_complete)
@@ -716,7 +716,7 @@ class Podcast(object):
         return self.__itunes_complete
 
     def itunes_new_feed_url(self, itunes_new_feed_url=None):
-        '''Get or set the new-feed-url property of the podcast. This tag allows
+        """Get or set the new-feed-url property of the podcast. This tag allows
         you to change the URL where the podcast feed is located
 
         After adding the tag to your old feed, you should maintain the old feed
@@ -726,13 +726,13 @@ class Podcast(object):
         :param itunes_new_feed_url: New feed URL.
         :type itunes_new_feed_url: str
         :returns: New feed URL.
-        '''
+        """
         if not itunes_new_feed_url is None:
             self.__itunes_new_feed_url = itunes_new_feed_url
         return self.__itunes_new_feed_url
 
     def itunes_owner(self, name=None, email=None):
-        '''Get or set the itunes:owner of the podcast. This tag contains
+        """Get or set the itunes:owner of the podcast. This tag contains
         information that will be used to contact the owner of the podcast for
         communication specifically about the podcast. It will not be publicly
         displayed.
@@ -744,7 +744,7 @@ class Podcast(object):
         :param email: The feed owner's email.
         :type email: str
         :returns: Data of the owner of the feed.
-        '''
+        """
         if not name is None:
             if name and email:
                 self.__itunes_owner = {'name': name, 'email': email}
@@ -755,21 +755,21 @@ class Podcast(object):
         return self.__itunes_owner
 
     def itunes_subtitle(self, itunes_subtitle=None):
-        '''Get or set the itunes:subtitle value for the podcast. The contents of
+        """Get or set the itunes:subtitle value for the podcast. The contents of
         this tag are shown in the Description column in iTunes. The subtitle
         displays best if it is only a few words long.
 
         :param itunes_subtitle: Subtitle of the podcast.
         :type itunes_subtitle: str
         :returns: Subtitle of the podcast.
-        '''
+        """
         if not itunes_subtitle is None:
             self.__itunes_subtitle = itunes_subtitle
         return self.__itunes_subtitle
 
 
     def add_episode(self, feedEntry=None):
-        '''This method will add a new entry to the feed. If the feedEntry
+        """This method will add a new entry to the feed. If the feedEntry
         argument is omittet a new Entry object is created automatically. This is
         the prefered way to add new entries to a feed.
 
@@ -782,7 +782,7 @@ class Podcast(object):
             >>> entry = feedgen.add_episode()
             >>> entry.title('First feed entry')
 
-        '''
+        """
         if feedEntry is None:
             feedEntry = self.Episode()
 

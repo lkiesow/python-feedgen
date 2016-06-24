@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
+"""
     feedgen.util
     ~~~~~~~~~~~~
 
@@ -7,12 +7,12 @@
 
     :copyright: 2013, Lars Kiesow <lkiesow@uos.de>
     :license: FreeBSD and LGPL, see license.* for more details.
-'''
+"""
 import sys, locale
 
 
 def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
-    '''Takes a dictionary or a list of dictionaries and check if all keys are in
+    """Takes a dictionary or a list of dictionaries and check if all keys are in
     the set of allowed keys, if all required keys are present and if the values
     of a specific key are ok.
 
@@ -22,7 +22,7 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
     :param allowed_values: Dictionary with keys and sets of their allowed values.
     :param defaults:       Dictionary with default values.
     :returns:              List of checked dictionaries.
-    '''
+    """
     if not val:
         return None
     if allowed_values is None:
@@ -63,8 +63,8 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
 
 
 def formatRFC2822(d):
-    '''Make sure the locale setting do not interfere with the time format.
-    '''
+    """Make sure the locale setting do not interfere with the time format.
+    """
     l = locale.setlocale(locale.LC_ALL)
     locale.setlocale(locale.LC_ALL, 'C')
     d = d.strftime('%a, %d %b %Y %H:%M:%S %z')

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-'''
+"""
     feedgen.entry
     ~~~~~~~~~~~~~
 
     :copyright: 2013, Lars Kiesow <lkiesow@uos.de>
 
     :license: FreeBSD and LGPL, see license.* for more details.
-'''
+"""
 import collections
 
 from lxml import etree
@@ -18,12 +18,12 @@ from feedgen.compat import string_types
 
 
 class BaseEpisode(object):
-    '''Class representing an episode in a podcast. Corresponds to an RSS Item.
+    """Class representing an episode in a podcast. Corresponds to an RSS Item.
 
     Its name indicates that this is the superclass for all episode classes.
     It is not meant to indicate that this class misses functionality; in 99%
     of all cases, this class is the right one to use for episodes.
-    '''
+    """
 
     def __init__(self):
         # RSS
@@ -53,7 +53,7 @@ class BaseEpisode(object):
 
 
     def rss_entry(self, extensions=True):
-        '''Create a RSS item and return it.'''
+        """Create a RSS item and return it."""
         entry = etree.Element('item')
         if not ( self.__rss_title or self.__rss_description or self.__rss_content):
             raise ValueError('Required fields not set')
@@ -144,31 +144,31 @@ class BaseEpisode(object):
 
 
     def title(self, title=None):
-        '''Get or set the title value of the entry. It should contain a human
+        """Get or set the title value of the entry. It should contain a human
         readable title for the entry. Title is mandatory and should not be blank.
 
         :param title: The new title of the entry.
         :returns: The entriess title.
-        '''
+        """
         if not title is None:
             self.__rss_title = title
         return self.__rss_title
 
 
     def guid(self, guid=None):
-        '''Get or set the entries guid which is a string that uniquely identifies
+        """Get or set the entries guid which is a string that uniquely identifies
         the item.
 
         :param guid: Id of the entry.
         :returns: Id of the entry.
-        '''
+        """
         if not guid is None:
             self.__rss_guid = guid
         return self.__rss_guid
 
 
     def author(self, author=None, replace=False, **kwargs):
-        '''Get or set autor data. An author element is a dict containing a name and
+        """Get or set autor data. An author element is a dict containing a name and
         an email adress. Email is mandatory.
 
         This method can be called with:
@@ -195,7 +195,7 @@ class BaseEpisode(object):
             >>> author( name='John Doe', email='jdoe@example.com', replace=True )
             [{'name':'John Doe','email':'jdoe@example.com'}]
 
-        '''
+        """
         if author is None and kwargs:
             author = kwargs
         if not author is None:
@@ -208,7 +208,7 @@ class BaseEpisode(object):
 
 
     def content(self, content=None, type=None):
-        '''Get or set the content of the entry which contains or links to the
+        """Get or set the content of the entry which contains or links to the
         complete content of the entry. If the content is set (not linked) it will also set
         rss:description.
 
@@ -216,7 +216,7 @@ class BaseEpisode(object):
         :param src: Link to the entries content.
         :param type: If type is CDATA content would not be escaped.
         :returns: Content element of the entry.
-        '''
+        """
         if not content is None:
             self.__rss_content = {'content':content}
             if not type is None:
@@ -225,28 +225,28 @@ class BaseEpisode(object):
 
 
     def link(self, href=None):
-        '''Get or set the link to the full version of this episode description.
+        """Get or set the link to the full version of this episode description.
 
         :param href: the URI of the referenced resource (typically a Web page)
         :returns: The current link URI.
-        '''
+        """
         if not href is None:
             self.__rss_link = href
         return self.__rss_link
 
 
     def description(self, description=None):
-        '''Get or set the description value which is the item synopsis.
+        """Get or set the description value which is the item synopsis.
 
         :param description: Description of the entry.
         :returns: The entries description.
-        '''
+        """
         if not description is None:
             self.__rss_description = description
         return self.__rss_description
 
     def category(self, category=None, replace=False, **kwargs):
-        '''Get or set categories that the feed belongs to.
+        """Get or set categories that the feed belongs to.
 
         This method can be called with:
 
@@ -265,7 +265,7 @@ class BaseEpisode(object):
         :param category:    Dict or list of dicts with data.
         :param replace: Add or replace old data.
         :returns: List of category data.
-        '''
+        """
         if category is None and kwargs:
             category = kwargs
         if not category is None:
@@ -283,7 +283,7 @@ class BaseEpisode(object):
 
 
     def published(self, published=None):
-        '''Set or get the published value which contains the time of the initial
+        """Set or get the published value which contains the time of the initial
         creation or first availability of the entry.
 
         The value can either be a string which will automatically be parsed or a
@@ -292,7 +292,7 @@ class BaseEpisode(object):
 
         :param published: The creation date.
         :returns: Creation date as datetime.datetime
-        '''
+        """
         if not published is None:
             if isinstance(published, string_types):
                 published = dateutil.parser.parse(published)
@@ -306,40 +306,40 @@ class BaseEpisode(object):
 
 
     def pubdate(self, pubDate=None):
-        '''Get or set the pubDate of the entry which indicates when the entry was
+        """Get or set the pubDate of the entry which indicates when the entry was
         published. This method is just another name for the published(...)
         method.
-        '''
+        """
         return self.published(pubDate)
 
 
     def comments(self, comments=None):
-        '''Get or set the the value of comments which is the url of the comments
+        """Get or set the the value of comments which is the url of the comments
         page for the item.
 
         :param comments: URL to the comments page.
         :returns: URL to the comments page.
-        '''
+        """
         if not comments is None:
             self.__rss_comments = comments
         return self.__rss_comments
 
 
     def enclosure(self, url=None, length=None, type=None):
-        '''Get or set the value of enclosure which describes a media object that
+        """Get or set the value of enclosure which describes a media object that
         is attached to this item.
 
         :param url: URL of the media object.
         :param length: Size of the media in bytes.
         :param type: Mimetype of the linked media.
         :returns: Data of the enclosure element.
-        '''
+        """
         if not url is None:
             self.__rss_enclosure = {'url': url, 'length': length, 'type': type}
         return self.__rss_enclosure
 
     def itunes_author(self, itunes_author=None):
-        '''Get or set the itunes:author of the podcast episode. The content of
+        """Get or set the itunes:author of the podcast episode. The content of
         this tag is shown in the Artist column in iTunes. If the tag is not
         present, iTunes uses the contents of the <author> tag. If <itunes:author>
         is not present at the feed level, iTunes will use the contents of
@@ -348,26 +348,26 @@ class BaseEpisode(object):
         :param itunes_author: The author of the podcast.
         :type itunes_author: str
         :returns: The author of the podcast.
-        '''
+        """
         if not itunes_author is None:
             self.__itunes_author = itunes_author
         return self.__itunes_author
 
     def itunes_block(self, itunes_block=None):
-        '''Get or set the ITunes block attribute. Use this to prevent episodes
+        """Get or set the ITunes block attribute. Use this to prevent episodes
         from appearing in the iTunes podcast directory. Note that the episode can still be
         found by inspecting the XML, thus it is public.
 
         :param itunes_block: Block podcast episodes.
         :type itunes_block: bool
         :returns: If the podcast episode is blocked.
-        '''
+        """
         if not itunes_block is None:
             self.__itunes_block = itunes_block
         return self.__itunes_block
 
     def itunes_image(self, itunes_image=None):
-        '''Get or set the image for the podcast episode. This tag specifies the
+        """Get or set the image for the podcast episode. This tag specifies the
         artwork for your podcast. Put the URL to the image in the href attribute.
         iTunes prefers square .jpg images that are at least 1400x1400 pixels,
         which is different from what is specified for the standard RSS image tag.
@@ -387,7 +387,7 @@ class BaseEpisode(object):
         :param itunes_image: Image of the podcast.
         :type itunes_image: str
         :returns: Image of the podcast.
-        '''
+        """
         if not itunes_image is None:
             lowercase_itunes_image = itunes_image.lower()
             if not (lowercase_itunes_image.endswith(('.jpg', '.jpeg', '.png'))):
@@ -396,7 +396,7 @@ class BaseEpisode(object):
         return self.__itunes_image
 
     def itunes_duration(self, itunes_duration=None):
-        '''Get or set the duration of the podcast episode. The content of this
+        """Get or set the duration of the podcast episode. The content of this
         tag is shown in the Time column in iTunes.
 
         The tag can be formatted HH:MM:SS, H:MM:SS, MM:SS, or M:SS (H = hours,
@@ -409,7 +409,7 @@ class BaseEpisode(object):
         :param itunes_duration: Duration of the podcast episode.
         :type itunes_duration: str or int
         :returns: Duration of the podcast episode.
-        '''
+        """
         if not itunes_duration is None:
             itunes_duration = str(itunes_duration)
             if len(itunes_duration.split(':')) > 3 or \
@@ -419,7 +419,7 @@ class BaseEpisode(object):
         return self.itunes_duration
 
     def itunes_explicit(self, itunes_explicit=None):
-        '''Get or the the itunes:explicit value of the podcast episode. This tag
+        """Get or the the itunes:explicit value of the podcast episode. This tag
         should be used to indicate whether your podcast episode contains explicit
         material. The three values for this tag are "yes", "no", and "clean".
 
@@ -435,7 +435,7 @@ class BaseEpisode(object):
             as blank.
         :type itunes_explicit: str
         :returns: If the podcast episode contains explicit material.
-        '''
+        """
         if not itunes_explicit is None:
             if not itunes_explicit in ('', 'yes', 'no', 'clean'):
                 raise ValueError('Invalid value "%s" for explicit tag' % itunes_explicit)
@@ -443,7 +443,7 @@ class BaseEpisode(object):
         return self.__itunes_explicit
 
     def itunes_is_closed_captioned(self, itunes_is_closed_captioned=None):
-        '''Get or set the is_closed_captioned value of the podcast episode. This
+        """Get or set the is_closed_captioned value of the podcast episode. This
         tag should be used if your podcast includes a video episode with embedded
         closed captioning support. The two values for this tag are "yes" and
         "no”.
@@ -451,13 +451,13 @@ class BaseEpisode(object):
         :param itunes_is_closed_captioned: If the episode has closed captioning support.
         :type itunes_is_closed_captioned: bool or str
         :returns: If the episode has closed captioning support.
-        '''
+        """
         if not itunes_is_closed_captioned is None:
             self.__itunes_is_closed_captioned = itunes_is_closed_captioned in ('yes', True)
         return self.__itunes_is_closed_captioned
 
     def itunes_order(self, itunes_order=None):
-        '''Get or set the itunes:order value of the podcast episode. This tag can
+        """Get or set the itunes:order value of the podcast episode. This tag can
         be used to override the default ordering of episodes on the store.
 
         This tag is used at an <item> level by populating with the number value
@@ -472,26 +472,26 @@ class BaseEpisode(object):
         :param itunes_order: The order of the episode.
         :type itunes_order: int
         :returns: The order of the episode.
-        '''
+        """
         if not itunes_order is None:
             self.__itunes_order = int(itunes_order)
         return self.__itunes_order
 
     def itunes_subtitle(self, itunes_subtitle=None):
-        '''Get or set the itunes:subtitle value for the podcast episode. The
+        """Get or set the itunes:subtitle value for the podcast episode. The
         contents of this tag are shown in the Description column in iTunes. The
         subtitle displays best if it is only a few words long.
 
         :param itunes_subtitle: Subtitle of the podcast episode.
         :type itunes_subtitle: str
         :returns: Subtitle of the podcast episode.
-        '''
+        """
         if not itunes_subtitle is None:
             self.__itunes_subtitle = itunes_subtitle
         return self.__itunes_subtitle
 
     def itunes_summary(self, itunes_summary=None):
-        '''Get or set the itunes:summary value for the podcast episode. The
+        """Get or set the itunes:summary value for the podcast episode. The
         contents of this tag are shown in a separate window that appears when the
         "circled i" in the Description column is clicked. It also appears on the
         iTunes page for your podcast. This field can be up to 4000 characters. If
@@ -501,7 +501,7 @@ class BaseEpisode(object):
         :param itunes_summary: Summary of the podcast episode.
         :type itunes_summary: str
         :returns: Summary of the podcast episode.
-        '''
+        """
         if not itunes_summary is None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
