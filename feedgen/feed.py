@@ -82,44 +82,55 @@ class Podcast(object):
 
     @property
     def Episode(self):
-        """The class that is used by self.add_episode() when creating new episode objects.
+        """Class used to represent episodes.
 
-        Defaults to BaseEpisode, at least in Podcast.
+        This is actually a property (variable) which points to the correct
+        class. It is used by :py:meth:`.add_episode` when creating new episode
+        objects, and you should use it too when adding episodes.
 
-        When assigning a new value to Episode, you must make sure the new value
+        By default, this property points to :py:class:`BaseEpisode`.
+
+        When assigning a new class to Episode, you must make sure the new value
         (1) is a class and not an instance, and (2) is a subclass of BaseEpisode
-        (or is Episode itself).
+        (or is BaseEpisode itself).
 
         This property exists so you can change which class episodes should have, without needing to change the code
         that creates those episodes. Thus, changing this property changes what class is used by self.add_episode().
         An example would be if you created a subclass of Podcast together with a
         subclass of Episode, and wanted users of your new Podcast subclass to be using your new Episode subclass
         automatically. All you need to do, is to change the initial value of Episode in your Podcast subclass.
-        Users, on the other hand, won't have to change their code when changing between different
+        Another example is if you want to use another class for episodes, while
+        still enjoying the benefits of using :py:meth:`.add_episode`.
+        You as a users, on the other hand, won't have to change your code when changing between different
         subclasses of Podcast that expect different subclasses of Episode.
 
-        It is still possible for users to hardcode what Episode subclass they want to use, either by calling its
-        constructor without using Episode, or by overriding the initial value of Episode.
+        It is still possible for you to hardcode what Episode subclass you want to use, either by calling its
+        constructor without using this property, or by overriding its value.
 
         Example of use::
 
             >>> # Create new podcast
             >>> from feedgen.feed import Podcast
             >>> p = Podcast()
-            >>>
+
             >>> # Here's how you would create a new episode object, the OK way
             >>> episode1 = p.Episode()
             >>> p.episodes.append(episode1)
             >>> episode1.title("My awesome episode")
-            >>>
+
             >>> # Best way to create new episode object (it is added to the podcast automatically)
             >>> episode2 = p.add_episode()
             >>> episode2.title("My even more awesome episode")
-            >>>
+
+            >>> # If you want to use another class for episodes, do it like this
+            >>> from mymodule import AlternateEpisode
+            >>> p.Episode = AlternateEpisode
+            >>> episode3 = p.add_episode()  # It is also okay to use p.episodes
+            >>> episode3.title("This is an instance of AlternateEpisode!")
+
             >>> # !!! DON'T DO THE FOLLOWING, unless you want to hard code what class is used !!!
-            >>> from feedgen.item import BaseEpisode
-            >>> episode3 = BaseEpisode()
-            >>> p.episodes.append(episode3)
+            >>> episode3 = AlternateEpisode()
+            >>> p.episodes.append(episode3)  # or p.add_episode(episode3)
             >>> episode3.title("My awful episode :(")
         """
         return self.__episode_class
