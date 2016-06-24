@@ -768,12 +768,13 @@ class Podcast(object):
         return self.__itunes_subtitle
 
 
-    def add_episode(self, feedEntry=None):
-        """This method will add a new entry to the feed. If the feedEntry
-        argument is omittet a new Entry object is created automatically. This is
-        the prefered way to add new entries to a feed.
+    def add_episode(self, new_episode=None):
+        """Shorthand method which adds a new episode to the feed, creating an
+        object if it's not provided, and returns it. This
+        is the easiest way to add episodes to a podcast.
 
-        :param feedEntry: Episode object to add.
+        :param new_episode: Episode object to add. A new instance of
+            self.Episode is used if new_episode is omitted.
         :returns: Episode object created or passed to this function.
 
         Example::
@@ -781,12 +782,21 @@ class Podcast(object):
             ...
             >>> entry = feedgen.add_episode()
             >>> entry.title('First feed entry')
+            'First feed entry'
+            >>> # You may also provide an episode object yourself:
+            >>> another_entry = feedgen.add_episode(feedgen.Episode())
+            >>> another_entry.title('My second feed entry')
+            'My second feed entry'
+
+        For the curious, this is a shorthand method which basically reads like::
+
+            if new_episode is None:
+                new_episode = self.Episode()
+            self.episodes.append(new_episode)
+            return new_episode
 
         """
-        if feedEntry is None:
-            feedEntry = self.Episode()
-
-        version = sys.version_info[0]
-
-        self.episodes.append(feedEntry)
-        return feedEntry
+        if new_episode is None:
+            new_episode = self.Episode()
+        self.episodes.append(new_episode)
+        return new_episode
