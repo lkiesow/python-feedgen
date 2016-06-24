@@ -69,7 +69,7 @@ if __name__ == '__main__':
         fg.itunes_new_feed_url('http://example.com/new-feed.rss')
         fg.itunes_owner('John Doe', 'john@example.com')
         fe.itunes_author('Lars Kiesow')
-        fe.pubdate(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
+        fe.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
         print_enc(fg.rss_str())
     elif arg.endswith('rss'):
         fg.rss_file(arg, minimize=True)

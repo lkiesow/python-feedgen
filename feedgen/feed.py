@@ -239,7 +239,7 @@ class Podcast(object):
             managingEditor.text = self.__rss_managingEditor
 
         if not self.__rss_pubDate:
-            episode_dates = [e.pubdate() for e in self.episodes if e.pubdate() is not None]
+            episode_dates = [e.published() for e in self.episodes if e.published() is not None]
             if episode_dates:
                 actual_pubDate = max(episode_dates)
             else:

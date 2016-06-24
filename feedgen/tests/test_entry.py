@@ -74,19 +74,3 @@ class TestSequenceFunctions(unittest.TestCase):
         assert len(fg.episodes) == 1
         fg.episodes.remove(fe)
         assert len(fg.episodes) == 0
-
-    def test_categoryHasDomain(self):
-        fg = Podcast()
-        fg.title('some title')
-        fg.link( href='http://www.dontcare.com')
-        fg.description('description')
-        fe = fg.add_episode()
-        fe.guid('http://lernfunk.de/media/654321/1')
-        fe.title('some title')
-        fe.category([
-             {'term' : 'category',
-              'scheme': 'http://www.somedomain.com/category',
-              }])
-
-        result = fg.rss_str()
-        assert 'domain="http://www.somedomain.com/category"' in result

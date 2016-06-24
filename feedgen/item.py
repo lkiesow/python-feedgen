@@ -28,15 +28,12 @@ class BaseEpisode(object):
     def __init__(self):
         # RSS
         self.__rss_author      = None
-        self.__rss_category    = None
-        self.__rss_comments    = None
         self.__rss_description = None
         self.__rss_content     = None
         self.__rss_enclosure   = None
         self.__rss_guid        = None
         self.__rss_link        = None
         self.__rss_pubDate     = None
-        self.__rss_source      = None
         self.__rss_title       = None
 
         # ITunes tags
@@ -83,14 +80,6 @@ class BaseEpisode(object):
             guid = etree.SubElement(entry, 'guid')
             guid.text = self.__rss_guid
             guid.attrib['isPermaLink'] = 'false'
-        for cat in self.__rss_category or []:
-            category = etree.SubElement(entry, 'category')
-            category.text = cat['value']
-            if cat.get('domain'):
-                category.attrib['domain'] = cat['domain']
-        if self.__rss_comments:
-            comments = etree.SubElement(entry, 'comments')
-            comments.text = self.__rss_comments
         if self.__rss_enclosure:
             enclosure = etree.SubElement(entry, 'enclosure')
             enclosure.attrib['url'] = self.__rss_enclosure['url']
@@ -245,43 +234,6 @@ class BaseEpisode(object):
             self.__rss_description = description
         return self.__rss_description
 
-    def category(self, category=None, replace=False, **kwargs):
-        """Get or set categories that the feed belongs to.
-
-        This method can be called with:
-
-        - the fields of a category as keyword arguments
-        - the fields of a category as a dictionary
-        - a list of dictionaries containing the category fields
-
-        A categories has the following fields:
-
-        - *term* identifies the category
-        - *scheme* identifies the categorization scheme via a URI.
-
-        If a label is present it is used for the RSS feeds. Otherwise the term is
-        used. The scheme is used for the domain attribute in RSS.
-
-        :param category:    Dict or list of dicts with data.
-        :param replace: Add or replace old data.
-        :returns: List of category data.
-        """
-        if category is None and kwargs:
-            category = kwargs
-        if not category is None:
-            if replace or self.__rss_category is None:
-                self.__rss_category = []
-            if isinstance(category, collections.Mapping):
-                category = [category]
-            for cat in category:
-                rss_cat = dict()
-                rss_cat['value'] = cat['label'] if cat.get('label') else cat['term']
-                if cat.get('scheme'):
-                    rss_cat['domain'] = cat['scheme']
-                self.__rss_category.append(rss_cat)
-        return self.__rss_category
-
-
     def published(self, published=None):
         """Set or get the published value which contains the time of the initial
         creation or first availability of the entry.
@@ -303,26 +255,6 @@ class BaseEpisode(object):
             self.__rss_pubDate = published
 
         return self.__rss_pubDate
-
-
-    def pubdate(self, pubDate=None):
-        """Get or set the pubDate of the entry which indicates when the entry was
-        published. This method is just another name for the published(...)
-        method.
-        """
-        return self.published(pubDate)
-
-
-    def comments(self, comments=None):
-        """Get or set the the value of comments which is the url of the comments
-        page for the item.
-
-        :param comments: URL to the comments page.
-        :returns: URL to the comments page.
-        """
-        if not comments is None:
-            self.__rss_comments = comments
-        return self.__rss_comments
 
 
     def enclosure(self, url=None, length=None, type=None):
