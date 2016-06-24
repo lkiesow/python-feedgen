@@ -25,7 +25,6 @@ doc-html:
 	@cp doc/_build/html/*.html docs/html/
 	@cp doc/_build/html/*.js docs/html/
 	@cp -r doc/_build/html/_static/ docs/html/
-	@cp -r doc/_build/html/ext/ docs/html/
 
 doc-man:
 	@echo 'Generating manpage'
