@@ -79,7 +79,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_rssFeedFile(self):
         fg = self.fg
         filename = 'tmp_Rssfeed.xml'
-        fg.rss_file(filename=filename, pretty=True, xml_declaration=False)
+        fg.rss_file(filename=filename, xml_declaration=False)
 
         with open (filename, "r") as myfile:
             rssString=myfile.read().replace('\n', '')
@@ -88,7 +88,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_rssFeedString(self):
         fg = self.fg
-        rssString = fg.rss_str(pretty=True, xml_declaration=False)
+        rssString = fg.rss_str(xml_declaration=False)
         self.checkRssString(rssString)
 
 

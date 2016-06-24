@@ -319,14 +319,15 @@ class Podcast(object):
         """
         return self.rss_str()
 
-    def rss_str(self, pretty=False, encoding='UTF-8',
-            xml_declaration=True):
+    def rss_str(self, minimize=False, encoding='UTF-8',
+                xml_declaration=True):
         """Generates an RSS feed and returns the feed XML as string.
 
-        :param pretty: If the feed should be split into multiple lines and
-            properly indented.
-        :type pretty: bool
-        :param encoding: Encoding used in the  XML file (default: UTF-8).
+        :param minimize: Set to True to disable splitting the feed into multiple
+            lines and adding properly indentation, saving bytes at the cost of
+            readability.
+        :type minimize: bool
+        :param encoding: Encoding used in the XML file (default: UTF-8).
         :type encoding: str
         :param xml_declaration: If an XML declaration should be added to the
             output (Default: enabled).
@@ -334,19 +335,20 @@ class Podcast(object):
         :returns: String representation of the RSS feed.
         """
         feed = self._create_rss()
-        return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
-                xml_declaration=xml_declaration).decode(encoding)
+        return etree.tostring(feed, pretty_print=not minimize, encoding=encoding,
+                              xml_declaration=xml_declaration).decode(encoding)
 
 
-    def rss_file(self, filename, pretty=False,
-            encoding='UTF-8', xml_declaration=True):
+    def rss_file(self, filename, minimize=False,
+                 encoding='UTF-8', xml_declaration=True):
         """Generates an RSS feed and write the resulting XML to a file.
 
         :param filename: Name of file to write, or a file-like object, or a URL.
         :type filename: str or fd
-        :param pretty: If the feed should be split into multiple lines and
-            properly indented.
-        :type pretty: bool
+        :param minimize: Set to True to disable splitting the feed into multiple
+            lines and adding properly indentation, saving bytes at the cost of
+            readability.
+        :type minimize: bool
         :param encoding: Encoding used in the  XML file (default: UTF-8).
         :type encoding: str
         :param xml_declaration: If an XML declaration should be added to the
@@ -355,8 +357,8 @@ class Podcast(object):
         """
         feed = self._create_rss()
         doc = etree.ElementTree(feed)
-        doc.write(filename, pretty_print=pretty, encoding=encoding,
-                xml_declaration=xml_declaration)
+        doc.write(filename, pretty_print=not minimize, encoding=encoding,
+                  xml_declaration=xml_declaration)
 
 
     def title(self, title=None):

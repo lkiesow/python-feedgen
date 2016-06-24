@@ -65,8 +65,8 @@
 
     After that you can generate RSS by calling::
 
-        >>> rssfeed  = fg.rss_str(pretty=True) # Get the RSS feed as string
-        >>> fg.rss_file('rss.xml') # Write the RSS feed to a file
+        >>> rssfeed  = fg.rss_str() # Get the RSS feed as string
+        >>> fg.rss_file('rss.xml', minimize=True) # Write the RSS feed to a file
 
 
     ----------------
@@ -104,8 +104,8 @@
         >>> fe.description('Enjoy our first episode.')
         >>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
         ...
-        >>> fg.rss_str(pretty=True)
-        >>> fg.rss_file('podcast.xml')
+        >>> fg.rss_str()
+        >>> fg.rss_file('podcast.xml', minimize=True)
 
 
 

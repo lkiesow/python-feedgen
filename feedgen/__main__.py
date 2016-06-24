@@ -60,7 +60,7 @@ if __name__ == '__main__':
     fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
 
     if arg == 'rss':
-        print_enc(fg.rss_str(pretty=True))
+        print_enc(fg.rss_str())
     elif arg == 'podcast':
         fg.itunes_author('Lars Kiesow')
         fg.itunes_category('Technology', 'Podcasting')
@@ -70,6 +70,6 @@ if __name__ == '__main__':
         fg.itunes_owner('John Doe', 'john@example.com')
         fe.itunes_author('Lars Kiesow')
         fe.pubdate(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
-        print_enc(fg.rss_str(pretty=True))
+        print_enc(fg.rss_str())
     elif arg.endswith('rss'):
-        fg.rss_file(arg)
+        fg.rss_file(arg, minimize=True)
