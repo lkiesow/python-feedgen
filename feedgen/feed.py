@@ -180,9 +180,10 @@ class Podcast(object):
         return new_episode
 
     def _create_rss(self):
-        """Create an RSS feed xml structure containing all previously set fields.
+        """Create an RSS feed XML structure containing all previously set fields.
 
-        :returns: Tuple containing the feed root element and the element tree.
+        :returns: The root element (ie. the rss element) of the feed.
+        :rtype: lxml.etree.Element
         """
 
         nsmap = {
@@ -309,8 +310,7 @@ class Podcast(object):
             item = entry.rss_entry()
             channel.append(item)
 
-        doc = etree.ElementTree(feed)
-        return feed, doc
+        return feed
 
 
     def rss_str(self, pretty=False, encoding='UTF-8',
@@ -327,7 +327,7 @@ class Podcast(object):
         :type xml_declaration: bool
         :returns: String representation of the RSS feed.
         """
-        feed, doc = self._create_rss()
+        feed = self._create_rss()
         return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
                 xml_declaration=xml_declaration)
 
@@ -347,7 +347,8 @@ class Podcast(object):
             output (Default: enabled).
         :type xml_declaration: bool
         """
-        feed, doc = self._create_rss()
+        feed = self._create_rss()
+        doc = etree.ElementTree(feed)
         doc.write(filename, pretty_print=pretty, encoding=encoding,
                 xml_declaration=xml_declaration)
 
