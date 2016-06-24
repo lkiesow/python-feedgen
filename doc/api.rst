@@ -11,5 +11,5 @@ Contents:
    :maxdepth: 2
 
    api.feed
-   api.entry
+   api.item
    api.util
