@@ -312,6 +312,12 @@ class Podcast(object):
 
         return feed
 
+    def __str__(self):
+        """Print the podcast in RSS format, using the default options.
+
+        This method just calls :py:meth:`.rss_str` without arguments.
+        """
+        return self.rss_str()
 
     def rss_str(self, pretty=False, encoding='UTF-8',
             xml_declaration=True):
