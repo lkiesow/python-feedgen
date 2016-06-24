@@ -17,8 +17,12 @@ from feedgen.util import ensure_format, formatRFC2822
 from feedgen.compat import string_types
 
 
-class Episode(object):
-    '''Class representing an episode in a podcast. Corresponds to an RSS Item element.
+class BaseEpisode(object):
+    '''Class representing an episode in a podcast. Corresponds to an RSS Item.
+
+    Its name indicates that this is the superclass for all episode classes.
+    It is not meant to indicate that this class misses functionality; in 99%
+    of all cases, this class is the right one to use for episodes.
     '''
 
     def __init__(self):

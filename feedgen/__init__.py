@@ -73,17 +73,17 @@
     Add Feed Entries
     ----------------
 
-    To add entries (items) to a feed you need to create new Episode objects and
+    To add entries (items) to a feed you need to create new BaseEpisode objects and
     append them to the list of entries in the Podcast. The most convenient
     way to go is to use the Podcast itself for the instantiation of the
-    Episode object::
+    BaseEpisode object::
 
         >>> fe = fg.add_episode()
         >>> fe.guid('http://lernfunk.de/media/654321/1')
         >>> fe.title('The First Episode')
 
-    The FeedGenerators method `add_episode(...)` without argument provides will
-    automatically generate a new Episode object, append it to the feeds internal
+    The Podcast method `add_episode(...)` without argument provides will
+    automatically generate a new BaseEpisode object, append it to the feeds internal
     list of entries and return it, so that additional data can be added.
 
     --------------------------

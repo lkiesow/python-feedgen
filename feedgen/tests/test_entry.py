@@ -24,7 +24,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.title('The First Episode')
 
         #Use also the list directly
-        fe = fg.episode_class()
+        fe = fg.Episode()
         fg.episodes.append(fe)
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Second Episode')
@@ -57,7 +57,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
         fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
-        fe.title('The Third Episode')
+        fe.title('The Third BaseEpisode')
         assert len(fg.episodes) == 1
         fg.episodes.pop(0)
         assert len(fg.episodes) == 0
@@ -69,7 +69,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
         fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
-        fe.title('The Third Episode')
+        fe.title('The Third BaseEpisode')
 
         assert len(fg.episodes) == 1
         fg.episodes.remove(fe)

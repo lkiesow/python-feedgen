@@ -13,7 +13,7 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.item import Episode
+from feedgen.item import BaseEpisode
 from feedgen.util import ensure_format, formatRFC2822
 import feedgen.version
 import sys
@@ -33,8 +33,8 @@ class Podcast(object):
     def __init__(self):
         self.__episodes = []
         """The list used by self.episodes."""
-        self.__episode_class = Episode
-        """The internal value used by self.episode_class."""
+        self.__episode_class = BaseEpisode
+        """The internal value used by self.Episode."""
 
         ## RSS
         # http://www.rssboard.org/rss-specification
@@ -81,24 +81,25 @@ class Podcast(object):
         return self.__episodes
 
     @property
-    def episode_class(self):
+    def Episode(self):
         """The class that is used by self.add_episode() when creating new episode objects.
 
-        Defaults to Episode, at least in Podcast.
+        Defaults to BaseEpisode, at least in Podcast.
 
-        When assigning a new value to episode_class, you must make sure the new value (1) is a class and not an
-        instance, and (2) is a subclass of Episode (or is Episode itself).
+        When assigning a new value to Episode, you must make sure the new value
+        (1) is a class and not an instance, and (2) is a subclass of BaseEpisode
+        (or is Episode itself).
 
         This property exists so you can change which class episodes should have, without needing to change the code
         that creates those episodes. Thus, changing this property changes what class is used by self.add_episode().
         An example would be if you created a subclass of Podcast together with a
         subclass of Episode, and wanted users of your new Podcast subclass to be using your new Episode subclass
-        automatically. All you need to do, is to change the initial value of episode_class in your Podcast subclass.
+        automatically. All you need to do, is to change the initial value of Episode in your Podcast subclass.
         Users, on the other hand, won't have to change their code when changing between different
         subclasses of Podcast that expect different subclasses of Episode.
 
         It is still possible for users to hardcode what Episode subclass they want to use, either by calling its
-        constructor without using episode_class, or by overriding the initial value of episode_class.
+        constructor without using Episode, or by overriding the initial value of Episode.
 
         Example of use::
 
@@ -107,7 +108,7 @@ class Podcast(object):
             >>> p = Podcast()
             >>>
             >>> # Here's how you would create a new episode object, the OK way
-            >>> episode1 = p.episode_class()
+            >>> episode1 = p.Episode()
             >>> p.episodes.append(episode1)
             >>> episode1.title("My awesome episode")
             >>>
@@ -116,23 +117,23 @@ class Podcast(object):
             >>> episode2.title("My even more awesome episode")
             >>>
             >>> # !!! DON'T DO THE FOLLOWING, unless you want to hard code what class is used !!!
-            >>> from feedgen.item import Episode
-            >>> episode3 = Episode()
+            >>> from feedgen.item import BaseEpisode
+            >>> episode3 = BaseEpisode()
             >>> p.episodes.append(episode3)
             >>> episode3.title("My awful episode :(")
         """
         return self.__episode_class
 
-    @episode_class.setter
-    def episode_class(self, value):
+    @Episode.setter
+    def Episode(self, value):
         if not inspect.isclass(value):
-            raise ValueError("New episode_class must NOT be an _instance_ of the desired class, but rather the class "
+            raise ValueError("New Episode must NOT be an _instance_ of the desired class, but rather the class "
                              "itself. You can generally achieve this by removing the parenthesis from the "
                              "constructor call. For example, use Episode, not Episode().")
-        elif issubclass(value, Episode):
+        elif issubclass(value, BaseEpisode):
             self.__episode_class = value
         else:
-            raise ValueError("New episode_class must be Episode or a descendant of it (so the API still works).")
+            raise ValueError("New Episode must be Episode or a descendant of it (so the API still works).")
 
     def _create_rss(self):
         '''Create an RSS feed xml structure containing all previously set fields.
@@ -783,7 +784,7 @@ class Podcast(object):
 
         '''
         if feedEntry is None:
-            feedEntry = self.episode_class()
+            feedEntry = self.Episode()
 
         version = sys.version_info[0]
 
