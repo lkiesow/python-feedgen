@@ -135,6 +135,39 @@ class Podcast(object):
         else:
             raise ValueError("New Episode must be Episode or a descendant of it (so the API still works).")
 
+    def add_episode(self, new_episode=None):
+        """Shorthand method which adds a new episode to the feed, creating an
+        object if it's not provided, and returns it. This
+        is the easiest way to add episodes to a podcast.
+
+        :param new_episode: Episode object to add. A new instance of
+            self.Episode is used if new_episode is omitted.
+        :returns: Episode object created or passed to this function.
+
+        Example::
+
+            ...
+            >>> entry = feedgen.add_episode()
+            >>> entry.title('First feed entry')
+            'First feed entry'
+            >>> # You may also provide an episode object yourself:
+            >>> another_entry = feedgen.add_episode(feedgen.Episode())
+            >>> another_entry.title('My second feed entry')
+            'My second feed entry'
+
+        For the curious, this is a shorthand method which basically reads like::
+
+            if new_episode is None:
+                new_episode = self.Episode()
+            self.episodes.append(new_episode)
+            return new_episode
+
+        """
+        if new_episode is None:
+            new_episode = self.Episode()
+        self.episodes.append(new_episode)
+        return new_episode
+
     def _create_rss(self):
         """Create an RSS feed xml structure containing all previously set fields.
 
@@ -766,37 +799,3 @@ class Podcast(object):
         if not itunes_subtitle is None:
             self.__itunes_subtitle = itunes_subtitle
         return self.__itunes_subtitle
-
-
-    def add_episode(self, new_episode=None):
-        """Shorthand method which adds a new episode to the feed, creating an
-        object if it's not provided, and returns it. This
-        is the easiest way to add episodes to a podcast.
-
-        :param new_episode: Episode object to add. A new instance of
-            self.Episode is used if new_episode is omitted.
-        :returns: Episode object created or passed to this function.
-
-        Example::
-
-            ...
-            >>> entry = feedgen.add_episode()
-            >>> entry.title('First feed entry')
-            'First feed entry'
-            >>> # You may also provide an episode object yourself:
-            >>> another_entry = feedgen.add_episode(feedgen.Episode())
-            >>> another_entry.title('My second feed entry')
-            'My second feed entry'
-
-        For the curious, this is a shorthand method which basically reads like::
-
-            if new_episode is None:
-                new_episode = self.Episode()
-            self.episodes.append(new_episode)
-            return new_episode
-
-        """
-        if new_episode is None:
-            new_episode = self.Episode()
-        self.episodes.append(new_episode)
-        return new_episode
