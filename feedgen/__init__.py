@@ -78,11 +78,11 @@
     way to go is to use the Podcast itself for the instantiation of the
     Episode object::
 
-        >>> fe = fg.add_entry()
+        >>> fe = fg.add_episode()
         >>> fe.guid('http://lernfunk.de/media/654321/1')
         >>> fe.title('The First Episode')
 
-    The FeedGenerators method `add_entry(...)` without argument provides will
+    The FeedGenerators method `add_episode(...)` without argument provides will
     automatically generate a new Episode object, append it to the feeds internal
     list of entries and return it, so that additional data can be added.
 
@@ -98,7 +98,7 @@
         ...
         >>> fg.itunes_category('Technology', 'Podcasting')
         ...
-        >>> fe = fg.add_entry()
+        >>> fe = fg.add_episode()
         >>> fe.guid('http://lernfunk.de/media/654321/1/file.mp3')
         >>> fe.title('The First Episode')
         >>> fe.description('Enjoy our first episode.')

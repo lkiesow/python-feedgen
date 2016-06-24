@@ -46,7 +46,7 @@ if __name__ == '__main__':
     fg.copyright('cc-by')
     fg.description('This is a cool feed!')
     fg.language('de')
-    fe = fg.add_entry()
+    fe = fg.add_episode()
     fe.guid('http://lernfunk.de/_MEDIAID_123#1')
     fe.title('First Element')
     fe.content('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen

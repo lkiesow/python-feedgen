@@ -19,16 +19,17 @@ class TestSequenceFunctions(unittest.TestCase):
 
         fg.title(self.title)
 
-        fe = fg.add_entry()
+        fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The First Episode')
 
-        #Use also the different name add_item
-        fe = fg.add_item()
+        #Use also the list directly
+        fe = fg.episode_class()
+        fg.episodes.append(fe)
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Second Episode')
 
-        fe = fg.add_entry()
+        fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
 
@@ -37,49 +38,49 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_checkEntryNumbers(self):
 
         fg = self.fg
-        assert len(fg.entry()) == 3
+        assert len(fg.episodes) == 3
 
     def test_checkItemNumbers(self):
 
         fg = self.fg
-        assert len(fg.item()) == 3
+        assert len(fg.episodes) == 3
 
     def test_checkEntryContent(self):
 
         fg = self.fg
-        assert len(fg.entry()) != None
+        assert len(fg.episodes) is not None
 
     def test_removeEntryByIndex(self):
         fg = Podcast()
         self.feedId = 'http://example.com'
         self.title = 'Some Testfeed'
 
-        fe = fg.add_entry()
+        fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
-        assert len(fg.entry()) == 1
-        fg.remove_entry(0)
-        assert len(fg.entry()) == 0
+        assert len(fg.episodes) == 1
+        fg.episodes.pop(0)
+        assert len(fg.episodes) == 0
 
     def test_removeEntryByEntry(self):
         fg = Podcast()
         self.feedId = 'http://example.com'
         self.title = 'Some Testfeed'
 
-        fe = fg.add_entry()
+        fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
 
-        assert len(fg.entry()) == 1
-        fg.remove_entry(fe)
-        assert len(fg.entry()) == 0
+        assert len(fg.episodes) == 1
+        fg.episodes.remove(fe)
+        assert len(fg.episodes) == 0
 
     def test_categoryHasDomain(self):
         fg = Podcast()
         fg.title('some title')
         fg.link( href='http://www.dontcare.com')
         fg.description('description')
-        fe = fg.add_entry()
+        fe = fg.add_episode()
         fe.guid('http://lernfunk.de/media/654321/1')
         fe.title('some title')
         fe.category([

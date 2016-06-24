@@ -19,6 +19,7 @@ import feedgen.version
 import sys
 from feedgen.compat import string_types
 import collections
+import inspect
 
 
 _feedgen_version = feedgen.version.version_str
@@ -30,7 +31,10 @@ class Podcast(object):
 
 
     def __init__(self):
-        self.__feed_entries = []
+        self.__episodes = []
+        """The list used by self.episodes."""
+        self.__episode_class = Episode
+        """The internal value used by self.episode_class."""
 
         ## RSS
         # http://www.rssboard.org/rss-specification
@@ -64,6 +68,71 @@ class Podcast(object):
         self.__itunes_owner = None
         self.__itunes_subtitle = None
 
+    @property
+    def episodes(self):
+        """List of episodes that are part of this podcast.
+
+        This property is read-only, in the sense that you cannot assign a new list to it.
+        You are, however, able to add, get and remove individual episodes from the (existing) list.
+
+        See :py:meth:`.add_episode` for an easy way to create new episodes and assign them to this podcast
+        in one call.
+        """
+        return self.__episodes
+
+    @property
+    def episode_class(self):
+        """The class that is used by self.add_episode() when creating new episode objects.
+
+        Defaults to Episode, at least in Podcast.
+
+        When assigning a new value to episode_class, you must make sure the new value (1) is a class and not an
+        instance, and (2) is a subclass of Episode (or is Episode itself).
+
+        This property exists so you can change which class episodes should have, without needing to change the code
+        that creates those episodes. Thus, changing this property changes what class is used by self.add_episode().
+        An example would be if you created a subclass of Podcast together with a
+        subclass of Episode, and wanted users of your new Podcast subclass to be using your new Episode subclass
+        automatically. All you need to do, is to change the initial value of episode_class in your Podcast subclass.
+        Users, on the other hand, won't have to change their code when changing between different
+        subclasses of Podcast that expect different subclasses of Episode.
+
+        It is still possible for users to hardcode what Episode subclass they want to use, either by calling its
+        constructor without using episode_class, or by overriding the initial value of episode_class.
+
+        Example of use::
+
+            >>> # Create new podcast
+            >>> from feedgen.feed import Podcast
+            >>> p = Podcast()
+            >>>
+            >>> # Here's how you would create a new episode object, the OK way
+            >>> episode1 = p.episode_class()
+            >>> p.episodes.append(episode1)
+            >>> episode1.title("My awesome episode")
+            >>>
+            >>> # Best way to create new episode object (it is added to the podcast automatically)
+            >>> episode2 = p.add_episode()
+            >>> episode2.title("My even more awesome episode")
+            >>>
+            >>> # !!! DON'T DO THE FOLLOWING, unless you want to hard code what class is used !!!
+            >>> from feedgen.item import Episode
+            >>> episode3 = Episode()
+            >>> p.episodes.append(episode3)
+            >>> episode3.title("My awful episode :(")
+        """
+        return self.__episode_class
+
+    @episode_class.setter
+    def episode_class(self, value):
+        if not inspect.isclass(value):
+            raise ValueError("New episode_class must NOT be an _instance_ of the desired class, but rather the class "
+                             "itself. You can generally achieve this by removing the parenthesis from the "
+                             "constructor call. For example, use Episode, not Episode().")
+        elif issubclass(value, Episode):
+            self.__episode_class = value
+        else:
+            raise ValueError("New episode_class must be Episode or a descendant of it (so the API still works).")
 
     def _create_rss(self):
         '''Create an RSS feed xml structure containing all previously set fields.
@@ -124,7 +193,7 @@ class Podcast(object):
             managingEditor.text = self.__rss_managingEditor
 
         if not self.__rss_pubDate:
-            episode_dates = [e.pubdate() for e in self.__feed_entries if e.pubdate() is not None]
+            episode_dates = [e.pubdate() for e in self.episodes if e.pubdate() is not None]
             if episode_dates:
                 actual_pubDate = max(episode_dates)
             else:
@@ -191,7 +260,7 @@ class Podcast(object):
             subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
             subtitle.text = self.__itunes_subtitle
 
-        for entry in self.__feed_entries:
+        for entry in self.episodes:
             item = entry.rss_entry()
             channel.append(item)
 
@@ -698,7 +767,7 @@ class Podcast(object):
         return self.__itunes_subtitle
 
 
-    def add_entry(self, feedEntry=None):
+    def add_episode(self, feedEntry=None):
         '''This method will add a new entry to the feed. If the feedEntry
         argument is omittet a new Entry object is created automatically. This is
         the prefered way to add new entries to a feed.
@@ -709,81 +778,14 @@ class Podcast(object):
         Example::
 
             ...
-            >>> entry = feedgen.add_entry()
+            >>> entry = feedgen.add_episode()
             >>> entry.title('First feed entry')
 
         '''
         if feedEntry is None:
-            feedEntry = Episode()
+            feedEntry = self.episode_class()
 
         version = sys.version_info[0]
 
-        self.__feed_entries.append( feedEntry )
+        self.episodes.append(feedEntry)
         return feedEntry
-
-
-    def add_item(self, item=None):
-        '''This method will add a new item to the feed. If the item argument is
-        omittet a new Episode object is created automatically. This is just
-        another name for add_entry(...)
-        '''
-        return self.add_entry(item)
-
-
-    def entry(self, entry=None, replace=False):
-        '''Get or set feed entries. Use the add_entry() method instead to
-        automatically create the Episode objects.
-
-        This method takes both a single Episode object or a list of objects.
-
-        :param entry: Episode object or list of Episode objects.
-        :returns: List ob all feed entries.
-        '''
-        if not entry is None:
-            if not isinstance(entry, list):
-                entry = [entry]
-            if replace:
-                self.__feed_entries = []
-
-            version = sys.version_info[0]
-
-            if version == 2:
-                items = self.__extensions.iteritems()
-            else:
-                items = self.__extensions.items()
-
-            # Try to load extensions:
-            for e in entry:
-                for extname,ext in items:
-                    try:
-                        e.load_extension( extname, ext['atom'], ext['rss'] )
-                    except ImportError:
-                        pass
-
-            self.__feed_entries += entry
-        return self.__feed_entries
-
-
-    def item(self, item=None, replace=False):
-        '''Get or set feed items. This is just another name for entry(...)
-        '''
-        return self.entry(item, replace)
-
-
-    def remove_entry(self, entry):
-        '''Remove a single entry from the feed. This method accepts both the
-        Episode object to remove or the index of the entry as argument.
-
-        :param entry: Entry or index of entry to remove.
-        '''
-        if isinstance(entry, Episode):
-            self.__feed_entries.remove(entry)
-        else:
-            self.__feed_entries.pop(entry)
-
-
-    def remove_item(self, item):
-        '''Remove a single item from the feed. This is another name for
-        remove_entry.
-        '''
-        self.remove_entry(item)
