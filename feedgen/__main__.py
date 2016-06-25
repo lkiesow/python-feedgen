@@ -47,7 +47,7 @@ if __name__ == '__main__':
     fg.description('This is a cool feed!')
     fg.language('de')
     fe = fg.add_episode()
-    fe.guid('http://lernfunk.de/_MEDIAID_123#1')
+    fe.id('http://lernfunk.de/_MEDIAID_123#1')
     fe.title('First Element')
     fe.summary('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
             aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista

@@ -20,17 +20,17 @@ class TestSequenceFunctions(unittest.TestCase):
         fg.title(self.title)
 
         fe = fg.add_episode()
-        fe.guid('http://lernfunk.de/media/654321/1')
+        fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The First Episode')
 
         #Use also the list directly
         fe = fg.Episode()
         fg.episodes.append(fe)
-        fe.guid('http://lernfunk.de/media/654321/1')
+        fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Second Episode')
 
         fe = fg.add_episode()
-        fe.guid('http://lernfunk.de/media/654321/1')
+        fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
 
         self.fg = fg
@@ -56,7 +56,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.title = 'Some Testfeed'
 
         fe = fg.add_episode()
-        fe.guid('http://lernfunk.de/media/654321/1')
+        fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third BaseEpisode')
         assert len(fg.episodes) == 1
         fg.episodes.pop(0)
@@ -68,9 +68,36 @@ class TestSequenceFunctions(unittest.TestCase):
         self.title = 'Some Testfeed'
 
         fe = fg.add_episode()
-        fe.guid('http://lernfunk.de/media/654321/1')
+        fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third BaseEpisode')
 
         assert len(fg.episodes) == 1
         fg.episodes.remove(fe)
         assert len(fg.episodes) == 0
+
+    def test_idIsSet(self):
+        guid = "http://example.com/podcast/episode1"
+        episode = self.fg.Episode()
+        episode.title("My first episode")
+        episode.id(guid)
+        item = episode.rss_entry()
+
+        assert item.find("guid").text == guid
+
+    def test_idNotSetButEnclosureIsUsed(self):
+        guid = "http://example.com/podcast/episode1.mp3"
+        episode = self.fg.Episode()
+        episode.title("My first episode")
+        episode.enclosure(guid, 0, "audio/mpeg")
+
+        item = episode.rss_entry()
+        assert item.find("guid").text == guid
+
+    def test_idSetToFalseSoEnclosureNotUsed(self):
+        episode = self.fg.Episode()
+        episode.title("My first episode")
+        episode.enclosure("http://example.com/podcast/episode1.mp3", 0, "audio/mpeg")
+        episode.id(False)
+
+        item = episode.rss_entry()
+        assert item.find("guid") is None

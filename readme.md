@@ -79,7 +79,7 @@ way to go is to use the Podcast itself for the instantiation of the
 BaseEpisode object:
 
     >>> fe = fg.add_episode()
-    >>> fe.guid('http://lernfunk.de/media/654321/1')
+    >>> fe.id('http://lernfunk.de/media/654321/1')
     >>> fe.title('The First BaseEpisode')
 
 The FeedGenerators method `add_episode(...)` without argument provides will
@@ -99,7 +99,7 @@ although most features are platform agnostic.
     >>> fg.itunes_category('Technology', 'Podcasting')
     ...
     >>> fe = fg.add_episode()
-    >>> fe.guid('http://lernfunk.de/media/654321/1/file.mp3')
+    >>> fe.id('http://lernfunk.de/media/654321/1/file.mp3')
     >>> fe.title('The First Episode')
     >>> fe.description('Enjoy our first episode.')
     >>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')

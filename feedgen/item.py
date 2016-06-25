@@ -15,6 +15,7 @@ import dateutil.parser
 import dateutil.tz
 from feedgen.util import ensure_format, formatRFC2822, htmlencode
 from feedgen.compat import string_types
+from builtins import str
 
 
 class BaseEpisode(object):
@@ -50,14 +51,18 @@ class BaseEpisode(object):
     def rss_entry(self, extensions=True):
         """Create a RSS item and return it."""
         entry = etree.Element('item')
+
         if not ( self.__rss_title or self.__rss_content):
             raise ValueError('Required fields not set')
+
         if self.__rss_title:
             title = etree.SubElement(entry, 'title')
             title.text = self.__rss_title
+
         if self.__rss_link:
             link = etree.SubElement(entry, 'link')
             link.text = self.__rss_link
+
         if self.__rss_content:
             description = etree.SubElement(entry, 'description')
             description.text = etree.CDATA(self.__rss_content)
@@ -67,15 +72,25 @@ class BaseEpisode(object):
         for a in self.__rss_author or []:
             author = etree.SubElement(entry, 'author')
             author.text = a
+
         if self.__rss_guid:
+            rss_guid = self.__rss_guid
+        elif self.__rss_enclosure and self.__rss_guid is None:
+            rss_guid = self.__rss_enclosure['url']
+        else:
+            # self.__rss_guid was set to boolean False, or no enclosure
+            rss_guid = None
+        if rss_guid:
             guid = etree.SubElement(entry, 'guid')
-            guid.text = self.__rss_guid
+            guid.text = rss_guid
             guid.attrib['isPermaLink'] = 'false'
+
         if self.__rss_enclosure:
             enclosure = etree.SubElement(entry, 'enclosure')
             enclosure.attrib['url'] = self.__rss_enclosure['url']
-            enclosure.attrib['length'] = self.__rss_enclosure['length']
+            enclosure.attrib['length'] = str(self.__rss_enclosure['length'])
             enclosure.attrib['type'] = self.__rss_enclosure['type']
+
         if self.__rss_pubDate:
             pubDate = etree.SubElement(entry, 'pubDate')
             pubDate.text = formatRFC2822(self.__rss_pubDate)
@@ -131,15 +146,31 @@ class BaseEpisode(object):
         return self.__rss_title
 
 
-    def guid(self, guid=None):
-        """Get or set the entries guid which is a string that uniquely identifies
-        the item.
+    def id(self, new_id=None):
+        """Get or set this episode's globally unique identifier.
 
-        :param guid: Id of the entry.
-        :returns: Id of the entry.
+        If not present, the URL of the enclosed media is used. Set the id to
+        boolean False to suppress this behaviour.
+
+        It is important that an episode keeps the same ID until the end of time,
+        since the ID is used by clients to identify which episodes have been
+        listened to, which episodes are new, and so on. Changing the ID causes
+        the same consequences as deleting the existing episode and adding a
+        new, identical episode.
+
+        Note that this is a GLOBALLY unique identifier. Thus, not only must it
+        be unique in this podcast, it must not be the same ID as any other
+        episode for any podcast out there. To ensure this, you should use a
+        domain which you own (for example, use something like
+        http://example.org/podcast/episode1.mp3 if you own example.org).
+
+        This property corresponds to the RSS GUID element.
+
+        :param new_id: Globally unique, permanent id of this episode.
+        :returns: Id of this episode.
         """
-        if not guid is None:
-            self.__rss_guid = guid
+        if not new_id is None:
+            self.__rss_guid = new_id
         return self.__rss_guid
 
 
@@ -244,6 +275,15 @@ class BaseEpisode(object):
     def enclosure(self, url=None, length=None, type=None):
         """Get or set the value of enclosure which describes a media object that
         is attached to this item.
+
+        Note that if :py:meth:`.id` is not set, the enclosure's url is used as
+        the globally unique identifier. If you rely on this, you should make
+        sure the url never changes, since changing the id messes up with clients
+        (they will think this episode is new again, even if the user already
+        has listened to it). Therefore, you should only rely on this behaviour
+        if you own the domain which the episodes reside on. If you don't, then
+        you must set :py:meth:`.id` to something which is unique not only for
+        this podcast, but for all podcasts.
 
         :param url: URL of the media object.
         :param length: Size of the media in bytes.
