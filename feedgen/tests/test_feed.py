@@ -46,7 +46,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.webMaster = 'webmaster@example.com'
 
         fg.title(self.title)
-        fg.link( href=self.linkHref)
+        fg.website(href=self.linkHref)
         fg.description(self.description)
         fg.language(self.language)
         fg.cloud(domain=self.cloudDomain, port=self.cloudPort,
@@ -71,7 +71,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert fg.managingEditor() == self.managingEditor
         assert fg.webMaster() == self.webMaster
 
-        assert fg.link() == self.linkHref
+        assert fg.website() == self.linkHref
 
         assert fg.description() == self.description
 

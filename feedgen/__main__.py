@@ -42,7 +42,7 @@ if __name__ == '__main__':
     fg = Podcast()
     fg.title('Testfeed')
     fg.managingEditor('lkiesow@uos.de (Lars Kiesow)')
-    fg.link(href='http://example.com')
+    fg.website(href='http://example.com')
     fg.copyright('cc-by')
     fg.description('This is a cool feed!')
     fg.language('de')

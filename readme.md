@@ -40,10 +40,10 @@ data::
     >>> fg = Podcast()
     >>> fg.title('Some Testfeed')
     >>> fg.author( {'name':'John Doe','email':'john@example.de'} )
-    >>> fg.link( href='http://example.com', rel='alternate' )
+    >>> fg.website( href='http://example.com', rel='alternate' )
     >>> fg.image('http://ex.com/logo.jpg')
     >>> fg.description('This is a cool feed!')
-    >>> fg.link( href='http://larskiesow.de/test.atom')
+    >>> fg.website( href='http://larskiesow.de/test.atom')
     >>> fg.language('en')
 
 Note that for the methods which set fields that can occur more than once in a

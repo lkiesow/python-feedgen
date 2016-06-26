@@ -413,15 +413,16 @@ class Podcast(object):
         return self.__rss_lastBuildDate
 
 
-    def link(self, href=None):
-        """Get or set the feed's link (website).
+    def website(self, href=None):
+        """Get or set this podcast's website.
 
-        :param href:    URI of this feed's website.
+        This corresponds to the RSS link element.
+
+        :param href: URI of this podcast's website.
 
         Example::
 
-            >>> feedgen.link( href='http://example.com/')
-            [{'href':'http://example.com/', 'rel':'self'}]
+            >>> feedgen.website( href='http://example.com/')
 
         """
         if not href is None:
