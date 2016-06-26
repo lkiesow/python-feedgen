@@ -47,7 +47,7 @@ class Podcast(object):
         self.__rss_cloud          = None
         self.__rss_copyright      = None
         self.__rss_docs           = 'http://www.rssboard.org/rss-specification'
-        self.__rss_generator      = 'python-feedgen'
+        self.__rss_generator      = self._feedgen_generator_str
         self.__rss_language       = None
         self.__rss_lastBuildDate  = datetime.now(dateutil.tz.tzutc())
         self.__rss_managingEditor = None
@@ -451,20 +451,35 @@ class Podcast(object):
         return self.__rss_cloud
 
 
-    def generator(self, generator=None, version=None, uri=None):
+    def generator(self, generator=None, version=None, uri=None,
+                  exclude_feedgen=False):
         """Get or the generator of the feed which identifies the software used to
         generate the feed, for debugging and other purposes.
 
         :param generator: Software used to create the feed.
-        :param version: (Optional) Version of the software.
+        :param version: (Optional) Version of the software, as a tuple.
         :param uri: (Optional) URI the software can be found.
+        :param exclude_feedgen: (Optional) Set to True to disable the mentioning
+            of the python-feedgen library.
         """
         if not generator is None:
-            self.__rss_generator = generator + \
-                (("/" + str(version)) if version is not None else "") + \
-                ((" " + uri) if uri else "")
+            self.__rss_generator = self._program_name_to_str(generator, version, uri) + \
+                                   (" (using %s)" % self._feedgen_generator_str
+                                    if not exclude_feedgen else "")
         return self.__rss_generator
 
+    def _program_name_to_str(self, generator=None, version=None, uri=None):
+        return generator + \
+                ((" v" + ".".join([str(i) for i in version])) if version is not None else "") + \
+                ((" " + uri) if uri else "")
+
+    @property
+    def _feedgen_generator_str(self):
+        return self._program_name_to_str(
+                                       feedgen.version.name,
+                                       feedgen.version.version_full,
+                                       feedgen.version.website
+                                   )
 
     def copyright(self, copyright=None):
         """Get or set the copyright notice for content in this podcast.

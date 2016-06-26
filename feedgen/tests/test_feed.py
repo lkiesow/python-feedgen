@@ -10,6 +10,7 @@ A basic feed does not contain entries so far.
 import unittest
 from lxml import etree
 from ..feed import Podcast
+import feedgen.version
 
 class TestSequenceFunctions(unittest.TestCase):
 
@@ -42,6 +43,8 @@ class TestSequenceFunctions(unittest.TestCase):
         self.managingEditor = 'mail@example.com'
         self.skipDays = 'Tuesday'
         self.skipHours = 23
+
+        self.programname = feedgen.version.name
 
         self.webMaster = 'webmaster@example.com'
 
@@ -107,7 +110,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert channel.find("description").text == self.description
         assert channel.find("lastBuildDate").text != None
         assert channel.find("docs").text == "http://www.rssboard.org/rss-specification"
-        assert channel.find("generator").text == "python-feedgen"
+        assert self.programname in channel.find("generator").text
         assert channel.find("cloud").get('domain') == self.cloudDomain
         assert channel.find("cloud").get('port') == self.cloudPort
         assert channel.find("cloud").get('path') == self.cloudPath
@@ -126,6 +129,19 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_feedUrlValidation(self):
         self.assertRaises(ValueError, self.fg.feed_url, "example.com/feed.rss")
+
+    def test_generator(self):
+        software_name = "My Awesome Software"
+        self.fg.generator(software_name)
+        rss = self.fg._create_rss()
+        generator = rss.find("channel").find("generator").text
+        assert software_name in generator
+        assert self.programname in generator
+
+        self.fg.generator(software_name, exclude_feedgen=True)
+        generator = self.fg._create_rss().find("channel").find("generator").text
+        assert software_name in generator
+        assert self.programname not in generator
 
 
 if __name__ == '__main__':

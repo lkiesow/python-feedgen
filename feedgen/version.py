@@ -23,3 +23,9 @@ version_full  = version
 version_major_str = '.'.join([str(x) for x in version_major])
 version_minor_str = '.'.join([str(x) for x in version_minor])
 version_full_str  = '.'.join([str(x) for x in version_full])
+
+'Name of this project'
+name = "python-feedgen (podcastgen)"
+
+'Website of this project'
+website = "https://github.com/tobinus/python-feedgen/tree/podcastgen"
