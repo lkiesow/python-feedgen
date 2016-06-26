@@ -210,8 +210,6 @@ class Podcast(object):
         desc = etree.SubElement(channel, 'description')
         desc.text = self.__rss_description
 
-        summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
-        summary.text = self.__rss_description
         if self.__rss_cloud:
             cloud = etree.SubElement(channel, 'cloud')
             cloud.attrib['domain'] = self.__rss_cloud.get('domain')
@@ -479,10 +477,11 @@ class Podcast(object):
     def description(self, description=None):
         """Set and get the description of the feed,
         which is a phrase or sentence describing the channel. It is mandatory for
-        RSS feeds.
+        RSS feeds, and is shown under the podcast's name on the iTunes store
+        page.
 
-        :param description: Description of the channel.
-        :returns: Description of the channel.
+        :param description: Description of the podcast.
+        :returns: Description of the podcast.
 
         """
         if not description is None:
