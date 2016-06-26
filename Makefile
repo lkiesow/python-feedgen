@@ -46,4 +46,6 @@ publish: sdist
 test:
 	python -m unittest feedgen.tests.test_feed
 	python -m unittest feedgen.tests.test_entry
+	python -m feedgen rss > /dev/null
+	python -m feedgen podcast > /dev/null
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
