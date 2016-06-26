@@ -467,9 +467,20 @@ class Podcast(object):
 
 
     def copyright(self, copyright=None):
-        """Get or set the copyright notice for content in the channel.
+        """Get or set the copyright notice for content in this podcast.
+
+        This should be human-readable. For example, "Copyright 2016 Example
+        Radio".
+
+        Note that even if you leave out the copyright notice, your content is
+        still protected by copyright (unless anything else is indicated), since
+        you do not need a copyright statement for something to be protected by
+        copyright. If you intend to put the podcast in public domain or license
+        it under a Creative Commons license, you should say so in the copyright
+        notice.
 
         :param copyright: The copyright notice.
+        :type copyright: str
         :returns: The copyright notice.
         """
 
