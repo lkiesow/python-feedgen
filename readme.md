@@ -38,7 +38,7 @@ data::
 
     >>> from feedgen.feed import Podcast
     >>> fg = Podcast()
-    >>> fg.title('Some Testfeed')
+    >>> fg.name('Some Testfeed')
     >>> fg.author( {'name':'John Doe','email':'john@example.de'} )
     >>> fg.website( href='http://example.com', rel='alternate' )
     >>> fg.image('http://ex.com/logo.jpg')

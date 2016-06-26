@@ -40,7 +40,7 @@ if __name__ == '__main__':
     arg = sys.argv[1]
 
     fg = Podcast()
-    fg.title('Testfeed')
+    fg.name('Testfeed')
     fg.managingEditor('lkiesow@uos.de (Lars Kiesow)')
     fg.website(href='http://example.com')
     fg.copyright('cc-by')

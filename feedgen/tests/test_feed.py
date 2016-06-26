@@ -45,7 +45,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
         self.webMaster = 'webmaster@example.com'
 
-        fg.title(self.title)
+        fg.name(self.title)
         fg.website(href=self.linkHref)
         fg.description(self.description)
         fg.language(self.language)
@@ -66,7 +66,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_baseFeed(self):
         fg = self.fg
 
-        assert fg.title() == self.title
+        assert fg.name() == self.title
 
         assert fg.managingEditor() == self.managingEditor
         assert fg.webMaster() == self.webMaster

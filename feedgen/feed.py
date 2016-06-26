@@ -369,18 +369,18 @@ class Podcast(object):
                   xml_declaration=xml_declaration)
 
 
-    def title(self, title=None):
-        """Get or set the title value of the feed. It should contain a human
-        readable title for the feed. Often the same as the title of the
-        associated website. Title is mandatory for both ATOM and RSS and should
+    def name(self, name=None):
+        """Get or set the name of the podcast. It should be a human
+        readable title. Often the same as the title of the
+        associated website. This is mandatory for RSS and must
         not be blank.
 
-        :param title: The new title of the feed.
-        :type title: str
-        :returns: The feeds title.
+        :param name: The new name of the podcast.
+        :type name: str
+        :returns: The podcast's name.
         """
-        if not title is None:
-            self.__rss_title = title
+        if not name is None:
+            self.__rss_title = name
         return self.__rss_title
 
 

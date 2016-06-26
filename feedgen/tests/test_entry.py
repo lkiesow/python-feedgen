@@ -17,7 +17,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fg = Podcast()
         self.title = 'Some Testfeed'
 
-        fg.title(self.title)
+        fg.name(self.title)
 
         fe = fg.add_episode()
         fe.id('http://lernfunk.de/media/654321/1')
