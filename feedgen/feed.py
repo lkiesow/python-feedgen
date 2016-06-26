@@ -213,7 +213,7 @@ class Podcast(object):
         if self.__rss_cloud:
             cloud = etree.SubElement(channel, 'cloud')
             cloud.attrib['domain'] = self.__rss_cloud.get('domain')
-            cloud.attrib['port'] = self.__rss_cloud.get('port')
+            cloud.attrib['port'] = str(self.__rss_cloud.get('port'))
             cloud.attrib['path'] = self.__rss_cloud.get('path')
             cloud.attrib['registerProcedure'] = self.__rss_cloud.get(
                     'registerProcedure')
