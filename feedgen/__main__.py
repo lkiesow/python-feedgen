@@ -46,6 +46,7 @@ if __name__ == '__main__':
     fg.copyright('cc-by')
     fg.description('This is a cool feed!')
     fg.language('de')
+    fg.feed_url('http://example.com/feeds/myfeed.rss')
     fe = fg.add_episode()
     fe.id('http://lernfunk.de/_MEDIAID_123#1')
     fe.title('First Element')

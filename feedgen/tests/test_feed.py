@@ -18,6 +18,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fg = Podcast()
 
         self.nsRss = "http://purl.org/rss/1.0/modules/content/"
+        self.feedUrl = "http://example.com/feeds/myfeed.rss"
 
         self.title = 'Some Testfeed'
 
@@ -57,6 +58,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fg.skipDays(self.skipDays)
         fg.skipHours(self.skipHours)
         fg.webMaster(self.webMaster)
+        fg.feed_url(self.feedUrl)
 
         self.fg = fg
 
@@ -74,6 +76,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert fg.description() == self.description
 
         assert fg.language() == self.language
+        assert fg.feed_url() == self.feedUrl
 
 
     def test_rssFeedFile(self):
@@ -96,6 +99,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
         feed = etree.fromstring(rssString)
         nsRss = self.nsRss
+        nsAtom = "http://www.w3.org/2005/Atom"
 
         channel = feed.find("channel")
         assert channel != None
@@ -116,6 +120,14 @@ class TestSequenceFunctions(unittest.TestCase):
         assert channel.find("skipDays").find("day").text == self.skipDays
         assert int(channel.find("skipHours").find("hour").text) == self.skipHours
         assert channel.find("webMaster").text == self.webMaster
+        assert channel.find("{%s}link" % nsAtom).get('href') == self.feedUrl
+        assert channel.find("{%s}link" % nsAtom).get('rel') == 'self'
+        assert channel.find("{%s}link" % nsAtom).get('type') == \
+               'application/rss+xml'
+
+    def test_feedUrlValidation(self):
+        self.assertRaises(ValueError, self.fg.feed_url, "example.com/feed.rss")
+
 
 if __name__ == '__main__':
     unittest.main()

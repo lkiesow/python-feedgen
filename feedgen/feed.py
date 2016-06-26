@@ -56,6 +56,8 @@ class Podcast(object):
         self.__rss_skipDays       = None
         self.__rss_webMaster      = None
 
+        self.__self_link = None
+
         ## ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
         self.__itunes_author = None
@@ -305,6 +307,12 @@ class Podcast(object):
         if self.__itunes_subtitle:
             subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
             subtitle.text = self.__itunes_subtitle
+
+        if self.__self_link:
+            link_to_self = etree.SubElement(channel, '{%s}link' % nsmap['atom'])
+            link_to_self.attrib['href'] = self.__self_link
+            link_to_self.attrib['rel'] = 'self'
+            link_to_self.attrib['type'] = 'application/rss+xml'
 
         for entry in self.episodes:
             item = entry.rss_entry()
@@ -819,3 +827,27 @@ class Podcast(object):
         if not itunes_subtitle is None:
             self.__itunes_subtitle = itunes_subtitle
         return self.__itunes_subtitle
+
+    def feed_url(self, feed_url=None):
+        """Get or set the URL which this feed is available at.
+
+        Identifying a feed's URL within the feed makes it more portable,
+        self-contained, and easier to cache. You should therefore set this
+        property, if you're able to.
+
+        :param feed_url: The URL at which you can access this feed.
+        :type feed_url: str
+        :returns: The URL at which you can access this feed.
+        """
+        if feed_url is not None:
+            if feed_url and not feed_url.startswith((
+                    'http://',
+                    'https://',
+                    'ftp://',
+                    'news://')):
+                raise ValueError("The feed url must be a valid URL, but it "
+                                 "doesn't have a valid URL scheme "
+                                 "(like for example http:// or https://)")
+            self.__self_link = feed_url
+        return self.__self_link
+
