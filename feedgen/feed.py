@@ -438,10 +438,14 @@ class Podcast(object):
         :param port: The port the webservice listens to.
         :param path: The path of the webservice.
         :param registerProcedure: The procedure to call.
-        :param protocol: Can be either HTTP-POST, XML-RPC or SOAP 1.1.
+        :param protocol: Can be either "HTTP-POST", "xml-rpc" or "soap".
         :returns: Dictionary containing the cloud data.
         """
         if not domain is None:
+            if not (domain and (port != False) and path and registerProcedure
+                    and protocol):
+                raise ValueError("All parameters of cloud must be present and"
+                                 " not empty.")
             self.__rss_cloud = {'domain':domain, 'port':port, 'path':path,
                     'registerProcedure':registerProcedure, 'protocol':protocol}
         return self.__rss_cloud
