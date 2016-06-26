@@ -53,7 +53,6 @@ class TestSequenceFunctions(unittest.TestCase):
                 path=self.cloudPath, registerProcedure=self.cloudRegisterProcedure,
                 protocol=self.cloudProtocol)
         fg.copyright(self.copyright)
-        fg.docs(docs=self.docs)
         fg.managingEditor(self.managingEditor)
         fg.skipDays(self.skipDays)
         fg.skipHours(self.skipHours)

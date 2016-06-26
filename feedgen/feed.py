@@ -489,23 +489,6 @@ class Podcast(object):
         return self.__rss_description
 
 
-    def docs(self, docs=None):
-        """Get or set the docs value of the feed. It
-        is a URL that points to the documentation for the format used in the RSS
-        file. It is probably a pointer to [1]. It is for people who might stumble
-        across an RSS file on a Web server 25 years from now and wonder what it
-        is.
-
-        [1]: http://www.rssboard.org/rss-specification
-
-        :param docs: URL of the format documentation.
-        :returns: URL of the format documentation.
-        """
-        if not docs is None:
-            self.__rss_docs = docs
-        return self.__rss_docs
-
-
     def language(self, language=None):
         """Get or set the language of the feed. It indicates the language the
         channel is written in. This allows aggregators to group all Italian
