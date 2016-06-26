@@ -185,3 +185,11 @@ In short, the **original project breaks all the idioms listed in Philosophy**, a
 fixing it would require changes too big or too dramatic to be applied upstream.
 Whenever a change _is_ appropriate for upstream, however, we should strive to
 bring it there, so it can benefit **everyone**.
+
+----------
+Known bugs
+----------
+
+* We do not follow the RSS recommendation to encode &amp;, &lt; and &gt; using
+  hexadecimal character reference (eg. `&#x3C;`), simply because lxml provides
+  no documentation on how to do that when using the text property.
