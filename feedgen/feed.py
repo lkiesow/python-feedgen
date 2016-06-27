@@ -593,15 +593,26 @@ class Podcast(object):
 
 
     def skipHours(self, hours=None, replace=False):
-        """Set or get the value of skipHours, a hint for aggregators telling them
-        which hours they can skip.
+        """Set or get which hours feed readers don't need to refresh this feed.
 
         This method can be called with an hour or a list of hours. The hours are
-        represented as integer values from 0 to 23.
+        represented as integer values from 0 to 23. When called multiple times,
+        the new hours are added to the list of existing hours, unless replace
+        is True.
+
+        For example, to skip hours between 18 and 7::
+
+            >>> from feedgen.feed import Podcast
+            >>> p = Podcast()
+            >>> p.skipHours(range(18, 24))
+            {18, 19, 20, 21, 22, 23}
+            >>> p.skipHours(range(8))
+            {0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23}
 
         :param hours:   List of hours the feedreaders should not check the feed.
+        :type hours: list or set or int
         :param replace: Add or replace old data.
-        :returns:       List of hours the feedreaders should not check the feed.
+        :returns:       Set of hours the feedreaders should not check the feed.
         """
         if not hours is None:
             if not (isinstance(hours, list) or isinstance(hours, set)):
@@ -622,7 +633,8 @@ class Podcast(object):
         This method can be called with a day name or a list of day names. The days are
         represented as strings from 'Monday' to 'Sunday'.
 
-        :param hours:   List of days the feedreaders should not check the feed.
+        :param days:   List of days the feedreaders should not check the feed.
+        :type days: list or set or str
         :param replace: Add or replace old data.
         :returns:       List of days the feedreaders should not check the feed.
         """
