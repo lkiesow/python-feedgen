@@ -238,7 +238,7 @@ class Podcast(object):
             managingEditor = etree.SubElement(channel, 'managingEditor')
             managingEditor.text = self.__rss_managingEditor
 
-        if not self.__rss_pubDate:
+        if self.__rss_pubDate is None:
             episode_dates = [e.published() for e in self.episodes if e.published() is not None]
             if episode_dates:
                 actual_pubDate = max(episode_dates)
@@ -560,15 +560,18 @@ class Podcast(object):
             latest publication date (which may be in the future). If there
             are no episodes, the publication date is omitted from the feed.
 
+        If you want to omit the publication date from the feed, set pubDate
+        to False.
+
         :param pubDate: The publication date.
         :returns: Publication date as datetime.datetime
         """
         if not pubDate is None:
             if isinstance(pubDate, string_types):
                 pubDate = dateutil.parser.parse(pubDate)
-            if not isinstance(pubDate, datetime):
+            if pubDate is not False and not isinstance(pubDate, datetime):
                 raise ValueError('Invalid datetime format')
-            if pubDate.tzinfo is None:
+            elif pubDate is not False and pubDate.tzinfo is None:
                 raise ValueError('Datetime object has no timezone info')
             self.__rss_pubDate = pubDate
 
