@@ -1,7 +1,6 @@
-.. raw:: html
+========================
+feedgen.item.BaseEpisode
+========================
 
-   <div class="apititle"><b>Contents</b></div>
-   <div class="apitoc"></div>
-
-.. automodule:: feedgen.item
+.. autoclass:: feedgen.item.BaseEpisode
    :members:

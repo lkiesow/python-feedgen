@@ -2,10 +2,11 @@
 API Documentation
 =================
 
-.. automodule:: feedgen
-   :members:
+.. autosummary::
 
-Contents:
+   feedgen.feed.Podcast
+   feedgen.item.BaseEpisode
+   feedgen.util
 
 .. toctree::
    :maxdepth: 2

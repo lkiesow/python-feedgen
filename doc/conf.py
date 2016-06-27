@@ -23,7 +23,9 @@ import feedgen.version
 extensions = [
         'sphinx.ext.intersphinx',
         'sphinx.ext.coverage',
-        'sphinx.ext.autodoc'
+        'sphinx.ext.autodoc',
+        'sphinx.ext.autosummary',
+        'sphinx.ext.viewcode',
     ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -39,8 +41,8 @@ source_encoding = 'utf-8-sig'
 master_doc = 'index'
 
 # General information about the project.
-project = u'python-feedgen'
-copyright = u'2013, Lars Kiesow'
+project = u'PodcastGenerator'
+copyright = u'2014, Lars Kiesow and 2016, Thorben Dahl'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -90,25 +92,28 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
-html_theme = 'haiku'
+html_theme = 'alabaster'
 
-html_style = 'lernfunk.css'
+#html_style = 'lernfunk.css'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    'fixed_sidebar': True,
+    'page_width': "1000px",
+
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = "Podcastgenerator (forked from python-feedgen) Documentation"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-#html_short_title = None
+html_short_title = "Podcastgenerator"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -126,14 +131,22 @@ html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-#html_use_smartypants = True
+html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-#html_sidebars = {}
+html_sidebars = {
+    '**': [
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+        'donate.html',
+    ]
+}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.

@@ -1,7 +1,6 @@
-.. raw:: html
+====================
+feedgen.feed.Podcast
+====================
 
-   <div class="apititle"><b>Contents</b></div>
-   <div class="apitoc"></div>
-
-.. automodule:: feedgen.feed
+.. autoclass:: feedgen.feed.Podcast
    :members:
