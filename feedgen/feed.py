@@ -530,12 +530,16 @@ class Podcast(object):
 
 
     def language(self, language=None):
-        """Get or set the language of the feed. It indicates the language the
-        channel is written in. This allows aggregators to group all Italian
-        language sites, for example, on a single page.
-        The value should be an IETF language tag.
+        """Get or set the language of the podcast.
 
-        :param language: Language of the feed.
+        This allows aggregators to group all Italian
+        language podcasts, for example, on a single page.
+
+        :param language: The language of the podcast. It must be a two-letter
+            code, as found in ISO639-1, with the
+            possibility of specifying subcodes (eg. en-US for American English).
+            See http://www.rssboard.org/rss-language-codes and
+            http://www.loc.gov/standards/iso639-2/php/code_list.php
         :returns: Language of the feed.
         """
         if not language is None:
