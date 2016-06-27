@@ -49,7 +49,7 @@ class Podcast(object):
         self.__rss_docs           = 'http://www.rssboard.org/rss-specification'
         self.__rss_generator      = self._feedgen_generator_str
         self.__rss_language       = None
-        self.__rss_lastBuildDate  = datetime.now(dateutil.tz.tzutc())
+        self.__rss_lastBuildDate  = None
         self.__rss_managingEditor = None
         self.__rss_pubDate        = None
         self.__rss_skipHours      = None
@@ -230,10 +230,15 @@ class Podcast(object):
         if self.__rss_language:
             language = etree.SubElement(channel, 'language')
             language.text = self.__rss_language
-        if self.__rss_lastBuildDate:
-            lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
 
-            lastBuildDate.text = formatRFC2822(self.__rss_lastBuildDate)
+        if self.__rss_lastBuildDate is None:
+            lastBuildDateDate = datetime.now(dateutil.tz.tzutc())
+        else:
+            lastBuildDateDate = self.__rss_lastBuildDate
+        if lastBuildDateDate:
+            lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
+            lastBuildDate.text = formatRFC2822(lastBuildDateDate)
+
         if self.__rss_managingEditor:
             managingEditor = etree.SubElement(channel, 'managingEditor')
             managingEditor.text = self.__rss_managingEditor
@@ -390,23 +395,28 @@ class Podcast(object):
         datetime.datetime object. In any case it is necessary that the value
         include timezone information.
 
-        This will set both atom:updated and rss:lastBuildDate.
+        This will set rss:lastBuildDate.
 
         Default value
             If not set, updated has as value the current date and time.
+
+        Set this to False to have no updated value in the feed.
 
         :param updated: The modification date.
         :type updated: str or datetime.datetime
         :returns: Modification date as datetime.datetime
         """
         if not updated is None:
-            if isinstance(updated, string_types):
-                updated = dateutil.parser.parse(updated)
-            if not isinstance(updated, datetime):
-                raise ValueError('Invalid datetime format')
-            if updated.tzinfo is None:
-                raise ValueError('Datetime object has no timezone info')
-            self.__rss_lastBuildDate = updated
+            if updated is False:
+                self.__rss_lastBuildDate = False
+            else:
+                if isinstance(updated, string_types):
+                    updated = dateutil.parser.parse(updated)
+                if not isinstance(updated, datetime):
+                    raise ValueError('Invalid datetime format')
+                if updated.tzinfo is None:
+                    raise ValueError('Datetime object has no timezone info')
+                self.__rss_lastBuildDate = updated
 
         return self.__rss_lastBuildDate
 

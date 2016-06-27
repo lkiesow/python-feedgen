@@ -11,6 +11,9 @@ import unittest
 from lxml import etree
 from ..feed import Podcast
 import feedgen.version
+import datetime
+import dateutil.tz
+import dateutil.parser
 
 class TestSequenceFunctions(unittest.TestCase):
 
@@ -149,6 +152,26 @@ class TestSequenceFunctions(unittest.TestCase):
             encoding="UTF-8",
             xml_declaration=True
         )
+
+    def test_updated(self):
+        date = datetime.datetime(2016, 1, 1, 0, 10, tzinfo=dateutil.tz.tzutc())
+
+        def getLastBuildDateElement(fg):
+            return fg._create_rss().find("channel").find("lastBuildDate")
+
+        # Test that it has a default
+        assert getLastBuildDateElement(self.fg) is not None
+
+        # Test that it respects my custom value
+        self.fg.updated(date)
+        lastBuildDate = getLastBuildDateElement(self.fg)
+        assert lastBuildDate is not None
+        assert dateutil.parser.parse(lastBuildDate.text) == date
+
+        # Test that it is left out when set to False
+        self.fg.updated(False)
+        lastBuildDate = getLastBuildDateElement(self.fg)
+        assert lastBuildDate is None
 
 if __name__ == '__main__':
     unittest.main()
