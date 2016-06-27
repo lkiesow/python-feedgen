@@ -143,6 +143,12 @@ class TestSequenceFunctions(unittest.TestCase):
         assert software_name in generator
         assert self.programname not in generator
 
+    def test_str(self):
+        assert str(self.fg) == self.fg.rss_str(
+            minimize=False,
+            encoding="UTF-8",
+            xml_declaration=True
+        )
 
 if __name__ == '__main__':
     unittest.main()
