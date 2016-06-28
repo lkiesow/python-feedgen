@@ -100,9 +100,15 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'fixed_sidebar': True,
+    'fixed_sidebar': False,
     'page_width': "1000px",
-
+    'sidebar_width': "225px",
+    'show_related': True,
+    'body_text': "rgba(0, 0, 0, 0.8)",
+    'footer_text': "rgba(0, 0, 0, 0.5)",
+    'gray_1': "rgba(0, 0, 0, 0.9)",
+    'gray_2': "rgba(0, 0, 0, 0.2)",
+    'gray_3': "rgba(0, 0, 0, 0.1)",
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -139,10 +145,16 @@ html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
 html_sidebars = {
-    '**': [
+    'index': [
         'about.html',
         'navigation.html',
+        'searchbox.html',
+        'donate.html',
+    ],
+    '**': [
+        'about.html',
         'relations.html',
+        'navigation.html',
         'searchbox.html',
         'donate.html',
     ]

@@ -8,10 +8,10 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from feedgen.feed import Podcast
 import sys
 import datetime
 import pytz
+
 
 def print_enc(s):
     '''Print function compatible with both python2 and python3 accepting strings
@@ -23,53 +23,63 @@ def print_enc(s):
         print(s)
 
 
-
-if __name__ == '__main__':
+def main():
+    """Create an example podcast and, print it or save it to file."""
+    # There must be exactly one argument, and it is must end with rss
     if len(sys.argv) != 2 or not (
-            sys.argv[1].endswith('rss') \
-                    or sys.argv[1].endswith('podcast') ):
-        print_enc ('Usage: %s ( <file>.rss | rss | podcast )' % \
+            sys.argv[1].endswith('rss')):
+        # Invalid usage, print help message
+        # print_enc is just a custom function which functions like print,
+        # except it deals with byte arrays properly.
+        print_enc ('Usage: %s ( <file>.rss | rss )' % \
                 'python -m feedgen')
         print_enc ('')
         print_enc ('  rss              -- Generate RSS test output and print it to stdout.')
         print_enc ('  <file>.rss       -- Generate RSS test teed and write it to file.rss.')
-        print_enc ('  podcast          -- Generate Podcast test output and print it to stdout.')
         print_enc ('')
         exit()
 
+    # Remember what type of feed the user wants
     arg = sys.argv[1]
 
-    fg = Podcast()
-    fg.name('Testfeed')
-    fg.managingEditor('lkiesow@uos.de (Lars Kiesow)')
-    fg.website(href='http://example.com')
-    fg.copyright('cc-by')
-    fg.description('This is a cool feed!')
-    fg.language('de')
-    fg.feed_url('http://example.com/feeds/myfeed.rss')
-    fe = fg.add_episode()
-    fe.id('http://lernfunk.de/_MEDIAID_123#1')
-    fe.title('First Element')
-    fe.summary('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
+    from feedgen.feed import Podcast
+    # Initialize the feed
+    p = Podcast()
+    p.name('Testfeed')
+    p.managingEditor('lkiesow@uos.de (Lars Kiesow)')
+    p.website(href='http://example.com')
+    p.copyright('cc-by')
+    p.description('This is a cool feed!')
+    p.language('de')
+    p.feed_url('http://example.com/feeds/myfeed.rss')
+    p.itunes_author('Lars Kiesow')
+    p.itunes_category('Technology', 'Podcasting')
+    p.itunes_explicit('no')
+    p.itunes_complete('no')
+    p.itunes_new_feed_url('http://example.com/new-feed.rss')
+    p.itunes_owner('John Doe', 'john@example.com')
+
+    e1 = p.add_episode()
+    e1.id('http://lernfunk.de/_MEDIAID_123#1')
+    e1.title('First Element')
+    e1.summary('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
             aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista
             mala sunt, placet. Aut etiam, ut vestitum, sic sententiam habeas aliam
             domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
             occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
             verba <3.''', html=False)
-    fe.link( href='http://example.com')
-    fe.author( name='Lars Kiesow', email='lkiesow@uos.de' )
+    e1.link(href='http://example.com')
+    e1.author(name='Lars Kiesow', email='lkiesow@uos.de')
+    e1.itunes_author('Lars Kiesow')
+    e1.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
 
+    # Should we just print out, or write to file?
     if arg == 'rss':
-        print_enc(fg.rss_str())
-    elif arg == 'podcast':
-        fg.itunes_author('Lars Kiesow')
-        fg.itunes_category('Technology', 'Podcasting')
-        fg.itunes_explicit('no')
-        fg.itunes_complete('no')
-        fg.itunes_new_feed_url('http://example.com/new-feed.rss')
-        fg.itunes_owner('John Doe', 'john@example.com')
-        fe.itunes_author('Lars Kiesow')
-        fe.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
-        print_enc(fg.rss_str())
+        # Print
+        print_enc(p.rss_str())
     elif arg.endswith('rss'):
-        fg.rss_file(arg, minimize=True)
+        # Write to file
+        p.rss_file(arg, minimize=True)
+
+if __name__ == '__main__':
+    main()

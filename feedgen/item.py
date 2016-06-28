@@ -149,8 +149,11 @@ class BaseEpisode(object):
     def id(self, new_id=None):
         """Get or set this episode's globally unique identifier.
 
-        If not present, the URL of the enclosed media is used. Set the id to
-        boolean False to suppress this behaviour.
+        If not present, the URL of the enclosed media is used. This is usually
+        the best way to go, **as long as the media URL doesn't change**.
+
+        Set the id to boolean False if you don't want to associate any id to
+        this episode.
 
         It is important that an episode keeps the same ID until the end of time,
         since the ID is used by clients to identify which episodes have been
@@ -162,7 +165,7 @@ class BaseEpisode(object):
         be unique in this podcast, it must not be the same ID as any other
         episode for any podcast out there. To ensure this, you should use a
         domain which you own (for example, use something like
-        http://example.org/podcast/episode1.mp3 if you own example.org).
+        http://example.org/podcast/episode1 if you own example.org).
 
         This property corresponds to the RSS GUID element.
 
