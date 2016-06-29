@@ -11,6 +11,6 @@ came to be, its license as well as how to install and start using it.
 
    introduction
    fork
-   installing
-   use
+   installation
+   basic_usage_guide/index
    example

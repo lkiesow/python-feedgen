@@ -1,137 +1,9 @@
-Basic usage guide
-=================
-
-When using PodcastGenerator, you can divide your program into
-three phases:
-
-#. Populating the podcast
-#. Adding episodes
-#. Generating the RSS
-
-While the
-:doc:`example` gives you a practical introduction, this document helps you
-understand what the different attributes mean and how they should be used.
-It complements the :doc:`../api` nicely.
-
-Populating the podcast
-----------------------
-
-Creating a new instance
-~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-    from feedgen import Podcast
-    p = Podcast()
-
-Mandatory properties
-~~~~~~~~~~~~~~~~~~~~
-
-Next, we will give the podcast some metadata::
-
-    p.name = "My Example Podcast"
-    p.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    p.website = "https://example.org"
-
-Those three properties, :attr:`~feedgen.feed.Podcast.name`,
-:attr:`~feedgen.feed.Podcast.description` and
-:attr:`~feedgen.feed.Podcast.website`, are actually
-the only three **mandatory** properties of
-:class:`~feedgen.feed.Podcast`. A summary of them:
-
-.. autosummary::
-
-   ~feedgen.feed.Podcast.name
-   ~feedgen.feed.Podcast.description
-   ~feedgen.feed.Podcast.website
-
-Image
-~~~~~
-
-A podcast's image is worth special attention::
-
-    p.image = "https://example.com/static/example_podcast.png"
-
-.. automethod:: feedgen.feed.Podcast.itunes_image
-   :noindex:
-
-Even though the image *technically* is optional, you won't reach people without.
-
-Optional properties
-~~~~~~~~~~~~~~~~~~~
-
-There are plenty of other properties that can be used with
-:class:`feedgen.feed.Podcast <feedgen.Podcast>`:
-
-
-Commonly used
-^^^^^^^^^^^^^
-
-::
-
-    p.copyright = "© 2016 Example Radio"
-    p.language = "en-US"
-    p.managingEditor = p.Person("John Doe", "editor@example.org")
-    p.feed_url = "https://example.com/feeds/podcast.rss"
-    p.category = Category("Technology", "Podcasting")
-    p.explicit = True
-    p.owner = p.managingEditor
-
-.. autosummary::
-
-   ~feedgen.feed.Podcast.copyright
-   ~feedgen.feed.Podcast.language
-   ~feedgen.feed.Podcast.managingEditor
-   ~feedgen.feed.Podcast.feed_url
-   ~feedgen.feed.Podcast.category
-   ~feedgen.feed.Podcast.explicit
-   ~feedgen.feed.Podcast.owner
-
-
-Less commonly used
-^^^^^^^^^^^^^^^^^^
-
-Some of those are obscure while some of them are often times not needed. Others
-again have very reasonable defaults. Remember to click on a name to read its
-full description.
-
-::
-
-    p.cloud = p.CloudService("server.example.com", "/rpc", 80, "xml-rpc")
-
-    import datetime
-    import pytz
-    p.updated = datetime.datetime(2016, 5, 18, 0, 0, tzinfo=pytz.utc))
-    p.published = datetime.datetime(2016, 5, 17, 15, 32, tzinfo=pytz.utc))
-
-    p.skipDays = {"Friday", "Saturday", "Sunday"}
-    p.skipHours = set(range(8))
-    p.skipHours |= set(range(16, 24))
-    p.webMaster = p.Person(None, "helpdesk@dallas.example.com")
-    # Be very careful about using the following attributes:
-    p.new_feed_url = "https://podcast.example.com/example"
-    p.complete = True
-    p.withhold_from_itunes = True
-
-.. autosummary::
-
-   ~feedgen.feed.Podcast.cloud
-   ~feedgen.feed.Podcast.updated
-   ~feedgen.feed.Podcast.published
-   ~feedgen.feed.Podcast.skipDays
-   ~feedgen.feed.Podcast.skipHours
-   ~feedgen.feed.Podcast.webMaster
-   ~feedgen.feed.Podcast.new_feed_url
-   ~feedgen.feed.Podcast.complete
-   ~feedgen.feed.Podcast.withhold_from_itunes
-
-
 
 Adding episodes
 ---------------
 
 To add episodes to a feed, you need to create new
-:attr:`feedgen.Podcast` objects and
+:attr:`Podcast.Episode <feedgen.feed.Podcast.Episode>` objects and
 append them to the list of entries in the Podcast. That is pretty
 straight-forward::
 
@@ -175,6 +47,7 @@ They're all pretty obvious:
    ~feedgen.item.BaseEpisode.subtitle
    ~feedgen.item.BaseEpisode.summary
    ~feedgen.item.BaseEpisode.long_summary
+
 
 Enclosing media
 ^^^^^^^^^^^^^^^
@@ -221,8 +94,10 @@ when the feed is generated.
 That is, given the example above, the id of ``my_episode`` would be
 ``http://example.com/podcast/s01e10.mp3``.
 
-This has the implication that **if you don't set id, the media URL must stay
-the same**.
+.. warning::
+
+   An episode's ID should never change. Therefore, **if you don't set id, the
+   media URL must never change either**.
 
 .. autosummary:: ~feedgen.item.BaseEpisode.id
 
@@ -235,10 +110,15 @@ used to indicate how old the episode is, and a client may say an episode is from
 "1 hour ago", "yesterday", "last week" and so on. You should therefore make sure
 that it matches the exact time that the episode went live, or else your listeners
 will get a new episode which appears to have existed for longer than it has.
-This is why it's generally a bad idea to use the media file's modification date
-as the publication date when you make your episodes some time in advance
-– your listeners will suddenly get an "old" episode in
-their feed! ::
+
+.. note::
+
+   It is generally a bad idea to use the media file's modification date
+   as the publication date when you make your episodes some time in advance
+   – your listeners will suddenly get an "old" episode in
+   their feed!
+
+::
 
    my_episode.published_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
@@ -257,8 +137,10 @@ the link. ::
 
     my_episode.link = "http://example.com/article/2016/05/18/Best-example"
 
-If you don't have anything to link to, then that's fine as well. No link is
-better than a disappointing link.
+.. note::
+
+   If you don't have anything to link to, then that's fine as well. No link is
+   better than a disappointing link.
 
 .. autosummary:: ~feedgen.item.BaseEpisode.link
 
@@ -266,15 +148,20 @@ better than a disappointing link.
 The Author
 ^^^^^^^^^^
 
-There is no point in copy+pasting the same author name in every single episode.
-Instead, you should just set :attr:`Podcast.managingEditor <feedgen.feed.Podcast.managingEditor>`
-to the appropriate name and/or email address, and don't set any authors on the
-episodes. iTunes and others are smart enough to understand that the person
-or entity named in :attr:`Podcast.managingEditor <feedgen.feed.Podcast.managingEditor>`
-is responsible for all episodes.
+.. note::
 
-If the author of an episode differs from the rest, though, you can use
-:attr:`the author attribute <feedgen.item.BaseEpisode.author>` to indicate that::
+   Some of those attributes correspond to attributes found in
+   :class:`~feedgen.feed.Podcast`. In such cases, you should only set those
+   attributes at the episode level if they **differ** from their value at the
+   podcast level.
+
+Normally, the attributes :attr:`Podcast.managingEditor <feedgen.feed.Podcast.managingEditor>`
+and :attr:`Podcast.webMaster <feedgen.feed.Podcast.webMaster>` (if set) are
+used to determine the author of an episode. Thus, if all your episodes have
+the same author, you should just set it at the podcast level.
+
+If an episode's author differs from the podcast's, though, you can override it
+like this:
 
      my_episode.author = Person("Joe Bob")
 
@@ -315,37 +202,4 @@ Less used attributes
    ~feedgen.item.BaseEpisode.order
    ~feedgen.item.BaseEpisode.withhold_from_itunes
 
-Generating the RSS
-------------------
-
-Once you've added all the information and all episodes, it's time to
-take the final step::
-
-    rssfeed  = p.rss_str()
-    # Print to stdout, just as an example
-    print(rssfeed)
-
-If you're okay with the default parameters of :meth:`feedgen.feed.Podcast.rss_str`,
-you can use a shortcut by converting :class:`~feedgen.feed.Podcast` to :obj:`str`::
-
-    rssfeed = str(p)
-    # Or let print convert to str for you
-    print(p)
-
-Doing so is the same as calling :meth:`feedgen.feed.Podcast.rss_str` with no
-parameters.
-
-.. autosummary::
-
-    ~feedgen.feed.Podcast.rss_str
-
-You may also write the feed to a file directly, using :meth:`feedgen.feed.Podcast.rss_file`::
-
-    fg.rss_file('rss.xml', minimize=True)
-
-
-.. autosummary::
-
-    ~feedgen.feed.Podcast.rss_file
-
-
+The final step is :doc:`part_3`

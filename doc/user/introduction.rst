@@ -8,15 +8,15 @@ Philosophy
 ----------
 
 This project is heavily inspired by the wonderful
-`Kenneth Reitz <http://www.kennethreitz.org/projects>`_, known for the
-`Requests <http://docs.python-requests.org>`_ library, which features an API which is
+`Kenneth Reitz <http://www.kennethreitz.org/projects>`__, known for the
+`Requests <http://docs.python-requests.org>`__ library, which features an API which is
 as beautiful as it is effective. Watching his
-`"Documentation is King" talk <http://www.kennethreitz.org/talks/#/documentation-is-king/>`_,
+`"Documentation is King" talk <http://www.kennethreitz.org/talks/#/documentation-is-king/>`__,
 I wanted to make some of the libraries I'm using suitable for use by actual humans.
 
 This project is to be developed following the same
-`PEP 20 <https://www.python.org/dev/peps/pep-0020/>`_ idioms as
-`Requests <http://docs.python-requests.org/en/master/user/intro/#philosophy>`_:
+`PEP 20 <https://www.python.org/dev/peps/pep-0020/>`__ idioms as
+`Requests <http://docs.python-requests.org/en/master/user/intro/#philosophy>`__:
 
 1. Beautiful is better than ugly.
 2. Explicit is better than implicit.
@@ -44,7 +44,8 @@ documentation for iTunes' Podcast Connect.
 PodcastGenerator is geared towards developers who aren't super familiar with
 RSS and XML. If you know exactly how you want the XML to look, then you're
 better off using a template engine like Jinja2 (even if friends don't let
-friends touch XML bare-handed).
+friends touch XML bare-handed). If you just want an easy way to create and
+manage your podcasts, use `Podcast Generator <http://www.podcastgenerator.net/>`.
 
 -------
 License

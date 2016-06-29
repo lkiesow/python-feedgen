@@ -41,7 +41,7 @@ Where to start
 
 Take a look at the :doc:`user/example` for a larger example, read about
 :doc:`the project's background <user/introduction>` or refer to
-the :doc:`user/use` for a detailed introduction to PodcastGenerator.
+the :doc:`user/basic_usage_guide/index` for a detailed introduction to PodcastGenerator.
 
 Contents
 --------

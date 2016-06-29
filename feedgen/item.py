@@ -224,7 +224,7 @@ class BaseEpisode(object):
         the "circled i" in the Description column is clicked. This field can be
         up to 4000 characters in length.
 
-        See also :py:meth:`.itunes_subtitle`.
+        See also :py:meth:`.BaseEpisode.itunes_subtitle`.
 
         :param new_summary: The summary of this episode.
         :param html: Treat the summary as HTML. If set to False, the summary
