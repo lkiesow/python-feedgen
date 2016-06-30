@@ -75,7 +75,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
         assert fg.name() == self.title
 
-        assert fg.author() == self.author
+        assert fg.author()[0] == self.author
         assert fg.webMaster() == self.webMaster
 
         assert fg.website() == self.linkHref
@@ -178,10 +178,10 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_AuthorEmail(self):
         # Just email - so use managingEditor, not dc:creator or itunes:author
         # This is per the RSS best practices, see the section about dc:creator
-        self.fg.author(Person(None, "justan@email.address"))
+        self.fg.author(Person(None, "justan@email.address"), replace=True)
         channel = self.fg._create_rss().find("channel")
         # managingEditor uses email?
-        assert channel.find("managingEditor").text == self.fg.author().email
+        assert channel.find("managingEditor").text == self.fg.author()[0].email
         # No dc:creator?
         assert channel.find("{%s}creator" % self.nsDc) is None
         # No itunes:author?
@@ -189,31 +189,67 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_AuthorName(self):
         # Just name - use dc:creator and itunes:author, not managingEditor
-        self.fg.author(Person("Just a. Name"))
+        self.fg.author(Person("Just a. Name"), replace=True)
         channel = self.fg._create_rss().find("channel")
         # No managingEditor?
         assert channel.find("managingEditor") is None
         # dc:creator equals name?
         assert channel.find("{%s}creator" % self.nsDc).text == \
-               self.fg.author().name
+               self.fg.author()[0].name
         # itunes:author equals name?
         assert channel.find("{%s}author" % self.nsItunes).text == \
-            self.fg.author().name
+            self.fg.author()[0].name
 
     def test_AuthorNameAndEmail(self):
         # Both name and email - use managingEditor and itunes:author,
         # not dc:creator
-        self.fg.author(Person("Both a name", "and_an@email.com"))
+        self.fg.author(Person("Both a name", "and_an@email.com"), replace=True)
         channel = self.fg._create_rss().find("channel")
         # Does managingEditor follow the pattern "email (name)"?
-        self.assertEqual(self.fg.author().email +
-                         " (" + self.fg.author().name + ")",
+        self.assertEqual(self.fg.author()[0].email +
+                         " (" + self.fg.author()[0].name + ")",
                          channel.find("managingEditor").text)
         # No dc:creator?
         assert channel.find("{%s}creator" % self.nsDc) is None
         # itunes:author uses name only?
         assert channel.find("{%s}author" % self.nsItunes).text == \
-            self.fg.author().name
+            self.fg.author()[0].name
+
+    def test_multipleAuthors(self):
+        # Multiple authors - use itunes:author and dc:creator, not
+        # managingEditor.
+        # Is an exception raised when a list is passed in?
+        self.assertRaises(TypeError, self.fg.author,
+                          [Person("A List", "is@not.allowed")])
+
+        person1 = Person("Multiple", "authors@example.org")
+        person2 = Person("Are", "cool@example.org")
+        self.fg.author(person1, person2, replace=True)
+        channel = self.fg._create_rss().find("channel")
+
+        # Test dc:creator
+        author_elements = \
+            channel.findall("{%s}creator" % self.nsDc)
+        author_texts = [e.text for e in author_elements]
+
+        assert len(author_texts) == 2
+        assert person1.name in author_texts[0]
+        assert person1.email in author_texts[0]
+        assert person2.name in author_texts[1]
+        assert person2.email in author_texts[1]
+
+        # Test itunes:author
+        itunes_author = channel.find("{%s}author" % self.nsItunes)
+        assert itunes_author is not None
+        itunes_author_text = itunes_author.text
+        assert person1.name in itunes_author_text
+        assert person1.email not in itunes_author_text
+        assert person2.name in itunes_author_text
+        assert person2.email not in itunes_author_text
+
+        # Test that managingEditor is not used
+        assert channel.find("managingEditor") is None
+
 
     def test_webMaster(self):
         self.fg.webMaster(Person(None, "justan@email.address"))

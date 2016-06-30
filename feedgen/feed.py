@@ -14,7 +14,7 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from feedgen.item import BaseEpisode
-from feedgen.util import ensure_format, formatRFC2822
+from feedgen.util import ensure_format, formatRFC2822, listToHumanreadableStr
 from feedgen.person import Person
 import feedgen.version
 import sys
@@ -241,16 +241,29 @@ class Podcast(object):
             lastBuildDate.text = formatRFC2822(lastBuildDateDate)
 
         if self.__rss_author:
-            if self.__rss_author.email:
-                managingEditor = etree.SubElement(channel, 'managingEditor')
-                managingEditor.text = str(self.__rss_author)
+            authors_with_name = [a.name for a in self.__rss_author if a.name]
+            if authors_with_name:
+                # We have something to display as itunes:author, combine all
+                # names
+                itunes_author = \
+                    etree.SubElement(channel, '{%s}author' % ITUNES_NS)
+                itunes_author.text = listToHumanreadableStr(authors_with_name)
+            if len(self.__rss_author) > 1 or not self.__rss_author[0].email:
+                # Use dc:creator, since it supports multiple authors (and
+                # author without email)
+                for a in self.__rss_author or []:
+                    author = etree.SubElement(channel,
+                                              '{%s}creator' % nsmap['dc'])
+                    if a.name and a.email:
+                        author.text = "%s <%s>" % (a.name, a.email)
+                    elif a.name:
+                        author.text = a.name
+                    else:
+                        author.text = a.email
             else:
-                creator = etree.SubElement(channel, '{%s}creator' % nsmap['dc'])
-                creator.text = str(self.__rss_author)
-            if self.__rss_author.name:
-                itunes_author = etree.SubElement(channel,
-                                                 '{%s}author' % ITUNES_NS)
-                itunes_author.text = self.__rss_author.name
+                # Only one author and with email, so use rss managingEditor
+                author = etree.SubElement(channel, 'managingEditor')
+                author.text = str(self.__rss_author[0])
 
         if self.__rss_pubDate is None:
             episode_dates = [e.published() for e in self.episodes if e.published() is not None]
@@ -556,20 +569,51 @@ class Podcast(object):
         return self.__rss_language
 
 
-    def author(self, author=None):
-        """Set or get which person or entity is responsible for the podcast's
-        editorial content.
+    def author(self, *author, replace=False):
+        """Append or get which person(s) or entity/entities is/are responsible
+        for the podcast's editorial content.
 
-        This person's name, if supplied, is shown on iTunes under the podcast's
-        title. Otherwise, the email is used.
+        When called multiple times, the authors are appended to the list, unless
+        you set replace to ``True``.
 
-        :param author: The person or entity responsible for editorial
-            content.
+        The names supplied are shown on iTunes under the podcast's title.
+
+        One or more :class:`~feedgen.person.Person` objects can be passed to
+        this method.
+
+        .. note::
+
+            Remember to unpack any lists you use, since lists are not allowed as
+            parameters.
+
+        Example::
+
+            >>> my_authors = [Person("John Doe"), Person("Mary Sue")]
+            >>> p.author(*my_authors)
+            >>> # Or don't use a list to begin with
+            >>> p.author(Person("John Doe"), Person("Mary Sue"), replace=True)
+
+        :param author: One or multiple persons or entities who are
+            responsible for the editorial content.
         :type author: feedgen.person.Person
-        :returns: The person or entity responsible for editorial content.
+        :param replace: Set to ``True`` to start the list of authors from
+            scratch again, thus replacing any authors already on the list.
+        :type replace: bool
+        :returns: List of :class:`~feedgen.person.Person` responsible for
+            editorial content.
         """
-        if author is not None:
-            self.__rss_author = author
+        # TODO: Rename author to authors
+        if not author is None:
+            # Check that the authors quack like ducks
+            for a in author:
+                if not (hasattr(a, "name") and hasattr(a, "email")):
+                    raise TypeError("Author parameter %s does not have the "
+                                    "attributes name and/or email. You "
+                                    "didn't forget to unpack a list?" % a)
+
+            if replace or self.__rss_author is None:
+                self.__rss_author = []
+            self.__rss_author.extend(author)
         return self.__rss_author
 
 

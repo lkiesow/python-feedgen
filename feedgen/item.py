@@ -215,11 +215,12 @@ class BaseEpisode(object):
         :param authors: One or more Person objects that will be added to the
             list of authors for this episode. Lists are not accepted, they
             must be unpacked first (see example).
-        :type authors: list or Person
+        :type authors: Person
         :param replace: Set to True to start over from an empty list.
         :type replace: bool
         :returns: The current list of authors.
         """
+        # TODO: Rename author to authors
         if not authors is None:
             # Check that the authors quack like ducks
             for a in authors:
