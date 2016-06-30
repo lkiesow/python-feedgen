@@ -15,6 +15,7 @@ import dateutil.parser
 import dateutil.tz
 from feedgen.item import BaseEpisode
 from feedgen.util import ensure_format, formatRFC2822
+from feedgen.person import Person
 import feedgen.version
 import sys
 from feedgen.compat import string_types
@@ -50,7 +51,7 @@ class Podcast(object):
         self.__rss_generator      = self._feedgen_generator_str
         self.__rss_language       = None
         self.__rss_lastBuildDate  = None
-        self.__rss_managingEditor = None
+        self.__rss_author = None
         self.__rss_pubDate        = None
         self.__rss_skipHours      = None
         self.__rss_skipDays       = None
@@ -60,7 +61,6 @@ class Podcast(object):
 
         ## ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
-        self.__itunes_author = None
         self.__itunes_block = None
         self.__itunes_category = None
         self.__itunes_image = None
@@ -240,9 +240,17 @@ class Podcast(object):
             lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
             lastBuildDate.text = formatRFC2822(lastBuildDateDate)
 
-        if self.__rss_managingEditor:
-            managingEditor = etree.SubElement(channel, 'managingEditor')
-            managingEditor.text = self.__rss_managingEditor
+        if self.__rss_author:
+            if self.__rss_author.email:
+                managingEditor = etree.SubElement(channel, 'managingEditor')
+                managingEditor.text = str(self.__rss_author)
+            else:
+                creator = etree.SubElement(channel, '{%s}creator' % nsmap['dc'])
+                creator.text = str(self.__rss_author)
+            if self.__rss_author.name:
+                itunes_author = etree.SubElement(channel,
+                                                 '{%s}author' % ITUNES_NS)
+                itunes_author.text = self.__rss_author.name
 
         if self.__rss_pubDate is None:
             episode_dates = [e.published() for e in self.episodes if e.published() is not None]
@@ -267,12 +275,12 @@ class Podcast(object):
                 day = etree.SubElement(skipDays, 'day')
                 day.text = d
         if self.__rss_webMaster:
+            if not self.__rss_webMaster.email:
+                raise RuntimeError("webMaster must have an email. Did you "
+                                   "set email to None after assigning that "
+                                   "Person to webMaster?")
             webMaster = etree.SubElement(channel, 'webMaster')
-            webMaster.text = self.__rss_webMaster
-
-        if self.__itunes_author:
-            author = etree.SubElement(channel, '{%s}author' % ITUNES_NS)
-            author.text = self.__itunes_author
+            webMaster.text = str(self.__rss_webMaster)
 
         if not self.__itunes_block is None:
             block = etree.SubElement(channel, '{%s}block' % ITUNES_NS)
@@ -304,9 +312,9 @@ class Podcast(object):
         if self.__itunes_owner:
             owner = etree.SubElement(channel, '{%s}owner' % ITUNES_NS)
             owner_name = etree.SubElement(owner, '{%s}name' % ITUNES_NS)
-            owner_name.text = self.__itunes_owner.get('name')
+            owner_name.text = self.__itunes_owner.name
             owner_email = etree.SubElement(owner, '{%s}email' % ITUNES_NS)
-            owner_email.text = self.__itunes_owner.get('email')
+            owner_email.text = self.__itunes_owner.email
 
         if self.__itunes_subtitle:
             subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
@@ -548,16 +556,21 @@ class Podcast(object):
         return self.__rss_language
 
 
-    def managingEditor(self, managingEditor=None):
-        """Set or get the value for managingEditor which is the email address for
-        person responsible for editorial content.
+    def author(self, author=None):
+        """Set or get which person or entity is responsible for the podcast's
+        editorial content.
 
-        :param managingEditor: Email adress of the managing editor.
-        :returns: Email adress of the managing editor.
+        This person's name, if supplied, is shown on iTunes under the podcast's
+        title. Otherwise, the email is used.
+
+        :param author: The person or entity responsible for editorial
+            content.
+        :type author: feedgen.person.Person
+        :returns: The person or entity responsible for editorial content.
         """
-        if not managingEditor is None:
-            self.__rss_managingEditor = managingEditor
-        return self.__rss_managingEditor
+        if author is not None:
+            self.__rss_author = author
+        return self.__rss_author
 
 
     def published(self, pubDate=None):
@@ -653,29 +666,21 @@ class Podcast(object):
 
 
     def webMaster(self, webMaster=None):
-        """Get and set the value of webMaster, which represents the email address
-        for the person responsible for technical issues relating to the feed.
+        """Get and set the person responsible for technical issues relating to
+        the feed.
 
-        :param webMaster: Email address of the webmaster.
-        :returns: Email address of the webmaster.
+        :param webMaster: The person responsible for technical issues relating
+            to the feed. This instance of Person must have its email set.
+        :type webMaster: Person
+        :returns: The person responsible for technical issues relating to the
+            feed.
         """
-        if not webMaster is None:
+        if webMaster is not None:
+            if (not hasattr(webMaster, "email")) or not webMaster.email:
+                raise ValueError("The webmaster must have an email attribute "
+                                 "and it must be set and not empty.")
             self.__rss_webMaster = webMaster
         return self.__rss_webMaster
-
-    def itunes_author(self, itunes_author=None):
-        """Get or set the itunes:author. The content of this tag is shown in the
-        Artist column in iTunes. If the tag is not present, iTunes uses the
-        contents of the <author> tag. If <itunes:author> is not present at the
-        feed level, iTunes will use the contents of <managingEditor>.
-
-        :param itunes_author: The author of the podcast.
-        :type itunes_author: str
-        :returns: The author of the podcast.
-        """
-        if not itunes_author is None:
-            self.__itunes_author = itunes_author
-        return self.__itunes_author
 
     def itunes_block(self, itunes_block=None):
         """Get or set the ITunes block attribute. Use this to prevent the entire
@@ -835,7 +840,7 @@ class Podcast(object):
             self.__itunes_new_feed_url = itunes_new_feed_url
         return self.__itunes_new_feed_url
 
-    def itunes_owner(self, name=None, email=None):
+    def itunes_owner(self, owner):
         """Get or set the itunes:owner of the podcast. This tag contains
         information that will be used to contact the owner of the podcast for
         communication specifically about the podcast. It will not be publicly
@@ -843,19 +848,14 @@ class Podcast(object):
 
         Both the name and email are required; you cannot use one or the other alone.
 
-        :param name: The name of the owner of the feed.
-        :type name: str
-        :param email: The feed owner's email.
-        :type email: str
-        :returns: Data of the owner of the feed.
+        :param owner: The person which iTunes will contact when needed.
+        :returns: The owner of this feed, which iTunes will contact when needed.
         """
-        if not name is None:
-            if name and email:
-                self.__itunes_owner = {'name': name, 'email': email}
-            elif not name and not email:
-                self.__itunes_owner = None
+        if owner is not None:
+            if owner.name and owner.email:
+                self.__itunes_owner = owner
             else:
-                raise ValueError('Both name and email have to be set.')
+                raise ValueError('Both name and email must be set.')
         return self.__itunes_owner
 
     def itunes_subtitle(self, itunes_subtitle=None):

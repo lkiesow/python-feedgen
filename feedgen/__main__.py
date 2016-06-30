@@ -43,21 +43,21 @@ def main():
     arg = sys.argv[1]
 
     from feedgen.feed import Podcast
+    from feedgen.person import Person
     # Initialize the feed
     p = Podcast()
     p.name('Testfeed')
-    p.managingEditor('lkiesow@uos.de (Lars Kiesow)')
+    p.author(Person("Lars Kiesow", "lkiesow@uos.de"))
     p.website(href='http://example.com')
     p.copyright('cc-by')
     p.description('This is a cool feed!')
     p.language('de')
     p.feed_url('http://example.com/feeds/myfeed.rss')
-    p.itunes_author('Lars Kiesow')
     p.itunes_category('Technology', 'Podcasting')
     p.itunes_explicit('no')
     p.itunes_complete('no')
     p.itunes_new_feed_url('http://example.com/new-feed.rss')
-    p.itunes_owner('John Doe', 'john@example.com')
+    p.itunes_owner(Person('John Doe', 'john@example.com'))
 
     e1 = p.add_episode()
     e1.id('http://lernfunk.de/_MEDIAID_123#1')
@@ -69,7 +69,7 @@ def main():
             occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
             verba <3.''', html=False)
     e1.link(href='http://example.com')
-    e1.author(name='Lars Kiesow', email='lkiesow@uos.de')
+    e1.author(Person('Lars Kiesow', 'lkiesow@uos.de'))
     e1.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
 
     # Should we just print out, or write to file?

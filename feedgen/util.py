@@ -85,3 +85,15 @@ else:
 
     def htmlencode(s):
         return html.escape(s)
+
+def listToHumanreadableStr(l):
+    # TODO: Allow translations of "and" and "empty"
+    length = len(l)
+    l = [str(e) for e in l]
+
+    if length == 0:
+        return "(empty)"
+    elif length == 1:
+        return l[0]
+    else:
+        return ", ".join(l[:-1]) + " and " + l[-1]

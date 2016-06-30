@@ -31,6 +31,9 @@ to make.
 When you create episodes for a Podcast, you're most likely creating new
 instances of :class:`feedgen.item.BaseEpisode`.
 
+You use :class:`feedgen.person.Person` whenever an attribute is to represent
+a person or an entity.
+
 :mod:`feedgen.util` provides utility functions for the rest of the library,
 and is therefore not relevant for users.
 
@@ -41,4 +44,5 @@ and is therefore not relevant for users.
 
    api.feed
    api.item
+   api.person
    api.util

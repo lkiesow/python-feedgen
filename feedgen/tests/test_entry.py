@@ -8,6 +8,8 @@ These are test cases for a basic entry.
 
 import unittest
 from lxml import etree
+
+from feedgen.person import Person
 from ..feed import Podcast
 import datetime
 import pytz
@@ -156,42 +158,68 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_oneAuthor(self):
         name = "John Doe"
         email = "johndoe@example.org"
-        self.fe.author(name=name, email=email)
+        self.fe.author(Person(name, email))
         author_text = self.fe.rss_entry().find("author").text
         assert name in author_text
         assert email in author_text
 
-        # Test that itunes:author is not used when rss author does the same job
-        assert self.fe.rss_entry().find("{%s}author" % self.itunes_ns) is None
-
+        # Test that itunes:author is the name
+        assert self.fe.rss_entry().find("{%s}author" % self.itunes_ns).text\
+            == name
         # Test that dc:creator is not used when rss author does the same job
         assert self.fe.rss_entry().find("{%s}creator" % self.dublin_ns) is None
 
-    def test_multipleAuthors(self):
-        name1 = "John Doe"
-        email1 = "johndoe@example.org"
-        name2 = "Mary Sue"
-        email2 = "marysue@example.org"
+    def test_oneAuthorWithoutEmail(self):
+        name = "John Doe"
+        self.fe.author(Person(name))
+        entry = self.fe.rss_entry()
 
-        self.fe.author([{'name': name1, 'email': email1},
-                        {'name': name2, 'email': email2}])
+        # Test that author is not used, since it requires email
+        assert entry.find("author") is None
+        # Test that itunes:author is still the name
+        assert entry.find("{%s}author" % self.itunes_ns).text == name
+        # Test that dc:creator is used in rss author's place (since dc:creator
+        # doesn't require email)
+        assert entry.find("{%s}creator" % self.dublin_ns).text == name
+
+    def test_oneAuthorWithoutName(self):
+        email = "johndoe@example.org"
+        self.fe.author(Person(email=email))
+        entry = self.fe.rss_entry()
+
+        # Test that rss author is the email
+        assert entry.find("author").text == email
+        # Test that itunes:author is not used, since it requires name
+        assert entry.find("{%s}author" % self.itunes_ns) is None
+        # Test that dc:creator is not used, since it would duplicate rss author
+        assert entry.find("{%s}creator" % self.dublin_ns) is None
+
+
+    def test_multipleAuthors(self):
+        person1 = Person("John Doe", "johndoe@example.org")
+        person2 = Person("Mary Sue", "marysue@example.org")
+
+        # Check that an error occurs if a list is given
+        self.assertRaises(TypeError, self.fe.author, [person1, person2])
+        # Do it properly this time
+        self.fe.author(*[person1, person2])
         author_elements = \
             self.fe.rss_entry().findall("{%s}creator" % self.dublin_ns)
         author_texts = [e.text for e in author_elements]
 
         # Test that both authors are included, in the same order they were added
-        assert name1 in author_texts[0]
-        assert email1 in author_texts[0]
-        assert name2 in author_texts[1]
-        assert email2 in author_texts[1]
+        assert person1.name in author_texts[0]
+        assert person1.email in author_texts[0]
+        assert person2.name in author_texts[1]
+        assert person2.email in author_texts[1]
 
-        # Test that itunes:author is the last author
+        # Test that itunes:author includes all authors' name, but not email
         itunes_author = \
             self.fe.rss_entry().find("{%s}author" % self.itunes_ns).text
-        assert name1 not in itunes_author
-        assert email1 not in itunes_author
-        assert name2 in itunes_author
-        assert email2 in itunes_author
+        assert person1.name in itunes_author
+        assert person1.email not in itunes_author
+        assert person2.name in itunes_author
+        assert person2.email not in itunes_author
 
         # Test that the regular rss tag is not used, per the RSS recommendations
         assert self.fe.rss_entry().find("author") is None

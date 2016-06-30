@@ -155,13 +155,13 @@ The Author
    attributes at the episode level if they **differ** from their value at the
    podcast level.
 
-Normally, the attributes :attr:`Podcast.managingEditor <feedgen.feed.Podcast.managingEditor>`
+Normally, the attributes :attr:`Podcast.author <feedgen.feed.Podcast.author>`
 and :attr:`Podcast.webMaster <feedgen.feed.Podcast.webMaster>` (if set) are
 used to determine the author of an episode. Thus, if all your episodes have
 the same author, you should just set it at the podcast level.
 
 If an episode's author differs from the podcast's, though, you can override it
-like this:
+like this::
 
      my_episode.author = Person("Joe Bob")
 

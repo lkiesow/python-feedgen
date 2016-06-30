@@ -56,17 +56,17 @@ Commonly used
 
     p.copyright = "© 2016 Example Radio"
     p.language = "en-US"
-    p.managingEditor = p.Person("John Doe", "editor@example.org")
+    p.author = p.Person("John Doe", "editor@example.org")
     p.feed_url = "https://example.com/feeds/podcast.rss"
     p.category = Category("Technology", "Podcasting")
     p.explicit = True
-    p.owner = p.managingEditor
+    p.owner = p.author
 
 .. autosummary::
 
    ~feedgen.feed.Podcast.copyright
    ~feedgen.feed.Podcast.language
-   ~feedgen.feed.Podcast.managingEditor
+   ~feedgen.feed.Podcast.author
    ~feedgen.feed.Podcast.feed_url
    ~feedgen.feed.Podcast.category
    ~feedgen.feed.Podcast.explicit

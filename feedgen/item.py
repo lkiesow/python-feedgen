@@ -13,7 +13,8 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.util import ensure_format, formatRFC2822, htmlencode
+from feedgen.util import ensure_format, formatRFC2822, htmlencode, \
+    listToHumanreadableStr
 from feedgen.compat import string_types
 from builtins import str
 
@@ -74,18 +75,28 @@ class BaseEpisode(object):
             content.text = etree.CDATA(self.__rss_content)
 
         if self.__rss_author:
-            if len(self.__rss_author) > 1:
-                author = etree.SubElement(entry, '{%s}author' % ITUNES_NS)
-                author.text = self.__rss_author[-1]
-
-                # Use dc:creator
+            authors_with_name = [a.name for a in self.__rss_author if a.name]
+            if authors_with_name:
+                # We have something to display as itunes:author, combine all
+                # names
+                itunes_author = \
+                    etree.SubElement(entry, '{%s}author' % ITUNES_NS)
+                itunes_author.text = listToHumanreadableStr(authors_with_name)
+            if len(self.__rss_author) > 1 or not self.__rss_author[0].email:
+                # Use dc:creator, since it supports multiple authors (and
+                # author without email)
                 for a in self.__rss_author or []:
                     author = etree.SubElement(entry, '{%s}creator' % DUBLIN_NS)
-                    author.text = a
+                    if a.name and a.email:
+                        author.text = "%s <%s>" % (a.name, a.email)
+                    elif a.name:
+                        author.text = a.name
+                    else:
+                        author.text = a.email
             else:
-                # Only one author, use rss author
+                # Only one author and with email, so use rss author
                 author = etree.SubElement(entry, 'author')
-                author.text = self.__rss_author[0]
+                author.text = str(self.__rss_author[0])
 
         if self.__rss_guid:
             rss_guid = self.__rss_guid
@@ -184,43 +195,42 @@ class BaseEpisode(object):
         return self.__rss_guid
 
 
-    def author(self, author=None, replace=False, **kwargs):
-        """Get or set autor data. An author element is a dict containing a name and
-        an email adress. Email is mandatory.
+    def author(self, *authors, replace=False):
+        """Get or append to the list of Person that contributed to this episode.
 
-        This method can be called with:
-        - the fields of an author as keyword arguments
-        - the fields of an author as a dictionary
-        - a list of dictionaries containing the author fields
-
-        An author has the following fields:
-        - *name* conveys a human-readable name for the person.
-        - *email* contains an email address for the person.
-
-        :param author:  Dict or list of dicts with author data.
-        :param replace: Add or replace old data.
+        The authors don't need to have both name and email set.
 
         Example::
 
-            >>> author( { 'name':'John Doe', 'email':'jdoe@example.com' } )
-            [{'name':'John Doe','email':'jdoe@example.com'}]
+            >>> ep.author(Person("John Doe", "johndoe@example.org"))
 
-            >>> author([{'name':'Mr. X'},{'name':'Max'}])
-            [{'name':'John Doe','email':'jdoe@example.com'},
-                    {'name':'John Doe'}, {'name':'Max'}]
+            >>> # Multiple authors can be given as separate parameters
+            >>> ep.author(Person("John Doe", "johndoe@example.org"),
+            ... Person("Mary Sue", "marysue@example.org"), replace=True)
+            >>> # Or as one unpacked list (just passing a list is an error)
+            >>> ep.author(*[Person("John Doe", "johndoe@example.org"),
+            ...            Person("Mary Sue", "marysue@example.org")],
+            ...           replace=True)
 
-            >>> author( name='John Doe', email='jdoe@example.com', replace=True )
-            [{'name':'John Doe','email':'jdoe@example.com'}]
-
+        :param authors: One or more Person objects that will be added to the
+            list of authors for this episode. Lists are not accepted, they
+            must be unpacked first (see example).
+        :type authors: list or Person
+        :param replace: Set to True to start over from an empty list.
+        :type replace: bool
+        :returns: The current list of authors.
         """
-        if author is None and kwargs:
-            author = kwargs
-        if not author is None:
+        if not authors is None:
+            # Check that the authors quack like ducks
+            for a in authors:
+                if not (hasattr(a, "name") and hasattr(a, "email")):
+                    raise TypeError("Author parameter %s does not have the "
+                                     "attributes name and/or email. You "
+                                     "didn't forget to unpack a list?" % a)
+
             if replace or self.__rss_author is None:
                 self.__rss_author = []
-            authors = ensure_format( author,
-                    set(['name', 'email']), set(['email']))
-            self.__rss_author += ['%s (%s)' % ( a['email'], a['name'] ) for a in authors]
+            self.__rss_author.extend(authors)
         return self.__rss_author
 
 
