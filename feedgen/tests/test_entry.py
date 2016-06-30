@@ -17,6 +17,9 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def setUp(self):
 
+        self.itunes_ns = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
+        self.dublin_ns = 'http://purl.org/dc/elements/1.1/'
+
         fg = Podcast()
         self.title = 'Some Testfeed'
         self.link = 'http://lernfunk.de'
@@ -29,6 +32,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fe = fg.add_episode()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The First Episode')
+        self.fe = fe
 
         #Use also the list directly
         fe = fg.Episode()
@@ -148,3 +152,46 @@ class TestSequenceFunctions(unittest.TestCase):
         self.fg.published(False)
         pubDate = self.fg._create_rss().find("channel").find("pubDate")
         assert pubDate is None  # Not found!
+
+    def test_oneAuthor(self):
+        name = "John Doe"
+        email = "johndoe@example.org"
+        self.fe.author(name=name, email=email)
+        author_text = self.fe.rss_entry().find("author").text
+        assert name in author_text
+        assert email in author_text
+
+        # Test that itunes:author is not used when rss author does the same job
+        assert self.fe.rss_entry().find("{%s}author" % self.itunes_ns) is None
+
+        # Test that dc:creator is not used when rss author does the same job
+        assert self.fe.rss_entry().find("{%s}creator" % self.dublin_ns) is None
+
+    def test_multipleAuthors(self):
+        name1 = "John Doe"
+        email1 = "johndoe@example.org"
+        name2 = "Mary Sue"
+        email2 = "marysue@example.org"
+
+        self.fe.author([{'name': name1, 'email': email1},
+                        {'name': name2, 'email': email2}])
+        author_elements = \
+            self.fe.rss_entry().findall("{%s}creator" % self.dublin_ns)
+        author_texts = [e.text for e in author_elements]
+
+        # Test that both authors are included, in the same order they were added
+        assert name1 in author_texts[0]
+        assert email1 in author_texts[0]
+        assert name2 in author_texts[1]
+        assert email2 in author_texts[1]
+
+        # Test that itunes:author is the last author
+        itunes_author = \
+            self.fe.rss_entry().find("{%s}author" % self.itunes_ns).text
+        assert name1 not in itunes_author
+        assert email1 not in itunes_author
+        assert name2 in itunes_author
+        assert email2 in itunes_author
+
+        # Test that the regular rss tag is not used, per the RSS recommendations
+        assert self.fe.rss_entry().find("author") is None

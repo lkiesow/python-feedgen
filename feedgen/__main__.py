@@ -24,7 +24,7 @@ def print_enc(s):
 
 
 def main():
-    """Create an example podcast and, print it or save it to file."""
+    """Create an example podcast and print it or save it to a file."""
     # There must be exactly one argument, and it is must end with rss
     if len(sys.argv) != 2 or not (
             sys.argv[1].endswith('rss')):
@@ -70,7 +70,6 @@ def main():
             verba <3.''', html=False)
     e1.link(href='http://example.com')
     e1.author(name='Lars Kiesow', email='lkiesow@uos.de')
-    e1.itunes_author('Lars Kiesow')
     e1.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
 
     # Should we just print out, or write to file?

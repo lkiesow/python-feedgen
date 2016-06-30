@@ -38,7 +38,6 @@ class BaseEpisode(object):
 
         # ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
-        self.__itunes_author = None
         self.__itunes_block = None
         self.__itunes_image = None
         self.__itunes_duration = None
@@ -50,6 +49,10 @@ class BaseEpisode(object):
 
     def rss_entry(self, extensions=True):
         """Create a RSS item and return it."""
+
+        ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
+        DUBLIN_NS = 'http://purl.org/dc/elements/1.1/'
+
         entry = etree.Element('item')
 
         if not ( self.__rss_title or self.__rss_content):
@@ -69,9 +72,20 @@ class BaseEpisode(object):
             content = etree.SubElement(entry, '{%s}encoded' %
                                     'http://purl.org/rss/1.0/modules/content/')
             content.text = etree.CDATA(self.__rss_content)
-        for a in self.__rss_author or []:
-            author = etree.SubElement(entry, 'author')
-            author.text = a
+
+        if self.__rss_author:
+            if len(self.__rss_author) > 1:
+                author = etree.SubElement(entry, '{%s}author' % ITUNES_NS)
+                author.text = self.__rss_author[-1]
+
+                # Use dc:creator
+                for a in self.__rss_author or []:
+                    author = etree.SubElement(entry, '{%s}creator' % DUBLIN_NS)
+                    author.text = a
+            else:
+                # Only one author, use rss author
+                author = etree.SubElement(entry, 'author')
+                author.text = self.__rss_author[0]
 
         if self.__rss_guid:
             rss_guid = self.__rss_guid
@@ -94,13 +108,6 @@ class BaseEpisode(object):
         if self.__rss_pubDate:
             pubDate = etree.SubElement(entry, 'pubDate')
             pubDate.text = formatRFC2822(self.__rss_pubDate)
-
-        # Itunes fields
-        ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
-
-        if self.__itunes_author:
-            author = etree.SubElement(entry, '{%s}author' % ITUNES_NS)
-            author.text = self.__itunes_author
 
         if not self.__itunes_block is None:
             block = etree.SubElement(entry, '{%s}block' % ITUNES_NS)
@@ -296,21 +303,6 @@ class BaseEpisode(object):
         if not url is None:
             self.__rss_enclosure = {'url': url, 'length': length, 'type': type}
         return self.__rss_enclosure
-
-    def itunes_author(self, itunes_author=None):
-        """Get or set the itunes:author of the podcast episode. The content of
-        this tag is shown in the Artist column in iTunes. If the tag is not
-        present, iTunes uses the contents of the <author> tag. If <itunes:author>
-        is not present at the feed level, iTunes will use the contents of
-        <managingEditor>.
-
-        :param itunes_author: The author of the podcast.
-        :type itunes_author: str
-        :returns: The author of the podcast.
-        """
-        if not itunes_author is None:
-            self.__itunes_author = itunes_author
-        return self.__itunes_author
 
     def itunes_block(self, itunes_block=None):
         """Get or set the ITunes block attribute. Use this to prevent episodes
