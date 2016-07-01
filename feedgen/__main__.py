@@ -47,7 +47,7 @@ def main():
     # Initialize the feed
     p = Podcast()
     p.name('Testfeed')
-    p.author(Person("Lars Kiesow", "lkiesow@uos.de"))
+    p.authors.append(Person("Lars Kiesow", "lkiesow@uos.de"))
     p.website(href='http://example.com')
     p.copyright('cc-by')
     p.description('This is a cool feed!')
@@ -69,7 +69,7 @@ def main():
             occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
             verba <3.''', html=False)
     e1.link(href='http://example.com')
-    e1.author(Person('Lars Kiesow', 'lkiesow@uos.de'))
+    e1.authors = [Person('Lars Kiesow', 'lkiesow@uos.de')]
     e1.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
 
     # Should we just print out, or write to file?

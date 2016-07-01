@@ -48,11 +48,6 @@ class TestSequenceFunctions(unittest.TestCase):
 
         self.fg = fg
 
-    def test_checkEntryNumbers(self):
-
-        fg = self.fg
-        assert len(fg.episodes) == 3
-
     def test_checkItemNumbers(self):
 
         fg = self.fg
@@ -158,7 +153,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_oneAuthor(self):
         name = "John Doe"
         email = "johndoe@example.org"
-        self.fe.author(Person(name, email))
+        self.fe.authors = [Person(name, email)]
         author_text = self.fe.rss_entry().find("author").text
         assert name in author_text
         assert email in author_text
@@ -171,7 +166,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_oneAuthorWithoutEmail(self):
         name = "John Doe"
-        self.fe.author(Person(name))
+        self.fe.authors.append(Person(name))
         entry = self.fe.rss_entry()
 
         # Test that author is not used, since it requires email
@@ -184,7 +179,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_oneAuthorWithoutName(self):
         email = "johndoe@example.org"
-        self.fe.author(Person(email=email))
+        self.fe.authors.extend([Person(email=email)])
         entry = self.fe.rss_entry()
 
         # Test that rss author is the email
@@ -199,10 +194,7 @@ class TestSequenceFunctions(unittest.TestCase):
         person1 = Person("John Doe", "johndoe@example.org")
         person2 = Person("Mary Sue", "marysue@example.org")
 
-        # Check that an error occurs if a list is given
-        self.assertRaises(TypeError, self.fe.author, [person1, person2])
-        # Do it properly this time
-        self.fe.author(*[person1, person2])
+        self.fe.authors = [person1, person2]
         author_elements = \
             self.fe.rss_entry().findall("{%s}creator" % self.dublin_ns)
         author_texts = [e.text for e in author_elements]
@@ -223,3 +215,9 @@ class TestSequenceFunctions(unittest.TestCase):
 
         # Test that the regular rss tag is not used, per the RSS recommendations
         assert self.fe.rss_entry().find("author") is None
+
+    def test_authorsInvalidAssignment(self):
+        self.assertRaises(TypeError, self.do_authorsInvalidAssignment)
+
+    def do_authorsInvalidAssignment(self):
+        self.fe.authors = Person("Oh No", "notan@iterable.no")

@@ -61,7 +61,7 @@ class TestSequenceFunctions(unittest.TestCase):
                 path=self.cloudPath, registerProcedure=self.cloudRegisterProcedure,
                 protocol=self.cloudProtocol)
         fg.copyright(self.copyright)
-        fg.author(self.author)
+        fg.authors.append(self.author)
         fg.skipDays(self.skipDays)
         fg.skipHours(self.skipHours)
         fg.webMaster(self.webMaster)
@@ -75,7 +75,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
         assert fg.name() == self.title
 
-        assert fg.author()[0] == self.author
+        assert fg.authors[0] == self.author
         assert fg.webMaster() == self.webMaster
 
         assert fg.website() == self.linkHref
@@ -178,10 +178,10 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_AuthorEmail(self):
         # Just email - so use managingEditor, not dc:creator or itunes:author
         # This is per the RSS best practices, see the section about dc:creator
-        self.fg.author(Person(None, "justan@email.address"), replace=True)
+        self.fg.authors = [Person(None, "justan@email.address")]
         channel = self.fg._create_rss().find("channel")
         # managingEditor uses email?
-        assert channel.find("managingEditor").text == self.fg.author()[0].email
+        assert channel.find("managingEditor").text == self.fg.authors[0].email
         # No dc:creator?
         assert channel.find("{%s}creator" % self.nsDc) is None
         # No itunes:author?
@@ -189,42 +189,39 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_AuthorName(self):
         # Just name - use dc:creator and itunes:author, not managingEditor
-        self.fg.author(Person("Just a. Name"), replace=True)
+        self.fg.authors = [Person("Just a. Name")]
         channel = self.fg._create_rss().find("channel")
         # No managingEditor?
         assert channel.find("managingEditor") is None
         # dc:creator equals name?
         assert channel.find("{%s}creator" % self.nsDc).text == \
-               self.fg.author()[0].name
+               self.fg.authors[0].name
         # itunes:author equals name?
         assert channel.find("{%s}author" % self.nsItunes).text == \
-            self.fg.author()[0].name
+            self.fg.authors[0].name
 
     def test_AuthorNameAndEmail(self):
         # Both name and email - use managingEditor and itunes:author,
         # not dc:creator
-        self.fg.author(Person("Both a name", "and_an@email.com"), replace=True)
+        self.fg.authors = [Person("Both a name", "and_an@email.com")]
         channel = self.fg._create_rss().find("channel")
         # Does managingEditor follow the pattern "email (name)"?
-        self.assertEqual(self.fg.author()[0].email +
-                         " (" + self.fg.author()[0].name + ")",
+        self.assertEqual(self.fg.authors[0].email +
+                         " (" + self.fg.authors[0].name + ")",
                          channel.find("managingEditor").text)
         # No dc:creator?
         assert channel.find("{%s}creator" % self.nsDc) is None
         # itunes:author uses name only?
         assert channel.find("{%s}author" % self.nsItunes).text == \
-            self.fg.author()[0].name
+            self.fg.authors[0].name
 
     def test_multipleAuthors(self):
         # Multiple authors - use itunes:author and dc:creator, not
         # managingEditor.
-        # Is an exception raised when a list is passed in?
-        self.assertRaises(TypeError, self.fg.author,
-                          [Person("A List", "is@not.allowed")])
 
         person1 = Person("Multiple", "authors@example.org")
         person2 = Person("Are", "cool@example.org")
-        self.fg.author(person1, person2, replace=True)
+        self.fg.authors = [person1, person2]
         channel = self.fg._create_rss().find("channel")
 
         # Test dc:creator
@@ -249,6 +246,12 @@ class TestSequenceFunctions(unittest.TestCase):
 
         # Test that managingEditor is not used
         assert channel.find("managingEditor") is None
+
+    def test_authorsInvalidValue(self):
+        self.assertRaises(TypeError, self.do_authorsInvalidValue)
+
+    def do_authorsInvalidValue(self):
+        self.fg.authors = Person("Opsie", "forgot@list.org")
 
 
     def test_webMaster(self):

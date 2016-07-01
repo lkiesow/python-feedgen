@@ -1,12 +1,26 @@
 class Person(object):
-    """Class representing a single person or entity.
+    """Data-oriented class representing a single person or entity.
+
+    A Person can represent both real persons and organizations, entities
+    and so on. Example::
+
+        >>> p.authors = [Person("Example Radio", "mail@example.org")]
 
     .. note::
 
         At any time, one of name or email must be present.
         Both cannot be None or empty at the same time.
 
-    Example::
+    .. warning::
+
+        **Any names and email addresses** you put into a Person object, will
+        eventually be included in the feed and thus **published** together with
+        the feed. If you want to keep a name or email address private, then you
+        must make sure it isn't used in a Person object (or to be precise: that
+        the Person object with the name or email address isn't used in any
+        Podcast or Episode.)
+
+    Example of use::
 
         >>> from feedgen.person import Person
         >>> Person("John Doe")
@@ -20,11 +34,6 @@ class Person(object):
 
     def __init__(self, name=None, email=None):
         """Create new person with a name, email or both.
-
-        A Person can represent both real persons and organizations, entities
-        and so on. Example::
-
-            >>> p.managingEditor = Person("Example Radio", "mail@example.org")
 
         You don't need to provide both a name and an email, but you must
         provide one of them.

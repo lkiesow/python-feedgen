@@ -56,7 +56,7 @@ Commonly used
 
     p.copyright = "© 2016 Example Radio"
     p.language = "en-US"
-    p.author = p.Person("John Doe", "editor@example.org")
+    p.authors = [p.Person("John Doe", "editor@example.org")]
     p.feed_url = "https://example.com/feeds/podcast.rss"
     p.category = Category("Technology", "Podcasting")
     p.explicit = True
@@ -66,7 +66,7 @@ Commonly used
 
    ~feedgen.feed.Podcast.copyright
    ~feedgen.feed.Podcast.language
-   ~feedgen.feed.Podcast.author
+   ~feedgen.feed.Podcast.authors
    ~feedgen.feed.Podcast.feed_url
    ~feedgen.feed.Podcast.category
    ~feedgen.feed.Podcast.explicit

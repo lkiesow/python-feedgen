@@ -145,8 +145,8 @@ the link. ::
 .. autosummary:: ~feedgen.item.BaseEpisode.link
 
 
-The Author
-^^^^^^^^^^
+The Authors
+^^^^^^^^^^^
 
 .. note::
 
@@ -155,21 +155,21 @@ The Author
    attributes at the episode level if they **differ** from their value at the
    podcast level.
 
-Normally, the attributes :attr:`Podcast.author <feedgen.feed.Podcast.author>`
+Normally, the attributes :attr:`Podcast.authors <feedgen.feed.Podcast.authors>`
 and :attr:`Podcast.webMaster <feedgen.feed.Podcast.webMaster>` (if set) are
-used to determine the author of an episode. Thus, if all your episodes have
-the same author, you should just set it at the podcast level.
+used to determine the authors of an episode. Thus, if all your episodes have
+the same authors, you should just set it at the podcast level.
 
-If an episode's author differs from the podcast's, though, you can override it
+If an episode's authors differs from the podcast's, though, you can override it
 like this::
 
-     my_episode.author = Person("Joe Bob")
+     my_episode.authors = [Person("Joe Bob")]
 
 You can even have multiple authors::
 
-     my_episode.author = [Person("Joe Bob"), Person("Alice Bob")]
+     my_episode.authors = [Person("Joe Bob"), Person("Alice Bob")]
 
-.. autosummary:: ~feedgen.item.BaseEpisode.author
+.. autosummary:: ~feedgen.item.BaseEpisode.authors
 
 
 Category

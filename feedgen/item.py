@@ -29,7 +29,7 @@ class BaseEpisode(object):
 
     def __init__(self):
         # RSS
-        self.__rss_author      = None
+        self.__rss_authors      = []
         self.__rss_content     = None
         self.__rss_enclosure   = None
         self.__rss_guid        = None
@@ -74,18 +74,18 @@ class BaseEpisode(object):
                                     'http://purl.org/rss/1.0/modules/content/')
             content.text = etree.CDATA(self.__rss_content)
 
-        if self.__rss_author:
-            authors_with_name = [a.name for a in self.__rss_author if a.name]
+        if self.__rss_authors:
+            authors_with_name = [a.name for a in self.__rss_authors if a.name]
             if authors_with_name:
                 # We have something to display as itunes:author, combine all
                 # names
                 itunes_author = \
                     etree.SubElement(entry, '{%s}author' % ITUNES_NS)
                 itunes_author.text = listToHumanreadableStr(authors_with_name)
-            if len(self.__rss_author) > 1 or not self.__rss_author[0].email:
+            if len(self.__rss_authors) > 1 or not self.__rss_authors[0].email:
                 # Use dc:creator, since it supports multiple authors (and
                 # author without email)
-                for a in self.__rss_author or []:
+                for a in self.__rss_authors or []:
                     author = etree.SubElement(entry, '{%s}creator' % DUBLIN_NS)
                     if a.name and a.email:
                         author.text = "%s <%s>" % (a.name, a.email)
@@ -96,7 +96,7 @@ class BaseEpisode(object):
             else:
                 # Only one author and with email, so use rss author
                 author = etree.SubElement(entry, 'author')
-                author.text = str(self.__rss_author[0])
+                author.text = str(self.__rss_authors[0])
 
         if self.__rss_guid:
             rss_guid = self.__rss_guid
@@ -195,45 +195,51 @@ class BaseEpisode(object):
         return self.__rss_guid
 
 
-    def author(self, *authors, replace=False):
-        """Get or append to the list of Person that contributed to this episode.
+    @property
+    def authors(self):
+        """List of :class:`~feedgen.person.Person` that contributed to this
+        episode.
 
-        The authors don't need to have both name and email set.
+        The authors don't need to have both name and email set. The names are
+        shown under the podcast's title on iTunes.
+
+        .. note::
+
+            You do not need to provide any authors for an episode if
+            they're identical to the podcast's authors.
+
+        Any value you assign to authors will be automatically converted to a
+        list, but only if it's iterable (like tuple, set and so on). It is an
+        error to assign a single :class:`~feedgen.person.Person` object to this
+        attribute::
+
+            >>> # This results in an error
+            >>> ep.authors = Person("John Doe", "johndoe@example.org")
+            TypeError: Only iterable types can be assigned to authors, ...
+            >>> # This is the correct way:
+            >>> ep.authors = [Person("John Doe", "johndoe@example.org")]
+
+        The initial value is an empty list, so you can use the list methods
+        right away.
 
         Example::
 
-            >>> ep.author(Person("John Doe", "johndoe@example.org"))
-
-            >>> # Multiple authors can be given as separate parameters
-            >>> ep.author(Person("John Doe", "johndoe@example.org"),
-            ... Person("Mary Sue", "marysue@example.org"), replace=True)
-            >>> # Or as one unpacked list (just passing a list is an error)
-            >>> ep.author(*[Person("John Doe", "johndoe@example.org"),
-            ...            Person("Mary Sue", "marysue@example.org")],
-            ...           replace=True)
-
-        :param authors: One or more Person objects that will be added to the
-            list of authors for this episode. Lists are not accepted, they
-            must be unpacked first (see example).
-        :type authors: Person
-        :param replace: Set to True to start over from an empty list.
-        :type replace: bool
-        :returns: The current list of authors.
+            >>> # This attribute is just a list - you can for example append:
+            >>> ep.authors.append(Person("John Doe", "johndoe@example.org"))
+            >>> # Or assign a new list (discarding earlier authors)
+            >>> ep.authors = [Person("John Doe", "johndoe@example.org"),
+            ...               Person("Mary Sue", "marysue@example.org")]
         """
-        # TODO: Rename author to authors
-        if not authors is None:
-            # Check that the authors quack like ducks
-            for a in authors:
-                if not (hasattr(a, "name") and hasattr(a, "email")):
-                    raise TypeError("Author parameter %s does not have the "
-                                     "attributes name and/or email. You "
-                                     "didn't forget to unpack a list?" % a)
+        return self.__rss_authors
 
-            if replace or self.__rss_author is None:
-                self.__rss_author = []
-            self.__rss_author.extend(authors)
-        return self.__rss_author
-
+    @authors.setter
+    def authors(self, authors):
+        try:
+            self.__rss_authors = list(authors)
+        except TypeError:
+            raise TypeError("Only iterable types can be assigned to authors, "
+                            "%s given. You must put your object in a list, "
+                            "even if there's only one author." % authors)
 
     def summary(self, new_summary=None, html=True):
         """Get or set the summary of this episode.
