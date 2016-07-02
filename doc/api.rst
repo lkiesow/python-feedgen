@@ -24,20 +24,14 @@ The unit tests reside in ``feedgen/tests`` and are written using the
 API Documentation
 -----------------
 
-:class:`feedgen.feed.Podcast` (available as ``feedgen.Podcast``) is the corner
-stone of PodcastGenerator. You create one instance of it for each feed you want
-to make.
+.. autosummary::
 
-When you create episodes for a Podcast, you're most likely creating new
-instances of :class:`feedgen.item.BaseEpisode`.
-
-You use :class:`feedgen.person.Person` whenever an attribute is to represent
-a person or an entity, and :class:`feedgen.media.Media` with the
-:attr:`feedgen.item.BaseEpisode.enclosure` attribute.
-
-:mod:`feedgen.util` provides utility functions for the rest of the library,
-and is therefore not relevant for users.
-
+   feedgen.feed.Podcast
+   feedgen.item.BaseEpisode
+   feedgen.person.Person
+   feedgen.media.Media
+   feedgen.category.Category
+   feedgen.util
 
 .. toctree::
    :maxdepth: 2
@@ -47,4 +41,5 @@ and is therefore not relevant for users.
    api.item
    api.person
    api.media
+   api.category
    api.util

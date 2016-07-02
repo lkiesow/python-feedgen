@@ -42,7 +42,8 @@ publish: sdist
 	python setup.py register sdist upload
 
 test:
-	python -m unittest feedgen.tests.test_feed feedgen.tests.test_entry \
-	  feedgen.tests.test_person feedgen.tests.test_media feedgen.tests.test_util
+	@python -m unittest feedgen.tests.test_feed feedgen.tests.test_entry \
+	  feedgen.tests.test_person feedgen.tests.test_media \
+	  feedgen.tests.test_util feedgen.tests.test_category
 	python -m feedgen rss > /dev/null
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
