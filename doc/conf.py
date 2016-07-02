@@ -109,6 +109,10 @@ html_theme_options = {
     'gray_1': "rgba(0, 0, 0, 0.9)",
     'gray_2': "rgba(0, 0, 0, 0.2)",
     'gray_3': "rgba(0, 0, 0, 0.1)",
+
+    'github_user': 'tobinus',
+    'github_repo': 'python-feedgen',
+    'github_banner': True,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
