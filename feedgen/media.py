@@ -72,8 +72,8 @@ class Media(object):
         """The URL at which this media is publicly accessible.
 
         Only absolute URLs are allowed, so make sure it starts with http:// or
-        https://. The server should support HEAD-requests in addition to
-        multi-range requests."""
+        https://. The server should support HEAD-requests and byte-range
+        requests."""
         return self._url
 
     @url.setter
@@ -221,7 +221,24 @@ class Media(object):
         """Create new Media object, with size and/or type fetched from the
         server when not given.
 
-        :param requests: Either the requests module itself, or a Session object.
+        Like the signature suggests, this factory method requires that
+        `Requests <http://docs.python-requests.org/en/master/>`_ is installed.
+
+        Example (assuming the server responds with Content-Length: 252345991 and
+        Content-Type: audio/mpeg)::
+
+            >>> from feedgen.media import Media
+            >>> import requests  # from requests package
+            >>> # Assume an episode is hosted at example.com
+            >>> m = Media.create_from_server_response(requests,
+            ...     "http://example.com/episodes/ep1.mp3")
+            >>> m
+            Media(url=http://example.com/episodes/ep1.mp3, size=252345991, type=audio/mpeg)
+
+
+        :param requests: Either the
+            `requests <http://docs.python-requests.org/en/master/>`_ module
+            itself, or a Session object.
         :type requests: requests
         :param url: The URL at which the media can be accessed right now.
         :type url: str
