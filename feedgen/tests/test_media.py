@@ -36,6 +36,11 @@ class TestMedia(unittest.TestCase):
         another_url = "http://example.com/2016/5/17/The+awful+episode.mp3"
         m.url = another_url
         assert m.url == another_url
+        # Test that setting url to None or empty string fails
+        self.assertRaises((ValueError, TypeError), setattr, m, "url", None)
+        assert m.url == another_url
+        self.assertRaises((ValueError, TypeError), setattr, m, "url", "")
+        assert m.url == another_url
 
     def test_assigningSize(self):
         m = Media(self.url, self.size)
@@ -43,10 +48,43 @@ class TestMedia(unittest.TestCase):
         m.size = another_size
         assert m.size == another_size
 
+    def test_warningWhenSettingSizeToZero(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(len(w), 0)
+
+            # Set size to zero, triggering a warning
+            m = Media(self.url, type=self.type)
+            self.assertEqual(len(w), 1)
+            assert issubclass(w[-1].category, UserWarning)
+
+            # No warning when setting to an actual integer
+            m.size = 253634535
+            self.assertEqual(len(w), 1)
+
+            # Nor when using a string
+            m.size = "15kB"
+            self.assertEqual(len(w), 1)
+
+            # Warning when setting to None
+            m.size = None
+            self.assertEqual(len(w), 2)
+            assert issubclass(w[-1].category, UserWarning)
+
+            # Or zero
+            m.size = 0
+            self.assertEqual(len(w), 3)
+            assert issubclass(w[-1].category, UserWarning)
+
     def test_assigningType(self):
         m = Media(self.url, self.size, self.type)
         another_type = "audio/x-mpeg-3"
         m.type = another_type
+        assert m.type == another_type
+        # Test that setting type to None or empty string fails
+        self.assertRaises((ValueError, TypeError), setattr, m, "type", None)
+        assert m.type == another_type
+        self.assertRaises((ValueError, TypeError), setattr, m, "type", "")
         assert m.type == another_type
 
     def test_autoRecognizeType(self):

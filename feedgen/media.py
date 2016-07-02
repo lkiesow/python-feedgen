@@ -43,6 +43,9 @@ class Media(object):
       * PDF
       * EPUB
 
+    All attributes will always have a value, except size which can be 0 if the
+    size cannot be determined by any means (eg. if it's a stream).
+
 
     """
     file_types = {
@@ -95,8 +98,10 @@ class Media(object):
         You can either provide the number of bytes as an int, or you can
         provide a human-readable str with a unit, like MB or GiB.
 
-        An unknown size is represented as 0. You should strive to provide a
-        size, so your listeners aren't surprised by any big files.
+        An unknown size is represented as 0. This should ONLY be used in
+        exceptional cases, where it is theoretically impossible to determine
+        the file size (for example if it's a stream). Setting the size to 0
+        will issue a UserWarning.
 
         .. note::
 
@@ -120,6 +125,10 @@ class Media(object):
                 raise ValueError("File size must be 0 if unknown, or a positive"
                                  " integer.")
             self._size = size
+            if self.size == 0:
+                warnings.warn("Size is set to 0. This should ONLY be done when "
+                              "there is no possible way to determine the "
+                              "media's size, like if the media is a stream.")
         except ValueError:
             self.size = self._str_to_bytes(size)
         except TypeError as e:
@@ -127,7 +136,6 @@ class Media(object):
                 self.size = 0
             else:
                 raise e
-
     @staticmethod
     def _str_to_bytes(size):
             units = {
@@ -151,7 +159,7 @@ class Media(object):
 
     @property
     def type(self):
-        """The media type of this media.
+        """The MIME type of this media.
 
         See https://en.wikipedia.org/wiki/Media_type for an introduction.
 
@@ -168,9 +176,12 @@ class Media(object):
 
     @type.setter
     def type(self, type):
+        if not type:
+            raise ValueError("Type cannot be empty or None")
+
         type = type.strip().lower()
 
-        if not type in self.file_types.values():
+        if type not in self.file_types.values():
             warnings.warn("Media type %s is not supported by iTunes.",
                           NotSupportedByItunesWarning)
         self._type = type
