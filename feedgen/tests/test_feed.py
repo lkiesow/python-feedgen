@@ -17,7 +17,7 @@ import datetime
 import dateutil.tz
 import dateutil.parser
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestPodcast(unittest.TestCase):
 
     def setUp(self):
 

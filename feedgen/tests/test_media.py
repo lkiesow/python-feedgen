@@ -5,7 +5,7 @@ import warnings
 from feedgen.media import Media
 from feedgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestMedia(unittest.TestCase):
     def setUp(self):
         self.url = "http://example.com/2016/5/17/The+awesome+episode.mp3"
         self.size = 144253424

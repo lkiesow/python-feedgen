@@ -1,7 +1,7 @@
 import unittest
 from feedgen import util
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestUtil(unittest.TestCase):
 
     def test_listToHumanReadableStr(self):
         # Just check that none of the cases causes an error

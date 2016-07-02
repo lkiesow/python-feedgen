@@ -15,7 +15,7 @@ import datetime
 import pytz
 from dateutil.parser import parse as parsedate
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestBaseEpisode(unittest.TestCase):
 
     def setUp(self):
 

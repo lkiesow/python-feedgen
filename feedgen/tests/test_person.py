@@ -1,7 +1,7 @@
 import unittest
 from ..person import Person
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestPerson(unittest.TestCase):
     def setUp(self):
         self.name = "Test Person"
         self.email = "test@example.org"
