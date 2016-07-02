@@ -240,3 +240,16 @@ class TestBaseEpisode(unittest.TestCase):
         self.assertRaises(TypeError, self.fe.media, media.url)
         self.assertRaises(TypeError, self.fe.media,
                           (media.url, media.size, media.type))
+
+    def test_withholdFromItunesOffByDefault(self):
+        assert not self.fe.withhold_from_itunes()
+
+    def test_withholdFromItunes(self):
+        self.fe.withhold_from_itunes(True)
+        itunes_block = self.fe.rss_entry().find("{%s}block" % self.itunes_ns)
+        assert itunes_block is not None
+        self.assertEqual(itunes_block.text.lower(), "yes")
+
+        self.fe.withhold_from_itunes(False)
+        itunes_block = self.fe.rss_entry().find("{%s}block" % self.itunes_ns)
+        assert itunes_block is None

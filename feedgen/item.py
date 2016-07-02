@@ -39,7 +39,7 @@ class BaseEpisode(object):
 
         # ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
-        self.__withhold_from_itunes = None
+        self.__withhold_from_itunes = False
         self.__image = None
         self.__itunes_duration = None
         self.__explicit = None
@@ -119,9 +119,10 @@ class BaseEpisode(object):
             pubDate = etree.SubElement(entry, 'pubDate')
             pubDate.text = formatRFC2822(self.__publication_date)
 
-        if not self.__withhold_from_itunes is None:
+        if self.__withhold_from_itunes:
+            # It is True, so include element - otherwise, don't include it
             block = etree.SubElement(entry, '{%s}block' % ITUNES_NS)
-            block.text = 'yes' if self.__withhold_from_itunes else 'no'
+            block.text = 'Yes'
 
         if self.__image:
             image = etree.SubElement(entry, '{%s}image' % ITUNES_NS)
