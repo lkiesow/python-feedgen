@@ -272,7 +272,7 @@ class TestPodcast(unittest.TestCase):
 
     def test_categoryWithoutSubcategory(self):
         c = Category("Arts")
-        self.fg.itunes_category(c)
+        self.fg.category(c)
         channel = self.fg._create_rss().find("channel")
         itunes_category = channel.find("{%s}category" % self.nsItunes)
         assert itunes_category is not None
@@ -283,7 +283,7 @@ class TestPodcast(unittest.TestCase):
 
     def test_categoryWithSubcategory(self):
         c = Category("Arts", "Food")
-        self.fg.itunes_category(c)
+        self.fg.category(c)
         channel = self.fg._create_rss().find("channel")
         itunes_category = channel.find("{%s}category" % self.nsItunes)
         assert itunes_category is not None
@@ -294,7 +294,7 @@ class TestPodcast(unittest.TestCase):
 
     def test_categoryChecks(self):
         c = ("Arts", "Food")
-        self.assertRaises(TypeError, self.fg.itunes_category, c)
+        self.assertRaises(TypeError, self.fg.category, c)
 
 if __name__ == '__main__':
     unittest.main()

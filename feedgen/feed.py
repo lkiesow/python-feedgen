@@ -731,7 +731,7 @@ class Podcast(object):
             self.__itunes_block = itunes_block
         return self.__itunes_block
 
-    def itunes_category(self, category=None):
+    def category(self, category=None):
         """Get or set the iTunes category, which appears in the category column
         and in iTunes Store Browser.
 
