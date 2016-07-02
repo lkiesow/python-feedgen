@@ -2,6 +2,7 @@ import warnings
 from future.moves.urllib.parse import urlparse
 
 from feedgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
+from feedgen import version
 
 
 class Media(object):
@@ -204,5 +205,49 @@ class Media(object):
                              "clients can see what type of file it is."
                              % file_extension) from e
 
+    @classmethod
+    def create_from_server_response(cls, requests, url, size=None, type=None):
+        """Create new Media object, with size and/or type fetched from the
+        server when not given.
 
+        :param requests: Either the requests module itself, or a Session object.
+        :type requests: requests
+        :param url: The URL at which the media can be accessed right now.
+        :type url: str
+        :param size: Size of the file. Will be fetched from server if not given.
+        :type size: int or None
+        :param type: The media type of the file. Will be fetched from server if
+            not given.
+        :type type: str or None
+        :returns: New instance of Media with all fields filled in.
+        :raises: The appropriate requests exceptions are thrown when networking
+            errors occur. RuntimeError is thrown if some information isn't
+            given and isn't found in the server's response."""
+        # TODO: Create unit tests for this factory (it is not covered yet!)
+        if not (size and type):
+            r = requests.head(url, allow_redirects=True, timeout=5.0,
+                              headers={"User-Agent": version.name + " v" +
+                                                     version.version_full_str})
+            r.raise_for_status()
+            if not size:
+                try:
+                    size = r.headers['Content-Length']
+                except KeyError:
+                    raise RuntimeError("Content-Length not returned by server "
+                                       "when sending HEAD request to %s" % url)
+            if not type:
+                try:
+                    type = r.headers['Content-Type']
+                except KeyError:
+                    raise RuntimeError("Content-Type header not returned by "
+                                       "server when sending HEAD request to %s"
+                                       % url)
 
+        return Media(url, size, type)
+
+    def __str__(self):
+        return "Media(url=%s, size=%s, type=%s)" % \
+               (self.url, self.size, self.type)
+
+    def __repr__(self):
+        return self.__str__()
