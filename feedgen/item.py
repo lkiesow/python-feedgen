@@ -31,6 +31,7 @@ class BaseEpisode(object):
         # RSS
         self.__authors = []
         self.__summary = None
+        self.__long_summary = None
         self.__media = None
         self.__id = None
         self.__rss_link = None
@@ -66,12 +67,19 @@ class BaseEpisode(object):
             link = etree.SubElement(entry, 'link')
             link.text = self.__rss_link
 
-        if self.__summary:
-            description = etree.SubElement(entry, 'description')
-            description.text = etree.CDATA(self.__summary)
-            content = etree.SubElement(entry, '{%s}encoded' %
-                                    'http://purl.org/rss/1.0/modules/content/')
-            content.text = etree.CDATA(self.__summary)
+        if self.__summary or self.__long_summary:
+            if self.__summary and self.__long_summary:
+                # Both are present, so use both content and description
+                description = etree.SubElement(entry, 'description')
+                description.text = etree.CDATA(self.__summary)
+                content = etree.SubElement(entry, '{%s}encoded' %
+                                     'http://purl.org/rss/1.0/modules/content/')
+                content.text = etree.CDATA(self.__long_summary)
+            else:
+                # Only one is present, use description because of support
+                description = etree.SubElement(entry, 'description')
+                description.text = \
+                    etree.CDATA(self.__summary or self.__long_summary)
 
         if self.__authors:
             authors_with_name = [a.name for a in self.__authors if a.name]
@@ -259,6 +267,27 @@ class BaseEpisode(object):
                 new_summary = htmlencode(new_summary)
             self.__summary = new_summary
         return self.__summary
+
+    def long_summary(self, long_summary=None):
+        """A long (read: full) summary, which supplements the shorter
+        :attr:`~feedgen.item.BaseEpisode.summary`.
+
+        This attribute should be seen as a full, longer variation of
+        summary if summary exists. Even then, the long_summary should be
+        independent from summary, in that you only need to read one of them.
+        This means you may have to repeat the first sentences.
+
+        If summary does not exist but this does, this is used in place of
+        summary.
+
+        :param long_summary: A long summary which supplements the shorter
+            summary.
+        :type long_summary: str or None
+        :returns: The long summary which supplements the shorter summary.
+        """
+        if long_summary is not None:
+            self.__long_summary = long_summary
+        return self.__long_summary
 
     def link(self, link=None):
         """Get or set the link to the full version of this episode description.

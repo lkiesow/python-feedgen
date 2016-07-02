@@ -253,3 +253,51 @@ class TestBaseEpisode(unittest.TestCase):
         self.fe.withhold_from_itunes(False)
         itunes_block = self.fe.rss_entry().find("{%s}block" % self.itunes_ns)
         assert itunes_block is None
+
+    def test_summaries(self):
+        content_encoded = "{%s}encoded" % \
+                          "http://purl.org/rss/1.0/modules/content/"
+        # Test that none are in use by default (no summary is set)
+        d = self.fe.rss_entry().find("description")
+        assert d is None
+        ce = self.fe.rss_entry().find(content_encoded)
+        assert ce is None
+
+        # Test that description is filled when one of the summaries is set
+        self.fe.summary("A short summary")
+        d = self.fe.rss_entry().find("description")
+        assert d is not None
+        assert "A short summary" in d.text
+        ce = self.fe.rss_entry().find(content_encoded)
+        assert ce is None
+
+        self.fe.summary(False)
+        self.fe.long_summary("A long summary with more words")
+        d = self.fe.rss_entry().find("description")
+        assert d is not None
+        assert "A long summary with more words" in d.text
+        ce = self.fe.rss_entry().find(content_encoded)
+        assert ce is None
+
+        # Test that description and content:encoded are used when both are set
+        self.fe.summary("A short summary")
+        self.fe.long_summary("A long summary with more words")
+        d = self.fe.rss_entry().find("description")
+        assert d is not None
+        assert "A short summary" in d.text
+        ce = self.fe.rss_entry().find(content_encoded)
+        assert ce is not None
+        assert "A long summary with more words" in ce.text
+
+    def test_summariesHtml(self):
+        self.fe.summary("A <b>cool</b> summary")
+        d = self.fe.rss_entry().find("description")
+        assert d is not None
+        assert "A <b>cool</b> summary" in d.text
+
+        self.fe.summary("A <b>cool</b> summary", html=False)
+        d = self.fe.rss_entry().find("description")
+        assert d is not None
+        assert "A &lt;b&gt;cool&lt;/b&gt; summary" in d.text
+
+
