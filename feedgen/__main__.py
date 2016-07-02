@@ -56,7 +56,7 @@ def main():
     p.language('de')
     p.feed_url('http://example.com/feeds/myfeed.rss')
     p.category(Category('Technology', 'Podcasting'))
-    p.itunes_explicit('no')
+    p.itunes_explicit(False)
     p.itunes_complete('no')
     p.itunes_new_feed_url('http://example.com/new-feed.rss')
     p.itunes_owner(Person('John Doe', 'john@example.com'))
