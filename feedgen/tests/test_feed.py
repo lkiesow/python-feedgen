@@ -50,6 +50,8 @@ class TestPodcast(unittest.TestCase):
         self.skipDays = 'Tuesday'
         self.skipHours = 23
 
+        self.explicit = False
+
         self.programname = feedgen.version.name
 
         self.webMaster = Person(email='webmaster@example.com')
@@ -67,6 +69,7 @@ class TestPodcast(unittest.TestCase):
         fg.skipHours(self.skipHours)
         fg.webMaster(self.webMaster)
         fg.feed_url(self.feedUrl)
+        fg.itunes_explicit(self.explicit)
 
         self.fg = fg
 
@@ -295,6 +298,51 @@ class TestPodcast(unittest.TestCase):
     def test_categoryChecks(self):
         c = ("Arts", "Food")
         self.assertRaises(TypeError, self.fg.category, c)
+
+    def test_explicitIsExplicit(self):
+        self.fg.itunes_explicit(True)
+        channel = self.fg._create_rss().find("channel")
+        itunes_explicit = channel.find("{%s}explicit" % self.nsItunes)
+        assert itunes_explicit is not None
+        assert itunes_explicit.text.lower() in ("yes", "explicit", "true"),\
+            "itunes:explicit was %s, expected yes, explicit or true" \
+            % itunes_explicit.text
+
+    def test_explicitIsClean(self):
+        self.fg.itunes_explicit(False)
+        channel = self.fg._create_rss().find("channel")
+        itunes_explicit = channel.find("{%s}explicit" % self.nsItunes)
+        assert itunes_explicit is not None
+        assert itunes_explicit.text.lower() in ("no", "clean", "false"),\
+            "itunes:explicit was %s, expected no, clean or false" \
+            % itunes_explicit.text
+
+    def test_mandatoryValues(self):
+        # Try to create a Podcast once for each mandatory property.
+        # On each iteration, exactly one of the properties is not set.
+        # Therefore, an exception should be thrown on each iteration.
+        mandatory_properties = {
+            "description",
+            "title",
+            "link",
+            "itunes_explicit",
+        }
+
+        for test_property in mandatory_properties:
+            fg = Podcast()
+            if test_property != "description":
+                fg.description(self.description)
+            if test_property != "title":
+                fg.name(self.title)
+            if test_property != "link":
+                fg.website(self.linkHref)
+            if test_property != "itunes_explicit":
+                fg.itunes_explicit(self.explicit)
+            try:
+                self.assertRaises(ValueError, fg._create_rss)
+            except AssertionError as e:
+                raise AssertionError("The test failed for %s" % test_property)\
+                    from e
 
 if __name__ == '__main__':
     unittest.main()

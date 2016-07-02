@@ -17,11 +17,13 @@ Mandatory properties
     p.name = "My Example Podcast"
     p.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     p.website = "https://example.org"
+    p.explicit = True
 
-Those three properties, :attr:`~feedgen.feed.Podcast.name`,
-:attr:`~feedgen.feed.Podcast.description` and
+Those four properties, :attr:`~feedgen.feed.Podcast.name`,
+:attr:`~feedgen.feed.Podcast.description`,
+:attr:`~feedgen.feed.Podcast.explicit` and
 :attr:`~feedgen.feed.Podcast.website`, are actually
-the only three **mandatory** properties of
+the only four **mandatory** properties of
 :class:`~feedgen.feed.Podcast`. A summary of them:
 
 .. autosummary::
@@ -29,6 +31,7 @@ the only three **mandatory** properties of
    ~feedgen.feed.Podcast.name
    ~feedgen.feed.Podcast.description
    ~feedgen.feed.Podcast.website
+   ~feedgen.feed.Podcast.explicit
 
 Image
 ~~~~~
@@ -59,7 +62,6 @@ Commonly used
     p.authors = [p.Person("John Doe", "editor@example.org")]
     p.feed_url = "https://example.com/feeds/podcast.rss"
     p.category = Category("Technology", "Podcasting")
-    p.explicit = True
     p.owner = p.author
 
 .. autosummary::
@@ -69,7 +71,6 @@ Commonly used
    ~feedgen.feed.Podcast.authors
    ~feedgen.feed.Podcast.feed_url
    ~feedgen.feed.Podcast.category
-   ~feedgen.feed.Podcast.explicit
    ~feedgen.feed.Podcast.owner
 
 

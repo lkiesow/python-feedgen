@@ -27,10 +27,12 @@ class TestBaseEpisode(unittest.TestCase):
         self.title = 'Some Testfeed'
         self.link = 'http://lernfunk.de'
         self.description = 'A cool tent'
+        self.explicit = False
 
         fg.name(self.title)
         fg.website(self.link)
         fg.description(self.description)
+        fg.itunes_explicit(self.explicit)
 
         fe = fg.add_episode()
         fe.id('http://lernfunk.de/media/654321/1')

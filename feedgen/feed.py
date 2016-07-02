@@ -28,6 +28,13 @@ _feedgen_version = feedgen.version.version_str
 
 class Podcast(object):
     """Class representing one podcast feed.
+
+    The following attributes are mandatory:
+
+    * :attr:`~feedgen.podcast.Podcast.name`
+    * :attr:`~feedgen.podcast.Podcast.website`
+    * :attr:`~feedgen.podcast.Podcast.description`
+    * :attr:`~feedgen.podcast.Podcast.itunes_explicit`
     """
 
 
@@ -199,10 +206,12 @@ class Podcast(object):
 
         feed = etree.Element('rss', version='2.0', nsmap=nsmap )
         channel = etree.SubElement(feed, 'channel')
-        if not ( self.__rss_title and self.__rss_link and self.__rss_description ):
-            missing = ', '.join(([] if self.__rss_title else ['title']) + \
-                    ([] if self.__rss_link else ['link']) + \
-                    ([] if self.__rss_description else ['description']))
+        if not (self.__rss_title and self.__rss_link and self.__rss_description
+                and self.__itunes_explicit is not None):
+            missing = ', '.join(([] if self.__rss_title else ['title']) +
+                    ([] if self.__rss_link else ['link']) +
+                    ([] if self.__rss_description else ['description']) +
+                    ([] if self.__itunes_explicit else ['itunes_explicit']))
             raise ValueError('Required fields not set (%s)' % missing)
         title = etree.SubElement(channel, 'title')
         title.text = self.__rss_title
@@ -210,6 +219,8 @@ class Podcast(object):
         link.text = self.__rss_link
         desc = etree.SubElement(channel, 'description')
         desc.text = self.__rss_description
+        explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)
+        explicit.text = "yes" if self.__itunes_explicit else "no"
 
         if self.__rss_cloud:
             cloud = etree.SubElement(channel, 'cloud')
@@ -309,10 +320,6 @@ class Podcast(object):
         if self.__itunes_image:
             image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
             image.attrib['href'] = self.__itunes_image
-
-        if self.__itunes_explicit in ('yes', 'no', 'clean'):
-            explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)
-            explicit.text = self.__itunes_explicit
 
         if self.__itunes_complete in ('yes', 'no'):
             complete = etree.SubElement(channel, '{%s}complete' % ITUNES_NS)
@@ -782,26 +789,23 @@ class Podcast(object):
         return self.__itunes_image
 
     def itunes_explicit(self, itunes_explicit=None):
-        """Get or the the itunes:explicit value of the podcast. This tag should
-        be used to indicate whether your podcast contains explicit material. The
-        three values for this tag are "yes", "no", and "clean".
+        """Get or set whether this podcast may be inappropriate for children or
+        not.
 
-        If you populate this tag with "yes", an "explicit" parental advisory
+        This is one of the mandatory attributes.
+
+        If you set this to ``True``, an "explicit" parental advisory
         graphic will appear next to your podcast artwork on the iTunes Store and
-        in the Name column in iTunes. If the value is "clean", the parental
-        advisory type is considered Clean, meaning that no explicit language or
-        adult content is included anywhere in the episodes, and a "clean" graphic
-        will appear. If the explicit tag is present and has any other value
-        (e.g., "no"), you see no indicator — blank is the default advisory type.
+        in the Name column in iTunes. If it is set to ``False``,
+        the parental advisory type is considered Clean, meaning that no explicit
+        language or adult content is included anywhere in the episodes, and a
+        "clean" graphic will appear.
 
-        :param itunes_explicit: "yes" if the podcast contains explicit material, "clean" if it doesn't. "no" counts
-            as blank.
-        :type itunes_explicit: str
-        :returns: If the podcast contains explicit material.
+        :param itunes_explicit: True if explicit, False if not.
+        :type itunes_explicit: bool or None
+        :returns: Whether the podcast contains explicit material or not.
         """
         if not itunes_explicit is None:
-            if not itunes_explicit in ('', 'yes', 'no', 'clean'):
-                raise ValueError('Invalid value "%s" for explicit tag' % itunes_explicit)
             self.__itunes_explicit = itunes_explicit
         return self.__itunes_explicit
 
