@@ -57,12 +57,12 @@ Commonly used
 
 ::
 
-    p.copyright = "© 2016 Example Radio"
+    p.copyright = "2016 Example Radio"
     p.language = "en-US"
-    p.authors = [p.Person("John Doe", "editor@example.org")]
+    p.authors = [Person("John Doe", "editor@example.org")]
     p.feed_url = "https://example.com/feeds/podcast.rss"
     p.category = Category("Technology", "Podcasting")
-    p.owner = p.author
+    p.owner = p.authors[0]
 
 .. autosummary::
 
@@ -83,7 +83,7 @@ full description.
 
 ::
 
-    p.cloud = p.CloudService("server.example.com", "/rpc", 80, "xml-rpc")
+    p.cloud = ("server.example.com", "/rpc", 80, "xml-rpc")
 
     import datetime
     import pytz
@@ -93,7 +93,7 @@ full description.
     p.skipDays = {"Friday", "Saturday", "Sunday"}
     p.skipHours = set(range(8))
     p.skipHours |= set(range(16, 24))
-    p.webMaster = p.Person(None, "helpdesk@dallas.example.com")
+    p.webMaster = Person(None, "helpdesk@dallas.example.com")
     # Be very careful about using the following attributes:
     p.new_feed_url = "https://podcast.example.com/example"
     p.complete = True

@@ -3,22 +3,23 @@ Adding episodes
 ---------------
 
 To add episodes to a feed, you need to create new
-:attr:`Podcast.Episode <feedgen.feed.Podcast.Episode>` objects and
+:class:`feedgen.episode.Episode` objects and
 append them to the list of entries in the Podcast. That is pretty
 straight-forward::
 
-    my_episode = p.Episode()
+    from feedgen.episode import Episode
+    my_episode = Episode()
     p.episodes.append(my_episode)
 
-There is a conveinence method called :meth:`Podcast.add_episode <feedgen.feed.Podcast.add_episode>`
-which optionally creates a new instance of ``Episode``, adds it to the podcast
+There is a convenience method called :meth:`Podcast.add_episode <feedgen.feed.Podcast.add_episode>`
+which optionally creates a new instance of :class:`~feedgen.episode.Episode`, adds it to the podcast
 and returns it, allowing you to assign it to a variable::
 
     my_episode = p.add_episode()
 
 If you prefer to use the constructor, there's nothing wrong with that::
 
-    my_episode = p.add_episode(p.Episode())
+    my_episode = p.add_episode(Episode())
 
 The advantage of using the latter form, is that you can pass data to the
 constructor, which can make your code more compact and readable.
@@ -55,25 +56,36 @@ Enclosing media
 Of course, this isn't much of a podcast if we don't have any **media**
 attached to it! ::
 
-    my_episode.media = p.Media("http://example.com/podcast/s01e10.mp3",
-                               size=p.Media.Auto,
-                               duration="1:02:36")
+    from datetime import timedelta
+    my_episode.media = Media("http://example.com/podcast/s01e10.mp3",
+                             size=17475653,
+                             type="audio/mpeg",  # Optional, can be determined
+                                                 # from the url
+                             duration=timedelta(hours=1, minutes=2, seconds=36)
+                            )
 
-Normally, you must specify how big the **file size** is in bytes, but PodcastGenerator
-can send a HEAD request to the URL and retrieve how many bytes it is
-automatically by using p.Media.Auto as shown. This only works if `requests <http://docs.python-requests.org/en/master/>`_
-is installed, though! If you know how big it is, you're better off not using
-this feature, like this::
+Normally, you must specify how big the **file size** is in bytes (and the MIME
+type, if the file extension is unknown to iTunes), but PodcastGenerator
+can send a HEAD request to the URL and retrieve the missing information. This is
+done by calling :meth:`Media.create_from_server_response <feedgen.media.Media.create_from_server_response>`
+instead of using the constructor directly.
+You must pass in the `requests <http://docs.python-requests.org/en/master/>`_
+module, so it must be installed! ::
 
-    my_episode.media = p.Media("http://example.com/podcast/s01e10.mp3",
-                               size=17475653,
-                               duration="1:02:36")
+    import requests
+    my_episode.media = Media.create_from_server_response(
+                           requests,
+                           "http://example.com/podcast/s01e10.mp3",
+                           duration=timedelta(hours=1, minutes=2, seconds=36)
+                       )
+
 
 The **type** of the media file is derived from the URI ending. Even though you
 technically can have file names which don't end in their actual file extension,
 iTunes will use the file extension to determine what type of file it is, without
 even asking the server. You must therefore make sure your media files have the
-correct file extension.
+correct file extension. If you don't care about compatibility with iTunes, you
+can provide the MIME type yourself.
 
 The **duration** is also important to include, for your listeners' convenience.
 Without it, they won't know how long an episode is before they start downloading
@@ -82,7 +94,7 @@ and listening.
 .. autosummary::
 
    ~feedgen.item.BaseEpisode.media
-   ~feedgen.feed.Podcast.Media
+   ~feedgen.feed.media.Media
 
 
 Identifying the episode
@@ -170,16 +182,6 @@ You can even have multiple authors::
      my_episode.authors = [Person("Joe Bob"), Person("Alice Bob")]
 
 .. autosummary:: ~feedgen.item.BaseEpisode.authors
-
-
-Category
-^^^^^^^^
-
-An episode can have a different category than the rest of the podcast::
-
-     my_episode.category = Category("Arts", "Food")
-
-.. autosummary:: ~feedgen.item.BaseEpisode.category
 
 
 Less used attributes
