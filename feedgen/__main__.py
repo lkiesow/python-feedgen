@@ -44,6 +44,7 @@ def main():
 
     from feedgen.feed import Podcast
     from feedgen.person import Person
+    from feedgen.media import Media
     # Initialize the feed
     p = Podcast()
     p.name('Testfeed')
@@ -71,6 +72,7 @@ def main():
     e1.link(href='http://example.com')
     e1.authors = [Person('Lars Kiesow', 'lkiesow@uos.de')]
     e1.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
+    e1.enclosure(Media("http://example.com/episodes/loremipsum.mp3", 454599964))
 
     # Should we just print out, or write to file?
     if arg == 'rss':

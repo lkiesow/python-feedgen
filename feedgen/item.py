@@ -101,7 +101,7 @@ class BaseEpisode(object):
         if self.__rss_guid:
             rss_guid = self.__rss_guid
         elif self.__rss_enclosure and self.__rss_guid is None:
-            rss_guid = self.__rss_enclosure['url']
+            rss_guid = self.__rss_enclosure.url
         else:
             # self.__rss_guid was set to boolean False, or no enclosure
             rss_guid = None
@@ -112,9 +112,9 @@ class BaseEpisode(object):
 
         if self.__rss_enclosure:
             enclosure = etree.SubElement(entry, 'enclosure')
-            enclosure.attrib['url'] = self.__rss_enclosure['url']
-            enclosure.attrib['length'] = str(self.__rss_enclosure['length'])
-            enclosure.attrib['type'] = self.__rss_enclosure['type']
+            enclosure.attrib['url'] = self.__rss_enclosure.url
+            enclosure.attrib['length'] = str(self.__rss_enclosure.size)
+            enclosure.attrib['type'] = self.__rss_enclosure.type
 
         if self.__rss_pubDate:
             pubDate = etree.SubElement(entry, 'pubDate')
@@ -299,9 +299,9 @@ class BaseEpisode(object):
         return self.__rss_pubDate
 
 
-    def enclosure(self, url=None, length=None, type=None):
-        """Get or set the value of enclosure which describes a media object that
-        is attached to this item.
+    def enclosure(self, media=None):
+        """Get or set the :class:`~feedgen.media.Media` object that is attached
+        to this episode.
 
         Note that if :py:meth:`.id` is not set, the enclosure's url is used as
         the globally unique identifier. If you rely on this, you should make
@@ -309,16 +309,22 @@ class BaseEpisode(object):
         (they will think this episode is new again, even if the user already
         has listened to it). Therefore, you should only rely on this behaviour
         if you own the domain which the episodes reside on. If you don't, then
-        you must set :py:meth:`.id` to something which is unique not only for
-        this podcast, but for all podcasts.
+        you must set :py:meth:`.id` to an appropriate value manually.
 
-        :param url: URL of the media object.
-        :param length: Size of the media in bytes.
-        :param type: Mimetype of the linked media.
-        :returns: Data of the enclosure element.
+        :param media: The Media object which points to the media file you want
+            to attach to this episode.
+        :type media: feedgen.media.Media or None
+        :returns: The media file attached to this episode.
         """
-        if not url is None:
-            self.__rss_enclosure = {'url': url, 'length': length, 'type': type}
+        if not media is None:
+            # Test that the media quacks like a duck
+            if hasattr(media, "url") and hasattr(media, "size") and \
+               hasattr(media, "type"):
+                # It's a duck
+                self.__rss_enclosure = media
+            else:
+                raise TypeError("The parameter media must have the attributes "
+                                "url, size and type.")
         return self.__rss_enclosure
 
     def itunes_block(self, itunes_block=None):

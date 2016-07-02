@@ -128,7 +128,8 @@ class Media(object):
             if self.size == 0:
                 warnings.warn("Size is set to 0. This should ONLY be done when "
                               "there is no possible way to determine the "
-                              "media's size, like if the media is a stream.")
+                              "media's size, like if the media is a stream.",
+                              stacklevel=3)
         except ValueError:
             self.size = self._str_to_bytes(size)
         except TypeError as e:

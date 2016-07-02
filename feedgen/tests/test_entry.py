@@ -10,6 +10,7 @@ import unittest
 from lxml import etree
 
 from feedgen.person import Person
+from feedgen.media import Media
 from ..feed import Podcast
 import datetime
 import pytz
@@ -96,7 +97,7 @@ class TestBaseEpisode(unittest.TestCase):
         guid = "http://example.com/podcast/episode1.mp3"
         episode = self.fg.Episode()
         episode.title("My first episode")
-        episode.enclosure(guid, 0, "audio/mpeg")
+        episode.enclosure(Media(guid, 97423487, "audio/mpeg"))
 
         item = episode.rss_entry()
         assert item.find("guid").text == guid
@@ -104,7 +105,8 @@ class TestBaseEpisode(unittest.TestCase):
     def test_idSetToFalseSoEnclosureNotUsed(self):
         episode = self.fg.Episode()
         episode.title("My first episode")
-        episode.enclosure("http://example.com/podcast/episode1.mp3", 0, "audio/mpeg")
+        episode.enclosure(Media("http://example.com/podcast/episode1.mp3",
+                                34328731, "audio/mpeg"))
         episode.id(False)
 
         item = episode.rss_entry()
@@ -221,3 +223,18 @@ class TestBaseEpisode(unittest.TestCase):
 
     def do_authorsInvalidAssignment(self):
         self.fe.authors = Person("Oh No", "notan@iterable.no")
+
+    def test_media(self):
+        media = Media("http://example.org/episodes/1.mp3", 14536453,
+                      "audio/mpeg")
+        self.fe.enclosure(media)
+        enclosure = self.fe.rss_entry().find("enclosure")
+
+        self.assertEqual(enclosure.get("url"), media.url)
+        self.assertEqual(enclosure.get("length"), str(media.size))
+        self.assertEqual(enclosure.get("type"), media.type)
+
+        # Ensure duck-typing is checked at assignment time
+        self.assertRaises(TypeError, self.fe.enclosure, media.url)
+        self.assertRaises(TypeError, self.fe.enclosure,
+                          (media.url, media.size, media.type))
