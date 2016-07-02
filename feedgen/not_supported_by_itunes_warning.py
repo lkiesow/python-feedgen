@@ -1,0 +1,2 @@
+class NotSupportedByItunesWarning(UserWarning):
+    pass
