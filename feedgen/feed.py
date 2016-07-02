@@ -69,7 +69,7 @@ class Podcast(object):
 
         ## ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
-        self.__withhold_from_itunes = None
+        self.__withhold_from_itunes = False
         self.__category = None
         self.__image = None
         self.__complete = None
@@ -307,9 +307,9 @@ class Podcast(object):
             webMaster = etree.SubElement(channel, 'webMaster')
             webMaster.text = str(self.__web_master)
 
-        if not self.__withhold_from_itunes is None:
+        if self.__withhold_from_itunes:
             block = etree.SubElement(channel, '{%s}block' % ITUNES_NS)
-            block.text = 'yes' if self.__withhold_from_itunes else 'no'
+            block.text = 'Yes'
 
         if self.__category:
             category = etree.SubElement(channel, '{%s}category' % ITUNES_NS)
@@ -716,8 +716,8 @@ class Podcast(object):
 
 
     def web_master(self, web_master=None):
-        """Get and set the person responsible for technical issues relating to
-        the feed.
+        """Get and set the :class:`~feedgen.person.Person` responsible for
+        technical issues relating to the feed.
 
         :param web_master: The person responsible for technical issues relating
             to the feed. This instance of Person must have its email set.
@@ -733,10 +733,22 @@ class Podcast(object):
         return self.__web_master
 
     def withhold_from_itunes(self, withhold_from_itunes=None):
-        """Get or set the ITunes block attribute. Use this to prevent the entire
+        """Get or set the iTunes block attribute. Use this to prevent the entire
         podcast from appearing in the iTunes podcast directory.
 
-        :param withhold_from_itunes: Block the podcast.
+        Note that this will affect more than iTunes, since most podcatchers use
+        the iTunes catalogue to implement the search feature. Listeners will
+        still be able to subscribe by adding the feed's address manually.
+
+        If you don't intend on submitting this podcast to iTunes, you can set
+        this to True as a way of showing iTunes the middle finger (and prevent
+        others from submitting it as well).
+
+        Set it to ``True`` to withhold the entire podcast from iTunes. It is set
+        to ``False`` by default, of course.
+
+        :param withhold_from_itunes: ``True`` to block the podcast from iTunes.
+        :type withhold_from_itunes: bool or None
         :returns: If the podcast is blocked.
         """
         if not withhold_from_itunes is None:

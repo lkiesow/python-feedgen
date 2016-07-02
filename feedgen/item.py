@@ -322,7 +322,7 @@ class BaseEpisode(object):
         return self.__media
 
     def withhold_from_itunes(self, withhold_from_itunes=None):
-        """Get or set the ITunes block attribute. Use this to prevent episodes
+        """Get or set the iTunes block attribute. Use this to prevent episodes
         from appearing in the iTunes podcast directory. Note that the episode
         can still be found by inspecting the XML, so it is still public.
 

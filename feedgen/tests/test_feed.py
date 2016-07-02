@@ -344,5 +344,20 @@ class TestPodcast(unittest.TestCase):
                 raise AssertionError("The test failed for %s" % test_property)\
                     from e
 
+    def test_withholdFromItunesOffByDefault(self):
+        assert not self.fg.withhold_from_itunes()
+
+    def test_withholdFromItunes(self):
+        self.fg.withhold_from_itunes(True)
+        itunes_block = self.fg._create_rss().find("channel")\
+            .find("{%s}block" % self.nsItunes)
+        assert itunes_block is not None
+        self.assertEqual(itunes_block.text.lower(), "yes")
+
+        self.fg.withhold_from_itunes(False)
+        itunes_block = self.fg._create_rss().find("channel")\
+            .find("{%s}block" % self.nsItunes)
+        assert itunes_block is None
+
 if __name__ == '__main__':
     unittest.main()
