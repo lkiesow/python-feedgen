@@ -29,26 +29,25 @@ class BaseEpisode(object):
 
     def __init__(self):
         # RSS
-        self.__rss_authors      = []
-        self.__rss_content     = None
-        self.__rss_enclosure   = None
-        self.__rss_guid        = None
-        self.__rss_link        = None
-        self.__rss_pubDate     = None
-        self.__rss_title       = None
+        self.__authors = []
+        self.__summary = None
+        self.__media = None
+        self.__id = None
+        self.__rss_link = None
+        self.__publication_date = None
+        self.__title = None
 
         # ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
-        self.__itunes_block = None
-        self.__itunes_image = None
+        self.__withhold_from_itunes = None
+        self.__image = None
         self.__itunes_duration = None
-        self.__itunes_explicit = None
-        self.__itunes_is_closed_captioned = None
-        self.__itunes_order = None
-        self.__itunes_subtitle = None
+        self.__explicit = None
+        self.__is_closed_captioned = None
+        self.__position = None
+        self.__subtitle = None
 
-
-    def rss_entry(self, extensions=True):
+    def rss_entry(self):
         """Create a RSS item and return it."""
 
         ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
@@ -56,36 +55,36 @@ class BaseEpisode(object):
 
         entry = etree.Element('item')
 
-        if not ( self.__rss_title or self.__rss_content):
+        if not (self.__title or self.__summary):
             raise ValueError('Required fields not set')
 
-        if self.__rss_title:
+        if self.__title:
             title = etree.SubElement(entry, 'title')
-            title.text = self.__rss_title
+            title.text = self.__title
 
         if self.__rss_link:
             link = etree.SubElement(entry, 'link')
             link.text = self.__rss_link
 
-        if self.__rss_content:
+        if self.__summary:
             description = etree.SubElement(entry, 'description')
-            description.text = etree.CDATA(self.__rss_content)
+            description.text = etree.CDATA(self.__summary)
             content = etree.SubElement(entry, '{%s}encoded' %
                                     'http://purl.org/rss/1.0/modules/content/')
-            content.text = etree.CDATA(self.__rss_content)
+            content.text = etree.CDATA(self.__summary)
 
-        if self.__rss_authors:
-            authors_with_name = [a.name for a in self.__rss_authors if a.name]
+        if self.__authors:
+            authors_with_name = [a.name for a in self.__authors if a.name]
             if authors_with_name:
                 # We have something to display as itunes:author, combine all
                 # names
                 itunes_author = \
                     etree.SubElement(entry, '{%s}author' % ITUNES_NS)
                 itunes_author.text = listToHumanreadableStr(authors_with_name)
-            if len(self.__rss_authors) > 1 or not self.__rss_authors[0].email:
+            if len(self.__authors) > 1 or not self.__authors[0].email:
                 # Use dc:creator, since it supports multiple authors (and
                 # author without email)
-                for a in self.__rss_authors or []:
+                for a in self.__authors or []:
                     author = etree.SubElement(entry, '{%s}creator' % DUBLIN_NS)
                     if a.name and a.email:
                         author.text = "%s <%s>" % (a.name, a.email)
@@ -96,12 +95,12 @@ class BaseEpisode(object):
             else:
                 # Only one author and with email, so use rss author
                 author = etree.SubElement(entry, 'author')
-                author.text = str(self.__rss_authors[0])
+                author.text = str(self.__authors[0])
 
-        if self.__rss_guid:
-            rss_guid = self.__rss_guid
-        elif self.__rss_enclosure and self.__rss_guid is None:
-            rss_guid = self.__rss_enclosure.url
+        if self.__id:
+            rss_guid = self.__id
+        elif self.__media and self.__id is None:
+            rss_guid = self.__media.url
         else:
             # self.__rss_guid was set to boolean False, or no enclosure
             rss_guid = None
@@ -110,59 +109,56 @@ class BaseEpisode(object):
             guid.text = rss_guid
             guid.attrib['isPermaLink'] = 'false'
 
-        if self.__rss_enclosure:
+        if self.__media:
             enclosure = etree.SubElement(entry, 'enclosure')
-            enclosure.attrib['url'] = self.__rss_enclosure.url
-            enclosure.attrib['length'] = str(self.__rss_enclosure.size)
-            enclosure.attrib['type'] = self.__rss_enclosure.type
+            enclosure.attrib['url'] = self.__media.url
+            enclosure.attrib['length'] = str(self.__media.size)
+            enclosure.attrib['type'] = self.__media.type
 
-        if self.__rss_pubDate:
+        if self.__publication_date:
             pubDate = etree.SubElement(entry, 'pubDate')
-            pubDate.text = formatRFC2822(self.__rss_pubDate)
+            pubDate.text = formatRFC2822(self.__publication_date)
 
-        if not self.__itunes_block is None:
+        if not self.__withhold_from_itunes is None:
             block = etree.SubElement(entry, '{%s}block' % ITUNES_NS)
-            block.text = 'yes' if self.__itunes_block else 'no'
+            block.text = 'yes' if self.__withhold_from_itunes else 'no'
 
-        if self.__itunes_image:
+        if self.__image:
             image = etree.SubElement(entry, '{%s}image' % ITUNES_NS)
-            image.attrib['href'] = self.__itunes_image
+            image.attrib['href'] = self.__image
 
         if self.__itunes_duration:
             duration = etree.SubElement(entry, '{%s}duration' % ITUNES_NS)
             duration.text = self.__itunes_duration
 
-        if self.__itunes_explicit in ('yes', 'no', 'clean'):
+        if self.__explicit in ('yes', 'no', 'clean'):
             explicit = etree.SubElement(entry, '{%s}explicit' % ITUNES_NS)
-            explicit.text = self.__itunes_explicit
+            explicit.text = self.__explicit
 
-        if not self.__itunes_is_closed_captioned is None:
+        if not self.__is_closed_captioned is None:
             is_closed_captioned = etree.SubElement(entry, '{%s}isClosedCaptioned' % ITUNES_NS)
-            is_closed_captioned.text = 'yes' if self.__itunes_is_closed_captioned else 'no'
+            is_closed_captioned.text = 'yes' if self.__is_closed_captioned else 'no'
 
-        if not self.__itunes_order is None and self.__itunes_order >= 0:
+        if not self.__position is None and self.__position >= 0:
             order = etree.SubElement(entry, '{%s}order' % ITUNES_NS)
-            order.text = str(self.__itunes_order)
+            order.text = str(self.__position)
 
-        if self.__itunes_subtitle:
+        if self.__subtitle:
             subtitle = etree.SubElement(entry, '{%s}subtitle' % ITUNES_NS)
-            subtitle.text = self.__itunes_subtitle
+            subtitle.text = self.__subtitle
 
         return entry
 
-
-
     def title(self, title=None):
-        """Get or set the title value of the entry. It should contain a human
-        readable title for the entry. Title is mandatory and should not be blank.
+        """Get or set this episode's human-readable title.
+        Title is mandatory and should not be blank.
 
-        :param title: The new title of the entry.
-        :returns: The entriess title.
+        :param title: This new title of this episode.
+        :returns: This episode's title.
         """
         if not title is None:
-            self.__rss_title = title
-        return self.__rss_title
-
+            self.__title = title
+        return self.__title
 
     def id(self, new_id=None):
         """Get or set this episode's globally unique identifier.
@@ -191,9 +187,8 @@ class BaseEpisode(object):
         :returns: Id of this episode.
         """
         if not new_id is None:
-            self.__rss_guid = new_id
-        return self.__rss_guid
-
+            self.__id = new_id
+        return self.__id
 
     @property
     def authors(self):
@@ -230,12 +225,12 @@ class BaseEpisode(object):
             >>> ep.authors = [Person("John Doe", "johndoe@example.org"),
             ...               Person("Mary Sue", "marysue@example.org")]
         """
-        return self.__rss_authors
+        return self.__authors
 
     @authors.setter
     def authors(self, authors):
         try:
-            self.__rss_authors = list(authors)
+            self.__authors = list(authors)
         except TypeError:
             raise TypeError("Only iterable types can be assigned to authors, "
                             "%s given. You must put your object in a list, "
@@ -261,45 +256,43 @@ class BaseEpisode(object):
         if not new_summary is None:
             if not html:
                 new_summary = htmlencode(new_summary)
-            self.__rss_content = new_summary
-        return self.__rss_content
+            self.__summary = new_summary
+        return self.__summary
 
-
-    def link(self, href=None):
+    def link(self, link=None):
         """Get or set the link to the full version of this episode description.
 
-        :param href: the URI of the referenced resource (typically a Web page)
+        :param link: the URI of the referenced resource (typically a Web page)
+        :type link: str
         :returns: The current link URI.
         """
-        if not href is None:
-            self.__rss_link = href
+        if not link is None:
+            self.__rss_link = link
         return self.__rss_link
 
-
-    def published(self, published=None):
-        """Set or get the published value which contains the time of the initial
-        creation or first availability of the entry.
+    def publication_date(self, publication_date=None):
+        """Set or get the time that this episode first was made public.
 
         The value can either be a string which will automatically be parsed or a
-        datetime.datetime object. In any case it is necessary that the value
-        include timezone information.
+        datetime.datetime object. In both cases you must ensure that the value
+        includes timezone information.
 
-        :param published: The creation date.
+        :param publication_date: The date this episode was first made public.
+        :type publication_date: datetime.datetime or str or None
         :returns: Creation date as datetime.datetime
         """
-        if not published is None:
-            if isinstance(published, string_types):
-                published = dateutil.parser.parse(published)
-            if not isinstance(published, datetime):
+        if not publication_date is None:
+            if isinstance(publication_date, string_types):
+                publication_date = dateutil.parser.parse(publication_date)
+            if not isinstance(publication_date, datetime):
                 raise ValueError('Invalid datetime format')
-            if published.tzinfo is None:
+            if publication_date.tzinfo is None:
                 raise ValueError('Datetime object has no timezone info')
-            self.__rss_pubDate = published
+            self.__publication_date = publication_date
 
-        return self.__rss_pubDate
+        return self.__publication_date
 
-
-    def enclosure(self, media=None):
+    def media(self, media=None):
         """Get or set the :class:`~feedgen.media.Media` object that is attached
         to this episode.
 
@@ -321,26 +314,34 @@ class BaseEpisode(object):
             if hasattr(media, "url") and hasattr(media, "size") and \
                hasattr(media, "type"):
                 # It's a duck
-                self.__rss_enclosure = media
+                self.__media = media
             else:
                 raise TypeError("The parameter media must have the attributes "
                                 "url, size and type.")
-        return self.__rss_enclosure
+        return self.__media
 
-    def itunes_block(self, itunes_block=None):
+    def withhold_from_itunes(self, withhold_from_itunes=None):
         """Get or set the ITunes block attribute. Use this to prevent episodes
-        from appearing in the iTunes podcast directory. Note that the episode can still be
-        found by inspecting the XML, thus it is public.
+        from appearing in the iTunes podcast directory. Note that the episode
+        can still be found by inspecting the XML, so it is still public.
 
-        :param itunes_block: Block podcast episodes.
-        :type itunes_block: bool
-        :returns: If the podcast episode is blocked.
+        One use case is if you know that this episode will get you kicked
+        out from iTunes, should it make it there. In such cases, you can set
+        withhold_from_itunes to ``True`` so this episode isn't published on
+        iTunes, allowing you to publish it to everyone else while keeping your
+        podcast on iTunes.
+
+        This attribute defaults to ``False``, of course.
+
+        :param withhold_from_itunes: Block podcast episode from iTunes.
+        :type withhold_from_itunes: bool
+        :returns: Whether the podcast episode is withheld from iTunes or not.
         """
-        if not itunes_block is None:
-            self.__itunes_block = itunes_block
-        return self.__itunes_block
+        if not withhold_from_itunes is None:
+            self.__withhold_from_itunes = withhold_from_itunes
+        return self.__withhold_from_itunes
 
-    def itunes_image(self, itunes_image=None):
+    def image(self, image=None):
         """Get or set the image for the podcast episode. This tag specifies the
         artwork for your podcast. Put the URL to the image in the href attribute.
         iTunes prefers square .jpg images that are at least 1400x1400 pixels,
@@ -357,17 +358,21 @@ class BaseEpisode(object):
         may not change the image if it checks your feed and the image URL is the
         same. The server hosting your cover art image must allow HTTP head
         requests for iTS to be able to automatically update your cover art.
+        
+        Oh, and iTunes doesn't support this. You need to embed the image inside
+        the media file as well (like regular album covers). The Podcast.image
+        attribute is used if not.
 
-        :param itunes_image: Image of the podcast.
-        :type itunes_image: str
-        :returns: Image of the podcast.
+        :param image: Image of the episode.
+        :type image: str
+        :returns: Image of the episode.
         """
-        if not itunes_image is None:
-            lowercase_itunes_image = itunes_image.lower()
-            if not (lowercase_itunes_image.endswith(('.jpg', '.jpeg', '.png'))):
-                raise ValueError('Image filename must end with png or jpg, not .%s' % itunes_image.split(".")[-1])
-            self.__itunes_image = itunes_image
-        return self.__itunes_image
+        if not image is None:
+            lowercase_image = image.lower()
+            if not (lowercase_image.endswith(('.jpg', '.jpeg', '.png'))):
+                raise ValueError('Image filename must end with png or jpg, not .%s' % image.split(".")[-1])
+            self.__image = image
+        return self.__image
 
     def itunes_duration(self, itunes_duration=None):
         """Get or set the duration of the podcast episode. The content of this
@@ -392,74 +397,77 @@ class BaseEpisode(object):
             self.__itunes_duration = itunes_duration
         return self.itunes_duration
 
-    def itunes_explicit(self, itunes_explicit=None):
+    def explicit(self, explicit=None):
         """Get or the the itunes:explicit value of the podcast episode. This tag
         should be used to indicate whether your podcast episode contains explicit
-        material. The three values for this tag are "yes", "no", and "clean".
+        material.
+        
+        The value of the podcast's explicit attribute is used by default.
 
-        If you populate this tag with "yes", an "explicit" parental advisory
-        graphic will appear next to your podcast artwork on the iTunes Store and
-        in the Name column in iTunes. If the value is "clean", the parental
-        advisory type is considered Clean, meaning that no explicit language or
-        adult content is included anywhere in the episodes, and a "clean" graphic
-        will appear. If the explicit tag is present and has any other value
-        (e.g., "no"), you see no indicator — blank is the default advisory type.
-
-        :param itunes_explicit: "yes" if the podcast contains explicit material, "clean" if it doesn't. "no" counts
-            as blank.
-        :type itunes_explicit: str
+        If you set this to ``True``, an "explicit" parental advisory
+        graphic will appear in the Name column in iTunes. If the value is 
+        ``False``, the parental advisory type is considered Clean, meaning that 
+        no explicit language or adult content is included anywhere in this 
+        episode, and a "clean" graphic will appear.
+        
+        :param explicit: ``True`` if the podcast contains material 
+            that may be inappropriate for children, ``False`` if it doesn't.
+        :type explicit: str
         :returns: If the podcast episode contains explicit material.
         """
-        if not itunes_explicit is None:
-            if not itunes_explicit in ('', 'yes', 'no', 'clean'):
-                raise ValueError('Invalid value "%s" for explicit tag' % itunes_explicit)
-            self.__itunes_explicit = itunes_explicit
-        return self.__itunes_explicit
+        if not explicit is None:
+            if not explicit in ('', 'yes', 'no', 'clean'):
+                raise ValueError('Invalid value "%s" for explicit tag' % explicit)
+            self.__explicit = explicit
+        return self.__explicit
 
-    def itunes_is_closed_captioned(self, itunes_is_closed_captioned=None):
+    def is_closed_captioned(self, is_closed_captioned=None):
         """Get or set the is_closed_captioned value of the podcast episode. This
-        tag should be used if your podcast includes a video episode with embedded
-        closed captioning support. The two values for this tag are "yes" and
-        "no”.
+        tag should be used if your podcast includes a video episode with 
+        embedded closed captioning support. The two values for this tag are 
+        ``True`` and ``False``.
 
-        :param itunes_is_closed_captioned: If the episode has closed captioning support.
-        :type itunes_is_closed_captioned: bool or str
+        :param is_closed_captioned: If the episode has closed captioning 
+            support.
+        :type is_closed_captioned: bool or None
         :returns: If the episode has closed captioning support.
         """
-        if not itunes_is_closed_captioned is None:
-            self.__itunes_is_closed_captioned = itunes_is_closed_captioned in ('yes', True)
-        return self.__itunes_is_closed_captioned
+        if not is_closed_captioned is None:
+            self.__is_closed_captioned = is_closed_captioned
+        return self.__is_closed_captioned
 
-    def itunes_order(self, itunes_order=None):
-        """Get or set the itunes:order value of the podcast episode. This tag can
-        be used to override the default ordering of episodes on the store.
+    def position(self, position=None):
+        """Get or set the itunes:order value of this podcast episode. This tag 
+        can be used to override the default ordering of episodes on the store.
 
         This tag is used at an <item> level by populating with the number value
         in which you would like the episode to appear on the store. For example,
         if you would like an <item> to appear as the first episode in the
         podcast, you would populate the <itunes:order> tag with “1”. If
-        conflicting order values are present in multiple episodes, the store will
-        use default ordering (pubDate).
+        multiple episodes share the same position, they will be sorted by their
+        publication date.
 
-        To remove the order from the episode set the order to a value below zero.
+        To remove the order from the episode set the position to a value below 
+        zero.
 
-        :param itunes_order: The order of the episode.
-        :type itunes_order: int
-        :returns: The order of the episode.
+        :param position: This episode's desired position on the iTunes store
+            page.
+        :type position: int
+        :returns: This episode's desired position on the iTunes Store page.
         """
-        if not itunes_order is None:
-            self.__itunes_order = int(itunes_order)
-        return self.__itunes_order
+        if not position is None:
+            self.__position = int(position)
+        return self.__position
 
-    def itunes_subtitle(self, itunes_subtitle=None):
+    def subtitle(self, subtitle=None):
         """Get or set the itunes:subtitle value for the podcast episode. The
         contents of this tag are shown in the Description column in iTunes. The
         subtitle displays best if it is only a few words long.
 
-        :param itunes_subtitle: Subtitle of the podcast episode.
-        :type itunes_subtitle: str
+        :param subtitle: Subtitle of the podcast episode.
+        :type subtitle: str
         :returns: Subtitle of the podcast episode.
         """
-        if not itunes_subtitle is None:
-            self.__itunes_subtitle = itunes_subtitle
-        return self.__itunes_subtitle
+        if not subtitle is None:
+            self.__subtitle = subtitle
+        return self.__subtitle

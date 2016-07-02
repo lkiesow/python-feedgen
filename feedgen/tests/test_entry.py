@@ -99,7 +99,7 @@ class TestBaseEpisode(unittest.TestCase):
         guid = "http://example.com/podcast/episode1.mp3"
         episode = self.fg.Episode()
         episode.title("My first episode")
-        episode.enclosure(Media(guid, 97423487, "audio/mpeg"))
+        episode.media(Media(guid, 97423487, "audio/mpeg"))
 
         item = episode.rss_entry()
         assert item.find("guid").text == guid
@@ -107,37 +107,37 @@ class TestBaseEpisode(unittest.TestCase):
     def test_idSetToFalseSoEnclosureNotUsed(self):
         episode = self.fg.Episode()
         episode.title("My first episode")
-        episode.enclosure(Media("http://example.com/podcast/episode1.mp3",
-                                34328731, "audio/mpeg"))
+        episode.media(Media("http://example.com/podcast/episode1.mp3",
+                            34328731, "audio/mpeg"))
         episode.id(False)
 
         item = episode.rss_entry()
         assert item.find("guid") is None
 
     def test_feedPubDateUsesNewestEpisode(self):
-        self.fg.episodes[0].published(
+        self.fg.episodes[0].publication_date(
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
         )
-        self.fg.episodes[1].published(
+        self.fg.episodes[1].publication_date(
             datetime.datetime(2016, 1, 3, 12, 22, tzinfo=pytz.utc)
         )
-        self.fg.episodes[2].published(
+        self.fg.episodes[2].publication_date(
             datetime.datetime(2014, 3, 2, 13, 11, tzinfo=pytz.utc)
         )
         rss = self.fg._create_rss()
         pubDate = rss.find("channel").find("pubDate")
         assert pubDate is not None
         parsedPubDate = parsedate(pubDate.text)
-        assert parsedPubDate == self.fg.episodes[1].published()
+        assert parsedPubDate == self.fg.episodes[1].publication_date()
 
     def test_feedPubDateNotOverriddenByEpisode(self):
-        self.fg.episodes[0].published(
+        self.fg.episodes[0].publication_date(
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
         )
         pubDate = self.fg._create_rss().find("channel").find("pubDate")
         # Now it uses the episode's published date
         assert pubDate is not None
-        assert parsedate(pubDate.text) == self.fg.episodes[0].published()
+        assert parsedate(pubDate.text) == self.fg.episodes[0].publication_date()
 
         new_date = datetime.datetime(2016, 1, 2, 3, 4, tzinfo=pytz.utc)
         self.fg.publication_date(new_date)
@@ -147,7 +147,7 @@ class TestBaseEpisode(unittest.TestCase):
         assert parsedate(pubDate.text) == new_date
 
     def test_feedPubDateDisabled(self):
-        self.fg.episodes[0].published(
+        self.fg.episodes[0].publication_date(
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
         )
         self.fg.publication_date(False)
@@ -229,7 +229,7 @@ class TestBaseEpisode(unittest.TestCase):
     def test_media(self):
         media = Media("http://example.org/episodes/1.mp3", 14536453,
                       "audio/mpeg")
-        self.fe.enclosure(media)
+        self.fe.media(media)
         enclosure = self.fe.rss_entry().find("enclosure")
 
         self.assertEqual(enclosure.get("url"), media.url)
@@ -237,6 +237,6 @@ class TestBaseEpisode(unittest.TestCase):
         self.assertEqual(enclosure.get("type"), media.type)
 
         # Ensure duck-typing is checked at assignment time
-        self.assertRaises(TypeError, self.fe.enclosure, media.url)
-        self.assertRaises(TypeError, self.fe.enclosure,
+        self.assertRaises(TypeError, self.fe.media, media.url)
+        self.assertRaises(TypeError, self.fe.media,
                           (media.url, media.size, media.type))

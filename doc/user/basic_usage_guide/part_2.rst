@@ -132,10 +132,10 @@ will get a new episode which appears to have existed for longer than it has.
 
 ::
 
-   my_episode.published_date = datetime.datetime(2016, 5, 18, 10, 0,
+   my_episode.publication_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
 
-.. autosummary:: ~feedgen.item.BaseEpisode.published_date
+.. autosummary:: ~feedgen.item.BaseEpisode.publication_date
 
 
 The Link
@@ -191,8 +191,8 @@ Less used attributes
 
     my_episode.image = "http://example.com/static/best-example.png"
     my_episode.explicit = False
-    my_episode.is_close_captioned = False  # Only applicable for video
-    my_episode.order = 1
+    my_episode.is_closed_captioned = False  # Only applicable for video
+    my_episode.position = 1
     # Be careful about using the following attribute!
     my_episode.withhold_from_itunes = True
 
@@ -200,8 +200,8 @@ Less used attributes
 
    ~feedgen.item.BaseEpisode.image
    ~feedgen.item.BaseEpisode.explicit
-   ~feedgen.item.BaseEpisode.is_close_captioned
-   ~feedgen.item.BaseEpisode.order
+   ~feedgen.item.BaseEpisode.is_closed_captioned
+   ~feedgen.item.BaseEpisode.position
    ~feedgen.item.BaseEpisode.withhold_from_itunes
 
 The final step is :doc:`part_3`

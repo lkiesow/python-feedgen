@@ -70,10 +70,10 @@ def main():
             domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
             occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
             verba <3.''', html=False)
-    e1.link(href='http://example.com')
+    e1.link(link='http://example.com')
     e1.authors = [Person('Lars Kiesow', 'lkiesow@uos.de')]
-    e1.published(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
-    e1.enclosure(Media("http://example.com/episodes/loremipsum.mp3", 454599964))
+    e1.publication_date(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
+    e1.media(Media("http://example.com/episodes/loremipsum.mp3", 454599964))
 
     # Should we just print out, or write to file?
     if arg == 'rss':
