@@ -32,7 +32,7 @@ class TestBaseEpisode(unittest.TestCase):
         fg.name(self.title)
         fg.website(self.link)
         fg.description(self.description)
-        fg.itunes_explicit(self.explicit)
+        fg.explicit(self.explicit)
 
         fe = fg.add_episode()
         fe.id('http://lernfunk.de/media/654321/1')
@@ -140,7 +140,7 @@ class TestBaseEpisode(unittest.TestCase):
         assert parsedate(pubDate.text) == self.fg.episodes[0].published()
 
         new_date = datetime.datetime(2016, 1, 2, 3, 4, tzinfo=pytz.utc)
-        self.fg.published(new_date)
+        self.fg.publication_date(new_date)
         pubDate = self.fg._create_rss().find("channel").find("pubDate")
         # Now it uses the custom-set date
         assert pubDate is not None
@@ -150,7 +150,7 @@ class TestBaseEpisode(unittest.TestCase):
         self.fg.episodes[0].published(
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
         )
-        self.fg.published(False)
+        self.fg.publication_date(False)
         pubDate = self.fg._create_rss().find("channel").find("pubDate")
         assert pubDate is None  # Not found!
 

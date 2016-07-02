@@ -94,7 +94,7 @@ and listening.
 .. autosummary::
 
    ~feedgen.item.BaseEpisode.media
-   ~feedgen.feed.media.Media
+   ~feedgen.media.Media
 
 
 Identifying the episode
@@ -168,7 +168,7 @@ The Authors
    podcast level.
 
 Normally, the attributes :attr:`Podcast.authors <feedgen.feed.Podcast.authors>`
-and :attr:`Podcast.webMaster <feedgen.feed.Podcast.webMaster>` (if set) are
+and :attr:`Podcast.web_master <feedgen.feed.Podcast.web_master>` (if set) are
 used to determine the authors of an episode. Thus, if all your episodes have
 the same authors, you should just set it at the podcast level.
 

@@ -40,7 +40,7 @@ A podcast's image is worth special attention::
 
     p.image = "https://example.com/static/example_podcast.png"
 
-.. automethod:: feedgen.feed.Podcast.itunes_image
+.. automethod:: feedgen.feed.Podcast.image
    :noindex:
 
 Even though the image *technically* is optional, you won't reach people without it.
@@ -87,13 +87,13 @@ full description.
 
     import datetime
     import pytz
-    p.updated = datetime.datetime(2016, 5, 18, 0, 0, tzinfo=pytz.utc))
-    p.published = datetime.datetime(2016, 5, 17, 15, 32, tzinfo=pytz.utc))
+    p.last_updated = datetime.datetime(2016, 5, 18, 0, 0, tzinfo=pytz.utc))
+    p.publication_date = datetime.datetime(2016, 5, 17, 15, 32, tzinfo=pytz.utc))
 
-    p.skipDays = {"Friday", "Saturday", "Sunday"}
-    p.skipHours = set(range(8))
-    p.skipHours |= set(range(16, 24))
-    p.webMaster = Person(None, "helpdesk@dallas.example.com")
+    p.skip_days = {"Friday", "Saturday", "Sunday"}
+    p.skip_hours = set(range(8))
+    p.skip_hours |= set(range(16, 24))
+    p.web_master = Person(None, "helpdesk@dallas.example.com")
     # Be very careful about using the following attributes:
     p.new_feed_url = "https://podcast.example.com/example"
     p.complete = True
@@ -102,11 +102,11 @@ full description.
 .. autosummary::
 
    ~feedgen.feed.Podcast.cloud
-   ~feedgen.feed.Podcast.updated
-   ~feedgen.feed.Podcast.published
-   ~feedgen.feed.Podcast.skipDays
-   ~feedgen.feed.Podcast.skipHours
-   ~feedgen.feed.Podcast.webMaster
+   ~feedgen.feed.Podcast.last_updated
+   ~feedgen.feed.Podcast.publication_date
+   ~feedgen.feed.Podcast.skip_days
+   ~feedgen.feed.Podcast.skip_hours
+   ~feedgen.feed.Podcast.web_master
    ~feedgen.feed.Podcast.new_feed_url
    ~feedgen.feed.Podcast.complete
    ~feedgen.feed.Podcast.withhold_from_itunes

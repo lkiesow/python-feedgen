@@ -34,7 +34,7 @@ class Podcast(object):
     * :attr:`~feedgen.podcast.Podcast.name`
     * :attr:`~feedgen.podcast.Podcast.website`
     * :attr:`~feedgen.podcast.Podcast.description`
-    * :attr:`~feedgen.podcast.Podcast.itunes_explicit`
+    * :attr:`~feedgen.podcast.Podcast.explicit`
     """
 
 
@@ -47,35 +47,35 @@ class Podcast(object):
         ## RSS
         # http://www.rssboard.org/rss-specification
         # Mandatory:
-        self.__rss_title       = None
-        self.__rss_link        = None
-        self.__rss_description = None
+        self.__name = None
+        self.__website = None
+        self.__description = None
+        self.__explicit = None
 
         # Optional:
-        self.__rss_cloud          = None
-        self.__rss_copyright      = None
-        self.__rss_docs           = 'http://www.rssboard.org/rss-specification'
-        self.__rss_generator      = self._feedgen_generator_str
-        self.__rss_language       = None
-        self.__rss_lastBuildDate  = None
-        self.__rss_authors = []
-        self.__rss_pubDate        = None
-        self.__rss_skipHours      = None
-        self.__rss_skipDays       = None
-        self.__rss_webMaster      = None
+        self.__cloud = None
+        self.__copyright = None
+        self.__docs = 'http://www.rssboard.org/rss-specification'
+        self.__generator = self._feedgen_generator_str
+        self.__language = None
+        self.__last_updated = None
+        self.__authors = []
+        self.__publication_date = None
+        self.__skip_hours = None
+        self.__skip_days = None
+        self.__web_master = None
 
-        self.__self_link = None
+        self.__feed_url = None
 
         ## ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
-        self.__itunes_block = None
-        self.__itunes_category = None
-        self.__itunes_image = None
-        self.__itunes_explicit = None
-        self.__itunes_complete = None
-        self.__itunes_new_feed_url = None
-        self.__itunes_owner = None
-        self.__itunes_subtitle = None
+        self.__withhold_from_itunes = None
+        self.__category = None
+        self.__image = None
+        self.__complete = None
+        self.__new_feed_url = None
+        self.__owner = None
+        self.__subtitle = None
 
     @property
     def episodes(self):
@@ -206,63 +206,63 @@ class Podcast(object):
 
         feed = etree.Element('rss', version='2.0', nsmap=nsmap )
         channel = etree.SubElement(feed, 'channel')
-        if not (self.__rss_title and self.__rss_link and self.__rss_description
-                and self.__itunes_explicit is not None):
-            missing = ', '.join(([] if self.__rss_title else ['title']) +
-                    ([] if self.__rss_link else ['link']) +
-                    ([] if self.__rss_description else ['description']) +
-                    ([] if self.__itunes_explicit else ['itunes_explicit']))
+        if not (self.__name and self.__website and self.__description
+                and self.__explicit is not None):
+            missing = ', '.join(([] if self.__name else ['title']) +
+                                ([] if self.__website else ['link']) +
+                                ([] if self.__description else ['description']) +
+                                ([] if self.__explicit else ['itunes_explicit']))
             raise ValueError('Required fields not set (%s)' % missing)
         title = etree.SubElement(channel, 'title')
-        title.text = self.__rss_title
+        title.text = self.__name
         link = etree.SubElement(channel, 'link')
-        link.text = self.__rss_link
+        link.text = self.__website
         desc = etree.SubElement(channel, 'description')
-        desc.text = self.__rss_description
+        desc.text = self.__description
         explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)
-        explicit.text = "yes" if self.__itunes_explicit else "no"
+        explicit.text = "yes" if self.__explicit else "no"
 
-        if self.__rss_cloud:
+        if self.__cloud:
             cloud = etree.SubElement(channel, 'cloud')
-            cloud.attrib['domain'] = self.__rss_cloud.get('domain')
-            cloud.attrib['port'] = str(self.__rss_cloud.get('port'))
-            cloud.attrib['path'] = self.__rss_cloud.get('path')
-            cloud.attrib['registerProcedure'] = self.__rss_cloud.get(
+            cloud.attrib['domain'] = self.__cloud.get('domain')
+            cloud.attrib['port'] = str(self.__cloud.get('port'))
+            cloud.attrib['path'] = self.__cloud.get('path')
+            cloud.attrib['registerProcedure'] = self.__cloud.get(
                     'registerProcedure')
-            cloud.attrib['protocol'] = self.__rss_cloud.get('protocol')
-        if self.__rss_copyright:
+            cloud.attrib['protocol'] = self.__cloud.get('protocol')
+        if self.__copyright:
             copyright = etree.SubElement(channel, 'copyright')
-            copyright.text = self.__rss_copyright
-        if self.__rss_docs:
+            copyright.text = self.__copyright
+        if self.__docs:
             docs = etree.SubElement(channel, 'docs')
-            docs.text = self.__rss_docs
-        if self.__rss_generator:
+            docs.text = self.__docs
+        if self.__generator:
             generator = etree.SubElement(channel, 'generator')
-            generator.text = self.__rss_generator
-        if self.__rss_language:
+            generator.text = self.__generator
+        if self.__language:
             language = etree.SubElement(channel, 'language')
-            language.text = self.__rss_language
+            language.text = self.__language
 
-        if self.__rss_lastBuildDate is None:
+        if self.__last_updated is None:
             lastBuildDateDate = datetime.now(dateutil.tz.tzutc())
         else:
-            lastBuildDateDate = self.__rss_lastBuildDate
+            lastBuildDateDate = self.__last_updated
         if lastBuildDateDate:
             lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
             lastBuildDate.text = formatRFC2822(lastBuildDateDate)
 
-        if self.__rss_authors:
-            authors_with_name = [a.name for a in self.__rss_authors if a.name]
+        if self.__authors:
+            authors_with_name = [a.name for a in self.__authors if a.name]
             if authors_with_name:
                 # We have something to display as itunes:author, combine all
                 # names
                 itunes_author = \
                     etree.SubElement(channel, '{%s}author' % ITUNES_NS)
                 itunes_author.text = listToHumanreadableStr(authors_with_name)
-            if len(self.__rss_authors) > 1 or not self.__rss_authors[0].email:
+            if len(self.__authors) > 1 or not self.__authors[0].email:
                 # Use dc:creator, since it supports multiple authors (and
                 # author without email)
-                for a in self.__rss_authors or []:
+                for a in self.__authors or []:
                     author = etree.SubElement(channel,
                                               '{%s}creator' % nsmap['dc'])
                     if a.name and a.email:
@@ -274,75 +274,76 @@ class Podcast(object):
             else:
                 # Only one author and with email, so use rss managingEditor
                 author = etree.SubElement(channel, 'managingEditor')
-                author.text = str(self.__rss_authors[0])
+                author.text = str(self.__authors[0])
 
-        if self.__rss_pubDate is None:
-            episode_dates = [e.published() for e in self.episodes if e.published() is not None]
+        if self.__publication_date is None:
+            episode_dates = [e.published() for e in self.episodes
+                             if e.published() is not None]
             if episode_dates:
                 actual_pubDate = max(episode_dates)
             else:
                 actual_pubDate = None
         else:
-            actual_pubDate = self.__rss_pubDate
+            actual_pubDate = self.__publication_date
         if actual_pubDate:
             pubDate = etree.SubElement(channel, 'pubDate')
             pubDate.text = formatRFC2822(actual_pubDate)
 
-        if self.__rss_skipHours:
+        if self.__skip_hours:
             skipHours = etree.SubElement(channel, 'skipHours')
-            for h in self.__rss_skipHours:
+            for h in self.__skip_hours:
                 hour = etree.SubElement(skipHours, 'hour')
                 hour.text = str(h)
-        if self.__rss_skipDays:
+        if self.__skip_days:
             skipDays = etree.SubElement(channel, 'skipDays')
-            for d in self.__rss_skipDays:
+            for d in self.__skip_days:
                 day = etree.SubElement(skipDays, 'day')
                 day.text = d
-        if self.__rss_webMaster:
-            if not self.__rss_webMaster.email:
+        if self.__web_master:
+            if not self.__web_master.email:
                 raise RuntimeError("webMaster must have an email. Did you "
                                    "set email to None after assigning that "
                                    "Person to webMaster?")
             webMaster = etree.SubElement(channel, 'webMaster')
-            webMaster.text = str(self.__rss_webMaster)
+            webMaster.text = str(self.__web_master)
 
-        if not self.__itunes_block is None:
+        if not self.__withhold_from_itunes is None:
             block = etree.SubElement(channel, '{%s}block' % ITUNES_NS)
-            block.text = 'yes' if self.__itunes_block else 'no'
+            block.text = 'yes' if self.__withhold_from_itunes else 'no'
 
-        if self.__itunes_category:
+        if self.__category:
             category = etree.SubElement(channel, '{%s}category' % ITUNES_NS)
-            category.attrib['text'] = self.__itunes_category.category
-            if self.__itunes_category.subcategory:
+            category.attrib['text'] = self.__category.category
+            if self.__category.subcategory:
                 subcategory = etree.SubElement(category, '{%s}category' % ITUNES_NS)
-                subcategory.attrib['text'] = self.__itunes_category.subcategory
+                subcategory.attrib['text'] = self.__category.subcategory
 
-        if self.__itunes_image:
+        if self.__image:
             image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
-            image.attrib['href'] = self.__itunes_image
+            image.attrib['href'] = self.__image
 
-        if self.__itunes_complete in ('yes', 'no'):
+        if self.__complete in ('yes', 'no'):
             complete = etree.SubElement(channel, '{%s}complete' % ITUNES_NS)
-            complete.text = self.__itunes_complete
+            complete.text = self.__complete
 
-        if self.__itunes_new_feed_url:
+        if self.__new_feed_url:
             new_feed_url = etree.SubElement(channel, '{%s}new-feed-url' % ITUNES_NS)
-            new_feed_url.text = self.__itunes_new_feed_url
+            new_feed_url.text = self.__new_feed_url
 
-        if self.__itunes_owner:
+        if self.__owner:
             owner = etree.SubElement(channel, '{%s}owner' % ITUNES_NS)
             owner_name = etree.SubElement(owner, '{%s}name' % ITUNES_NS)
-            owner_name.text = self.__itunes_owner.name
+            owner_name.text = self.__owner.name
             owner_email = etree.SubElement(owner, '{%s}email' % ITUNES_NS)
-            owner_email.text = self.__itunes_owner.email
+            owner_email.text = self.__owner.email
 
-        if self.__itunes_subtitle:
+        if self.__subtitle:
             subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
-            subtitle.text = self.__itunes_subtitle
+            subtitle.text = self.__subtitle
 
-        if self.__self_link:
+        if self.__feed_url:
             link_to_self = etree.SubElement(channel, '{%s}link' % nsmap['atom'])
-            link_to_self.attrib['href'] = self.__self_link
+            link_to_self.attrib['href'] = self.__feed_url
             link_to_self.attrib['rel'] = 'self'
             link_to_self.attrib['type'] = 'application/rss+xml'
 
@@ -407,18 +408,22 @@ class Podcast(object):
         associated website. This is mandatory for RSS and must
         not be blank.
 
+        This will set rss:title.
+
         :param name: The new name of the podcast.
         :type name: str
         :returns: The podcast's name.
         """
         if not name is None:
-            self.__rss_title = name
-        return self.__rss_title
+            self.__name = name
+        return self.__name
 
 
-    def updated(self, updated=None):
+    def last_updated(self, last_updated=None):
         """Set or get the updated value which indicates the last time the feed
-        was modified in a significant way.
+        was modified in a significant way. Most often, it is taken to mean the
+        last time the feed was generated, which is why it defaults to the
+        time and date at which the RSS is generated, if set to None.
 
         The value can either be a string which will automatically be parsed or a
         datetime.datetime object. In any case it is necessary that the value
@@ -431,23 +436,23 @@ class Podcast(object):
 
         Set this to False to have no updated value in the feed.
 
-        :param updated: The modification date.
-        :type updated: str or datetime.datetime
+        :param last_updated: The modification date.
+        :type last_updated: str or datetime.datetime
         :returns: Modification date as datetime.datetime
         """
-        if not updated is None:
-            if updated is False:
-                self.__rss_lastBuildDate = False
+        if not last_updated is None:
+            if last_updated is False:
+                self.__last_updated = False
             else:
-                if isinstance(updated, string_types):
-                    updated = dateutil.parser.parse(updated)
-                if not isinstance(updated, datetime):
+                if isinstance(last_updated, string_types):
+                    last_updated = dateutil.parser.parse(last_updated)
+                if not isinstance(last_updated, datetime):
                     raise ValueError('Invalid datetime format')
-                if updated.tzinfo is None:
+                if last_updated.tzinfo is None:
                     raise ValueError('Datetime object has no timezone info')
-                self.__rss_lastBuildDate = updated
+                self.__last_updated = last_updated
 
-        return self.__rss_lastBuildDate
+        return self.__last_updated
 
 
     def website(self, href=None):
@@ -459,19 +464,19 @@ class Podcast(object):
 
         Example::
 
-            >>> feedgen.website( href='http://example.com/')
+            >>> p.website( href='http://example.com/')
 
         """
         if not href is None:
-            self.__rss_link = href
-        return self.__rss_link
+            self.__website = href
+        return self.__website
 
 
     def cloud(self, domain=None, port=None, path=None, registerProcedure=None,
             protocol=None):
-        """Set or get the cloud data of the feed. It is an RSS only attribute. It
-        specifies a web service that supports the rssCloud interface which can be
-        implemented in HTTP-POST, XML-RPC or SOAP 1.1.
+        """Set or get the cloud data of the feed. It specifies a web service
+        that supports the rssCloud interface which can be implemented in
+        HTTP-POST, XML-RPC or SOAP 1.1.
 
         :param domain: The domain where the webservice can be found.
         :param port: The port the webservice listens to.
@@ -485,15 +490,15 @@ class Podcast(object):
                     and protocol):
                 raise ValueError("All parameters of cloud must be present and"
                                  " not empty.")
-            self.__rss_cloud = {'domain':domain, 'port':port, 'path':path,
+            self.__cloud = {'domain':domain, 'port':port, 'path':path,
                     'registerProcedure':registerProcedure, 'protocol':protocol}
-        return self.__rss_cloud
+        return self.__cloud
 
 
     def generator(self, generator=None, version=None, uri=None,
                   exclude_feedgen=False):
-        """Get or the generator of the feed which identifies the software used to
-        generate the feed, for debugging and other purposes.
+        """Get or set the generator of the feed, which identifies the software
+        used to generate the feed, for debugging and other purposes.
 
         :param generator: Software used to create the feed.
         :param version: (Optional) Version of the software, as a tuple.
@@ -502,10 +507,10 @@ class Podcast(object):
             of the python-feedgen library.
         """
         if not generator is None:
-            self.__rss_generator = self._program_name_to_str(generator, version, uri) + \
-                                   (" (using %s)" % self._feedgen_generator_str
+            self.__generator = self._program_name_to_str(generator, version, uri) + \
+                               (" (using %s)" % self._feedgen_generator_str
                                     if not exclude_feedgen else "")
-        return self.__rss_generator
+        return self.__generator
 
     def _program_name_to_str(self, generator=None, version=None, uri=None):
         return generator + \
@@ -539,8 +544,8 @@ class Podcast(object):
         """
 
         if not copyright is None:
-            self.__rss_copyright = copyright
-        return self.__rss_copyright
+            self.__copyright = copyright
+        return self.__copyright
 
 
     def description(self, description=None):
@@ -554,8 +559,8 @@ class Podcast(object):
 
         """
         if not description is None:
-            self.__rss_description = description
-        return self.__rss_description
+            self.__description = description
+        return self.__description
 
 
     def language(self, language=None):
@@ -572,8 +577,8 @@ class Podcast(object):
         :returns: Language of the feed.
         """
         if not language is None:
-            self.__rss_language = language
-        return self.__rss_language
+            self.__language = language
+        return self.__language
 
 
     @property
@@ -606,19 +611,19 @@ class Podcast(object):
             >>> p.authors = [Person("John Doe", "johndoe@example.org"),
             ...               Person("Mary Sue", "marysue@example.org")]
         """
-        return self.__rss_authors
+        return self.__authors
 
     @authors.setter
     def authors(self, authors):
         try:
-            self.__rss_authors = list(authors)
+            self.__authors = list(authors)
         except TypeError:
             raise TypeError("Only iterable types can be assigned to authors, "
                             "%s given. You must put your object in a list, "
                             "even if there's only one author." % authors)
 
 
-    def published(self, pubDate=None):
+    def publication_date(self, publication_date=None):
         """Set or get the publication date for the content in the channel. For
         example, the New York Times publishes on a daily basis, the publication
         date flips once every 24 hours. That's when the pubDate of the channel
@@ -636,22 +641,22 @@ class Podcast(object):
         If you want to omit the publication date from the feed, set pubDate
         to False.
 
-        :param pubDate: The publication date.
+        :param publication_date: The publication date.
         :returns: Publication date as datetime.datetime
         """
-        if not pubDate is None:
-            if isinstance(pubDate, string_types):
-                pubDate = dateutil.parser.parse(pubDate)
-            if pubDate is not False and not isinstance(pubDate, datetime):
+        if not publication_date is None:
+            if isinstance(publication_date, string_types):
+                publication_date = dateutil.parser.parse(publication_date)
+            if publication_date is not False and not isinstance(publication_date, datetime):
                 raise ValueError('Invalid datetime format')
-            elif pubDate is not False and pubDate.tzinfo is None:
+            elif publication_date is not False and publication_date.tzinfo is None:
                 raise ValueError('Datetime object has no timezone info')
-            self.__rss_pubDate = pubDate
+            self.__publication_date = publication_date
 
-        return self.__rss_pubDate
+        return self.__publication_date
 
 
-    def skipHours(self, hours=None, replace=False):
+    def skip_hours(self, hours=None, replace=False):
         """Set or get which hours feed readers don't need to refresh this feed.
 
         This method can be called with an hour or a list of hours. The hours are
@@ -663,9 +668,9 @@ class Podcast(object):
 
             >>> from feedgen.feed import Podcast
             >>> p = Podcast()
-            >>> p.skipHours(range(18, 24))
+            >>> p.skip_hours(range(18, 24))
             {18, 19, 20, 21, 22, 23}
-            >>> p.skipHours(range(8))
+            >>> p.skip_hours(range(8))
             {0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23}
 
         :param hours:   List of hours the feedreaders should not check the feed.
@@ -679,13 +684,13 @@ class Podcast(object):
             for h in hours:
                 if not h in range(24):
                     raise ValueError('Invalid hour %s' % h)
-            if replace or not self.__rss_skipHours:
-                self.__rss_skipHours = set()
-            self.__rss_skipHours |= set(hours)
-        return self.__rss_skipHours
+            if replace or not self.__skip_hours:
+                self.__skip_hours = set()
+            self.__skip_hours |= set(hours)
+        return self.__skip_hours
 
 
-    def skipDays(self, days=None, replace=False):
+    def skip_days(self, days=None, replace=False):
         """Set or get the value of skipDays, a hint for aggregators telling them
         which days they can skip.
 
@@ -704,39 +709,39 @@ class Podcast(object):
                 if not d in ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
                         'Friday', 'Saturday', 'Sunday']:
                     raise ValueError('Invalid day %s' % d)
-            if replace or not self.__rss_skipDays:
-                self.__rss_skipDays = set()
-            self.__rss_skipDays |= set(days)
-        return self.__rss_skipDays
+            if replace or not self.__skip_days:
+                self.__skip_days = set()
+            self.__skip_days |= set(days)
+        return self.__skip_days
 
 
-    def webMaster(self, webMaster=None):
+    def web_master(self, web_master=None):
         """Get and set the person responsible for technical issues relating to
         the feed.
 
-        :param webMaster: The person responsible for technical issues relating
+        :param web_master: The person responsible for technical issues relating
             to the feed. This instance of Person must have its email set.
-        :type webMaster: Person
+        :type web_master: Person
         :returns: The person responsible for technical issues relating to the
             feed.
         """
-        if webMaster is not None:
-            if (not hasattr(webMaster, "email")) or not webMaster.email:
+        if web_master is not None:
+            if (not hasattr(web_master, "email")) or not web_master.email:
                 raise ValueError("The webmaster must have an email attribute "
                                  "and it must be set and not empty.")
-            self.__rss_webMaster = webMaster
-        return self.__rss_webMaster
+            self.__web_master = web_master
+        return self.__web_master
 
-    def itunes_block(self, itunes_block=None):
+    def withhold_from_itunes(self, withhold_from_itunes=None):
         """Get or set the ITunes block attribute. Use this to prevent the entire
         podcast from appearing in the iTunes podcast directory.
 
-        :param itunes_block: Block the podcast.
+        :param withhold_from_itunes: Block the podcast.
         :returns: If the podcast is blocked.
         """
-        if not itunes_block is None:
-            self.__itunes_block = itunes_block
-        return self.__itunes_block
+        if not withhold_from_itunes is None:
+            self.__withhold_from_itunes = withhold_from_itunes
+        return self.__withhold_from_itunes
 
     def category(self, category=None):
         """Get or set the iTunes category, which appears in the category column
@@ -752,14 +757,14 @@ class Podcast(object):
             # Check that the category quacks like a duck
             if hasattr(category, "category") and \
                     hasattr(category, "subcategory"):
-                self.__itunes_category = category
+                self.__category = category
             else:
                 raise TypeError("A Category(-like) object must be used, got "
                                 "%s" % category)
-        return self.__itunes_category
+        return self.__category
 
 
-    def itunes_image(self, itunes_image=None):
+    def image(self, image=None):
         """Get or set the image for the podcast. This tag specifies the artwork
         for your podcast. Put the URL to the image in the href attribute. iTunes
         prefers square .jpg images that are at least 1400x1400 pixels, which is
@@ -777,22 +782,24 @@ class Podcast(object):
         same. The server hosting your cover art image must allow HTTP head
         requests for iTS to be able to automatically update your cover art.
 
-        :param itunes_image: Image of the podcast.
-        :type itunes_image: str
+        :param image: Image of the podcast.
+        :type image: str
         :returns: Image of the podcast.
         """
-        if not itunes_image is None:
-            lowercase_itunes_image = itunes_image.lower()
+        if not image is None:
+            lowercase_itunes_image = image.lower()
             if not (lowercase_itunes_image.endswith(('.jpg', '.jpeg', '.png'))):
-                raise ValueError('Image filename must end with png or jpg, not .%s' % itunes_image.split(".")[-1])
-            self.__itunes_image = itunes_image
-        return self.__itunes_image
+                raise ValueError('Image filename must end with png or jpg, not .%s' % image.split(".")[-1])
+            self.__image = image
+        return self.__image
 
-    def itunes_explicit(self, itunes_explicit=None):
+    def explicit(self, explicit=None):
         """Get or set whether this podcast may be inappropriate for children or
         not.
 
-        This is one of the mandatory attributes.
+        This is one of the mandatory attributes, and can seen as the
+        default for episodes. Individual episodes can be marked as explicit
+        or clean independently from the podcast.
 
         If you set this to ``True``, an "explicit" parental advisory
         graphic will appear next to your podcast artwork on the iTunes Store and
@@ -801,83 +808,105 @@ class Podcast(object):
         language or adult content is included anywhere in the episodes, and a
         "clean" graphic will appear.
 
-        :param itunes_explicit: True if explicit, False if not.
-        :type itunes_explicit: bool or None
+        :param explicit: True if explicit, False if not.
+        :type explicit: bool or None
         :returns: Whether the podcast contains explicit material or not.
         """
-        if not itunes_explicit is None:
-            self.__itunes_explicit = itunes_explicit
-        return self.__itunes_explicit
+        if not explicit is None:
+            self.__explicit = explicit
+        return self.__explicit
 
-    def itunes_complete(self, itunes_complete=None):
+    def complete(self, complete=None):
         """Get or set the itunes:complete value of the podcast. This tag can be
         used to indicate the completion of a podcast.
 
         If you populate this tag with "yes", you are indicating that no more
-        episodes will be added to the podcast. If the &lt;itunes:complete&gt; tag is
+        episodes will be added to the podcast. If the <itunes:complete> tag is
         present and has any other value (e.g. “no”), it will have no effect on
         the podcast.
 
-        :param itunes_complete: If the podcast is complete.
-        :type itunes_complete: bool or str
+        .. warning::
+
+            Setting this to ``True`` is the same as promising you'll never ever
+            release a new episode. Do NOT set this to ``True`` as long as
+            there's any chance at all that a new episode will be released
+            someday.
+
+        :param complete: If the podcast is complete.
+        :type complete: bool or str
         :returns: If the podcast is complete.
         """
-        if not itunes_complete is None:
-            if not itunes_complete in ('yes', 'no', '', True, False):
-                raise ValueError('Invalid value "%s" for complete tag' % itunes_complete)
-            if itunes_complete == True:
-                itunes_complete = 'yes'
-            if itunes_complete == False:
-                itunes_complete = 'no'
-            self.__itunes_complete = itunes_complete
-        return self.__itunes_complete
+        if not complete is None:
+            if not complete in ('yes', 'no', '', True, False):
+                raise ValueError('Invalid value "%s" for complete tag' % complete)
+            if complete == True:
+                complete = 'yes'
+            if complete == False:
+                complete = 'no'
+            self.__complete = complete
+        return self.__complete
 
-    def itunes_new_feed_url(self, itunes_new_feed_url=None):
-        """Get or set the new-feed-url property of the podcast. This tag allows
+    def new_feed_url(self, new_feed_url=None):
+        """Get or set the itunes-new-feed-url property of the podcast. This tag allows
         you to change the URL where the podcast feed is located
 
         After adding the tag to your old feed, you should maintain the old feed
         for 48 hours before retiring it. At that point, iTunes will have updated
         the directory with the new feed URL.
 
-        :param itunes_new_feed_url: New feed URL.
-        :type itunes_new_feed_url: str
+        .. warning::
+
+            iTunes supports this mechanic of changing your feed's location.
+            However, you cannot assume the same of everyone else who has
+            subscribed to this podcast. Therefore, you should NEVER stop
+            supporting an old location for your podcast. Instead, you should
+            create redirects so those with the old address are redirected to
+            your new address, and keep those up for all eternity.
+
+        .. warning::
+
+            Make sure the new URL here is correct, or else you're making
+            people switch to a URL that doesn't work!
+
+        :param new_feed_url: New feed URL.
+        :type new_feed_url: str
         :returns: New feed URL.
         """
-        if not itunes_new_feed_url is None:
-            self.__itunes_new_feed_url = itunes_new_feed_url
-        return self.__itunes_new_feed_url
+        if not new_feed_url is None:
+            self.__new_feed_url = new_feed_url
+        return self.__new_feed_url
 
-    def itunes_owner(self, owner):
-        """Get or set the itunes:owner of the podcast. This tag contains
-        information that will be used to contact the owner of the podcast for
+    def owner(self, owner):
+        """Get or set the owner of the podcast. This tag contains
+        information that iTunes will use to contact the owner of the podcast for
         communication specifically about the podcast. It will not be publicly
-        displayed.
+        displayed, but it will be in the feed source.
 
-        Both the name and email are required; you cannot use one or the other alone.
+        Both the name and email are required.
 
-        :param owner: The person which iTunes will contact when needed.
+        :param owner: The :class:`~feedgen.person.Person` which iTunes will
+            contact when needed.
         :returns: The owner of this feed, which iTunes will contact when needed.
         """
         if owner is not None:
             if owner.name and owner.email:
-                self.__itunes_owner = owner
+                self.__owner = owner
             else:
                 raise ValueError('Both name and email must be set.')
-        return self.__itunes_owner
+        return self.__owner
 
-    def itunes_subtitle(self, itunes_subtitle=None):
+    def subtitle(self, subtitle=None):
         """Get or set the itunes:subtitle value for the podcast. The contents of
         this tag are shown in the Description column in iTunes. The subtitle
         displays best if it is only a few words long.
 
-        :param itunes_subtitle: Subtitle of the podcast.
-        :type itunes_subtitle: str
+        :param subtitle: Subtitle of the podcast.
+        :type subtitle: str
         :returns: Subtitle of the podcast.
         """
-        if not itunes_subtitle is None:
-            self.__itunes_subtitle = itunes_subtitle
-        return self.__itunes_subtitle
+        if not subtitle is None:
+            self.__subtitle = subtitle
+        return self.__subtitle
 
     def feed_url(self, feed_url=None):
         """Get or set the URL which this feed is available at.
@@ -899,6 +928,6 @@ class Podcast(object):
                 raise ValueError("The feed url must be a valid URL, but it "
                                  "doesn't have a valid URL scheme "
                                  "(like for example http:// or https://)")
-            self.__self_link = feed_url
-        return self.__self_link
+            self.__feed_url = feed_url
+        return self.__feed_url
 

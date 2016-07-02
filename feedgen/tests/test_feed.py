@@ -65,11 +65,11 @@ class TestPodcast(unittest.TestCase):
                 protocol=self.cloudProtocol)
         fg.copyright(self.copyright)
         fg.authors.append(self.author)
-        fg.skipDays(self.skipDays)
-        fg.skipHours(self.skipHours)
-        fg.webMaster(self.webMaster)
+        fg.skip_days(self.skipDays)
+        fg.skip_hours(self.skipHours)
+        fg.web_master(self.webMaster)
         fg.feed_url(self.feedUrl)
-        fg.itunes_explicit(self.explicit)
+        fg.explicit(self.explicit)
 
         self.fg = fg
 
@@ -80,7 +80,7 @@ class TestPodcast(unittest.TestCase):
         assert fg.name() == self.title
 
         assert fg.authors[0] == self.author
-        assert fg.webMaster() == self.webMaster
+        assert fg.web_master() == self.webMaster
 
         assert fg.website() == self.linkHref
 
@@ -169,13 +169,13 @@ class TestPodcast(unittest.TestCase):
         assert getLastBuildDateElement(self.fg) is not None
 
         # Test that it respects my custom value
-        self.fg.updated(date)
+        self.fg.last_updated(date)
         lastBuildDate = getLastBuildDateElement(self.fg)
         assert lastBuildDate is not None
         assert dateutil.parser.parse(lastBuildDate.text) == date
 
         # Test that it is left out when set to False
-        self.fg.updated(False)
+        self.fg.last_updated(False)
         lastBuildDate = getLastBuildDateElement(self.fg)
         assert lastBuildDate is None
 
@@ -259,18 +259,18 @@ class TestPodcast(unittest.TestCase):
 
 
     def test_webMaster(self):
-        self.fg.webMaster(Person(None, "justan@email.address"))
+        self.fg.web_master(Person(None, "justan@email.address"))
         channel = self.fg._create_rss().find("channel")
-        assert channel.find("webMaster").text == self.fg.webMaster().email
+        assert channel.find("webMaster").text == self.fg.web_master().email
 
-        self.assertRaises(ValueError, self.fg.webMaster,
+        self.assertRaises(ValueError, self.fg.web_master,
                           Person("Mr. No Email Address"))
 
-        self.fg.webMaster(Person("Both a name", "and_an@email.com"))
+        self.fg.web_master(Person("Both a name", "and_an@email.com"))
         channel = self.fg._create_rss().find("channel")
         # Does webMaster follow the pattern "email (name)"?
-        self.assertEqual(self.fg.webMaster().email +
-                         " (" + self.fg.webMaster().name + ")",
+        self.assertEqual(self.fg.web_master().email +
+                         " (" + self.fg.web_master().name + ")",
                          channel.find("webMaster").text)
 
     def test_categoryWithoutSubcategory(self):
@@ -300,7 +300,7 @@ class TestPodcast(unittest.TestCase):
         self.assertRaises(TypeError, self.fg.category, c)
 
     def test_explicitIsExplicit(self):
-        self.fg.itunes_explicit(True)
+        self.fg.explicit(True)
         channel = self.fg._create_rss().find("channel")
         itunes_explicit = channel.find("{%s}explicit" % self.nsItunes)
         assert itunes_explicit is not None
@@ -309,7 +309,7 @@ class TestPodcast(unittest.TestCase):
             % itunes_explicit.text
 
     def test_explicitIsClean(self):
-        self.fg.itunes_explicit(False)
+        self.fg.explicit(False)
         channel = self.fg._create_rss().find("channel")
         itunes_explicit = channel.find("{%s}explicit" % self.nsItunes)
         assert itunes_explicit is not None
@@ -325,7 +325,7 @@ class TestPodcast(unittest.TestCase):
             "description",
             "title",
             "link",
-            "itunes_explicit",
+            "explicit",
         }
 
         for test_property in mandatory_properties:
@@ -336,8 +336,8 @@ class TestPodcast(unittest.TestCase):
                 fg.name(self.title)
             if test_property != "link":
                 fg.website(self.linkHref)
-            if test_property != "itunes_explicit":
-                fg.itunes_explicit(self.explicit)
+            if test_property != "explicit":
+                fg.explicit(self.explicit)
             try:
                 self.assertRaises(ValueError, fg._create_rss)
             except AssertionError as e:
