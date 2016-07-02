@@ -11,6 +11,7 @@ import unittest
 from lxml import etree
 
 from feedgen.person import Person
+from feedgen.category import Category
 from ..feed import Podcast
 import feedgen.version
 import datetime
@@ -268,6 +269,32 @@ class TestPodcast(unittest.TestCase):
         self.assertEqual(self.fg.webMaster().email +
                          " (" + self.fg.webMaster().name + ")",
                          channel.find("webMaster").text)
+
+    def test_categoryWithoutSubcategory(self):
+        c = Category("Arts")
+        self.fg.itunes_category(c)
+        channel = self.fg._create_rss().find("channel")
+        itunes_category = channel.find("{%s}category" % self.nsItunes)
+        assert itunes_category is not None
+
+        self.assertEqual(itunes_category.get("text"), c.category)
+
+        assert itunes_category.find("{%s}category" % self.nsItunes) is None
+
+    def test_categoryWithSubcategory(self):
+        c = Category("Arts", "Food")
+        self.fg.itunes_category(c)
+        channel = self.fg._create_rss().find("channel")
+        itunes_category = channel.find("{%s}category" % self.nsItunes)
+        assert itunes_category is not None
+        itunes_subcategory = itunes_category\
+            .find("{%s}category" % self.nsItunes)
+        assert itunes_subcategory is not None
+        self.assertEqual(itunes_subcategory.get("text"), c.subcategory)
+
+    def test_categoryChecks(self):
+        c = ("Arts", "Food")
+        self.assertRaises(TypeError, self.fg.itunes_category, c)
 
 if __name__ == '__main__':
     unittest.main()

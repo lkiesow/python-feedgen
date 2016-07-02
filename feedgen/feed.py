@@ -301,10 +301,10 @@ class Podcast(object):
 
         if self.__itunes_category:
             category = etree.SubElement(channel, '{%s}category' % ITUNES_NS)
-            category.attrib['text'] = self.__itunes_category['cat']
-            if self.__itunes_category.get('sub'):
+            category.attrib['text'] = self.__itunes_category.category
+            if self.__itunes_category.subcategory:
                 subcategory = etree.SubElement(category, '{%s}category' % ITUNES_NS)
-                subcategory.attrib['text'] = self.__itunes_category['sub']
+                subcategory.attrib['text'] = self.__itunes_category.subcategory
 
         if self.__itunes_image:
             image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
@@ -731,60 +731,26 @@ class Podcast(object):
             self.__itunes_block = itunes_block
         return self.__itunes_block
 
-    def itunes_category(self, itunes_category=None, itunes_subcategory=None):
-        """Get or set the ITunes category which appears in the category column
+    def itunes_category(self, category=None):
+        """Get or set the iTunes category, which appears in the category column
         and in iTunes Store Browser.
 
-        The (sub-)category has to be one from the values defined at
-        http://www.apple.com/itunes/podcasts/specs.html#categories
+        Use the :class:`feedgen.category.Category` class.
 
-        :param itunes_category: Category of the podcast, unescaped.
-        :type itunes_category: str
-        :param itunes_subcategory: Subcategory of the podcast, unescaped. The subcategory need not be set.
-        :type itunes_subcategory: str
-        :returns: Dictionary which has category with key 'cat', and optionally subcategory with key 'sub'.
+        :param category: This podcast's category.
+        :type category: feedgen.category.Category or None
+        :returns: This podcast's category.
         """
-        if not itunes_category is None:
-            if not itunes_category in self._itunes_categories.keys():
-                raise ValueError('Invalid category %s' % itunes_category)
-            cat = {'cat': itunes_category}
-            if not itunes_subcategory is None:
-                if not itunes_subcategory in self._itunes_categories[itunes_category]:
-                    raise ValueError('Invalid subcategory "%s" under category "%s"'
-                                     % (itunes_subcategory, itunes_category))
-                cat['sub'] = itunes_subcategory
-            self.__itunes_category = cat
+        if not category is None:
+            # Check that the category quacks like a duck
+            if hasattr(category, "category") and \
+                    hasattr(category, "subcategory"):
+                self.__itunes_category = category
+            else:
+                raise TypeError("A Category(-like) object must be used, got "
+                                "%s" % category)
         return self.__itunes_category
 
-    _itunes_categories = {
-        'Arts': ['Design', 'Fashion & Beauty', 'Food', 'Literature',
-                 'Performing Arts', 'Visual Arts'],
-        'Business': ['Business News', 'Careers', 'Investing',
-                     'Management & Marketing', 'Shopping'],
-        'Comedy': [],
-        'Education': ['Education', 'Education Technology',
-                      'Higher Education', 'K-12', 'Language Courses', 'Training'],
-        'Games & Hobbies': ['Automotive', 'Aviation', 'Hobbies',
-                            'Other Games', 'Video Games'],
-        'Government & Organizations': ['Local', 'National', 'Non-Profit',
-                                       'Regional'],
-        'Health': ['Alternative Health', 'Fitness & Nutrition', 'Self-Help',
-                   'Sexuality'],
-        'Kids & Family': [],
-        'Music': [],
-        'News & Politics': [],
-        'Religion & Spirituality': ['Buddhism', 'Christianity', 'Hinduism',
-                                    'Islam', 'Judaism', 'Other', 'Spirituality'],
-        'Science & Medicine': ['Medicine', 'Natural Sciences',
-                               'Social Sciences'],
-        'Society & Culture': ['History', 'Personal Journals', 'Philosophy',
-                              'Places & Travel'],
-        'Sports & Recreation': ['Amateur', 'College & High School',
-                                'Outdoor', 'Professional'],
-        'Technology': ['Gadgets', 'Tech News', 'Podcasting',
-                       'Software How-To'],
-        'TV & Film': []
-    }
 
     def itunes_image(self, itunes_image=None):
         """Get or set the image for the podcast. This tag specifies the artwork
