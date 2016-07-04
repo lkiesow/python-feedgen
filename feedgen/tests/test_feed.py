@@ -12,7 +12,7 @@ from lxml import etree
 
 from feedgen.person import Person
 from feedgen.category import Category
-from ..feed import Podcast
+from ..podcast import Podcast
 import feedgen.version
 import datetime
 import dateutil.tz

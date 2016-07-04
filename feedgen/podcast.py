@@ -13,7 +13,7 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.item import BaseEpisode
+from feedgen.episode import BaseEpisode
 from feedgen.util import ensure_format, formatRFC2822, listToHumanreadableStr
 from feedgen.person import Person
 import feedgen.version
@@ -119,7 +119,7 @@ class Podcast(object):
         Example of use::
 
             >>> # Create new podcast
-            >>> from feedgen.feed import Podcast
+            >>> from feedgen.podcast import Podcast
             >>> p = Podcast()
 
             >>> # Here's how you would create a new episode object, the OK way
@@ -666,7 +666,7 @@ class Podcast(object):
 
         For example, to skip hours between 18 and 7::
 
-            >>> from feedgen.feed import Podcast
+            >>> from feedgen.podcast import Podcast
             >>> p = Podcast()
             >>> p.skip_hours(range(18, 24))
             {18, 19, 20, 21, 22, 23}

@@ -11,7 +11,7 @@ from lxml import etree
 
 from feedgen.person import Person
 from feedgen.media import Media
-from ..feed import Podcast
+from ..podcast import Podcast
 import datetime
 import pytz
 from dateutil.parser import parse as parsedate

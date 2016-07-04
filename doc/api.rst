@@ -26,8 +26,8 @@ API Documentation
 
 .. autosummary::
 
-   feedgen.feed.Podcast
-   feedgen.item.BaseEpisode
+   feedgen.podcast.Podcast
+   feedgen.episode.BaseEpisode
    feedgen.person.Person
    feedgen.media.Media
    feedgen.category.Category
@@ -37,8 +37,8 @@ API Documentation
    :maxdepth: 2
    :hidden:
 
-   api.feed
-   api.item
+   api.podcast
+   api.episode
    api.person
    api.media
    api.category

@@ -19,19 +19,19 @@ Mandatory properties
     p.website = "https://example.org"
     p.explicit = True
 
-Those four properties, :attr:`~feedgen.feed.Podcast.name`,
-:attr:`~feedgen.feed.Podcast.description`,
-:attr:`~feedgen.feed.Podcast.explicit` and
-:attr:`~feedgen.feed.Podcast.website`, are actually
+Those four properties, :attr:`~feedgen.podcast.Podcast.name`,
+:attr:`~feedgen.podcast.Podcast.description`,
+:attr:`~feedgen.podcast.Podcast.explicit` and
+:attr:`~feedgen.podcast.Podcast.website`, are actually
 the only four **mandatory** properties of
-:class:`~feedgen.feed.Podcast`. A summary of them:
+:class:`~feedgen.podcast.Podcast`. A summary of them:
 
 .. autosummary::
 
-   ~feedgen.feed.Podcast.name
-   ~feedgen.feed.Podcast.description
-   ~feedgen.feed.Podcast.website
-   ~feedgen.feed.Podcast.explicit
+   ~feedgen.podcast.Podcast.name
+   ~feedgen.podcast.Podcast.description
+   ~feedgen.podcast.Podcast.website
+   ~feedgen.podcast.Podcast.explicit
 
 Image
 ~~~~~
@@ -40,7 +40,7 @@ A podcast's image is worth special attention::
 
     p.image = "https://example.com/static/example_podcast.png"
 
-.. automethod:: feedgen.feed.Podcast.image
+.. automethod:: feedgen.podcast.Podcast.image
    :noindex:
 
 Even though the image *technically* is optional, you won't reach people without it.
@@ -49,7 +49,7 @@ Optional properties
 ~~~~~~~~~~~~~~~~~~~
 
 There are plenty of other properties that can be used with
-:class:`feedgen.feed.Podcast <feedgen.Podcast>`:
+:class:`feedgen.podcast.Podcast <feedgen.Podcast>`:
 
 
 Commonly used
@@ -66,12 +66,12 @@ Commonly used
 
 .. autosummary::
 
-   ~feedgen.feed.Podcast.copyright
-   ~feedgen.feed.Podcast.language
-   ~feedgen.feed.Podcast.authors
-   ~feedgen.feed.Podcast.feed_url
-   ~feedgen.feed.Podcast.category
-   ~feedgen.feed.Podcast.owner
+   ~feedgen.podcast.Podcast.copyright
+   ~feedgen.podcast.Podcast.language
+   ~feedgen.podcast.Podcast.authors
+   ~feedgen.podcast.Podcast.feed_url
+   ~feedgen.podcast.Podcast.category
+   ~feedgen.podcast.Podcast.owner
 
 
 Less commonly used
@@ -101,15 +101,15 @@ full description.
 
 .. autosummary::
 
-   ~feedgen.feed.Podcast.cloud
-   ~feedgen.feed.Podcast.last_updated
-   ~feedgen.feed.Podcast.publication_date
-   ~feedgen.feed.Podcast.skip_days
-   ~feedgen.feed.Podcast.skip_hours
-   ~feedgen.feed.Podcast.web_master
-   ~feedgen.feed.Podcast.new_feed_url
-   ~feedgen.feed.Podcast.complete
-   ~feedgen.feed.Podcast.withhold_from_itunes
+   ~feedgen.podcast.Podcast.cloud
+   ~feedgen.podcast.Podcast.last_updated
+   ~feedgen.podcast.Podcast.publication_date
+   ~feedgen.podcast.Podcast.skip_days
+   ~feedgen.podcast.Podcast.skip_hours
+   ~feedgen.podcast.Podcast.web_master
+   ~feedgen.podcast.Podcast.new_feed_url
+   ~feedgen.podcast.Podcast.complete
+   ~feedgen.podcast.Podcast.withhold_from_itunes
 
 
 Next step is :doc:`part_2`.
