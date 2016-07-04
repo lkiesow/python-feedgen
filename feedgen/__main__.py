@@ -42,10 +42,7 @@ def main():
     # Remember what type of feed the user wants
     arg = sys.argv[1]
 
-    from feedgen.podcast import Podcast
-    from feedgen.person import Person
-    from feedgen.media import Media
-    from feedgen.category import Category
+    from feedgen import Podcast, Person, Media, Category
     # Initialize the feed
     p = Podcast()
     p.name('Testfeed')

@@ -70,8 +70,8 @@ bring it there, so it can benefit **everyone**.
 Summary of changes
 ------------------
 
-* ``FeedGenerator`` is renamed to :class:`~feedgen.podcast.Podcast` and ``FeedItem`` is accessed
-  at ``Podcast.Episode`` (or directly: :class:`~feedgen.episode.BaseEpisode`).
+* ``FeedGenerator`` is renamed to :class:`~feedgen.Podcast` and ``FeedItem`` is accessed
+  at ``Podcast.Episode`` (or directly: :class:`~feedgen.BaseEpisode`).
 * Support for ATOM removed.
 * Move from using getter and setter methods to using properties, which you can
   assign just like you would assign any other property.
@@ -91,6 +91,6 @@ Summary of changes
 * Rename the remaining properties so their names don't necessarily match the RSS
   elements they map to. Instead, the names should be descriptive and easy to
   understand.
-* Add shorthand for generating the RSS: Just try to converting your :class:`~feedgen.podcast.Podcast`
+* Add shorthand for generating the RSS: Just try to converting your :class:`~feedgen.Podcast`
   object to :obj:`str`!
 * Improve the documentation

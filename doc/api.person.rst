@@ -1,6 +1,6 @@
-=====================
-feedgen.person.Person
-=====================
+==============
+feedgen.Person
+==============
 
-.. autoclass:: feedgen.person.Person
+.. autoclass:: feedgen.Person
    :members:

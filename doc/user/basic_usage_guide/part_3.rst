@@ -9,28 +9,28 @@ take the final step::
     # Print to stdout, just as an example
     print(rssfeed)
 
-If you're okay with the default parameters of :meth:`feedgen.podcast.Podcast.rss_str`,
-you can use a shortcut by converting :class:`~feedgen.podcast.Podcast` to :obj:`str`::
+If you're okay with the default parameters of :meth:`feedgen.Podcast.rss_str`,
+you can use a shortcut by converting :class:`~feedgen.Podcast` to :obj:`str`::
 
     rssfeed = str(p)
     # Or let print convert to str for you
     print(p)
 
-Doing so is the same as calling :meth:`feedgen.podcast.Podcast.rss_str` with no
+Doing so is the same as calling :meth:`feedgen.Podcast.rss_str` with no
 parameters.
 
 .. autosummary::
 
-    ~feedgen.podcast.Podcast.rss_str
+    ~feedgen.Podcast.rss_str
 
-You may also write the feed to a file directly, using :meth:`feedgen.podcast.Podcast.rss_file`::
+You may also write the feed to a file directly, using :meth:`feedgen.Podcast.rss_file`::
 
     fg.rss_file('rss.xml', minimize=True)
 
 
 .. autosummary::
 
-    ~feedgen.podcast.Podcast.rss_file
+    ~feedgen.Podcast.rss_file
 
 This concludes the basic usage guide. You might want to look at the
 :doc:`../example` or the :doc:`/api`.

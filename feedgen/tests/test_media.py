@@ -2,8 +2,8 @@ from future.utils import iteritems
 import unittest
 import warnings
 
-from feedgen.media import Media
-from feedgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
+from feedgen import Media, NotSupportedByItunesWarning
+
 
 class TestMedia(unittest.TestCase):
     def setUp(self):

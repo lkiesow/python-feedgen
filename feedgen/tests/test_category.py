@@ -1,6 +1,6 @@
 import unittest
 
-from feedgen.category import Category
+from feedgen import Category
 
 
 class TestCategory(unittest.TestCase):

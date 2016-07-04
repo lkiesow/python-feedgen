@@ -31,10 +31,10 @@ class Podcast(object):
 
     The following attributes are mandatory:
 
-    * :attr:`~feedgen.podcast.Podcast.name`
-    * :attr:`~feedgen.podcast.Podcast.website`
-    * :attr:`~feedgen.podcast.Podcast.description`
-    * :attr:`~feedgen.podcast.Podcast.explicit`
+    * :attr:`~feedgen.Podcast.name`
+    * :attr:`~feedgen.Podcast.website`
+    * :attr:`~feedgen.Podcast.description`
+    * :attr:`~feedgen.Podcast.explicit`
     """
 
 
@@ -119,7 +119,7 @@ class Podcast(object):
         Example of use::
 
             >>> # Create new podcast
-            >>> from feedgen.podcast import Podcast
+            >>> from feedgen import Podcast
             >>> p = Podcast()
 
             >>> # Here's how you would create a new episode object, the OK way
@@ -666,7 +666,7 @@ class Podcast(object):
 
         For example, to skip hours between 18 and 7::
 
-            >>> from feedgen.podcast import Podcast
+            >>> from feedgen import Podcast
             >>> p = Podcast()
             >>> p.skip_hours(range(18, 24))
             {18, 19, 20, 21, 22, 23}

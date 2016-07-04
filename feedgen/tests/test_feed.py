@@ -10,9 +10,7 @@ A basic feed does not contain entries so far.
 import unittest
 from lxml import etree
 
-from feedgen.person import Person
-from feedgen.category import Category
-from ..podcast import Podcast
+from feedgen import Person, Category, Podcast
 import feedgen.version
 import datetime
 import dateutil.tz

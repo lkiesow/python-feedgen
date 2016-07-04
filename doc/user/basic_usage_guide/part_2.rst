@@ -11,7 +11,7 @@ straight-forward::
     my_episode = Episode()
     p.episodes.append(my_episode)
 
-There is a convenience method called :meth:`Podcast.add_episode <feedgen.podcast.Podcast.add_episode>`
+There is a convenience method called :meth:`Podcast.add_episode <feedgen.Podcast.add_episode>`
 which optionally creates a new instance of :class:`~feedgen.episode.Episode`, adds it to the podcast
 and returns it, allowing you to assign it to a variable::
 
@@ -44,10 +44,10 @@ They're all pretty obvious:
 
 .. autosummary::
 
-   ~feedgen.episode.BaseEpisode.title
-   ~feedgen.episode.BaseEpisode.subtitle
-   ~feedgen.episode.BaseEpisode.summary
-   ~feedgen.episode.BaseEpisode.long_summary
+   ~feedgen.BaseEpisode.title
+   ~feedgen.BaseEpisode.subtitle
+   ~feedgen.BaseEpisode.summary
+   ~feedgen.BaseEpisode.long_summary
 
 
 Enclosing media
@@ -93,7 +93,7 @@ and listening.
 
 .. autosummary::
 
-   ~feedgen.episode.BaseEpisode.media
+   ~feedgen.BaseEpisode.media
    ~feedgen.media.Media
 
 
@@ -111,7 +111,7 @@ That is, given the example above, the id of ``my_episode`` would be
    An episode's ID should never change. Therefore, **if you don't set id, the
    media URL must never change either**.
 
-.. autosummary:: ~feedgen.episode.BaseEpisode.id
+.. autosummary:: ~feedgen.BaseEpisode.id
 
 
 Episode's publication date
@@ -135,7 +135,7 @@ will get a new episode which appears to have existed for longer than it has.
    my_episode.publication_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
 
-.. autosummary:: ~feedgen.episode.BaseEpisode.publication_date
+.. autosummary:: ~feedgen.BaseEpisode.publication_date
 
 
 The Link
@@ -144,7 +144,7 @@ The Link
 If you're publishing articles along with your podcast episodes, you should
 link to the relevant article. Examples can be linking to the sound on
 SoundCloud or the post on your website. Usually, your
-listeners expect to find the entirety of the :attr:`~feedgen.episode.BaseEpisode.summary` by following
+listeners expect to find the entirety of the :attr:`~feedgen.BaseEpisode.summary` by following
 the link. ::
 
     my_episode.link = "http://example.com/article/2016/05/18/Best-example"
@@ -154,7 +154,7 @@ the link. ::
    If you don't have anything to link to, then that's fine as well. No link is
    better than a disappointing link.
 
-.. autosummary:: ~feedgen.episode.BaseEpisode.link
+.. autosummary:: ~feedgen.BaseEpisode.link
 
 
 The Authors
@@ -163,12 +163,12 @@ The Authors
 .. note::
 
    Some of those attributes correspond to attributes found in
-   :class:`~feedgen.podcast.Podcast`. In such cases, you should only set those
+   :class:`~feedgen.Podcast`. In such cases, you should only set those
    attributes at the episode level if they **differ** from their value at the
    podcast level.
 
-Normally, the attributes :attr:`Podcast.authors <feedgen.podcast.Podcast.authors>`
-and :attr:`Podcast.web_master <feedgen.podcast.Podcast.web_master>` (if set) are
+Normally, the attributes :attr:`Podcast.authors <feedgen.Podcast.authors>`
+and :attr:`Podcast.web_master <feedgen.Podcast.web_master>` (if set) are
 used to determine the authors of an episode. Thus, if all your episodes have
 the same authors, you should just set it at the podcast level.
 
@@ -181,7 +181,7 @@ You can even have multiple authors::
 
      my_episode.authors = [Person("Joe Bob"), Person("Alice Bob")]
 
-.. autosummary:: ~feedgen.episode.BaseEpisode.authors
+.. autosummary:: ~feedgen.BaseEpisode.authors
 
 
 Less used attributes
@@ -198,10 +198,10 @@ Less used attributes
 
 .. autosummary::
 
-   ~feedgen.episode.BaseEpisode.image
-   ~feedgen.episode.BaseEpisode.explicit
-   ~feedgen.episode.BaseEpisode.is_closed_captioned
-   ~feedgen.episode.BaseEpisode.position
-   ~feedgen.episode.BaseEpisode.withhold_from_itunes
+   ~feedgen.BaseEpisode.image
+   ~feedgen.BaseEpisode.explicit
+   ~feedgen.BaseEpisode.is_closed_captioned
+   ~feedgen.BaseEpisode.position
+   ~feedgen.BaseEpisode.withhold_from_itunes
 
 The final step is :doc:`part_3`

@@ -1,5 +1,5 @@
 import unittest
-from ..person import Person
+from feedgen import Person
 
 class TestPerson(unittest.TestCase):
     def setUp(self):

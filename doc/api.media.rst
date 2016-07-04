@@ -1,5 +1,5 @@
-feedgen.media.Media
-===================
+feedgen.Media
+=============
 
-.. autoclass:: feedgen.media.Media
+.. autoclass:: feedgen.Media
    :members:

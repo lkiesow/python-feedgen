@@ -11,7 +11,7 @@ PodcastGenerator
 Wouldn't it be nice if there was a clean, simple library which could help you
 generate podcast RSS feeds from your Python code? Well, today's your lucky day!
 
-   >>> from feedgen import Podcast
+   >>> from feedgen import Podcast, Episode, Media
    >>> # Create the Podcast
    >>> p = Podcast(
           name="My Awesome Podcast",
@@ -21,13 +21,13 @@ generate podcast RSS feeds from your Python code? Well, today's your lucky day!
        )
    >>> # Add some episodes
    >>> p.episodes += [
-          p.Episode(title="PodcastGenerator rocks!",
-                    media=p.Media("http://example.org/ep1.mp3", 11932295),
-                    summary="I found an awesome library for creating podcasts"),
-          p.Episode(title="Heard about clint?",
-                    media=p.Media("http://example.org/ep2.mp3", 15363464),
-                    summary="The man behind Requests made something useful "
-                            "for us command-line lovers."
+          Episode(title="PodcastGenerator rocks!",
+                  media=Media("http://example.org/ep1.mp3", 11932295),
+                  summary="I found an awesome library for creating podcasts"),
+          Episode(title="Heard about clint?",
+                  media=Media("http://example.org/ep2.mp3", 15363464),
+                  summary="The man behind Requests made something useful "
+                          "for us command-line lovers."
        ]
    >>> # Generate the RSS feed
    >>> rss = str(p)

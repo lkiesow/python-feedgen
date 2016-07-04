@@ -26,11 +26,11 @@ API Documentation
 
 .. autosummary::
 
-   feedgen.podcast.Podcast
-   feedgen.episode.BaseEpisode
-   feedgen.person.Person
-   feedgen.media.Media
-   feedgen.category.Category
+   feedgen.Podcast
+   feedgen.BaseEpisode
+   feedgen.Person
+   feedgen.Media
+   feedgen.Category
    feedgen.util
 
 .. toctree::

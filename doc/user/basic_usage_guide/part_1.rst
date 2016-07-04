@@ -19,19 +19,19 @@ Mandatory properties
     p.website = "https://example.org"
     p.explicit = True
 
-Those four properties, :attr:`~feedgen.podcast.Podcast.name`,
-:attr:`~feedgen.podcast.Podcast.description`,
-:attr:`~feedgen.podcast.Podcast.explicit` and
-:attr:`~feedgen.podcast.Podcast.website`, are actually
+Those four properties, :attr:`~feedgen.Podcast.name`,
+:attr:`~feedgen.Podcast.description`,
+:attr:`~feedgen.Podcast.explicit` and
+:attr:`~feedgen.Podcast.website`, are actually
 the only four **mandatory** properties of
-:class:`~feedgen.podcast.Podcast`. A summary of them:
+:class:`~feedgen.Podcast`. A summary of them:
 
 .. autosummary::
 
-   ~feedgen.podcast.Podcast.name
-   ~feedgen.podcast.Podcast.description
-   ~feedgen.podcast.Podcast.website
-   ~feedgen.podcast.Podcast.explicit
+   ~feedgen.Podcast.name
+   ~feedgen.Podcast.description
+   ~feedgen.Podcast.website
+   ~feedgen.Podcast.explicit
 
 Image
 ~~~~~
@@ -40,7 +40,7 @@ A podcast's image is worth special attention::
 
     p.image = "https://example.com/static/example_podcast.png"
 
-.. automethod:: feedgen.podcast.Podcast.image
+.. automethod:: feedgen.Podcast.image
    :noindex:
 
 Even though the image *technically* is optional, you won't reach people without it.
@@ -49,7 +49,7 @@ Optional properties
 ~~~~~~~~~~~~~~~~~~~
 
 There are plenty of other properties that can be used with
-:class:`feedgen.podcast.Podcast <feedgen.Podcast>`:
+:class:`feedgen.Podcast <feedgen.Podcast>`:
 
 
 Commonly used
@@ -66,12 +66,12 @@ Commonly used
 
 .. autosummary::
 
-   ~feedgen.podcast.Podcast.copyright
-   ~feedgen.podcast.Podcast.language
-   ~feedgen.podcast.Podcast.authors
-   ~feedgen.podcast.Podcast.feed_url
-   ~feedgen.podcast.Podcast.category
-   ~feedgen.podcast.Podcast.owner
+   ~feedgen.Podcast.copyright
+   ~feedgen.Podcast.language
+   ~feedgen.Podcast.authors
+   ~feedgen.Podcast.feed_url
+   ~feedgen.Podcast.category
+   ~feedgen.Podcast.owner
 
 
 Less commonly used
@@ -101,15 +101,15 @@ full description.
 
 .. autosummary::
 
-   ~feedgen.podcast.Podcast.cloud
-   ~feedgen.podcast.Podcast.last_updated
-   ~feedgen.podcast.Podcast.publication_date
-   ~feedgen.podcast.Podcast.skip_days
-   ~feedgen.podcast.Podcast.skip_hours
-   ~feedgen.podcast.Podcast.web_master
-   ~feedgen.podcast.Podcast.new_feed_url
-   ~feedgen.podcast.Podcast.complete
-   ~feedgen.podcast.Podcast.withhold_from_itunes
+   ~feedgen.Podcast.cloud
+   ~feedgen.Podcast.last_updated
+   ~feedgen.Podcast.publication_date
+   ~feedgen.Podcast.skip_days
+   ~feedgen.Podcast.skip_hours
+   ~feedgen.Podcast.web_master
+   ~feedgen.Podcast.new_feed_url
+   ~feedgen.Podcast.complete
+   ~feedgen.Podcast.withhold_from_itunes
 
 
 Next step is :doc:`part_2`.
