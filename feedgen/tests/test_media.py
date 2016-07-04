@@ -155,3 +155,36 @@ class TestMedia(unittest.TestCase):
 
         for (str_size, expected_size) in iteritems(sizes):
             self.assertEqual(expected_size, Media._str_to_bytes(str_size))
+
+    def test_createFromServerResponse(self):
+        url = self.url
+        type = self.type
+        size = self.size
+
+        class MyLittleRequests(object):
+            @staticmethod
+            def head(*args, **kwargs):
+                assert args[0] == url
+                assert kwargs['allow_redirects'] == True
+                assert 'timeout' in kwargs
+                assert 'headers' in kwargs
+                assert 'User-Agent' in kwargs['headers']
+
+                class MyLittleResponse(object):
+                    headers = {
+                        'Content-Type': type,
+                        'Content-Length': size,
+                    }
+
+                    @staticmethod
+                    def raise_for_status():
+                        pass
+
+                return MyLittleResponse
+
+        m = Media.create_from_server_response(MyLittleRequests, url)
+        self.assertEqual(m.url, url)
+        self.assertEqual(m.size, size)
+        self.assertEqual(m.type, type)
+
+
