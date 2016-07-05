@@ -45,8 +45,8 @@ class TestPodcast(unittest.TestCase):
         self.contributor = {'name':"Contributor Name", 'email': 'Contributor email'}
         self.copyright = "The copyright notice"
         self.docs = 'http://www.rssboard.org/rss-specification'
-        self.skipDays = 'Tuesday'
-        self.skipHours = 23
+        self.skipDays = {'Tuesday'}
+        self.skipHours = {23}
 
         self.explicit = False
 
@@ -54,20 +54,19 @@ class TestPodcast(unittest.TestCase):
 
         self.webMaster = Person(email='webmaster@example.com')
 
-        fg.name(self.title)
-        fg.website(href=self.linkHref)
-        fg.description(self.description)
-        fg.language(self.language)
-        fg.cloud(domain=self.cloudDomain, port=self.cloudPort,
-                path=self.cloudPath, registerProcedure=self.cloudRegisterProcedure,
-                protocol=self.cloudProtocol)
-        fg.copyright(self.copyright)
+        fg.name = self.title
+        fg.website = self.linkHref
+        fg.description = self.description
+        fg.language = self.language
+        fg.cloud = (self.cloudDomain, self.cloudPort, self.cloudPath,
+                    self.cloudRegisterProcedure, self.cloudProtocol)
+        fg.copyright = self.copyright
         fg.authors.append(self.author)
-        fg.skip_days(self.skipDays)
-        fg.skip_hours(self.skipHours)
-        fg.web_master(self.webMaster)
-        fg.feed_url(self.feedUrl)
-        fg.explicit(self.explicit)
+        fg.skip_days = self.skipDays
+        fg.skip_hours = self.skipHours
+        fg.web_master = self.webMaster
+        fg.feed_url = self.feedUrl
+        fg.explicit = self.explicit
 
         self.fg = fg
 
@@ -75,17 +74,17 @@ class TestPodcast(unittest.TestCase):
     def test_baseFeed(self):
         fg = self.fg
 
-        assert fg.name() == self.title
+        assert fg.name == self.title
 
         assert fg.authors[0] == self.author
-        assert fg.web_master() == self.webMaster
+        assert fg.web_master == self.webMaster
 
-        assert fg.website() == self.linkHref
+        assert fg.website == self.linkHref
 
-        assert fg.description() == self.description
+        assert fg.description == self.description
 
-        assert fg.language() == self.language
-        assert fg.feed_url() == self.feedUrl
+        assert fg.language == self.language
+        assert fg.feed_url == self.feedUrl
 
 
     def test_rssFeedFile(self):
@@ -126,8 +125,8 @@ class TestPodcast(unittest.TestCase):
         assert channel.find("copyright").text == self.copyright
         assert channel.find("docs").text == self.docs
         assert self.author.email in channel.find("managingEditor").text
-        assert channel.find("skipDays").find("day").text == self.skipDays
-        assert int(channel.find("skipHours").find("hour").text) == self.skipHours
+        assert channel.find("skipDays").find("day").text in self.skipDays
+        assert int(channel.find("skipHours").find("hour").text) in self.skipHours
         assert self.webMaster.email in channel.find("webMaster").text
         assert channel.find("{%s}link" % nsAtom).get('href') == self.feedUrl
         assert channel.find("{%s}link" % nsAtom).get('rel') == 'self'
@@ -135,17 +134,37 @@ class TestPodcast(unittest.TestCase):
                'application/rss+xml'
 
     def test_feedUrlValidation(self):
-        self.assertRaises(ValueError, self.fg.feed_url, "example.com/feed.rss")
+        self.assertRaises(ValueError, setattr, self.fg, "feed_url",
+                          "example.com/feed.rss")
 
     def test_generator(self):
         software_name = "My Awesome Software"
-        self.fg.generator(software_name)
+        software_version = (1, 0)
+        software_url = "http://example.com/awesomesoft/"
+
+        # Using set_generator, text includes python-feedgen
+        self.fg.set_generator(software_name)
         rss = self.fg._create_rss()
         generator = rss.find("channel").find("generator").text
         assert software_name in generator
         assert self.programname in generator
 
-        self.fg.generator(software_name, exclude_feedgen=True)
+        # Using set_generator, text excludes python-feedgen
+        self.fg.set_generator(software_name,  exclude_feedgen=True)
+        generator = self.fg._create_rss().find("channel").find("generator").text
+        assert software_name in generator
+        assert self.programname not in generator
+
+        # Using set_generator, text includes name, version and url
+        self.fg.set_generator(software_name, software_version, software_url)
+        generator = self.fg._create_rss().find("channel").find("generator").text
+        assert software_name in generator
+        assert str(software_version[0]) in generator
+        assert str(software_version[1]) in generator
+        assert software_url in generator
+
+        # Using generator directly, text excludes python-feedgen
+        self.fg.generator = software_name
         generator = self.fg._create_rss().find("channel").find("generator").text
         assert software_name in generator
         assert self.programname not in generator
@@ -167,13 +186,13 @@ class TestPodcast(unittest.TestCase):
         assert getLastBuildDateElement(self.fg) is not None
 
         # Test that it respects my custom value
-        self.fg.last_updated(date)
+        self.fg.last_updated = date
         lastBuildDate = getLastBuildDateElement(self.fg)
         assert lastBuildDate is not None
         assert dateutil.parser.parse(lastBuildDate.text) == date
 
         # Test that it is left out when set to False
-        self.fg.last_updated(False)
+        self.fg.last_updated = False
         lastBuildDate = getLastBuildDateElement(self.fg)
         assert lastBuildDate is None
 
@@ -257,23 +276,23 @@ class TestPodcast(unittest.TestCase):
 
 
     def test_webMaster(self):
-        self.fg.web_master(Person(None, "justan@email.address"))
+        self.fg.web_master = Person(None, "justan@email.address")
         channel = self.fg._create_rss().find("channel")
-        assert channel.find("webMaster").text == self.fg.web_master().email
+        assert channel.find("webMaster").text == self.fg.web_master.email
 
-        self.assertRaises(ValueError, self.fg.web_master,
+        self.assertRaises(ValueError, setattr, self.fg, "web_master",
                           Person("Mr. No Email Address"))
 
-        self.fg.web_master(Person("Both a name", "and_an@email.com"))
+        self.fg.web_master = Person("Both a name", "and_an@email.com")
         channel = self.fg._create_rss().find("channel")
         # Does webMaster follow the pattern "email (name)"?
-        self.assertEqual(self.fg.web_master().email +
-                         " (" + self.fg.web_master().name + ")",
+        self.assertEqual(self.fg.web_master.email +
+                         " (" + self.fg.web_master.name + ")",
                          channel.find("webMaster").text)
 
     def test_categoryWithoutSubcategory(self):
         c = Category("Arts")
-        self.fg.category(c)
+        self.fg.category = c
         channel = self.fg._create_rss().find("channel")
         itunes_category = channel.find("{%s}category" % self.nsItunes)
         assert itunes_category is not None
@@ -284,7 +303,7 @@ class TestPodcast(unittest.TestCase):
 
     def test_categoryWithSubcategory(self):
         c = Category("Arts", "Food")
-        self.fg.category(c)
+        self.fg.category = c
         channel = self.fg._create_rss().find("channel")
         itunes_category = channel.find("{%s}category" % self.nsItunes)
         assert itunes_category is not None
@@ -295,10 +314,10 @@ class TestPodcast(unittest.TestCase):
 
     def test_categoryChecks(self):
         c = ("Arts", "Food")
-        self.assertRaises(TypeError, self.fg.category, c)
+        self.assertRaises(TypeError, setattr, self.fg, "category", c)
 
     def test_explicitIsExplicit(self):
-        self.fg.explicit(True)
+        self.fg.explicit = True
         channel = self.fg._create_rss().find("channel")
         itunes_explicit = channel.find("{%s}explicit" % self.nsItunes)
         assert itunes_explicit is not None
@@ -307,7 +326,7 @@ class TestPodcast(unittest.TestCase):
             % itunes_explicit.text
 
     def test_explicitIsClean(self):
-        self.fg.explicit(False)
+        self.fg.explicit = False
         channel = self.fg._create_rss().find("channel")
         itunes_explicit = channel.find("{%s}explicit" % self.nsItunes)
         assert itunes_explicit is not None
@@ -329,13 +348,13 @@ class TestPodcast(unittest.TestCase):
         for test_property in mandatory_properties:
             fg = Podcast()
             if test_property != "description":
-                fg.description(self.description)
+                fg.description = self.description
             if test_property != "title":
-                fg.name(self.title)
+                fg.name = self.title
             if test_property != "link":
-                fg.website(self.linkHref)
+                fg.website = self.linkHref
             if test_property != "explicit":
-                fg.explicit(self.explicit)
+                fg.explicit = self.explicit
             try:
                 self.assertRaises(ValueError, fg._create_rss)
             except AssertionError as e:
@@ -343,16 +362,16 @@ class TestPodcast(unittest.TestCase):
                     from e
 
     def test_withholdFromItunesOffByDefault(self):
-        assert not self.fg.withhold_from_itunes()
+        assert not self.fg.withhold_from_itunes
 
     def test_withholdFromItunes(self):
-        self.fg.withhold_from_itunes(True)
+        self.fg.withhold_from_itunes = True
         itunes_block = self.fg._create_rss().find("channel")\
             .find("{%s}block" % self.nsItunes)
         assert itunes_block is not None
         self.assertEqual(itunes_block.text.lower(), "yes")
 
-        self.fg.withhold_from_itunes(False)
+        self.fg.withhold_from_itunes = False
         itunes_block = self.fg._create_rss().find("channel")\
             .find("{%s}block" % self.nsItunes)
         assert itunes_block is None

@@ -45,18 +45,18 @@ def main():
     from feedgen import Podcast, Person, Media, Category
     # Initialize the feed
     p = Podcast()
-    p.name('Testfeed')
+    p.name = 'Testfeed'
     p.authors.append(Person("Lars Kiesow", "lkiesow@uos.de"))
-    p.website(href='http://example.com')
-    p.copyright('cc-by')
-    p.description('This is a cool feed!')
-    p.language('de')
-    p.feed_url('http://example.com/feeds/myfeed.rss')
-    p.category(Category('Technology', 'Podcasting'))
-    p.explicit(False)
-    p.complete('no')
-    p.new_feed_url('http://example.com/new-feed.rss')
-    p.owner(Person('John Doe', 'john@example.com'))
+    p.website = 'http://example.com'
+    p.copyright = 'cc-by'
+    p.description = 'This is a cool feed!'
+    p.language = 'de'
+    p.feed_url = 'http://example.com/feeds/myfeed.rss'
+    p.category = Category('Technology', 'Podcasting')
+    p.explicit = False
+    p.complete = False
+    p.new_feed_url = 'http://example.com/new-feed.rss'
+    p.owner = Person('John Doe', 'john@example.com')
 
     e1 = p.add_episode()
     e1.id('http://lernfunk.de/_MEDIAID_123#1')

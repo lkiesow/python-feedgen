@@ -24,14 +24,7 @@ Those four properties, :attr:`~feedgen.Podcast.name`,
 :attr:`~feedgen.Podcast.explicit` and
 :attr:`~feedgen.Podcast.website`, are actually
 the only four **mandatory** properties of
-:class:`~feedgen.Podcast`. A summary of them:
-
-.. autosummary::
-
-   ~feedgen.Podcast.name
-   ~feedgen.Podcast.description
-   ~feedgen.Podcast.website
-   ~feedgen.Podcast.explicit
+:class:`~feedgen.Podcast`.
 
 Image
 ~~~~~
@@ -40,7 +33,7 @@ A podcast's image is worth special attention::
 
     p.image = "https://example.com/static/example_podcast.png"
 
-.. automethod:: feedgen.Podcast.image
+.. autoattribute:: feedgen.Podcast.image
    :noindex:
 
 Even though the image *technically* is optional, you won't reach people without it.
@@ -64,26 +57,25 @@ Commonly used
     p.category = Category("Technology", "Podcasting")
     p.owner = p.authors[0]
 
-.. autosummary::
+Read more:
 
-   ~feedgen.Podcast.copyright
-   ~feedgen.Podcast.language
-   ~feedgen.Podcast.authors
-   ~feedgen.Podcast.feed_url
-   ~feedgen.Podcast.category
-   ~feedgen.Podcast.owner
+* :attr:`~feedgen.Podcast.copyright`
+* :attr:`~feedgen.Podcast.language`
+* :attr:`~feedgen.Podcast.authors`
+* :attr:`~feedgen.Podcast.feed_url`
+* :attr:`~feedgen.Podcast.category`
+* :attr:`~feedgen.Podcast.owner`
 
 
 Less commonly used
 ^^^^^^^^^^^^^^^^^^
 
 Some of those are obscure while some of them are often times not needed. Others
-again have very reasonable defaults. Remember to click on a name to read its
-full description.
+again have very reasonable defaults.
 
 ::
 
-    p.cloud = ("server.example.com", "/rpc", 80, "xml-rpc")
+    p.cloud = ("server.example.com", 80, "/rpc", "cloud.notify", "xml-rpc")
 
     import datetime
     import pytz
@@ -99,17 +91,17 @@ full description.
     p.complete = True
     p.withhold_from_itunes = True
 
-.. autosummary::
+Read more:
 
-   ~feedgen.Podcast.cloud
-   ~feedgen.Podcast.last_updated
-   ~feedgen.Podcast.publication_date
-   ~feedgen.Podcast.skip_days
-   ~feedgen.Podcast.skip_hours
-   ~feedgen.Podcast.web_master
-   ~feedgen.Podcast.new_feed_url
-   ~feedgen.Podcast.complete
-   ~feedgen.Podcast.withhold_from_itunes
+* :attr:`~feedgen.Podcast.cloud`
+* :attr:`~feedgen.Podcast.last_updated`
+* :attr:`~feedgen.Podcast.publication_date`
+* :attr:`~feedgen.Podcast.skip_days`
+* :attr:`~feedgen.Podcast.skip_hours`
+* :attr:`~feedgen.Podcast.web_master`
+* :attr:`~feedgen.Podcast.new_feed_url`
+* :attr:`~feedgen.Podcast.complete`
+* :attr:`~feedgen.Podcast.withhold_from_itunes`
 
 
 Next step is :doc:`part_2`.
