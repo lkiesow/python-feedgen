@@ -92,7 +92,8 @@ will also fetch the type for you, if it's not specified.
 
 The **duration** is also important to include, for your listeners' convenience.
 Without it, they won't know how long an episode is before they start downloading
-and listening. The duration cannot be fetched from the server automatically.
+and listening. The duration cannot be fetched from the server automatically, and
+must be an instance of :class:`datetime.timedelta`.
 
 Read more about:
 

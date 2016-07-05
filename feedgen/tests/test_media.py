@@ -1,6 +1,7 @@
 from future.utils import iteritems
 import unittest
 import warnings
+from datetime import timedelta
 
 from feedgen import Media, NotSupportedByItunesWarning
 
@@ -11,6 +12,7 @@ class TestMedia(unittest.TestCase):
         self.size = 144253424
         self.type = "audio/mpeg"
         self.expected_type = ("audio/mpeg3", "audio/x-mpeg-3", "audio/mpeg")
+        self.duration = timedelta(hours=1, minutes=32, seconds=44)
         warnings.simplefilter("ignore")
 
     def test_constructorOneArgument(self):
@@ -30,6 +32,10 @@ class TestMedia(unittest.TestCase):
         assert m.url == self.url
         assert m.size == self.size
         assert m.type == self.type
+
+    def test_constructorDuration(self):
+        m = Media(self.url, self.size, self.type, self.duration)
+        assert m.duration ==self.duration
 
     def test_assigningUrl(self):
         m = Media(self.url)
@@ -156,7 +162,44 @@ class TestMedia(unittest.TestCase):
         for (str_size, expected_size) in iteritems(sizes):
             self.assertEqual(expected_size, Media._str_to_bytes(str_size))
 
+    def test_assigningDuration(self):
+        m = Media(self.url, self.size, self.type, self.duration)
+        another_duration = timedelta(hours=0, minutes=32, seconds=23)
+        m.duration = another_duration
+        self.assertEqual(m.duration, another_duration)
+
+    def test_assigningNegativeDuration(self):
+        self.assertRaises(ValueError, Media, self.url, self.size, self.type,
+                          timedelta(hours=-1, minutes=3))
+
+    def test_assigningNotDuration(self):
+        self.assertRaises(TypeError, Media, self.url, self.size, self.type,
+                          "01:32:13")
+
+    def test_durationToStr(self):
+        m = Media(self.url, self.size, self.type, timedelta(hours=1))
+        self.assertEqual(m.duration_str, "01:00:00")
+
+        m.duration = timedelta(days=1)
+        self.assertEqual(m.duration_str, "24:00:00")
+
+        m.duration = timedelta(minutes=1)
+        self.assertEqual(m.duration_str, "01:00")
+
+        m.duration = timedelta(seconds=1)
+        self.assertEqual(m.duration_str, "00:01")
+
+        m.duration = timedelta(days=1, hours=2)
+        self.assertEqual(m.duration_str, "26:00:00")
+
+        m.duration = timedelta(hours=1, minutes=32, seconds=13)
+        self.assertEqual(m.duration_str, "01:32:13")
+
+        m.duration = timedelta(hours=1, minutes=9, seconds=3)
+        self.assertEqual(m.duration_str, "01:09:03")
+
     def test_createFromServerResponse(self):
+        # Mock our own requests object
         url = self.url
         type = self.type
         size = self.size
@@ -182,9 +225,11 @@ class TestMedia(unittest.TestCase):
 
                 return MyLittleResponse
 
-        m = Media.create_from_server_response(MyLittleRequests, url)
+        m = Media.create_from_server_response(MyLittleRequests, url,
+                                              duration=self.duration)
         self.assertEqual(m.url, url)
         self.assertEqual(m.size, size)
         self.assertEqual(m.type, type)
+        self.assertEqual(m.duration, self.duration)
 
 

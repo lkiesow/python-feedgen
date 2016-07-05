@@ -209,6 +209,10 @@ class Episode(object):
             enclosure.attrib['length'] = str(self.__media.size)
             enclosure.attrib['type'] = self.__media.type
 
+            if self.__media.duration:
+                duration = etree.SubElement(entry, '{%s}duration' % ITUNES_NS)
+                duration.text = self.__media.duration_str
+
         if self.__publication_date:
             pubDate = etree.SubElement(entry, 'pubDate')
             pubDate.text = formatRFC2822(self.__publication_date)
@@ -221,10 +225,6 @@ class Episode(object):
         if self.__image:
             image = etree.SubElement(entry, '{%s}image' % ITUNES_NS)
             image.attrib['href'] = self.__image
-
-        if self.__itunes_duration:
-            duration = etree.SubElement(entry, '{%s}duration' % ITUNES_NS)
-            duration.text = self.__itunes_duration
 
         if self.__explicit is not None:
             explicit = etree.SubElement(entry, '{%s}explicit' % ITUNES_NS)
@@ -408,30 +408,6 @@ class Episode(object):
             self.__image = image
         else:
             self.__image = None
-
-    def itunes_duration(self, itunes_duration=None):
-        """Get or set the duration of the podcast episode. The content of this
-        tag is shown in the Time column in iTunes.
-
-        The tag can be formatted HH:MM:SS, H:MM:SS, MM:SS, or M:SS (H = hours,
-        M = minutes, S = seconds). If an integer is provided (no colon present),
-        the value is assumed to be in seconds. If one colon is present, the
-        number to the left is assumed to be minutes, and the number to the right
-        is assumed to be seconds. If more than two colons are present, the
-        numbers farthest to the right are ignored.
-
-        :param itunes_duration: Duration of the podcast episode.
-        :type itunes_duration: str or int
-        :returns: Duration of the podcast episode.
-        """
-        if not itunes_duration is None:
-            # TODO: Make this a part of Media
-            itunes_duration = str(itunes_duration)
-            if len(itunes_duration.split(':')) > 3 or \
-                            itunes_duration.lstrip('0123456789:') != '':
-                ValueError('Invalid duration format "%s"' % itunes_duration)
-            self.__itunes_duration = itunes_duration
-        return self.itunes_duration
 
     @property
     def explicit(self):

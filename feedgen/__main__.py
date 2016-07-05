@@ -70,7 +70,9 @@ def main():
     e1.link = 'http://example.com'
     e1.authors = [Person('Lars Kiesow', 'lkiesow@uos.de')]
     e1.publication_date = datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc)
-    e1.media = Media("http://example.com/episodes/loremipsum.mp3", 454599964)
+    e1.media = Media("http://example.com/episodes/loremipsum.mp3", 454599964,
+                     duration=
+                     datetime.timedelta(hours=1, minutes=32, seconds=19))
 
     # Should we just print out, or write to file?
     if arg == 'rss':

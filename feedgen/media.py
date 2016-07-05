@@ -1,5 +1,6 @@
 import warnings
 from future.moves.urllib.parse import urlparse
+import datetime
 
 from feedgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
 from feedgen import version
@@ -44,7 +45,8 @@ class Media(object):
       * EPUB
 
     All attributes will always have a value, except size which can be 0 if the
-    size cannot be determined by any means (eg. if it's a stream).
+    size cannot be determined by any means (eg. if it's a stream) and duration
+    which is optional (but recommended).
 
 
     """
@@ -58,14 +60,16 @@ class Media(object):
         'epub': 'document/x-epub',
     }
 
-    def __init__(self, url, size=0, type=None):
+    def __init__(self, url, size=0, type=None, duration=None):
         self._url = None
         self._size = None
         self._type = None
+        self._duration = None
 
         self.url = url
         self.size = size
         self.type = type or self.get_type(url)
+        self.duration = duration
 
     @property
     def url(self):
@@ -217,8 +221,55 @@ class Media(object):
                              "clients can see what type of file it is."
                              % file_extension) from e
 
+    @property
+    def duration(self):
+        """The duration of the media file.
+
+        :type: :class:`datetime.timedelta`
+        :raises: :obj:`TypeError` if you try to assign anything other than
+            :class:`datetime.timedelta` instances or None to this attribute.
+            Raises :obj:`ValueError` if a negative timedelta value is
+            given.
+        """
+        return self._duration
+
+    @duration.setter
+    def duration(self, duration):
+        if duration is None:
+            self._duration = None
+        elif not isinstance(duration, datetime.timedelta):
+            raise TypeError("duration must be a datetime.timedelta instance!")
+        elif duration.total_seconds() < 0:
+            raise ValueError("expected a positive timedelta, got %s" % duration)
+        else:
+            self._duration = duration
+
+    @property
+    def duration_str(self):
+        """:attr:`.duration`, formatted as a string according to iTunes' specs.
+        That is, HH:MM:SS if it lasts more than an hour, or MM:SS if it lasts
+        less than an hour.
+
+        This is just an alternate, read-only view of :attr:`.duration`.
+
+        If :attr:`.duration` is :obj:`None`, this will be :obj:`None` as well.
+        """
+        if self.duration is None:
+            return None
+        else:
+            hours = self.duration.days * 24 + \
+                    self.duration.seconds // 3600
+            minutes = (self.duration.seconds // 60) % 60
+            seconds = self.duration.seconds % 60
+
+            if hours:
+                return "%02d:%02d:%02d" % (hours, minutes, seconds)
+            else:
+                return "%02d:%02d" % (minutes, seconds)
+
     @classmethod
-    def create_from_server_response(cls, requests, url, size=None, type=None):
+    def create_from_server_response(cls, requests, url, size=None, type=None,
+                                    duration=None):
         """Create new Media object, with size and/or type fetched from the
         server when not given.
 
@@ -234,7 +285,8 @@ class Media(object):
             >>> m = Media.create_from_server_response(requests,
             ...     "http://example.com/episodes/ep1.mp3")
             >>> m
-            Media(url=http://example.com/episodes/ep1.mp3, size=252345991, type=audio/mpeg)
+            Media(url=http://example.com/episodes/ep1.mp3, size=252345991,
+                type=audio/mpeg, duration=None)
 
 
         :param requests: Either the
@@ -248,11 +300,12 @@ class Media(object):
         :param type: The media type of the file. Will be fetched from server if
             not given.
         :type type: str or None
+        :param duration: The media's duration.
+        :type duration: :class:`datetime.timedelta` or :obj:`None`.
         :returns: New instance of Media with all fields filled in.
         :raises: The appropriate requests exceptions are thrown when networking
             errors occur. RuntimeError is thrown if some information isn't
             given and isn't found in the server's response."""
-        # TODO: Create unit tests for this factory (it is not covered yet!)
         if not (size and type):
             r = requests.head(url, allow_redirects=True, timeout=5.0,
                               headers={"User-Agent": version.name + " v" +
@@ -272,11 +325,11 @@ class Media(object):
                                        "server when sending HEAD request to %s"
                                        % url)
 
-        return Media(url, size, type)
+        return Media(url, size, type, duration)
 
     def __str__(self):
-        return "Media(url=%s, size=%s, type=%s)" % \
-               (self.url, self.size, self.type)
+        return "Media(url=%s, size=%s, type=%s, duration=%s)" % \
+               (self.url, self.size, self.type, self.duration)
 
     def __repr__(self):
         return self.__str__()
