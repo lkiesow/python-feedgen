@@ -1,6 +1,6 @@
-===================
-feedgen.BaseEpisode
-===================
+===============
+feedgen.Episode
+===============
 
-.. autoclass:: feedgen.BaseEpisode
+.. autoclass:: feedgen.Episode
    :members:

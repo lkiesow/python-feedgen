@@ -7,24 +7,37 @@
 
     :license: FreeBSD and LGPL, see license.* for more details.
 """
-import collections
-
 from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.util import ensure_format, formatRFC2822, htmlencode, \
-    listToHumanreadableStr
+from feedgen.util import formatRFC2822, listToHumanreadableStr
 from feedgen.compat import string_types
 from builtins import str
 
 
-class BaseEpisode(object):
+class Episode(object):
     """Class representing an episode in a podcast. Corresponds to an RSS Item.
 
-    Its name indicates that this is the superclass for all episode classes.
-    It is not meant to indicate that this class misses functionality; in 99%
-    of all cases, this class is the right one to use for episodes.
+    You must provide either :attr:`.title` or :attr:`.summary`.
+
+    Episodes are mostly independent from Podcast, except for :attr:`.position`
+    and the fact that many values default to their corresponding value in the
+    :class:`~feedgen.Podcast` the episode's a part of. To add an episode to a
+    podcast::
+
+        >>> import feedgen
+        >>> p = feedgen.Podcast()
+        >>> episode = feedgen.Episode()
+        >>> p.episodes.append(episode)
+
+    You may also replace the last two lines a shortcut:
+
+        >>> episode = p.add_episode(Episode())
+
+
+    See the :doc:`Basic Usage Guide </user/basic_usage_guide/part_2>` for a
+    friendlier introduction to episodes.
     """
 
     def __init__(self):
@@ -45,12 +58,12 @@ class BaseEpisode(object):
         the "circled i" in the Description column is clicked. This field can be
         up to 4000 characters in length.
 
-        See also :py:attr:`.BaseEpisode.subtitle` and
-        :py:attr:`.BaseEpisode.long_summary`."""
+        See also :py:attr:`.Episode.subtitle` and
+        :py:attr:`.Episode.long_summary`."""
 
         self.long_summary = None
         """A long (read: full) summary, which supplements the shorter
-        :attr:`~feedgen.item.BaseEpisode.summary`.
+        :attr:`~feedgen.Episode.summary`.
 
         This attribute should be seen as a full, longer variation of
         summary if summary exists. Even then, the long_summary should be
@@ -86,7 +99,7 @@ class BaseEpisode(object):
         This property corresponds to the RSS GUID element."""
 
         self.link = None
-        """Get or set the link to the full version of this episode description.
+        """The link to the full version of this episode description.
         Remember to start the link with the scheme, e.g. https://."""
 
         self.__publication_date = None
@@ -106,17 +119,19 @@ class BaseEpisode(object):
         self.__explicit = None
 
         self.is_closed_captioned = None
-        """Get or set the is_closed_captioned value of the podcast episode. This
-        tag should be used if your podcast includes a video episode with
-        embedded closed captioning support. The two values for this tag are
-        ``True`` and ``False``."""
+        """Whether this podcast includes a video episode with embedded closed
+        captioning support.
+
+        The two values for this tag are ``True`` and
+        ``False``."""
 
         self.__position = None
 
         self.subtitle = None
-        """Get or set the itunes:subtitle value for the podcast episode. The
-        contents of this tag are shown in the Description column in iTunes. The
-        subtitle displays best if it is only a few words long."""
+        """A short subtitle.
+
+        This is shown in the Description column in iTunes.
+        The subtitle displays best if it is only a few words long."""
 
     def rss_entry(self):
         """Create a RSS item and return it."""
@@ -233,7 +248,7 @@ class BaseEpisode(object):
 
     @property
     def authors(self):
-        """List of :class:`~feedgen.person.Person` that contributed to this
+        """List of :class:`~feedgen.Person` that contributed to this
         episode.
 
         The authors don't need to have both name and email set. The names are
@@ -246,7 +261,7 @@ class BaseEpisode(object):
 
         Any value you assign to authors will be automatically converted to a
         list, but only if it's iterable (like tuple, set and so on). It is an
-        error to assign a single :class:`~feedgen.person.Person` object to this
+        error to assign a single :class:`~feedgen.Person` object to this
         attribute::
 
             >>> # This results in an error
@@ -302,16 +317,16 @@ class BaseEpisode(object):
 
     @property
     def media(self):
-        """Get or set the :class:`~feedgen.media.Media` object that is attached
+        """Get or set the :class:`~feedgen.Media` object that is attached
         to this episode.
 
-        Note that if :py:meth:`.id` is not set, the enclosure's url is used as
+        Note that if :py:attr:`.id` is not set, the enclosure's url is used as
         the globally unique identifier. If you rely on this, you should make
         sure the url never changes, since changing the id messes up with clients
         (they will think this episode is new again, even if the user already
         has listened to it). Therefore, you should only rely on this behaviour
         if you own the domain which the episodes reside on. If you don't, then
-        you must set :py:meth:`.id` to an appropriate value manually.
+        you must set :py:attr:`.id` to an appropriate value manually.
         """
 
     @media.setter

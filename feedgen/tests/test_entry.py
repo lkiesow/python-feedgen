@@ -9,7 +9,7 @@ These are test cases for a basic entry.
 import unittest
 from lxml import etree
 
-from feedgen import Person, Media, Podcast, htmlencode
+from feedgen import Person, Media, Podcast, htmlencode, Episode
 import datetime
 import pytz
 from dateutil.parser import parse as parsedate
@@ -38,7 +38,7 @@ class TestBaseEpisode(unittest.TestCase):
         self.fe = fe
 
         #Use also the list directly
-        fe = fg.Episode()
+        fe = Episode()
         fg.episodes.append(fe)
         fe.id = 'http://lernfunk.de/media/654321/1'
         fe.title = 'The Second Episode'
@@ -86,7 +86,7 @@ class TestBaseEpisode(unittest.TestCase):
 
     def test_idIsSet(self):
         guid = "http://example.com/podcast/episode1"
-        episode = self.fg.Episode()
+        episode = Episode()
         episode.title = "My first episode"
         episode.id = guid
         item = episode.rss_entry()
@@ -95,7 +95,7 @@ class TestBaseEpisode(unittest.TestCase):
 
     def test_idNotSetButEnclosureIsUsed(self):
         guid = "http://example.com/podcast/episode1.mp3"
-        episode = self.fg.Episode()
+        episode = Episode()
         episode.title = "My first episode"
         episode.media = Media(guid, 97423487, "audio/mpeg")
 
@@ -103,7 +103,7 @@ class TestBaseEpisode(unittest.TestCase):
         assert item.find("guid").text == guid
 
     def test_idSetToFalseSoEnclosureNotUsed(self):
-        episode = self.fg.Episode()
+        episode = Episode()
         episode.title = "My first episode"
         episode.media = Media("http://example.com/podcast/episode1.mp3",
                             34328731, "audio/mpeg")

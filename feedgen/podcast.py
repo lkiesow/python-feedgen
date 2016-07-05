@@ -13,7 +13,7 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.episode import BaseEpisode
+from feedgen.episode import Episode
 from feedgen.util import ensure_format, formatRFC2822, listToHumanreadableStr
 from feedgen.person import Person
 import feedgen.version
@@ -41,7 +41,7 @@ class Podcast(object):
     def __init__(self):
         self.__episodes = []
         """The list used by self.episodes."""
-        self.__episode_class = BaseEpisode
+        self.__episode_class = Episode
         """The internal value used by self.Episode."""
 
         ## RSS
@@ -195,79 +195,64 @@ class Podcast(object):
     def episodes(self):
         """List of episodes that are part of this podcast.
 
-        This property is read-only, in the sense that you cannot assign a new list to it.
-        You are, however, able to add, get and remove individual episodes from the (existing) list.
-
-        See :py:meth:`.add_episode` for an easy way to create new episodes and assign them to this podcast
-        in one call.
+        See :py:meth:`.add_episode` for an easy way to create new episodes and
+        assign them to this podcast in one call.
         """
         return self.__episodes
 
+    @episodes.setter
+    def episodes(self, episodes):
+        # Ensure it is a list
+        self.__episodes = list(episodes) if not isinstance(episodes, list) \
+            else episodes
+
     @property
-    def Episode(self):
+    def episode_class(self):
         """Class used to represent episodes.
 
-        This is actually a property (variable) which points to the correct
-        class. It is used by :py:meth:`.add_episode` when creating new episode
-        objects, and you should use it too when adding episodes.
+        This is used by :py:meth:`.add_episode` when creating new episode
+        objects, and you may use it too when creating episodes.
 
-        By default, this property points to :py:class:`BaseEpisode`.
+        By default, this property points to :py:class:`Episode`.
 
-        When assigning a new class to Episode, you must make sure the new value
-        (1) is a class and not an instance, and (2) is a subclass of BaseEpisode
-        (or is BaseEpisode itself).
-
-        This property exists so you can change which class episodes should have, without needing to change the code
-        that creates those episodes. Thus, changing this property changes what class is used by self.add_episode().
-        An example would be if you created a subclass of Podcast together with a
-        subclass of Episode, and wanted users of your new Podcast subclass to be using your new Episode subclass
-        automatically. All you need to do, is to change the initial value of Episode in your Podcast subclass.
-        Another example is if you want to use another class for episodes, while
-        still enjoying the benefits of using :py:meth:`.add_episode`.
-        You as a users, on the other hand, won't have to change your code when changing between different
-        subclasses of Podcast that expect different subclasses of Episode.
-
-        It is still possible for you to hardcode what Episode subclass you want to use, either by calling its
-        constructor without using this property, or by overriding its value.
+        When assigning a new class to ``episode_class``, you must make sure the
+        new value (1) is a class and not an instance, and (2) is a subclass of
+        Episode (or is Episode itself).
 
         Example of use::
 
             >>> # Create new podcast
-            >>> from feedgen import Podcast
+            >>> from feedgen import Podcast, Episode
             >>> p = Podcast()
-
-            >>> # Here's how you would create a new episode object, the OK way
-            >>> episode1 = p.Episode()
+            >>> # Normal way of creating new episodes
+            >>> episode1 = Episode()
             >>> p.episodes.append(episode1)
-            >>> episode1.title("My awesome episode")
-
-            >>> # Best way to create new episode object (it is added to the podcast automatically)
+            >>> # Or use add_episode (and thus episode_class indirectly)
             >>> episode2 = p.add_episode()
-            >>> episode2.title("My even more awesome episode")
-
-            >>> # If you want to use another class for episodes, do it like this
+            >>> # Or use episode_class directly
+            >>> episode3 = p.episode_class()
+            >>> p.episodes.append(episode3)
+            >>> # Say you want to use AlternateEpisode class instead of Episode
             >>> from mymodule import AlternateEpisode
-            >>> p.Episode = AlternateEpisode
-            >>> episode3 = p.add_episode()  # It is also okay to use p.episodes
-            >>> episode3.title("This is an instance of AlternateEpisode!")
-
-            >>> # !!! DON'T DO THE FOLLOWING, unless you want to hard code what class is used !!!
-            >>> episode3 = AlternateEpisode()
-            >>> p.episodes.append(episode3)  # or p.add_episode(episode3)
-            >>> episode3.title("My awful episode :(")
+            >>> p.episode_class = AlternateEpisode
+            >>> episode4 = p.add_episode()
+            >>> episode4.title("This is an instance of AlternateEpisode!")
         """
         return self.__episode_class
 
-    @Episode.setter
-    def Episode(self, value):
+    @episode_class.setter
+    def episode_class(self, value):
         if not inspect.isclass(value):
-            raise ValueError("New Episode must NOT be an _instance_ of the desired class, but rather the class "
-                             "itself. You can generally achieve this by removing the parenthesis from the "
-                             "constructor call. For example, use Episode, not Episode().")
-        elif issubclass(value, BaseEpisode):
+            raise ValueError("New episode_class must NOT be an _instance_ of "
+                             "the desired class, but rather the class itself. "
+                             "You can generally achieve this by removing the "
+                             "parenthesis from the constructor call. For "
+                             "example, use Episode, not Episode().")
+        elif issubclass(value, Episode):
             self.__episode_class = value
         else:
-            raise ValueError("New Episode must be Episode or a descendant of it (so the API still works).")
+            raise ValueError("New episode_class must be Episode or a descendant"
+                             " of it (so the API still works).")
 
     def add_episode(self, new_episode=None):
         """Shorthand method which adds a new episode to the feed, creating an
@@ -289,16 +274,14 @@ class Podcast(object):
             >>> another_entry.title('My second feed entry')
             'My second feed entry'
 
-        For the curious, this is a shorthand method which basically reads like::
-
-            if new_episode is None:
-                new_episode = self.Episode()
-            self.episodes.append(new_episode)
-            return new_episode
+        Internally, this method creates a new instance of
+        :attr:`~feedgen.Episode.episode_class`, which means you can change what
+        type of objects are created by changing
+        :attr:`~feedgen.Episode.episode_class`.
 
         """
         if new_episode is None:
-            new_episode = self.Episode()
+            new_episode = self.episode_class()
         self.episodes.append(new_episode)
         return new_episode
 

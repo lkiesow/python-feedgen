@@ -42,19 +42,20 @@ well as a short subtitle::
 
 Read more:
 
-* :attr:`~feedgen.BaseEpisode.title`
-* :attr:`~feedgen.BaseEpisode.subtitle`
-* :attr:`~feedgen.BaseEpisode.summary`
-* :attr:`~feedgen.BaseEpisode.long_summary`
+* :attr:`~feedgen.Episode.title`
+* :attr:`~feedgen.Episode.subtitle`
+* :attr:`~feedgen.Episode.summary`
+* :attr:`~feedgen.Episode.long_summary`
 
 
 Enclosing media
 ^^^^^^^^^^^^^^^
 
-Of course, this isn't much of a podcast if we don't have any **media**
-attached to it! ::
+Of course, this isn't much of a podcast if we don't have any
+:attr:`~feedgen.Episode.media` attached to it! ::
 
     from datetime import timedelta
+    from feedgen import Media
     my_episode.media = Media("http://example.com/podcast/s01e10.mp3",
                              size=17475653,
                              type="audio/mpeg",  # Optional, can be determined
@@ -64,8 +65,9 @@ attached to it! ::
 
 Normally, you must specify how big the **file size** is in bytes (and the MIME
 type, if the file extension is unknown to iTunes), but PodcastGenerator
-can send a HEAD request to the URL and retrieve the missing information. This is
-done by calling :meth:`Media.create_from_server_response <feedgen.Media.create_from_server_response>`
+can send a HEAD request to the URL and retrieve the missing information
+(file size and type). This is done by calling
+:meth:`Media.create_from_server_response <feedgen.Media.create_from_server_response>`
 instead of using the constructor directly.
 You must pass in the `requests <http://docs.python-requests.org/en/master/>`_
 module, so it must be installed! ::
@@ -78,20 +80,23 @@ module, so it must be installed! ::
                        )
 
 
-The **type** of the media file is derived from the URI ending. Even though you
+The **type** of the media file is derived from the URI ending, if you don't
+provide it yourself. Even though you
 technically can have file names which don't end in their actual file extension,
 iTunes will use the file extension to determine what type of file it is, without
 even asking the server. You must therefore make sure your media files have the
 correct file extension. If you don't care about compatibility with iTunes, you
 can provide the MIME type yourself.
+:meth:`Media.create_from_server_response <feedgen.Media.create_from_server_response>`
+will also fetch the type for you, if it's not specified.
 
 The **duration** is also important to include, for your listeners' convenience.
 Without it, they won't know how long an episode is before they start downloading
-and listening.
+and listening. The duration cannot be fetched from the server automatically.
 
 Read more about:
 
-* :attr:`feedgen.BaseEpisode.media` (the attribute)
+* :attr:`feedgen.Episode.media` (the attribute)
 * :class:`feedgen.Media` (the class which you use as value)
 
 
@@ -109,7 +114,7 @@ That is, given the example above, the id of ``my_episode`` would be
    An episode's ID should never change. Therefore, **if you don't set id, the
    media URL must never change either**.
 
-Read more about :attr:`the id attribute <feedgen.BaseEpisode.id>`.
+Read more about :attr:`the id attribute <feedgen.Episode.id>`.
 
 Episode's publication date
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -132,7 +137,7 @@ will get a new episode which appears to have existed for longer than it has.
    my_episode.publication_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
 
-Read more about :attr:`the publication_date attribute <feedgen.BaseEpisode.id>`.
+Read more about :attr:`the publication_date attribute <feedgen.Episode.id>`.
 
 
 The Link
@@ -141,7 +146,7 @@ The Link
 If you're publishing articles along with your podcast episodes, you should
 link to the relevant article. Examples can be linking to the sound on
 SoundCloud or the post on your website. Usually, your
-listeners expect to find the entirety of the :attr:`~feedgen.BaseEpisode.summary` by following
+listeners expect to find the entirety of the :attr:`~feedgen.Episode.summary` by following
 the link. ::
 
     my_episode.link = "http://example.com/article/2016/05/18/Best-example"
@@ -151,7 +156,7 @@ the link. ::
    If you don't have anything to link to, then that's fine as well. No link is
    better than a disappointing link.
 
-Read more about :attr:`the link attribute <feedgen.BaseEpisode.link>`.
+Read more about :attr:`the link attribute <feedgen.Episode.link>`.
 
 
 The Authors
@@ -159,8 +164,8 @@ The Authors
 
 .. note::
 
-   Some of those attributes correspond to attributes found in
-   :class:`~feedgen.Podcast`. In such cases, you should only set those
+   Some of the following attributes (not just authors) correspond to attributes
+   found in :class:`~feedgen.Podcast`. In such cases, you should only set those
    attributes at the episode level if they **differ** from their value at the
    podcast level.
 
@@ -178,7 +183,7 @@ You can even have multiple authors::
 
      my_episode.authors = [Person("Joe Bob"), Person("Alice Bob")]
 
-Read more about :attr:`an episode's authors <feedgen.BaseEpisode.authors>`.
+Read more about :attr:`an episode's authors <feedgen.Episode.authors>`.
 
 
 Less used attributes
@@ -195,10 +200,10 @@ Less used attributes
 
 More details:
 
-* :attr:`~feedgen.BaseEpisode.image`
-* :attr:`~feedgen.BaseEpisode.explicit`
-* :attr:`~feedgen.BaseEpisode.is_closed_captioned`
-* :attr:`~feedgen.BaseEpisode.position`
-* :attr:`~feedgen.BaseEpisode.withhold_from_itunes`
+* :attr:`~feedgen.Episode.image`
+* :attr:`~feedgen.Episode.explicit`
+* :attr:`~feedgen.Episode.is_closed_captioned`
+* :attr:`~feedgen.Episode.position`
+* :attr:`~feedgen.Episode.withhold_from_itunes`
 
 The final step is :doc:`part_3`

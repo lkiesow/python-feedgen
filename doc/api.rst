@@ -27,7 +27,7 @@ API Documentation
 .. autosummary::
 
    feedgen.Podcast
-   feedgen.BaseEpisode
+   feedgen.Episode
    feedgen.Person
    feedgen.Media
    feedgen.Category
