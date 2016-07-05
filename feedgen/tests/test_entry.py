@@ -9,7 +9,7 @@ These are test cases for a basic entry.
 import unittest
 from lxml import etree
 
-from feedgen import Person, Media, Podcast
+from feedgen import Person, Media, Podcast, htmlencode
 import datetime
 import pytz
 from dateutil.parser import parse as parsedate
@@ -33,19 +33,19 @@ class TestBaseEpisode(unittest.TestCase):
         fg.explicit = self.explicit
 
         fe = fg.add_episode()
-        fe.id('http://lernfunk.de/media/654321/1')
-        fe.title('The First Episode')
+        fe.id = 'http://lernfunk.de/media/654321/1'
+        fe.title = 'The First Episode'
         self.fe = fe
 
         #Use also the list directly
         fe = fg.Episode()
         fg.episodes.append(fe)
-        fe.id('http://lernfunk.de/media/654321/1')
-        fe.title('The Second Episode')
+        fe.id = 'http://lernfunk.de/media/654321/1'
+        fe.title = 'The Second Episode'
 
         fe = fg.add_episode()
-        fe.id('http://lernfunk.de/media/654321/1')
-        fe.title('The Third Episode')
+        fe.id = 'http://lernfunk.de/media/654321/1'
+        fe.title = 'The Third Episode'
 
         self.fg = fg
 
@@ -65,8 +65,8 @@ class TestBaseEpisode(unittest.TestCase):
         self.title = 'Some Testfeed'
 
         fe = fg.add_episode()
-        fe.id('http://lernfunk.de/media/654321/1')
-        fe.title('The Third BaseEpisode')
+        fe.id = 'http://lernfunk.de/media/654321/1'
+        fe.title = 'The Third BaseEpisode'
         assert len(fg.episodes) == 1
         fg.episodes.pop(0)
         assert len(fg.episodes) == 0
@@ -77,8 +77,8 @@ class TestBaseEpisode(unittest.TestCase):
         self.title = 'Some Testfeed'
 
         fe = fg.add_episode()
-        fe.id('http://lernfunk.de/media/654321/1')
-        fe.title('The Third BaseEpisode')
+        fe.id = 'http://lernfunk.de/media/654321/1'
+        fe.title = 'The Third BaseEpisode'
 
         assert len(fg.episodes) == 1
         fg.episodes.remove(fe)
@@ -87,8 +87,8 @@ class TestBaseEpisode(unittest.TestCase):
     def test_idIsSet(self):
         guid = "http://example.com/podcast/episode1"
         episode = self.fg.Episode()
-        episode.title("My first episode")
-        episode.id(guid)
+        episode.title = "My first episode"
+        episode.id = guid
         item = episode.rss_entry()
 
         assert item.find("guid").text == guid
@@ -96,46 +96,42 @@ class TestBaseEpisode(unittest.TestCase):
     def test_idNotSetButEnclosureIsUsed(self):
         guid = "http://example.com/podcast/episode1.mp3"
         episode = self.fg.Episode()
-        episode.title("My first episode")
-        episode.media(Media(guid, 97423487, "audio/mpeg"))
+        episode.title = "My first episode"
+        episode.media = Media(guid, 97423487, "audio/mpeg")
 
         item = episode.rss_entry()
         assert item.find("guid").text == guid
 
     def test_idSetToFalseSoEnclosureNotUsed(self):
         episode = self.fg.Episode()
-        episode.title("My first episode")
-        episode.media(Media("http://example.com/podcast/episode1.mp3",
-                            34328731, "audio/mpeg"))
-        episode.id(False)
+        episode.title = "My first episode"
+        episode.media = Media("http://example.com/podcast/episode1.mp3",
+                            34328731, "audio/mpeg")
+        episode.id = False
 
         item = episode.rss_entry()
         assert item.find("guid") is None
 
     def test_feedPubDateUsesNewestEpisode(self):
-        self.fg.episodes[0].publication_date(
+        self.fg.episodes[0].publication_date = \
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
-        )
-        self.fg.episodes[1].publication_date(
+        self.fg.episodes[1].publication_date = \
             datetime.datetime(2016, 1, 3, 12, 22, tzinfo=pytz.utc)
-        )
-        self.fg.episodes[2].publication_date(
+        self.fg.episodes[2].publication_date = \
             datetime.datetime(2014, 3, 2, 13, 11, tzinfo=pytz.utc)
-        )
         rss = self.fg._create_rss()
         pubDate = rss.find("channel").find("pubDate")
         assert pubDate is not None
         parsedPubDate = parsedate(pubDate.text)
-        assert parsedPubDate == self.fg.episodes[1].publication_date()
+        assert parsedPubDate == self.fg.episodes[1].publication_date
 
     def test_feedPubDateNotOverriddenByEpisode(self):
-        self.fg.episodes[0].publication_date(
+        self.fg.episodes[0].publication_date = \
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
-        )
         pubDate = self.fg._create_rss().find("channel").find("pubDate")
         # Now it uses the episode's published date
         assert pubDate is not None
-        assert parsedate(pubDate.text) == self.fg.episodes[0].publication_date()
+        assert parsedate(pubDate.text) == self.fg.episodes[0].publication_date
 
         new_date = datetime.datetime(2016, 1, 2, 3, 4, tzinfo=pytz.utc)
         self.fg.publication_date = new_date
@@ -145,9 +141,8 @@ class TestBaseEpisode(unittest.TestCase):
         assert parsedate(pubDate.text) == new_date
 
     def test_feedPubDateDisabled(self):
-        self.fg.episodes[0].publication_date(
+        self.fg.episodes[0].publication_date = \
             datetime.datetime(2015, 1, 1, 15, 0, tzinfo=pytz.utc)
-        )
         self.fg.publication_date = False
         pubDate = self.fg._create_rss().find("channel").find("pubDate")
         assert pubDate is None  # Not found!
@@ -227,7 +222,7 @@ class TestBaseEpisode(unittest.TestCase):
     def test_media(self):
         media = Media("http://example.org/episodes/1.mp3", 14536453,
                       "audio/mpeg")
-        self.fe.media(media)
+        self.fe.media = media
         enclosure = self.fe.rss_entry().find("enclosure")
 
         self.assertEqual(enclosure.get("url"), media.url)
@@ -235,20 +230,20 @@ class TestBaseEpisode(unittest.TestCase):
         self.assertEqual(enclosure.get("type"), media.type)
 
         # Ensure duck-typing is checked at assignment time
-        self.assertRaises(TypeError, self.fe.media, media.url)
-        self.assertRaises(TypeError, self.fe.media,
+        self.assertRaises(TypeError, setattr, self.fe, "media", media.url)
+        self.assertRaises(TypeError, setattr, self.fe, "media",
                           (media.url, media.size, media.type))
 
     def test_withholdFromItunesOffByDefault(self):
-        assert not self.fe.withhold_from_itunes()
+        assert not self.fe.withhold_from_itunes
 
     def test_withholdFromItunes(self):
-        self.fe.withhold_from_itunes(True)
+        self.fe.withhold_from_itunes = True
         itunes_block = self.fe.rss_entry().find("{%s}block" % self.itunes_ns)
         assert itunes_block is not None
         self.assertEqual(itunes_block.text.lower(), "yes")
 
-        self.fe.withhold_from_itunes(False)
+        self.fe.withhold_from_itunes = False
         itunes_block = self.fe.rss_entry().find("{%s}block" % self.itunes_ns)
         assert itunes_block is None
 
@@ -262,15 +257,15 @@ class TestBaseEpisode(unittest.TestCase):
         assert ce is None
 
         # Test that description is filled when one of the summaries is set
-        self.fe.summary("A short summary")
+        self.fe.summary = "A short summary"
         d = self.fe.rss_entry().find("description")
         assert d is not None
         assert "A short summary" in d.text
         ce = self.fe.rss_entry().find(content_encoded)
         assert ce is None
 
-        self.fe.summary(False)
-        self.fe.long_summary("A long summary with more words")
+        self.fe.summary = False
+        self.fe.long_summary = "A long summary with more words"
         d = self.fe.rss_entry().find("description")
         assert d is not None
         assert "A long summary with more words" in d.text
@@ -278,8 +273,8 @@ class TestBaseEpisode(unittest.TestCase):
         assert ce is None
 
         # Test that description and content:encoded are used when both are set
-        self.fe.summary("A short summary")
-        self.fe.long_summary("A long summary with more words")
+        self.fe.summary = "A short summary"
+        self.fe.long_summary = "A long summary with more words"
         d = self.fe.rss_entry().find("description")
         assert d is not None
         assert "A short summary" in d.text
@@ -288,12 +283,12 @@ class TestBaseEpisode(unittest.TestCase):
         assert "A long summary with more words" in ce.text
 
     def test_summariesHtml(self):
-        self.fe.summary("A <b>cool</b> summary")
+        self.fe.summary = "A <b>cool</b> summary"
         d = self.fe.rss_entry().find("description")
         assert d is not None
         assert "A <b>cool</b> summary" in d.text
 
-        self.fe.summary("A <b>cool</b> summary", html=False)
+        self.fe.summary = htmlencode("A <b>cool</b> summary")
         d = self.fe.rss_entry().find("description")
         assert d is not None
         assert "A &lt;b&gt;cool&lt;/b&gt; summary" in d.text

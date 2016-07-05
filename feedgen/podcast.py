@@ -391,8 +391,8 @@ class Podcast(object):
                 author.text = str(self.authors[0])
 
         if self.publication_date is None:
-            episode_dates = [e.publication_date() for e in self.episodes
-                             if e.publication_date() is not None]
+            episode_dates = [e.publication_date for e in self.episodes
+                             if e.publication_date is not None]
             if episode_dates:
                 actual_pubDate = max(episode_dates)
             else:

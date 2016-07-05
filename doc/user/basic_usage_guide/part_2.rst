@@ -3,16 +3,16 @@ Adding episodes
 ---------------
 
 To add episodes to a feed, you need to create new
-:class:`feedgen.episode.Episode` objects and
+:class:`feedgen.Episode` objects and
 append them to the list of entries in the Podcast. That is pretty
 straight-forward::
 
-    from feedgen.episode import Episode
+    from feedgen import Episode
     my_episode = Episode()
     p.episodes.append(my_episode)
 
 There is a convenience method called :meth:`Podcast.add_episode <feedgen.Podcast.add_episode>`
-which optionally creates a new instance of :class:`~feedgen.episode.Episode`, adds it to the podcast
+which optionally creates a new instance of :class:`~feedgen.Episode`, adds it to the podcast
 and returns it, allowing you to assign it to a variable::
 
     my_episode = p.add_episode()
@@ -40,14 +40,12 @@ well as a short subtitle::
         "all. <br/>Today's intro music: " + \
         "<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>Example Song</a>"
 
-They're all pretty obvious:
+Read more:
 
-.. autosummary::
-
-   ~feedgen.BaseEpisode.title
-   ~feedgen.BaseEpisode.subtitle
-   ~feedgen.BaseEpisode.summary
-   ~feedgen.BaseEpisode.long_summary
+* :attr:`~feedgen.BaseEpisode.title`
+* :attr:`~feedgen.BaseEpisode.subtitle`
+* :attr:`~feedgen.BaseEpisode.summary`
+* :attr:`~feedgen.BaseEpisode.long_summary`
 
 
 Enclosing media
@@ -67,7 +65,7 @@ attached to it! ::
 Normally, you must specify how big the **file size** is in bytes (and the MIME
 type, if the file extension is unknown to iTunes), but PodcastGenerator
 can send a HEAD request to the URL and retrieve the missing information. This is
-done by calling :meth:`Media.create_from_server_response <feedgen.media.Media.create_from_server_response>`
+done by calling :meth:`Media.create_from_server_response <feedgen.Media.create_from_server_response>`
 instead of using the constructor directly.
 You must pass in the `requests <http://docs.python-requests.org/en/master/>`_
 module, so it must be installed! ::
@@ -91,10 +89,10 @@ The **duration** is also important to include, for your listeners' convenience.
 Without it, they won't know how long an episode is before they start downloading
 and listening.
 
-.. autosummary::
+Read more about:
 
-   ~feedgen.BaseEpisode.media
-   ~feedgen.media.Media
+* :attr:`feedgen.BaseEpisode.media` (the attribute)
+* :class:`feedgen.Media` (the class which you use as value)
 
 
 Identifying the episode
@@ -111,8 +109,7 @@ That is, given the example above, the id of ``my_episode`` would be
    An episode's ID should never change. Therefore, **if you don't set id, the
    media URL must never change either**.
 
-.. autosummary:: ~feedgen.BaseEpisode.id
-
+Read more about :attr:`the id attribute <feedgen.BaseEpisode.id>`.
 
 Episode's publication date
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +132,7 @@ will get a new episode which appears to have existed for longer than it has.
    my_episode.publication_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
 
-.. autosummary:: ~feedgen.BaseEpisode.publication_date
+Read more about :attr:`the publication_date attribute <feedgen.BaseEpisode.id>`.
 
 
 The Link
@@ -154,7 +151,7 @@ the link. ::
    If you don't have anything to link to, then that's fine as well. No link is
    better than a disappointing link.
 
-.. autosummary:: ~feedgen.BaseEpisode.link
+Read more about :attr:`the link attribute <feedgen.BaseEpisode.link>`.
 
 
 The Authors
@@ -181,7 +178,7 @@ You can even have multiple authors::
 
      my_episode.authors = [Person("Joe Bob"), Person("Alice Bob")]
 
-.. autosummary:: ~feedgen.BaseEpisode.authors
+Read more about :attr:`an episode's authors <feedgen.BaseEpisode.authors>`.
 
 
 Less used attributes
@@ -196,12 +193,12 @@ Less used attributes
     # Be careful about using the following attribute!
     my_episode.withhold_from_itunes = True
 
-.. autosummary::
+More details:
 
-   ~feedgen.BaseEpisode.image
-   ~feedgen.BaseEpisode.explicit
-   ~feedgen.BaseEpisode.is_closed_captioned
-   ~feedgen.BaseEpisode.position
-   ~feedgen.BaseEpisode.withhold_from_itunes
+* :attr:`~feedgen.BaseEpisode.image`
+* :attr:`~feedgen.BaseEpisode.explicit`
+* :attr:`~feedgen.BaseEpisode.is_closed_captioned`
+* :attr:`~feedgen.BaseEpisode.position`
+* :attr:`~feedgen.BaseEpisode.withhold_from_itunes`
 
 The final step is :doc:`part_3`

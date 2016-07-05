@@ -42,7 +42,7 @@ def main():
     # Remember what type of feed the user wants
     arg = sys.argv[1]
 
-    from feedgen import Podcast, Person, Media, Category
+    from feedgen import Podcast, Person, Media, Category, htmlencode
     # Initialize the feed
     p = Podcast()
     p.name = 'Testfeed'
@@ -59,18 +59,18 @@ def main():
     p.owner = Person('John Doe', 'john@example.com')
 
     e1 = p.add_episode()
-    e1.id('http://lernfunk.de/_MEDIAID_123#1')
-    e1.title('First Element')
-    e1.summary('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
+    e1.id = 'http://lernfunk.de/_MEDIAID_123#1'
+    e1.title = 'First Element'
+    e1.summary = htmlencode('''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tamen
             aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista
             mala sunt, placet. Aut etiam, ut vestitum, sic sententiam habeas aliam
             domesticam, aliam forensem, ut in fronte ostentatio sit, intus veritas
             occultetur? Cum id fugiunt, re eadem defendunt, quae Peripatetici,
-            verba <3.''', html=False)
-    e1.link(link='http://example.com')
+            verba <3.''')
+    e1.link = 'http://example.com'
     e1.authors = [Person('Lars Kiesow', 'lkiesow@uos.de')]
-    e1.publication_date(datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc))
-    e1.media(Media("http://example.com/episodes/loremipsum.mp3", 454599964))
+    e1.publication_date = datetime.datetime(2014, 5, 17, 13, 37, 10, tzinfo=pytz.utc)
+    e1.media = Media("http://example.com/episodes/loremipsum.mp3", 454599964)
 
     # Should we just print out, or write to file?
     if arg == 'rss':
