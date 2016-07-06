@@ -13,7 +13,10 @@ class TestMedia(unittest.TestCase):
         self.type = "audio/mpeg"
         self.expected_type = ("audio/mpeg3", "audio/x-mpeg-3", "audio/mpeg")
         self.duration = timedelta(hours=1, minutes=32, seconds=44)
-        warnings.simplefilter("ignore")
+        warnings.simplefilter("always")
+        def noop(*args, **kwargs):
+            pass
+        warnings.showwarning = noop
 
     def test_constructorOneArgument(self):
         m = Media(self.url)
@@ -125,7 +128,6 @@ class TestMedia(unittest.TestCase):
 
     def test_warningGivenIfNotSupportedByItunes(self):
         with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
             self.assertEqual(len(w), 0)
             # Use a type not supported by itunes
             self.test_anyExtensionAllowedWithType()

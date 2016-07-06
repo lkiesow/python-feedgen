@@ -4,7 +4,8 @@ PodGen (forked from python-feedgen)
 
 [![Build Status](https://travis-ci.org/tobinus/python-podgen.svg?branch=master)](https://travis-ci.org/tobinus/python-podgen)
 
-This module can be used to generate podcast feeds in RSS format.
+This module can be used to generate podcast feeds in RSS format, and is
+compatible with Python 3.3+.
 
 It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look
