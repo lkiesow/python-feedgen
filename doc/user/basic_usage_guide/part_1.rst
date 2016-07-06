@@ -103,5 +103,24 @@ Read more:
 * :attr:`~feedgen.Podcast.complete`
 * :attr:`~feedgen.Podcast.withhold_from_itunes`
 
+Shortcut for filling in data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Instead of creating a new :class:`.Podcast` object in one statement, and
+populating it with data one statement at a time afterwards, you can create a
+new :class:`.Podcast` object and fill it with data in one statement. Simply
+use the attribute name as keyword arguments to the constructor::
+
+   import feedgen
+   p = feedgen.Podcast(
+       <attribute name>=<attribute value>,
+       <attribute name>=<attribute value>,
+       ...
+   )
+
+Take a look at the :doc:`API Documentation for Podcast </api.podcast>` for a
+practical example.
+
+--------------------------------------------------------------------------------
 
 Next step is :doc:`part_2`.

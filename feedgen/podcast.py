@@ -8,7 +8,7 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 
 """
-
+from future.utils import iteritems
 from lxml import etree
 from datetime import datetime
 import dateutil.parser
@@ -35,10 +35,33 @@ class Podcast(object):
     * :attr:`~feedgen.Podcast.website`
     * :attr:`~feedgen.Podcast.description`
     * :attr:`~feedgen.Podcast.explicit`
+
+    There is a **shortcut** you can use when creating new Podcast objects, that
+    lets you populate the attributes using the constructor. Use keyword
+    arguments with the **attribute name as keyword** and the desired value as
+    value::
+
+        >>> import feedgen
+        >>> # The following...
+        >>> p = Podcast()
+        >>> p.name = "The Test Podcast"
+        >>> p.website = "http://example.com"
+        >>> # ...is the same as this:
+        >>> p = Podcast(
+        ...     name="The Test Podcast",
+        ...     website="http://example.com",
+        ... )
+
+    Of course, you can do this for as many (or few) attributes as you like, and
+    you can still set the attributes afterwards, like always.
+
+    :raises: TypeError if you use a keyword which isn't recognized as an
+        attribute. ValueError if you use a value which isn't compatible with
+        the attribute (just like when you assign it manually).
+
     """
 
-
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.__episodes = []
         """The list used by self.episodes."""
         self.__episode_class = Episode
@@ -190,6 +213,16 @@ class Podcast(object):
         """The subtitle for your podcast, shown mainly as a very short
         description on iTunes. The subtitle displays best if it is only a few
         words long, like a short slogan."""
+
+        # Populate the podcast with the keyword arguments
+        for attribute, value in iteritems(kwargs):
+            if hasattr(self, attribute):
+                setattr(self, attribute, value)
+            else:
+                raise TypeError("Keyword argument %s (with value %s) doesn't "
+                                "match any attribute in Podcast." %
+                                (attribute, value))
+
 
     @property
     def episodes(self):

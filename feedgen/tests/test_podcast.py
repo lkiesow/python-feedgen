@@ -25,7 +25,7 @@ class TestPodcast(unittest.TestCase):
         self.nsContent = "http://purl.org/rss/1.0/modules/content/"
         self.nsDc = "http://purl.org/dc/elements/1.1/"
         self.nsItunes = "http://www.itunes.com/dtds/podcast-1.0.dtd"
-        self.feedUrl = "http://example.com/feeds/myfeed.rss"
+        self.feed_url = "http://example.com/feeds/myfeed.rss"
 
         self.name = 'Some Testfeed'
 
@@ -46,14 +46,14 @@ class TestPodcast(unittest.TestCase):
                             'email': 'Contributor email'}
         self.copyright = "The copyright notice"
         self.docs = 'http://www.rssboard.org/rss-specification'
-        self.skipDays = {'Tuesday'}
-        self.skipHours = {23}
+        self.skip_days = {'Tuesday'}
+        self.skip_hours = {23}
 
         self.explicit = False
 
         self.programname = feedgen.version.name
 
-        self.webMaster = Person(email='webmaster@example.com')
+        self.web_master = Person(email='webmaster@example.com')
         self.image = "http://example.com/static/podcast.png"
         self.owner = self.author
         self.complete = True
@@ -67,10 +67,10 @@ class TestPodcast(unittest.TestCase):
                     self.cloudRegisterProcedure, self.cloudProtocol)
         fg.copyright = self.copyright
         fg.authors.append(self.author)
-        fg.skip_days = self.skipDays
-        fg.skip_hours = self.skipHours
-        fg.web_master = self.webMaster
-        fg.feed_url = self.feedUrl
+        fg.skip_days = self.skip_days
+        fg.skip_hours = self.skip_hours
+        fg.web_master = self.web_master
+        fg.feed_url = self.feed_url
         fg.explicit = self.explicit
         fg.image = self.image
         fg.owner = self.owner
@@ -78,20 +78,47 @@ class TestPodcast(unittest.TestCase):
 
         self.fg = fg
 
+    def test_constructor(self):
+        # Overwrite fg from setup
+        self.fg = Podcast(
+            name=self.name,
+            website=self.website,
+            description=self.description,
+            language=self.language,
+            cloud=(self.cloudDomain, self.cloudPort, self.cloudPath,
+                   self.cloudRegisterProcedure, self.cloudProtocol),
+            copyright=self.copyright,
+            authors=[self.author],
+            skip_days=self.skip_days,
+            skip_hours=self.skip_hours,
+            web_master=self.web_master,
+            feed_url=self.feed_url,
+            explicit=self.explicit,
+            image=self.image,
+            owner=self.owner,
+            complete=self.complete,
+        )
+        # Test that the fields are actually set
+        self.test_baseFeed()
+
+    def test_constructorUnknownAttributes(self):
+        self.assertRaises(TypeError, Podcast, naem="Oh, looks like a typo")
+        self.assertRaises(TypeError, Podcast, "Haha, No Keyword")
+
     def test_baseFeed(self):
         fg = self.fg
 
         assert fg.name == self.name
 
         assert fg.authors[0] == self.author
-        assert fg.web_master == self.webMaster
+        assert fg.web_master == self.web_master
 
         assert fg.website == self.website
 
         assert fg.description == self.description
 
         assert fg.language == self.language
-        assert fg.feed_url == self.feedUrl
+        assert fg.feed_url == self.feed_url
         assert fg.image == self.image
         assert fg.owner == self.owner
         assert fg.complete == self.complete
@@ -132,10 +159,10 @@ class TestPodcast(unittest.TestCase):
         assert channel.find("copyright").text == self.copyright
         assert channel.find("docs").text == self.docs
         assert self.author.email in channel.find("managingEditor").text
-        assert channel.find("skipDays").find("day").text in self.skipDays
-        assert int(channel.find("skipHours").find("hour").text) in self.skipHours
-        assert self.webMaster.email in channel.find("webMaster").text
-        assert channel.find("{%s}link" % nsAtom).get('href') == self.feedUrl
+        assert channel.find("skipDays").find("day").text in self.skip_days
+        assert int(channel.find("skipHours").find("hour").text) in self.skip_hours
+        assert self.web_master.email in channel.find("webMaster").text
+        assert channel.find("{%s}link" % nsAtom).get('href') == self.feed_url
         assert channel.find("{%s}link" % nsAtom).get('rel') == 'self'
         assert channel.find("{%s}link" % nsAtom).get('type') == \
                'application/rss+xml'

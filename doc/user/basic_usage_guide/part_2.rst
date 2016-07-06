@@ -212,7 +212,8 @@ Shortcut for filling in data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Instead of assigning those values one at a time, you can assign them all in
-one go in the constructor. Just use the attribute name as the keyword::
+one go in the constructor – just like you can with Podcast. Just use the
+attribute name as the keyword::
 
     Episode(
         <attribute name>=<attribute value>,
@@ -221,5 +222,7 @@ one go in the constructor. Just use the attribute name as the keyword::
     )
 
 See also the example in :doc:`the API Documentation </api.episode>`.
+
+--------------------------------------------------------------------------------
 
 The final step is :doc:`part_3`
