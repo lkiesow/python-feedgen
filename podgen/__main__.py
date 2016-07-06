@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-    feedgen
+    podgen
     ~~~~~~~
 
     :copyright: 2013, Lars Kiesow <lkiesow@uos.de>
@@ -32,7 +32,7 @@ def main():
         # print_enc is just a custom function which functions like print,
         # except it deals with byte arrays properly.
         print_enc ('Usage: %s ( <file>.rss | rss )' % \
-                'python -m feedgen')
+                'python -m podgen')
         print_enc ('')
         print_enc ('  rss              -- Generate RSS test output and print it to stdout.')
         print_enc ('  <file>.rss       -- Generate RSS test teed and write it to file.rss.')
@@ -42,7 +42,7 @@ def main():
     # Remember what type of feed the user wants
     arg = sys.argv[1]
 
-    from feedgen import Podcast, Person, Media, Category, htmlencode
+    from podgen import Podcast, Person, Media, Category, htmlencode
     # Initialize the feed
     p = Podcast()
     p.name = 'Testfeed'

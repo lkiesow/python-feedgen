@@ -9,14 +9,14 @@ Testing
 
 You can test the module integration-testing-style by simply executing::
 
-    $ python -m feedgen
+    $ python -m podgen
 
 When working on this project, you should run the unit tests as well as the
 integration test, like this::
 
     $ make test
 
-The unit tests reside in ``feedgen/tests`` and are written using the
+The unit tests reside in ``podgen/tests`` and are written using the
 :mod:`unittest` module.
 
 
@@ -26,12 +26,12 @@ API Documentation
 
 .. autosummary::
 
-   feedgen.Podcast
-   feedgen.Episode
-   feedgen.Person
-   feedgen.Media
-   feedgen.Category
-   feedgen.util
+   podgen.Podcast
+   podgen.Episode
+   podgen.Person
+   podgen.Media
+   podgen.Category
+   podgen.util
 
 .. toctree::
    :maxdepth: 2

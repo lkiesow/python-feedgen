@@ -12,7 +12,7 @@ class Category(object):
 
     Example::
 
-        >>> from feedgen.category import Category
+        >>> from podgen.category import Category
         >>> c = Category("Music")
         >>> c.category
         Music
@@ -58,7 +58,7 @@ class Category(object):
 
     def __init__(self, category, subcategory=None):
         """Create new Category object. See the class description of
-        :class:´~feedgen.category.Category`.
+        :class:´~podgen.category.Category`.
 
         :param category: Category of the podcast.
         :type category: str

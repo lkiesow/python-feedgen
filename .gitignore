@@ -3,9 +3,9 @@ venv
 *.pyo
 *.swp
 
-feedgen/tests/tmp_Atomfeed.xml
+podgen/tests/tmp_Atomfeed.xml
 
-feedgen/tests/tmp_Rssfeed.xml
+podgen/tests/tmp_Rssfeed.xml
 
 tmp_Atomfeed.xml
 

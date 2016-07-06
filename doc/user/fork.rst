@@ -22,12 +22,12 @@ separate ways to go about setting multi-value variables, is also a bit confusing
 Perhaps the biggest problem, though, is the awkwardness that stems from enabling
 RSS and ATOM feeds through the same API. In case you don't know, ATOM is a
 "competitor" to RSS, and has many more capabilities than RSS. However, it is
-not used for podcasting. If you're curiousSome methods will map an ATOM value to
+not used for podcasting. It is confusing because some methods will map an ATOM value to
 its closest sibling in RSS, some in logical ways (like the ATOM method ``rights`` setting
 the value of the RSS property ``copyright``) and some differ in subtle ways (like using
 (ATOM) ``logo`` versus (RSS) ``image``). Other methods are more complex (see ``link``). They're all
 confusing, though, since changing one property automatically changes another implicitly.
-They also cause bugs, since it is so difficult to map your head around how one
+They also cause bugs, since it is so difficult to wrap your head around how one
 interact with another.
 Removing ATOM fixes all these issues.
 
@@ -70,8 +70,8 @@ bring it there, so it can benefit **everyone**.
 Summary of changes
 ------------------
 
-* ``FeedGenerator`` is renamed to :class:`~feedgen.Podcast` and ``FeedItem`` is accessed
-  at ``Podcast.Episode`` (or directly: :class:`~feedgen.BaseEpisode`).
+* ``FeedGenerator`` is renamed to :class:`~podgen.Podcast` and ``FeedItem`` is accessed
+  at ``Podcast.Episode`` (or directly: :class:`~podgen.BaseEpisode`).
 * Support for ATOM removed.
 * Move from using getter and setter methods to using properties, which you can
   assign just like you would assign any other property.
@@ -91,6 +91,6 @@ Summary of changes
 * Rename the remaining properties so their names don't necessarily match the RSS
   elements they map to. Instead, the names should be descriptive and easy to
   understand.
-* Add shorthand for generating the RSS: Just try to converting your :class:`~feedgen.Podcast`
+* Add shorthand for generating the RSS: Just try to converting your :class:`~podgen.Podcast`
   object to :obj:`str`!
 * Improve the documentation

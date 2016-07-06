@@ -2,10 +2,10 @@
 Working example
 ===============
 
-Below is a working example of how you can go about using PodcastGenerator. It
+Below is a working example of how you can go about using PodGen. It
 also shows you how you can use the different properties of Podcast and Episode.
 
-.. literalinclude:: ../../feedgen/__main__.py
+.. literalinclude:: ../../podgen/__main__.py
    :pyobject: main
    :linenos:
 

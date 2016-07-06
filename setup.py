@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 
 from distutils.core import setup
-import feedgen.version
+import podgen.version
 
 setup(
-        name = 'feedgen',
-        packages = ['feedgen', 'feedgen/ext'],
-        version = feedgen.version.version_full_str,
-        description = 'Feed Generator (ATOM, RSS, Podcasts)',
+        name = 'podgen',
+        packages = ['podgen'],
+        version = podgen.version.version_full_str,
+        description = 'Generating podcasts with Python should be easy!',
         author = 'Lars Kiesow',
         author_email = 'lkiesow@uos.de',
         url = 'http://lkiesow.github.io/python-feedgen',
-        keywords = ['feed','ATOM','RSS','podcast'],
+        keywords = ['feed','RSS','podcast','iTunes'],
         license = 'FreeBSD and LGPLv3+',
         install_requires = ['lxml', 'dateutils'],
         classifiers = [
@@ -26,7 +26,6 @@ setup(
             'Natural Language :: English',
             'Operating System :: OS Independent',
             'Programming Language :: Python',
-            'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 3',
             'Topic :: Communications',
             'Topic :: Internet',
@@ -35,12 +34,13 @@ setup(
             'Topic :: Text Processing :: Markup :: XML'
             ],
         long_description = '''\
-Feedgenerator
-=============
+PodGen
+======
 
-This module can be used to generate web feeds in both ATOM and RSS format. It
-has support for extensions. Included is for example an extension to produce
-Podcasts.
+This module can be used to easily generate Podcasts. It is designed so you
+don't need to read up on how RSS and iTunes functions – it just works!
+
+See the documentation at ....
 
 It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look

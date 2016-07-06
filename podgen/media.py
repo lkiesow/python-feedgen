@@ -2,8 +2,8 @@ import warnings
 from future.moves.urllib.parse import urlparse
 import datetime
 
-from feedgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
-from feedgen import version
+from podgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
+from podgen import version
 
 
 class Media(object):
@@ -27,7 +27,7 @@ class Media(object):
 
     .. note::
 
-        A warning called :class:`~feedgen.not_supported_by_itunes_warning.NotSupportedByItunesWarning`
+        A warning called :class:`~podgen.not_supported_by_itunes_warning.NotSupportedByItunesWarning`
         will be issued if your URL or type isn't compatible with iTunes. See
         the Python documentation for more details on :mod:`warnings`.
 
@@ -171,11 +171,11 @@ class Media(object):
         .. note::
 
             If you leave out type when creating a new Media object, the
-            type will be auto-detected from the :attr:`~feedgen.media.Media.url`
+            type will be auto-detected from the :attr:`~podgen.media.Media.url`
             attribute. However, this won't happen automatically other than
             during initialization. If you want to autodetect type when
             assigning a new value to url, you should use
-            :meth:`~feedgen.media.Media.get_type`.
+            :meth:`~podgen.media.Media.get_type`.
         """
         return self._type
 
@@ -196,7 +196,7 @@ class Media(object):
 
         Example::
 
-            >>> from feedgen.media import Media
+            >>> from podgen.media import Media
             >>> m = Media("http://example.org/1.mp3", 136532744)
             >>> # The type was detected from the url:
             >>> m.type
@@ -279,7 +279,7 @@ class Media(object):
         Example (assuming the server responds with Content-Length: 252345991 and
         Content-Type: audio/mpeg)::
 
-            >>> from feedgen.media import Media
+            >>> from podgen.media import Media
             >>> import requests  # from requests package
             >>> # Assume an episode is hosted at example.com
             >>> m = Media.create_from_server_response(requests,

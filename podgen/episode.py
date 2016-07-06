@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    feedgen.entry
+    podgen.entry
     ~~~~~~~~~~~~~
 
     :copyright: 2013, Lars Kiesow <lkiesow@uos.de>
@@ -11,8 +11,8 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.util import formatRFC2822, listToHumanreadableStr
-from feedgen.compat import string_types
+from podgen.util import formatRFC2822, listToHumanreadableStr
+from podgen.compat import string_types
 from builtins import str
 from future.utils import iteritems
 
@@ -44,9 +44,9 @@ class Episode(object):
 
     To add an episode to a podcast::
 
-        >>> import feedgen
-        >>> p = feedgen.Podcast()
-        >>> episode = feedgen.Episode()
+        >>> import podgen
+        >>> p = podgen.Podcast()
+        >>> episode = podgen.Episode()
         >>> p.episodes.append(episode)
 
     You may also replace the last two lines with a shortcut::
@@ -68,9 +68,9 @@ class Episode(object):
         XHTML parsers.
 
         If your summary isn't fit to be parsed as XHTML, you can use
-        :py:func:`feedgen.htmlencode` to fix the text, like this::
+        :py:func:`podgen.htmlencode` to fix the text, like this::
 
-            >>> ep.summary = feedgen.htmlencode("We spread lots of love <3")
+            >>> ep.summary = podgen.htmlencode("We spread lots of love <3")
             >>> ep.summary
             We spread lots of love &lt;3
 
@@ -83,7 +83,7 @@ class Episode(object):
 
         self.long_summary = None
         """A long (read: full) summary, which supplements the shorter
-        :attr:`~feedgen.Episode.summary`.
+        :attr:`~podgen.Episode.summary`.
 
         This attribute should be seen as a full, longer variation of
         summary if summary exists. Even then, the long_summary should be
@@ -276,7 +276,7 @@ class Episode(object):
 
     @property
     def authors(self):
-        """List of :class:`~feedgen.Person` that contributed to this
+        """List of :class:`~podgen.Person` that contributed to this
         episode.
 
         The authors don't need to have both name and email set. The names are
@@ -289,7 +289,7 @@ class Episode(object):
 
         Any value you assign to authors will be automatically converted to a
         list, but only if it's iterable (like tuple, set and so on). It is an
-        error to assign a single :class:`~feedgen.Person` object to this
+        error to assign a single :class:`~podgen.Person` object to this
         attribute::
 
             >>> # This results in an error
@@ -345,7 +345,7 @@ class Episode(object):
 
     @property
     def media(self):
-        """Get or set the :class:`~feedgen.Media` object that is attached
+        """Get or set the :class:`~podgen.Media` object that is attached
         to this episode.
 
         Note that if :py:attr:`.id` is not set, the enclosure's url is used as

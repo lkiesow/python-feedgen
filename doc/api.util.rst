@@ -1,2 +1,2 @@
-.. automodule:: feedgen.util
+.. automodule:: podgen.util
    :members:

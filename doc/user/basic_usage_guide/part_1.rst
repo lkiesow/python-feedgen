@@ -6,7 +6,7 @@ Creating a new instance
 
 ::
 
-    from feedgen import Podcast
+    from podgen import Podcast
     p = Podcast()
 
 Mandatory properties
@@ -19,12 +19,12 @@ Mandatory properties
     p.website = "https://example.org"
     p.explicit = True
 
-Those four properties, :attr:`~feedgen.Podcast.name`,
-:attr:`~feedgen.Podcast.description`,
-:attr:`~feedgen.Podcast.explicit` and
-:attr:`~feedgen.Podcast.website`, are actually
+Those four properties, :attr:`~podgen.Podcast.name`,
+:attr:`~podgen.Podcast.description`,
+:attr:`~podgen.Podcast.explicit` and
+:attr:`~podgen.Podcast.website`, are actually
 the only four **mandatory** properties of
-:class:`~feedgen.Podcast`.
+:class:`~podgen.Podcast`.
 
 Image
 ~~~~~
@@ -33,7 +33,7 @@ A podcast's image is worth special attention::
 
     p.image = "https://example.com/static/example_podcast.png"
 
-.. autoattribute:: feedgen.Podcast.image
+.. autoattribute:: podgen.Podcast.image
    :noindex:
 
 Even though the image *technically* is optional, you won't reach people without it.
@@ -42,7 +42,7 @@ Optional properties
 ~~~~~~~~~~~~~~~~~~~
 
 There are plenty of other properties that can be used with
-:class:`feedgen.Podcast <feedgen.Podcast>`:
+:class:`podgen.Podcast <podgen.Podcast>`:
 
 
 Commonly used
@@ -59,12 +59,12 @@ Commonly used
 
 Read more:
 
-* :attr:`~feedgen.Podcast.copyright`
-* :attr:`~feedgen.Podcast.language`
-* :attr:`~feedgen.Podcast.authors`
-* :attr:`~feedgen.Podcast.feed_url`
-* :attr:`~feedgen.Podcast.category`
-* :attr:`~feedgen.Podcast.owner`
+* :attr:`~podgen.Podcast.copyright`
+* :attr:`~podgen.Podcast.language`
+* :attr:`~podgen.Podcast.authors`
+* :attr:`~podgen.Podcast.feed_url`
+* :attr:`~podgen.Podcast.category`
+* :attr:`~podgen.Podcast.owner`
 
 
 Less commonly used
@@ -93,15 +93,15 @@ again have very reasonable defaults.
 
 Read more:
 
-* :attr:`~feedgen.Podcast.cloud`
-* :attr:`~feedgen.Podcast.last_updated`
-* :attr:`~feedgen.Podcast.publication_date`
-* :attr:`~feedgen.Podcast.skip_days`
-* :attr:`~feedgen.Podcast.skip_hours`
-* :attr:`~feedgen.Podcast.web_master`
-* :attr:`~feedgen.Podcast.new_feed_url`
-* :attr:`~feedgen.Podcast.complete`
-* :attr:`~feedgen.Podcast.withhold_from_itunes`
+* :attr:`~podgen.Podcast.cloud`
+* :attr:`~podgen.Podcast.last_updated`
+* :attr:`~podgen.Podcast.publication_date`
+* :attr:`~podgen.Podcast.skip_days`
+* :attr:`~podgen.Podcast.skip_hours`
+* :attr:`~podgen.Podcast.web_master`
+* :attr:`~podgen.Podcast.new_feed_url`
+* :attr:`~podgen.Podcast.complete`
+* :attr:`~podgen.Podcast.withhold_from_itunes`
 
 Shortcut for filling in data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,8 +111,8 @@ populating it with data one statement at a time afterwards, you can create a
 new :class:`.Podcast` object and fill it with data in one statement. Simply
 use the attribute name as keyword arguments to the constructor::
 
-   import feedgen
-   p = feedgen.Podcast(
+   import podgen
+   p = podgen.Podcast(
        <attribute name>=<attribute value>,
        <attribute name>=<attribute value>,
        ...

@@ -10,8 +10,8 @@ A basic feed does not contain entries so far.
 import unittest
 from lxml import etree
 
-from feedgen import Person, Category, Podcast
-import feedgen.version
+from podgen import Person, Category, Podcast
+import podgen.version
 import datetime
 import dateutil.tz
 import dateutil.parser
@@ -51,7 +51,7 @@ class TestPodcast(unittest.TestCase):
 
         self.explicit = False
 
-        self.programname = feedgen.version.name
+        self.programname = podgen.version.name
 
         self.web_master = Person(email='webmaster@example.com')
         self.image = "http://example.com/static/podcast.png"
@@ -183,14 +183,14 @@ class TestPodcast(unittest.TestCase):
         software_version = (1, 0)
         software_url = "http://example.com/awesomesoft/"
 
-        # Using set_generator, text includes python-feedgen
+        # Using set_generator, text includes python-podgen
         self.fg.set_generator(software_name)
         rss = self.fg._create_rss()
         generator = rss.find("channel").find("generator").text
         assert software_name in generator
         assert self.programname in generator
 
-        # Using set_generator, text excludes python-feedgen
+        # Using set_generator, text excludes python-podgen
         self.fg.set_generator(software_name,  exclude_feedgen=True)
         generator = self.fg._create_rss().find("channel").find("generator").text
         assert software_name in generator
@@ -204,7 +204,7 @@ class TestPodcast(unittest.TestCase):
         assert str(software_version[1]) in generator
         assert software_url in generator
 
-        # Using generator directly, text excludes python-feedgen
+        # Using generator directly, text excludes python-podgen
         self.fg.generator = software_name
         generator = self.fg._create_rss().find("channel").find("generator").text
         assert software_name in generator

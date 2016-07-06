@@ -3,8 +3,8 @@ sdist: doc
 
 clean: doc-clean
 	@echo Removing binary files...
-	@rm -f `find feedgen -name '*.pyc'`
-	@rm -f `find feedgen -name '*.pyo'`
+	@rm -f `find podgen -name '*.pyc'`
+	@rm -f `find podgen -name '*.pyo'`
 	@echo Removing source distribution files...
 	@rm -rf dist/
 	@rm -f MANIFEST
@@ -42,8 +42,8 @@ publish: sdist
 	python setup.py register sdist upload
 
 test:
-	@python -m unittest feedgen.tests.test_podcast feedgen.tests.test_episode \
-	  feedgen.tests.test_person feedgen.tests.test_media \
-	  feedgen.tests.test_util feedgen.tests.test_category
-	python -m feedgen rss > /dev/null
+	@python -m unittest podgen.tests.test_podcast podgen.tests.test_episode \
+	  podgen.tests.test_person podgen.tests.test_media \
+	  podgen.tests.test_util podgen.tests.test_category
+	python -m podgen rss > /dev/null
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml

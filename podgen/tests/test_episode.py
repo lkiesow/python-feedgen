@@ -9,7 +9,7 @@ These are test cases for a basic entry.
 import unittest
 from lxml import etree
 
-from feedgen import Person, Media, Podcast, htmlencode, Episode
+from podgen import Person, Media, Podcast, htmlencode, Episode
 import datetime
 import pytz
 from dateutil.parser import parse as parsedate

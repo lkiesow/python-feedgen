@@ -1,5 +1,5 @@
 import unittest
-from feedgen import util
+from podgen import util
 
 class TestUtil(unittest.TestCase):
 

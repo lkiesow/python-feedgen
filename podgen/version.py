@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    feedgen.version
+    podgen.version
     ~~~~~~~~~~~~~~~
 
     :copyright: 2013-2015, Lars Kiesow <lkiesow@uos.de>
@@ -9,11 +9,11 @@
 
 """
 
-'Version of python-feedgen represented as tuple'
+'Version of python-podgen represented as tuple'
 version = (0, 3, 2)
 
 
-'Version of python-feedgen represented as string'
+'Version of python-podgen represented as string'
 version_str = '.'.join([str(x) for x in version])
 
 version_major = version[:1]
@@ -25,7 +25,7 @@ version_minor_str = '.'.join([str(x) for x in version_minor])
 version_full_str  = '.'.join([str(x) for x in version_full])
 
 'Name of this project'
-name = "python-feedgen (podcastgen)"
+name = "python-podgen (podcastgen)"
 
 'Website of this project'
-website = "https://github.com/tobinus/python-feedgen/tree/podcastgen"
+website = "https://github.com/tobinus/python-podgen/tree/podcastgen"

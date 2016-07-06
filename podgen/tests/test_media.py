@@ -3,7 +3,7 @@ import unittest
 import warnings
 from datetime import timedelta
 
-from feedgen import Media, NotSupportedByItunesWarning
+from podgen import Media, NotSupportedByItunesWarning
 
 
 class TestMedia(unittest.TestCase):

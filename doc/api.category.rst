@@ -1,5 +1,5 @@
-feedgen.Category
-================
+podgen.Category
+===============
 
-.. autoclass:: feedgen.Category
+.. autoclass:: podgen.Category
    :members:

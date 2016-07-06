@@ -8,7 +8,7 @@ Installation
 
 #. Activate your project's virtualenv.
 
-#. Install the requirements listed in ``requirements.txt`` inside feedgen::
+#. Install the requirements listed in ``requirements.txt`` inside podgen::
 
     pip install -r requirements.txt
 
@@ -19,4 +19,4 @@ This is a pretty bad way to install something, but I haven't had the time to
 set up a PyPi package yet. Until then, you'd be better off using the original
 python-feedgen.
 
-.. _GitHub repository: https://github.com/tobinus/python-feedgen/tree/podcastgen
+.. _GitHub repository: https://github.com/tobinus/python-podgen/tree/podcastgen

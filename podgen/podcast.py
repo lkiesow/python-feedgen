@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    feedgen.feed
+    podgen.feed
     ~~~~~~~~~~~~
 
     :copyright: 2013, Lars Kiesow <lkiesow@uos.de>
@@ -13,17 +13,17 @@ from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
-from feedgen.episode import Episode
-from feedgen.util import ensure_format, formatRFC2822, listToHumanreadableStr
-from feedgen.person import Person
-import feedgen.version
+from podgen.episode import Episode
+from podgen.util import ensure_format, formatRFC2822, listToHumanreadableStr
+from podgen.person import Person
+import podgen.version
 import sys
-from feedgen.compat import string_types
+from podgen.compat import string_types
 import collections
 import inspect
 
 
-_feedgen_version = feedgen.version.version_str
+_feedgen_version = podgen.version.version_str
 
 
 class Podcast(object):
@@ -31,17 +31,17 @@ class Podcast(object):
 
     The following attributes are mandatory:
 
-    * :attr:`~feedgen.Podcast.name`
-    * :attr:`~feedgen.Podcast.website`
-    * :attr:`~feedgen.Podcast.description`
-    * :attr:`~feedgen.Podcast.explicit`
+    * :attr:`~podgen.Podcast.name`
+    * :attr:`~podgen.Podcast.website`
+    * :attr:`~podgen.Podcast.description`
+    * :attr:`~podgen.Podcast.explicit`
 
     There is a **shortcut** you can use when creating new Podcast objects, that
     lets you populate the attributes using the constructor. Use keyword
     arguments with the **attribute name as keyword** and the desired value as
     value::
 
-        >>> import feedgen
+        >>> import podgen
         >>> # The following...
         >>> p = Podcast()
         >>> p.name = "The Test Podcast"
@@ -255,7 +255,7 @@ class Podcast(object):
         Example of use::
 
             >>> # Create new podcast
-            >>> from feedgen import Podcast, Episode
+            >>> from podgen import Podcast, Episode
             >>> p = Podcast()
             >>> # Normal way of creating new episodes
             >>> episode1 = Episode()
@@ -303,14 +303,14 @@ class Podcast(object):
             >>> entry.title('First feed entry')
             'First feed entry'
             >>> # You may also provide an episode object yourself:
-            >>> another_entry = feedgen.add_episode(feedgen.Episode())
+            >>> another_entry = feedgen.add_episode(podgen.Episode())
             >>> another_entry.title('My second feed entry')
             'My second feed entry'
 
         Internally, this method creates a new instance of
-        :attr:`~feedgen.Episode.episode_class`, which means you can change what
+        :attr:`~podgen.Episode.episode_class`, which means you can change what
         type of objects are created by changing
-        :attr:`~feedgen.Episode.episode_class`.
+        :attr:`~podgen.Episode.episode_class`.
 
         """
         if new_episode is None:
@@ -618,7 +618,7 @@ class Podcast(object):
         :param version: (Optional) Version of the software, as a tuple.
         :param uri: (Optional) URI the software can be found.
         :param exclude_feedgen: (Optional) Set to True to disable the mentioning
-            of the python-feedgen library.
+            of the python-podgen library.
 
         .. seealso::
 
@@ -638,20 +638,20 @@ class Podcast(object):
     @property
     def _feedgen_generator_str(self):
         return self._program_name_to_str(
-                                       feedgen.version.name,
-                                       feedgen.version.version_full,
-                                       feedgen.version.website
+                                       podgen.version.name,
+                                       podgen.version.version_full,
+                                       podgen.version.website
                                    )
 
 
     @property
     def authors(self):
-        """List of :class:`~feedgen.Person` that are responsible for this
+        """List of :class:`~podgen.Person` that are responsible for this
         podcast's editorial content.
 
         Any value you assign to authors will be automatically converted to a
         list, but only if it's iterable (like tuple, set and so on). It is an
-        error to assign a single :class:`~feedgen.person.Person` object to this
+        error to assign a single :class:`~podgen.person.Person` object to this
         attribute::
 
             >>> # This results in an error
@@ -724,7 +724,7 @@ class Podcast(object):
 
         For example, to skip hours between 18 and 7::
 
-            >>> from feedgen import Podcast
+            >>> from podgen import Podcast
             >>> p = Podcast()
             >>> p.skip_hours = set(range(18, 24))
             >>> p.skip_hours
@@ -754,7 +754,7 @@ class Podcast(object):
 
         For example, to skip the weekend::
 
-            >>> from feedgen import Podcast
+            >>> from podgen import Podcast
             >>> p = Podcast()
             >>> p.skip_days = {"Friday", "Saturday", "sunday"}
             >>> p.skip_days
@@ -778,7 +778,7 @@ class Podcast(object):
 
     @property
     def web_master(self):
-        """The :class:`~feedgen.Person` responsible for
+        """The :class:`~podgen.Person` responsible for
         technical issues relating to the feed.
         """
         return self.__web_master
@@ -796,7 +796,7 @@ class Podcast(object):
         """The iTunes category, which appears in the category column
         and in iTunes Store Browser.
 
-        Use the :class:`feedgen.Category` class.
+        Use the :class:`podgen.Category` class.
         """
         return self.__category
 
@@ -872,7 +872,7 @@ class Podcast(object):
 
     @property
     def owner(self):
-        """The :class:`~feedgen.Person` who owns this podcast. iTunes
+        """The :class:`~podgen.Person` who owns this podcast. iTunes
         will use this information to contact the owner of the podcast for
         communication specifically about the podcast. It will not be publicly
         displayed, but it will be in the feed source.

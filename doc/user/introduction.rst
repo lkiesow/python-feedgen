@@ -41,7 +41,7 @@ and conflicting views on how different RSS elements should be used. It also
 saves you from reading the RSS specification, the RSS Best Practices and the
 documentation for iTunes' Podcast Connect.
 
-PodcastGenerator is geared towards developers who aren't super familiar with
+PodGen is geared towards developers who aren't super familiar with
 RSS and XML. If you know exactly how you want the XML to look, then you're
 better off using a template engine like Jinja2 (even if friends don't let
 friends touch XML bare-handed). If you just want an easy way to create and
@@ -50,7 +50,7 @@ manage your podcasts, use `Podcast Generator <http://www.podcastgenerator.net/>`
 -------
 License
 -------
-PodcastGenerator is licensed under the terms of both the FreeBSD license and the LGPLv3+.
+PodGen is licensed under the terms of both the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details, have a look
 at license.bsd and license.lgpl.
 

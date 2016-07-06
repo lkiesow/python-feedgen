@@ -22,7 +22,7 @@ class Person(object):
 
     Example of use::
 
-        >>> from feedgen import Person
+        >>> from podgen import Person
         >>> Person("John Doe")
         Person(name=John Doe, email=None)
         >>> Person(email="johndoe@example.org")

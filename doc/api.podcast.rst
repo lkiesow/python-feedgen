@@ -1,6 +1,6 @@
-===============
-feedgen.Podcast
-===============
+==============
+podgen.Podcast
+==============
 
-.. autoclass:: feedgen.Podcast
+.. autoclass:: podgen.Podcast
    :members:

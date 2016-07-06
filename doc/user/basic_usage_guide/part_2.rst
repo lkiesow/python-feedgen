@@ -3,16 +3,16 @@ Adding episodes
 ---------------
 
 To add episodes to a feed, you need to create new
-:class:`feedgen.Episode` objects and
+:class:`podgen.Episode` objects and
 append them to the list of entries in the Podcast. That is pretty
 straight-forward::
 
-    from feedgen import Episode
+    from podgen import Episode
     my_episode = Episode()
     p.episodes.append(my_episode)
 
-There is a convenience method called :meth:`Podcast.add_episode <feedgen.Podcast.add_episode>`
-which optionally creates a new instance of :class:`~feedgen.Episode`, adds it to the podcast
+There is a convenience method called :meth:`Podcast.add_episode <podgen.Podcast.add_episode>`
+which optionally creates a new instance of :class:`~podgen.Episode`, adds it to the podcast
 and returns it, allowing you to assign it to a variable::
 
     my_episode = p.add_episode()
@@ -42,20 +42,20 @@ well as a short subtitle::
 
 Read more:
 
-* :attr:`~feedgen.Episode.title`
-* :attr:`~feedgen.Episode.subtitle`
-* :attr:`~feedgen.Episode.summary`
-* :attr:`~feedgen.Episode.long_summary`
+* :attr:`~podgen.Episode.title`
+* :attr:`~podgen.Episode.subtitle`
+* :attr:`~podgen.Episode.summary`
+* :attr:`~podgen.Episode.long_summary`
 
 
 Enclosing media
 ^^^^^^^^^^^^^^^
 
 Of course, this isn't much of a podcast if we don't have any
-:attr:`~feedgen.Episode.media` attached to it! ::
+:attr:`~podgen.Episode.media` attached to it! ::
 
     from datetime import timedelta
-    from feedgen import Media
+    from podgen import Media
     my_episode.media = Media("http://example.com/podcast/s01e10.mp3",
                              size=17475653,
                              type="audio/mpeg",  # Optional, can be determined
@@ -67,7 +67,7 @@ Normally, you must specify how big the **file size** is in bytes (and the MIME
 type, if the file extension is unknown to iTunes), but PodcastGenerator
 can send a HEAD request to the URL and retrieve the missing information
 (file size and type). This is done by calling
-:meth:`Media.create_from_server_response <feedgen.Media.create_from_server_response>`
+:meth:`Media.create_from_server_response <podgen.Media.create_from_server_response>`
 instead of using the constructor directly.
 You must pass in the `requests <http://docs.python-requests.org/en/master/>`_
 module, so it must be installed! ::
@@ -87,7 +87,7 @@ iTunes will use the file extension to determine what type of file it is, without
 even asking the server. You must therefore make sure your media files have the
 correct file extension. If you don't care about compatibility with iTunes, you
 can provide the MIME type yourself.
-:meth:`Media.create_from_server_response <feedgen.Media.create_from_server_response>`
+:meth:`Media.create_from_server_response <podgen.Media.create_from_server_response>`
 will also fetch the type for you, if it's not specified.
 
 The **duration** is also important to include, for your listeners' convenience.
@@ -97,8 +97,8 @@ must be an instance of :class:`datetime.timedelta`.
 
 Read more about:
 
-* :attr:`feedgen.Episode.media` (the attribute)
-* :class:`feedgen.Media` (the class which you use as value)
+* :attr:`podgen.Episode.media` (the attribute)
+* :class:`podgen.Media` (the class which you use as value)
 
 
 Identifying the episode
@@ -115,7 +115,7 @@ That is, given the example above, the id of ``my_episode`` would be
    An episode's ID should never change. Therefore, **if you don't set id, the
    media URL must never change either**.
 
-Read more about :attr:`the id attribute <feedgen.Episode.id>`.
+Read more about :attr:`the id attribute <podgen.Episode.id>`.
 
 Episode's publication date
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -138,7 +138,7 @@ will get a new episode which appears to have existed for longer than it has.
    my_episode.publication_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
 
-Read more about :attr:`the publication_date attribute <feedgen.Episode.id>`.
+Read more about :attr:`the publication_date attribute <podgen.Episode.id>`.
 
 
 The Link
@@ -147,7 +147,7 @@ The Link
 If you're publishing articles along with your podcast episodes, you should
 link to the relevant article. Examples can be linking to the sound on
 SoundCloud or the post on your website. Usually, your
-listeners expect to find the entirety of the :attr:`~feedgen.Episode.summary` by following
+listeners expect to find the entirety of the :attr:`~podgen.Episode.summary` by following
 the link. ::
 
     my_episode.link = "http://example.com/article/2016/05/18/Best-example"
@@ -157,7 +157,7 @@ the link. ::
    If you don't have anything to link to, then that's fine as well. No link is
    better than a disappointing link.
 
-Read more about :attr:`the link attribute <feedgen.Episode.link>`.
+Read more about :attr:`the link attribute <podgen.Episode.link>`.
 
 
 The Authors
@@ -166,12 +166,12 @@ The Authors
 .. note::
 
    Some of the following attributes (not just authors) correspond to attributes
-   found in :class:`~feedgen.Podcast`. In such cases, you should only set those
+   found in :class:`~podgen.Podcast`. In such cases, you should only set those
    attributes at the episode level if they **differ** from their value at the
    podcast level.
 
-Normally, the attributes :attr:`Podcast.authors <feedgen.Podcast.authors>`
-and :attr:`Podcast.web_master <feedgen.Podcast.web_master>` (if set) are
+Normally, the attributes :attr:`Podcast.authors <podgen.Podcast.authors>`
+and :attr:`Podcast.web_master <podgen.Podcast.web_master>` (if set) are
 used to determine the authors of an episode. Thus, if all your episodes have
 the same authors, you should just set it at the podcast level.
 
@@ -184,7 +184,7 @@ You can even have multiple authors::
 
      my_episode.authors = [Person("Joe Bob"), Person("Alice Bob")]
 
-Read more about :attr:`an episode's authors <feedgen.Episode.authors>`.
+Read more about :attr:`an episode's authors <podgen.Episode.authors>`.
 
 
 Less used attributes
@@ -201,11 +201,11 @@ Less used attributes
 
 More details:
 
-* :attr:`~feedgen.Episode.image`
-* :attr:`~feedgen.Episode.explicit`
-* :attr:`~feedgen.Episode.is_closed_captioned`
-* :attr:`~feedgen.Episode.position`
-* :attr:`~feedgen.Episode.withhold_from_itunes`
+* :attr:`~podgen.Episode.image`
+* :attr:`~podgen.Episode.explicit`
+* :attr:`~podgen.Episode.is_closed_captioned`
+* :attr:`~podgen.Episode.position`
+* :attr:`~podgen.Episode.withhold_from_itunes`
 
 
 Shortcut for filling in data

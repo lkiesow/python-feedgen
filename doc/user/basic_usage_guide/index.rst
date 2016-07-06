@@ -1,7 +1,7 @@
 Basic usage guide
 =================
 
-When using PodcastGenerator, you can divide your program into
+When using PodGen, you can divide your program into
 three phases:
 
 .. toctree::

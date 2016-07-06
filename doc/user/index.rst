@@ -3,7 +3,7 @@ User Guide
 ==========
 
 
-New to PodcastGenerator? This guide will get you up to speed on how this fork
+New to PodGen? This guide will get you up to speed on how this fork
 came to be, its license as well as how to install and start using it.
 
 .. toctree::

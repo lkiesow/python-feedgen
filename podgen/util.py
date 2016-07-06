@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    feedgen.util
+    podgen.util
     ~~~~~~~~~~~~
 
     This file contains helper functions for the feed generator module.
