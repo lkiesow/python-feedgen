@@ -49,6 +49,63 @@ class TestBaseEpisode(unittest.TestCase):
 
         self.fg = fg
 
+    def test_constructor(self):
+        title = "A constructed episode"
+        subtitle = "We're using the constructor!"
+        summary = "In this week's episode, we try using the constructor to " \
+                  "create a new Episode object."
+        long_summary = "In this week's episode, we try to use the constructor " \
+                       "to create a new Episode object. Additionally, we'll " \
+                       "check whether it actually worked or not. Hold your " \
+                       "fingers crossed!"
+        media = Media("http://example.com/episodes/1.mp3", 1425345346,
+                      "audio/mpeg",
+                      datetime.timedelta(hours=1, minutes=2, seconds=22))
+        publication_date = datetime.datetime(2016, 6, 7, 13, 37, 0,
+                                             tzinfo=pytz.utc)
+        link = "http://example.com/blog/?i=1"
+        authors = [Person("John Doe", "johndoe@example.com")]
+        image = "http://example.com/static/1.png"
+        explicit = True
+        is_closed_captioned = False
+        position = 3
+        withhold_from_itunes = True
+
+        ep = Episode(
+            title=title,
+            subtitle=subtitle,
+            summary=summary,
+            long_summary=long_summary,
+            media=media,
+            publication_date=publication_date,
+            link=link,
+            authors=authors,
+            image=image,
+            explicit=explicit,
+            is_closed_captioned=is_closed_captioned,
+            position=position,
+            withhold_from_itunes=withhold_from_itunes,
+        )
+
+        # Time to check if this works
+        self.assertEqual(ep.title, title)
+        self.assertEqual(ep.subtitle, subtitle)
+        self.assertEqual(ep.summary, summary)
+        self.assertEqual(ep.long_summary, long_summary)
+        self.assertEqual(ep.media, media)
+        self.assertEqual(ep.publication_date, publication_date)
+        self.assertEqual(ep.link, link)
+        self.assertEqual(ep.authors, authors)
+        self.assertEqual(ep.image, image)
+        self.assertEqual(ep.explicit, explicit)
+        self.assertEqual(ep.is_closed_captioned, is_closed_captioned)
+        self.assertEqual(ep.position, position)
+        self.assertEqual(ep.withhold_from_itunes, withhold_from_itunes)
+
+    def test_constructorUnknownKeyword(self):
+        self.assertRaises(TypeError, Episode, tittel="What is tittel")
+        self.assertRaises(TypeError, Episode, "This is not a keyword")
+
     def test_checkItemNumbers(self):
 
         fg = self.fg

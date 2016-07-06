@@ -14,33 +14,55 @@ import dateutil.tz
 from feedgen.util import formatRFC2822, listToHumanreadableStr
 from feedgen.compat import string_types
 from builtins import str
+from future.utils import iteritems
 
 
 class Episode(object):
     """Class representing an episode in a podcast. Corresponds to an RSS Item.
 
-    You must provide either :attr:`.title` or :attr:`.summary`.
+    When creating a new Episode, you can populate any attribute
+    using keyword arguments. Use the attribute's name on the left side of
+    the equals sign and its value on the right side. Here's an example::
 
-    Episodes are mostly independent from Podcast, except for :attr:`.position`
-    and the fact that many values default to their corresponding value in the
-    :class:`~feedgen.Podcast` the episode's a part of. To add an episode to a
-    podcast::
+        >>> # This...
+        >>> ep = Episode()
+        >>> ep.title = "Exploring the RTS genre"
+        >>> ep.summary = "Tory and I talk about a genre of games we've " + \\
+        ...              "never dared try out before now..."
+        >>> # ...is equal to this:
+        >>> ep = Episode(
+        ...    title="Exploring the RTS genre",
+        ...    summary="Tory and I talk about a genre of games we've "
+        ...            "never dared try out before now..."
+        ... )
+
+    :raises: TypeError if you try to set an attribute which doesn't exist,
+             ValueError if you set an attribute to an invalid value.
+
+    You must have filled in either :attr:`.title` or :attr:`.summary` before
+    the RSS is generated.
+
+    To add an episode to a podcast::
 
         >>> import feedgen
         >>> p = feedgen.Podcast()
         >>> episode = feedgen.Episode()
         >>> p.episodes.append(episode)
 
-    You may also replace the last two lines a shortcut:
+    You may also replace the last two lines with a shortcut::
 
         >>> episode = p.add_episode(Episode())
 
 
-    See the :doc:`Basic Usage Guide </user/basic_usage_guide/part_2>` for a
-    friendlier introduction to episodes.
+    .. seealso::
+
+       The :doc:`Basic Usage Guide </user/basic_usage_guide/part_2>`
+          A friendlier introduction to episodes.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        """
+        """
         # RSS
         self.__authors = []
         self.summary = None
@@ -132,6 +154,14 @@ class Episode(object):
 
         This is shown in the Description column in iTunes.
         The subtitle displays best if it is only a few words long."""
+
+        # It is time to assign the keyword arguments
+        for attribute, value in iteritems(kwargs):
+            if hasattr(self, attribute):
+                setattr(self, attribute, value)
+            else:
+                raise TypeError("Keyword argument %s (with value %s) not "
+                                "recognized!" % (attribute, value))
 
     def rss_entry(self):
         """Create a RSS item and return it."""
@@ -328,6 +358,7 @@ class Episode(object):
         if you own the domain which the episodes reside on. If you don't, then
         you must set :py:attr:`.id` to an appropriate value manually.
         """
+        return self.__media
 
     @media.setter
     def media(self, media):
