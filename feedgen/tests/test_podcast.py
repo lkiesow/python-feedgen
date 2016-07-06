@@ -27,11 +27,11 @@ class TestPodcast(unittest.TestCase):
         self.nsItunes = "http://www.itunes.com/dtds/podcast-1.0.dtd"
         self.feedUrl = "http://example.com/feeds/myfeed.rss"
 
-        self.title = 'Some Testfeed'
+        self.name = 'Some Testfeed'
 
         self.author = Person('John Doe', 'john@example.de')
 
-        self.linkHref = 'http://example.com'
+        self.website = 'http://example.com'
         self.description = 'This is a cool feed!'
 
         self.language = 'en'
@@ -42,7 +42,8 @@ class TestPodcast(unittest.TestCase):
         self.cloudRegisterProcedure = 'registerProcedure'
         self.cloudProtocol = 'SOAP 1.1'
 
-        self.contributor = {'name':"Contributor Name", 'email': 'Contributor email'}
+        self.contributor = {'name':"Contributor Name",
+                            'email': 'Contributor email'}
         self.copyright = "The copyright notice"
         self.docs = 'http://www.rssboard.org/rss-specification'
         self.skipDays = {'Tuesday'}
@@ -53,9 +54,13 @@ class TestPodcast(unittest.TestCase):
         self.programname = feedgen.version.name
 
         self.webMaster = Person(email='webmaster@example.com')
+        self.image = "http://example.com/static/podcast.png"
+        self.owner = self.author
+        self.complete = True
 
-        fg.name = self.title
-        fg.website = self.linkHref
+
+        fg.name = self.name
+        fg.website = self.website
         fg.description = self.description
         fg.language = self.language
         fg.cloud = (self.cloudDomain, self.cloudPort, self.cloudPath,
@@ -67,25 +72,29 @@ class TestPodcast(unittest.TestCase):
         fg.web_master = self.webMaster
         fg.feed_url = self.feedUrl
         fg.explicit = self.explicit
+        fg.image = self.image
+        fg.owner = self.owner
+        fg.complete = self.complete
 
         self.fg = fg
-
 
     def test_baseFeed(self):
         fg = self.fg
 
-        assert fg.name == self.title
+        assert fg.name == self.name
 
         assert fg.authors[0] == self.author
         assert fg.web_master == self.webMaster
 
-        assert fg.website == self.linkHref
+        assert fg.website == self.website
 
         assert fg.description == self.description
 
         assert fg.language == self.language
         assert fg.feed_url == self.feedUrl
-
+        assert fg.image == self.image
+        assert fg.owner == self.owner
+        assert fg.complete == self.complete
 
     def test_rssFeedFile(self):
         fg = self.fg
@@ -102,9 +111,7 @@ class TestPodcast(unittest.TestCase):
         rssString = fg.rss_str(xml_declaration=False)
         self.checkRssString(rssString)
 
-
     def checkRssString(self, rssString):
-
         feed = etree.fromstring(rssString)
         nsRss = self.nsContent
         nsAtom = "http://www.w3.org/2005/Atom"
@@ -112,7 +119,7 @@ class TestPodcast(unittest.TestCase):
         channel = feed.find("channel")
         assert channel != None
 
-        assert channel.find("title").text == self.title
+        assert channel.find("title").text == self.name
         assert channel.find("description").text == self.description
         assert channel.find("lastBuildDate").text != None
         assert channel.find("docs").text == "http://www.rssboard.org/rss-specification"
@@ -132,6 +139,13 @@ class TestPodcast(unittest.TestCase):
         assert channel.find("{%s}link" % nsAtom).get('rel') == 'self'
         assert channel.find("{%s}link" % nsAtom).get('type') == \
                'application/rss+xml'
+        assert channel.find("{%s}image" % self.nsItunes).get('href') == \
+            self.image
+        owner = channel.find("{%s}owner" % self.nsItunes)
+        assert owner.find("{%s}name" % self.nsItunes).text == self.owner.name
+        assert owner.find("{%s}email" % self.nsItunes).text == self.owner.email
+        assert channel.find("{%s}complete" % self.nsItunes).text.lower() == \
+            "yes"
 
     def test_feedUrlValidation(self):
         self.assertRaises(ValueError, setattr, self.fg, "feed_url",
@@ -350,9 +364,9 @@ class TestPodcast(unittest.TestCase):
             if test_property != "description":
                 fg.description = self.description
             if test_property != "title":
-                fg.name = self.title
+                fg.name = self.name
             if test_property != "link":
-                fg.website = self.linkHref
+                fg.website = self.website
             if test_property != "explicit":
                 fg.explicit = self.explicit
             try:
