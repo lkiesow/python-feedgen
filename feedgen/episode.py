@@ -61,8 +61,6 @@ class Episode(object):
     """
 
     def __init__(self, **kwargs):
-        """
-        """
         # RSS
         self.__authors = []
         self.summary = None
