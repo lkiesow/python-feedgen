@@ -113,6 +113,8 @@ html_theme_options = {
     'github_user': 'tobinus',
     'github_repo': 'python-podgen',
     'github_banner': True,
+    'logo_name': False,
+    'logo': 'logo.png',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -132,7 +134,7 @@ html_short_title = "PodGen"
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-#html_favicon = None
+html_favicon = "favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -243,8 +245,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pyPodGen.tex', u'pyPodGen Documentation',
-        [u'Lars Kiesow'], 1)
+    ('index', 'pyPodGen.tex', u'PodGen Documentation',
+        [u'Lars Kiesow', u'Thorben Dahl'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -257,8 +259,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'pyPodGen.tex', u'pyPodGen Documentation',
-        u'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
+    ('index', 'pyPodGen.tex', u'PodGen Documentation',
+        u'Lars Kiesow, Thorben Dahl', 'Lernfunk3', 'One line description of project.',
         'Miscellaneous'),
 ]
 

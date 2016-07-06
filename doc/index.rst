@@ -2,6 +2,13 @@
 PodGen
 ======
 
+.. image:: https://travis-ci.org/tobinus/python-podgen.svg?branch=master
+    :target: https://travis-ci.org/tobinus/python-podgen
+
+.. image:: https://readthedocs.org/projects/podgen/badge/?version=latest
+   :target: http://podgen.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 Wouldn't it be nice if there was a **clean and simple library** which could help you
 **generate podcast RSS feeds** from your Python code? Well, today's your lucky day!
 
