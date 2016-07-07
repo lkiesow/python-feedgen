@@ -12,7 +12,7 @@ class Category(object):
 
     Example::
 
-        >>> from podgen.category import Category
+        >>> from podgen import Category
         >>> c = Category("Music")
         >>> c.category
         Music

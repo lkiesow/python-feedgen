@@ -36,10 +36,15 @@ class Podcast(object):
     * :attr:`~podgen.Podcast.description`
     * :attr:`~podgen.Podcast.explicit`
 
+    All attributes can be assigned :obj:`None` in addition to the types
+    specified below. Types etc. are checked during assignment, to help you
+    discover errors earlier. Duck typing is employed wherever a class in podgen
+    is expected.
+
     There is a **shortcut** you can use when creating new Podcast objects, that
     lets you populate the attributes using the constructor. Use keyword
     arguments with the **attribute name as keyword** and the desired value as
-    value::
+    value. As an example::
 
         >>> import podgen
         >>> # The following...
@@ -71,26 +76,31 @@ class Podcast(object):
         # http://www.rssboard.org/rss-specification
         # Mandatory:
         self.name = None
-        """The name of the podcast. It should be a human
-        readable title. Often the same as the title of the
-        associated website. This is mandatory for RSS and must
-        not be blank.
+        """The name of the podcast as a :obj:`str`. It should be a human
+        readable title. Often the same as the title of the associated website.
+        This is mandatory and must not be blank.
 
-        This will set rss:title.
+        :type: :obj:`str`
+        :RSS: title
         """
 
         self.website = None
-        """This podcast's website's absolute URL.
+        """The absolute URL of this podcast's website.
 
-        One of the mandatory attributes.
+        This is one of the mandatory attributes.
 
-        This corresponds to the RSS link element.
+        :type: :obj:`str`
+        :RSS: link
         """
 
         self.description = None
-        """The description of the feed, which is a phrase or sentence describing
-        the channel. It is mandatory for RSS feeds, and is shown under the
-        podcast's name on the iTunes store page."""
+        """The description of the podcast, which is a phrase or sentence
+        describing it to potential new subscribers. It is mandatory for RSS
+        feeds, and is shown under the podcast's name on the iTunes store page.
+
+        :type: :obj:`str`
+        :RSS: description
+        """
 
         self.explicit = None
         """Whether this podcast may be inappropriate for children or not.
@@ -104,7 +114,11 @@ class Podcast(object):
         in the Name column in iTunes. If it is set to ``False``,
         the parental advisory type is considered Clean, meaning that no explicit
         language or adult content is included anywhere in the episodes, and a
-        "clean" graphic will appear."""
+        "clean" graphic will appear.
+
+        :type: :obj:`bool`
+        :RSS: itunes:explicit
+        """
 
         # Optional:
         self.__cloud = None
@@ -120,13 +134,19 @@ class Podcast(object):
         you do not need a copyright statement for something to be protected by
         copyright. If you intend to put the podcast in public domain or license
         it under a Creative Commons license, you should say so in the copyright
-        notice."""
+        notice.
+
+        :type: :obj:`str`
+        :RSS: copyright"""
 
         self.__docs = 'http://www.rssboard.org/rss-specification'
 
         self.generator = self._feedgen_generator_str
         """A string identifying the software that generated this RSS feed.
-        Defaults to a string identifying PodcastGenerator.
+        Defaults to a string identifying PodGen.
+
+        :type: :obj:`str`
+        :RSS: generator
 
         .. seealso::
 
@@ -144,7 +164,11 @@ class Podcast(object):
         It must be a two-letter code, as found in ISO639-1, with the
         possibility of specifying subcodes (eg. en-US for American English).
         See http://www.rssboard.org/rss-language-codes and
-        http://www.loc.gov/standards/iso639-2/php/code_list.php"""
+        http://www.loc.gov/standards/iso639-2/php/code_list.php
+
+        :type: :obj:`str`
+        :RSS: language
+        """
 
         self.__last_updated = None
 
@@ -170,14 +194,16 @@ class Podcast(object):
         the iTunes catalogue to implement the search feature. Listeners will
         still be able to subscribe by adding the feed's address manually.
 
-        If you don't intend on submitting this podcast to iTunes, you can set
-        this to True as a way of showing iTunes the middle finger (and prevent
-        others from submitting it as well).
+        If you don't intend to submit this podcast to iTunes, you can set
+        this to ``True`` as a way of giving iTunes the middle finger, and
+        perhaps more importantly, preventing others from submitting it as well.
 
         Set it to ``True`` to withhold the entire podcast from iTunes. It is set
         to ``False`` by default, of course.
 
-        :type: bool"""
+        :type: :obj:`bool`
+        :RSS: itunes:block
+        """
 
         self.__category = None
 
@@ -188,9 +214,12 @@ class Podcast(object):
         self.new_feed_url = None
         """When set, tell iTunes that your feed has moved to this URL.
 
-        After adding the tag to your old feed, you should maintain the old feed
+        After adding this attribute, you should maintain the old feed
         for 48 hours before retiring it. At that point, iTunes will have updated
         the directory with the new feed URL.
+
+        :type: :obj:`str`
+        :RSS: itunes:new-feed-url
 
         .. warning::
 
@@ -203,7 +232,7 @@ class Podcast(object):
 
         .. warning::
 
-            Make sure the new URL here is correct, or else you're making
+            Make sure the new URL you set is correct, or else you're making
             people switch to a URL that doesn't work!
         """
 
@@ -212,7 +241,11 @@ class Podcast(object):
         self.subtitle = None
         """The subtitle for your podcast, shown mainly as a very short
         description on iTunes. The subtitle displays best if it is only a few
-        words long, like a short slogan."""
+        words long, like a short slogan.
+
+        :type: :obj:`str`
+        :RSS: itunes:subtitle
+        """
 
         # Populate the podcast with the keyword arguments
         for attribute, value in iteritems(kwargs):
@@ -226,10 +259,13 @@ class Podcast(object):
 
     @property
     def episodes(self):
-        """List of episodes that are part of this podcast.
+        """List of :class:`.Episode` objects that are part of this podcast.
 
         See :py:meth:`.add_episode` for an easy way to create new episodes and
         assign them to this podcast in one call.
+
+        :type: :obj:`list` of :class:`podgen.Episode`
+        :RSS: item elements
         """
         return self.__episodes
 
@@ -244,32 +280,39 @@ class Podcast(object):
         """Class used to represent episodes.
 
         This is used by :py:meth:`.add_episode` when creating new episode
-        objects, and you may use it too when creating episodes.
+        objects, and you, too, may use it when creating episodes.
 
-        By default, this property points to :py:class:`Episode`.
+        By default, this property points to :py:class:`.Episode`.
 
-        When assigning a new class to ``episode_class``, you must make sure the
-        new value (1) is a class and not an instance, and (2) is a subclass of
-        Episode (or is Episode itself).
+        When assigning a new class to ``episode_class``, you must make sure that
+        the new value (1) is a class and not an instance, and (2) that it is a
+        subclass of Episode (or is Episode itself).
 
         Example of use::
 
             >>> # Create new podcast
             >>> from podgen import Podcast, Episode
             >>> p = Podcast()
+
             >>> # Normal way of creating new episodes
             >>> episode1 = Episode()
             >>> p.episodes.append(episode1)
+
             >>> # Or use add_episode (and thus episode_class indirectly)
             >>> episode2 = p.add_episode()
+
             >>> # Or use episode_class directly
             >>> episode3 = p.episode_class()
             >>> p.episodes.append(episode3)
+
             >>> # Say you want to use AlternateEpisode class instead of Episode
             >>> from mymodule import AlternateEpisode
             >>> p.episode_class = AlternateEpisode
+
             >>> episode4 = p.add_episode()
             >>> episode4.title("This is an instance of AlternateEpisode!")
+
+        :type: :obj:`class` which extends :class:`podgen.Episode`
         """
         return self.__episode_class
 
@@ -292,20 +335,18 @@ class Podcast(object):
         object if it's not provided, and returns it. This
         is the easiest way to add episodes to a podcast.
 
-        :param new_episode: Episode object to add. A new instance of
-            self.Episode is used if new_episode is omitted.
+        :param new_episode: :class:`.Episode` object to add. A new instance of
+            :attr:`.episode_class` is used if ``new_episode`` is omitted.
         :returns: Episode object created or passed to this function.
 
         Example::
 
             ...
-            >>> entry = feedgen.add_episode()
-            >>> entry.title('First feed entry')
-            'First feed entry'
+            >>> episode1 = p.add_episode()
+            >>> episode1.title = 'First episode'
             >>> # You may also provide an episode object yourself:
-            >>> another_entry = feedgen.add_episode(podgen.Episode())
-            >>> another_entry.title('My second feed entry')
-            'My second feed entry'
+            >>> another_episode = p.add_episode(podgen.Episode())
+            >>> another_episode.title = 'My second episode'
 
         Internally, this method creates a new instance of
         :attr:`~podgen.Episode.episode_class`, which means you can change what
@@ -496,18 +537,18 @@ class Podcast(object):
 
     def rss_str(self, minimize=False, encoding='UTF-8',
                 xml_declaration=True):
-        """Generates an RSS feed and returns the feed XML as string.
+        """Generate an RSS feed and return the feed XML as string.
 
         :param minimize: Set to True to disable splitting the feed into multiple
             lines and adding properly indentation, saving bytes at the cost of
-            readability.
+            readability (default: False).
         :type minimize: bool
         :param encoding: Encoding used in the XML file (default: UTF-8).
         :type encoding: str
-        :param xml_declaration: If an XML declaration should be added to the
-            output (Default: enabled).
+        :param xml_declaration: Whether an XML declaration should be added to
+            the output (default: True).
         :type xml_declaration: bool
-        :returns: String representation of the RSS feed.
+        :returns: The generated RSS feed as a :obj:`str`.
         """
         feed = self._create_rss()
         return etree.tostring(feed, pretty_print=not minimize, encoding=encoding,
@@ -516,19 +557,20 @@ class Podcast(object):
 
     def rss_file(self, filename, minimize=False,
                  encoding='UTF-8', xml_declaration=True):
-        """Generates an RSS feed and write the resulting XML to a file.
+        """Generate an RSS feed and write the resulting XML to a file.
 
         :param filename: Name of file to write, or a file-like object, or a URL.
         :type filename: str or fd
         :param minimize: Set to True to disable splitting the feed into multiple
             lines and adding properly indentation, saving bytes at the cost of
-            readability.
+            readability (default: False).
         :type minimize: bool
-        :param encoding: Encoding used in the  XML file (default: UTF-8).
+        :param encoding: Encoding used in the XML file (default: UTF-8).
         :type encoding: str
-        :param xml_declaration: If an XML declaration should be added to the
-            output (Default: enabled).
+        :param xml_declaration: Whether an XML declaration should be added to
+            the output (default: True).
         :type xml_declaration: bool
+        :returns: Nothing.
         """
         feed = self._create_rss()
         doc = etree.ElementTree(feed)
@@ -537,20 +579,22 @@ class Podcast(object):
 
     @property
     def last_updated(self):
-        """The last time the feed was modified in a significant way. Most often,
-        it is taken to mean the last time the feed was generated, which is why
-        it defaults to the time and date at which the RSS is generated, if set
-        to None. The default should be sufficient for most, if not all, use
-        cases.
+        """The last time the feed was generated. It defaults to the time and
+        date at which the RSS is generated, if set to :obj:`None`. The default
+        should be sufficient for most, if not all, use cases.
 
-        The value can either be a string which will automatically be parsed or a
-        datetime.datetime object. In any case it is necessary that the value
-        include timezone information.
+        The value can either be a string, which will automatically be parsed
+        into a :class:`datetime.datetime` object when assigned, or a
+        :class:`datetime.datetime` object. In any case, the time and date must
+        be timezone aware.
 
-        This corresponds to rss:lastBuildDate. Set this to False to have no
-        lastBuildDate element in the feed (and thus suppress the default).
+        Set this to ``False`` to leave out this element instead of using the
+        default.
 
-        :type: :obj:`str`, :class:`datetime.datetime` or :obj:`None`.
+        :type: :class:`datetime.datetime`, :obj:`str` (will be converted to
+           and stored as :class:`datetime.datetime`), :obj:`None` for default or
+           :obj:`False` to leave out.
+        :RSS: lastBuildDate
         """
         return self.__last_updated
 
@@ -570,11 +614,11 @@ class Podcast(object):
     @property
     def cloud(self):
         """The cloud data of the feed, as a 5-tuple. It specifies a web service
-        that supports the rssCloud interface which can be implemented in
-        HTTP-POST, XML-RPC or SOAP 1.1.
+        that supports the (somewhat dated) rssCloud interface, which can be
+        implemented in HTTP-POST, XML-RPC or SOAP 1.1.
 
-        The tuple should look like this: ``(domain, port, path, registerProcedure,
-        protocol)``.
+        The tuple should look like this: ``(domain, port, path,
+        registerProcedure, protocol)``.
 
         :domain: The domain where the webservice can be found.
         :port: The port the webservice listens to.
@@ -586,6 +630,10 @@ class Podcast(object):
 
             p.cloud = ("podcast.example.org", 80, "/rpc", "cloud.notify",
                        "xml-rpc")
+
+        :type: :obj:`tuple` with (:obj:`str`, :obj:`int`, :obj:`str`,
+           :obj:`str`, :obj:`str`)
+        :RSS: cloud
 
         .. tip::
 
@@ -614,15 +662,19 @@ class Podcast(object):
             self.__cloud = None
 
     def set_generator(self, generator=None, version=None, uri=None,
-                  exclude_feedgen=False):
+                      exclude_podgen=False):
         """Set the generator of the feed, formatted nicely, which identifies the
-        software used to generate the feed, for debugging and other purposes.
+        software used to generate the feed.
 
         :param generator: Software used to create the feed.
+        :type generator: str
         :param version: (Optional) Version of the software, as a tuple.
-        :param uri: (Optional) URI the software can be found.
-        :param exclude_feedgen: (Optional) Set to True to disable the mentioning
-            of the python-podgen library.
+        :type version: :obj:`tuple` of :obj:`int`
+        :param uri: (Optional) The software's website.
+        :type uri: str
+        :param exclude_podgen: (Optional) Set to True if you don't want
+            PodGen to be mentioned (e.g., "My Program (using PodGen 1.0.0)")
+        :type exclude_podgen: bool
 
         .. seealso::
 
@@ -632,7 +684,7 @@ class Podcast(object):
         """
         self.generator = self._program_name_to_str(generator, version, uri) + \
                          (" (using %s)" % self._feedgen_generator_str
-                                if not exclude_feedgen else "")
+                                if not exclude_podgen else "")
 
     def _program_name_to_str(self, generator=None, version=None, uri=None):
         return generator + \
@@ -677,6 +729,9 @@ class Podcast(object):
             >>> # Or they can be given as new list (overriding earlier authors)
             >>> p.authors = [Person("John Doe", "johndoe@example.org"),
             ...               Person("Mary Sue", "marysue@example.org")]
+
+        :type: :obj:`list` of :class:`podgen.Person`
+        :RSS: managingEditor or dc:creator, and itunes:author
         """
         return self.__authors
 
@@ -691,21 +746,26 @@ class Podcast(object):
 
     @property
     def publication_date(self):
-        """Set or get the publication date for the content in the channel. For
-        example, the New York Times publishes on a daily basis, the publication
-        date flips once every 24 hours. That's when the publication date of the
-        channel changes.
+        """The publication date for the content in this podcast. You
+        probably want to use the default value.
 
-        :type: None, a string which will automatically be parsed or a
-           datetime.datetime object. In any case it is necessary that the value
-           include timezone information.
-        :Default value: If this is None when the feed is generated, the
-           publication date of the episode with the latest publication date (which
-           may be in the future) is used. If there are no episodes, the publication
-           date is omitted from the feed.
+        :Default value: If this is :obj:`None` when the feed is generated, the
+           publication date of the episode with the latest publication date
+           (which may be in the future) is used. If there are no episodes, the
+           publication date is omitted from the feed.
+
+        If you set this to a :obj:`str`, it will be parsed and made into a
+        :class:`datetime.datetime` object when assigned. You may also set it to
+        a :class:`datetime.datetime` object directly. In any case, the time and
+        date must be timezone aware.
 
         If you want to forcefully omit the publication date from the feed, set
         this to ``False``.
+
+        :type: :class:`datetime.datetime`, :obj:`str` (will be converted to
+           and stored as :class:`datetime.datetime`), :obj:`None` for default or
+           :obj:`False` to leave out.
+        :RSS: pubDate
         """
         return self.__publication_date
 
@@ -722,11 +782,17 @@ class Podcast(object):
 
     @property
     def skip_hours(self):
-        """Set of hours in which feed readers don't need to refresh this feed.
+        """Set of hours of the day in which podcatchers don't need to refresh
+        this feed.
+
+        This isn't widely supported by podcatchers.
 
         The hours are represented as integer values from 0 to 23.
+        Note that while the content of the set is checked when it is first
+        assigned to ``skip_hours``, further changes to the set "in place" will
+        not be checked before you generate the RSS.
 
-        For example, to skip hours between 18 and 7::
+        For example, to stop refreshing the feed between 18 and 7::
 
             >>> from podgen import Podcast
             >>> p = Podcast()
@@ -736,6 +802,9 @@ class Podcast(object):
             >>> p.skip_hours |= set(range(8))
             >>> p.skip_hours
             {0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23}
+
+        :type: :obj:`set` of :obj:`int`
+        :RSS: skipHours
         """
         return self.__skip_hours
 
@@ -753,17 +822,24 @@ class Podcast(object):
     def skip_days(self):
         """Set of days in which podcatchers don't need to refresh this feed.
 
-        The days are represented using strings of their dayname, like "Monday"
-        or "wednesday".
+        This isn't widely supported by podcatchers.
 
-        For example, to skip the weekend::
+        The days are represented using strings of their English names, like
+        "Monday" or "wednesday". The day names are automatically capitalized
+        when the set is assigned to ``skip_days``, but subsequent changes to the
+        set "in place" are only checked and capitalized when the RSS feed is
+        generated.
+
+        For example, to stop refreshing the feed in the weekend::
 
             >>> from podgen import Podcast
             >>> p = Podcast()
-            >>> p.skip_days = {"Friday", "Saturday", "sunday"}
+            >>> p.skip_days = {"Friday", "Saturday", "sUnDaY"}
             >>> p.skip_days
             {"Saturday", "Friday", "Sunday"}
 
+        :type: :obj:`set` of :obj:`str`
+        :RSS: skipDays
         """
         return self.__skip_days
 
@@ -784,6 +860,9 @@ class Podcast(object):
     def web_master(self):
         """The :class:`~podgen.Person` responsible for
         technical issues relating to the feed.
+
+        :type: :class:`podgen.Person`
+        :RSS: webMaster
         """
         return self.__web_master
 
@@ -798,9 +877,10 @@ class Podcast(object):
     @property
     def category(self):
         """The iTunes category, which appears in the category column
-        and in iTunes Store Browser.
+        and in iTunes Store listings.
 
-        Use the :class:`podgen.Category` class.
+        :type: :class:`podgen.Category`
+        :RSS: itunes:category
         """
         return self.__category
 
@@ -819,22 +899,24 @@ class Podcast(object):
 
     @property
     def image(self):
-        """The image for the podcast. This tag specifies the artwork
-        for your podcast. Put the URL to the image in the href attribute. iTunes
-        prefers square .jpg images that are at least 1400x1400 pixels, which is
-        different from what is specified for the standard RSS image tag. In order
-        for a podcast to be eligible for an iTunes Store feature, the
-        accompanying image must be at least 1400x1400 pixels.
+        """The URL of the artwork for this podcast. iTunes
+        prefers square images that are at least ``1400x1400`` pixels.
+        Podcasts with an image smaller than this are *not* eligible to be
+        featured on the iTunes Store.
 
         iTunes supports images in JPEG and PNG formats with an RGB color space
-        (CMYK is not supported). The URL must end in ".jpg" or ".png". If the
-        <itunes:image> tag is not present, iTunes will use the contents of the
-        RSS image tag.
+        (CMYK is not supported). The URL must end in ".jpg" or ".png".
 
-        If you change your podcast’s image, also change the file’s name. iTunes
-        may not change the image if it checks your feed and the image URL is the
-        same. The server hosting your cover art image must allow HTTP head
-        requests for iTunes to be able to automatically update your cover art.
+        :type: :obj:`str`
+        :RSS: itunes:image
+
+        .. note::
+
+           If you change your podcast’s image, you must also change the file’s
+           name; iTunes doesn't check the image to see if it has changed.
+
+           Additionally, the server hosting your cover art image must allow HTTP
+           HEAD requests (most servers support this).
         """
         return self.__image
 
@@ -857,11 +939,14 @@ class Podcast(object):
         episodes will be added to the podcast. If you let this be ``None`` or
         ``False``, you are indicating that new episodes may be posted.
 
+        :type: :obj:`bool`
+        :RSS: itunes:complete
+
         .. warning::
 
             Setting this to ``True`` is the same as promising you'll never ever
             release a new episode. Do NOT set this to ``True`` as long as
-            there's any chance at all that a new episode will be released
+            there's any chance AT ALL that a new episode will be released
             someday.
 
         """
@@ -877,11 +962,14 @@ class Podcast(object):
     @property
     def owner(self):
         """The :class:`~podgen.Person` who owns this podcast. iTunes
-        will use this information to contact the owner of the podcast for
-        communication specifically about the podcast. It will not be publicly
-        displayed, but it will be in the feed source.
+        will use this person's name and email address for all correspondence
+        related to this podcast. It will not be publicly displayed, but it's
+        still publicly available in the RSS source.
 
         Both the name and email are required.
+
+        :type: :class:`podgen.Person`
+        :RSS: itunes:owner
         """
         return self.__owner
 
@@ -902,6 +990,9 @@ class Podcast(object):
         Identifying a feed's URL within the feed makes it more portable,
         self-contained, and easier to cache. You should therefore set this
         attribute if you're able to.
+
+        :type: :obj:`str`
+        :RSS: atom:link with ``rel="self"``
         """
         return self.__feed_url
 

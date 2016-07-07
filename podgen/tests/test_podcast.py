@@ -191,7 +191,7 @@ class TestPodcast(unittest.TestCase):
         assert self.programname in generator
 
         # Using set_generator, text excludes python-podgen
-        self.fg.set_generator(software_name,  exclude_feedgen=True)
+        self.fg.set_generator(software_name, exclude_podgen=True)
         generator = self.fg._create_rss().find("channel").find("generator").text
         assert software_name in generator
         assert self.programname not in generator
