@@ -95,13 +95,19 @@ class Category(object):
 
     @property
     def category(self):
-        """The category represented by this object. Read-only."""
+        """The category represented by this object. Read-only.
+
+        :type: :obj:`str`
+        """
         return self.__category
         # Make this attribute read-only by not implementing setter
 
     @property
     def subcategory(self):
-        """The subcategory this object represents. Read-only."""
+        """The subcategory this object represents. Read-only.
+
+        :type: :obj:`str`
+        """
         return self.__subcategory
         # Make this attribute read-only by not implementing setter
 

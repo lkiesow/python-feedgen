@@ -12,12 +12,15 @@ class Media(object):
 
     A media file can be a sound file (most typical), video file or a document.
 
-    You should provide the url at which this media can be found, and the media's
-    file size in bytes. Optionally, you can provide the type of media
-    (expressed in the media type format). When not given in the constructor, it
-    will be found automatically by looking at the url's file extension. If the
-    url's file extension isn't supported by iTunes, you will get an error if you
-    don't supply the type.
+    You should provide the absolute URL at which this media can be found, and
+    the media's file size in bytes.
+
+    Optionally, you can provide the type of media (expressed using MIME types).
+    When not given in the constructor, it will be found automatically by looking
+    at the url's file extension. If the url's file extension isn't supported by
+    iTunes, you will get an error if you don't supply the type.
+
+    You are also highly encouraged to provide the duration of the media.
 
     .. note::
 
@@ -27,7 +30,7 @@ class Media(object):
 
     .. note::
 
-        A warning called :class:`~podgen.not_supported_by_itunes_warning.NotSupportedByItunesWarning`
+        A warning called :class:`~podgen.NotSupportedByItunesWarning`
         will be issued if your URL or type isn't compatible with iTunes. See
         the Python documentation for more details on :mod:`warnings`.
 
@@ -77,7 +80,10 @@ class Media(object):
 
         Only absolute URLs are allowed, so make sure it starts with http:// or
         https://. The server should support HEAD-requests and byte-range
-        requests."""
+        requests.
+
+        :type: :obj:`str`
+        """
         return self._url
 
     @url.setter
@@ -99,18 +105,21 @@ class Media(object):
     def size(self):
         """The media's file size in bytes.
 
-        You can either provide the number of bytes as an int, or you can
-        provide a human-readable str with a unit, like MB or GiB.
+        You can either provide the number of bytes as an :obj:`int`, or you can
+        provide a human-readable :obj:`str` with a unit, like MB or GiB.
 
         An unknown size is represented as 0. This should ONLY be used in
         exceptional cases, where it is theoretically impossible to determine
         the file size (for example if it's a stream). Setting the size to 0
         will issue a UserWarning.
 
+        :type: :obj:`str` (which will be converted to and stored as :obj:`int`)
+            or :obj:`int`
+
         .. note::
 
             If you provide a string, it will be translated to int when the
-            assignment happens. Thus, on subsequent access, you will get the
+            assignment happens. Thus, on subsequent accesses, you will get the
             resulting int, not the string you put in.
 
         .. note::
@@ -168,14 +177,16 @@ class Media(object):
 
         See https://en.wikipedia.org/wiki/Media_type for an introduction.
 
+        :type: :obj:`str`
+
         .. note::
 
             If you leave out type when creating a new Media object, the
-            type will be auto-detected from the :attr:`~podgen.media.Media.url`
+            type will be auto-detected from the :attr:`~podgen.Media.url`
             attribute. However, this won't happen automatically other than
             during initialization. If you want to autodetect type when
             assigning a new value to url, you should use
-            :meth:`~podgen.media.Media.get_type`.
+            :meth:`~podgen.Media.get_type`.
         """
         return self._type
 
@@ -192,11 +203,15 @@ class Media(object):
         self._type = type
 
     def get_type(self, url):
-        """Autodetect the media type, given the url.
+        """Guess the MIME type from the URL.
+
+        This is used to fill in :attr:`~.Media.type` when it is not given (and
+        thus called implicitly by the constructor), but you can call it
+        yourself.
 
         Example::
 
-            >>> from podgen.media import Media
+            >>> from podgen import Media
             >>> m = Media("http://example.org/1.mp3", 136532744)
             >>> # The type was detected from the url:
             >>> m.type
@@ -210,6 +225,11 @@ class Media(object):
             >>> m.type = m.get_type(m.url)
             >>> m.type
             audio/x-m4a
+
+        :param url: The URL which should be used to guess the MIME type.
+        :type url: str
+        :returns: The guessed MIME type.
+        :raises: ValueError if the MIME type couldn't be guessed from the URL.
         """
         file_extension = urlparse(url).path.split(".")[-1]
         try:
@@ -227,9 +247,8 @@ class Media(object):
 
         :type: :class:`datetime.timedelta`
         :raises: :obj:`TypeError` if you try to assign anything other than
-            :class:`datetime.timedelta` instances or None to this attribute.
-            Raises :obj:`ValueError` if a negative timedelta value is
-            given.
+            :class:`datetime.timedelta` or :obj:`None` to this attribute. Raises
+            :obj:`ValueError` if a negative timedelta value is given.
         """
         return self._duration
 
@@ -252,7 +271,10 @@ class Media(object):
 
         This is just an alternate, read-only view of :attr:`.duration`.
 
-        If :attr:`.duration` is :obj:`None`, this will be :obj:`None` as well.
+        If :attr:`.duration` is :obj:`None`, then this will be :obj:`None` as
+        well.
+
+        :type: :obj:`str`
         """
         if self.duration is None:
             return None
@@ -279,7 +301,7 @@ class Media(object):
         Example (assuming the server responds with Content-Length: 252345991 and
         Content-Type: audio/mpeg)::
 
-            >>> from podgen.media import Media
+            >>> from podgen import Media
             >>> import requests  # from requests package
             >>> # Assume an episode is hosted at example.com
             >>> m = Media.create_from_server_response(requests,
@@ -302,7 +324,7 @@ class Media(object):
         :type type: str or None
         :param duration: The media's duration.
         :type duration: :class:`datetime.timedelta` or :obj:`None`.
-        :returns: New instance of Media with all fields filled in.
+        :returns: New instance of Media with url, size and type filled in.
         :raises: The appropriate requests exceptions are thrown when networking
             errors occur. RuntimeError is thrown if some information isn't
             given and isn't found in the server's response."""
