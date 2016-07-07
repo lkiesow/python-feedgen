@@ -2,7 +2,10 @@
 PodGen (forked from python-feedgen)
 ===================================
 
-[![Build Status](https://travis-ci.org/tobinus/python-podgen.svg?branch=master)](https://travis-ci.org/tobinus/python-podgen) [![Documentation Status](https://readthedocs.org/projects/podgen/badge/?version=latest)](http://podgen.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/tobinus/python-podgen.svg?branch=master)](https://travis-ci.org/tobinus/python-podgen)
+[![Documentation Status](https://readthedocs.org/projects/podgen/badge/?version=latest)](http://podgen.readthedocs.io/en/latest/?badge=latest)
+[![Stories in Ready](https://badge.waffle.io/tobinus/python-podgen.svg?label=ready&title=Ready)](http://waffle.io/tobinus/python-podgen)
+
 
 This module can be used to generate podcast feeds in RSS format, and is
 compatible with Python 3.3+.
@@ -14,17 +17,12 @@ at license.bsd and license.lgpl.
 More details about the project:
 
 - Repository:            https://github.com/tobinus/python-podgen
-- Documentation:         http://lkiesow.github.io/python-feedgen/
+- Documentation:         https://podgen.readthedocs.io/
 - Python Package Index:  https://pypi.python.org/pypi/podgen/
 
 
-------------
-Installation
-------------
-
-Currently, you'll need to clone this repository, and create a virtualenv and
-install lxml and dateutils.
-
+See the documentation link above for installation instructions and
+guides on how to use this module.
 
 ----------
 Known bugs

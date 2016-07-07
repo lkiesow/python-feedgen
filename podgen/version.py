@@ -25,7 +25,7 @@ version_minor_str = '.'.join([str(x) for x in version_minor])
 version_full_str  = '.'.join([str(x) for x in version_full])
 
 'Name of this project'
-name = "python-podgen (podcastgen)"
+name = "python-podgen"
 
 'Website of this project'
-website = "https://github.com/tobinus/python-podgen/tree/podcastgen"
+website = "https://podgen.readthedocs.org"

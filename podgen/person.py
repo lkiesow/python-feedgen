@@ -1,8 +1,8 @@
 class Person(object):
     """Data-oriented class representing a single person or entity.
 
-    A Person can represent both real persons and organizations, entities
-    and so on. Example::
+    A Person can represent both real persons and less personal entities like
+    organizations. Example::
 
         >>> p.authors = [Person("Example Radio", "mail@example.org")]
 
@@ -13,8 +13,8 @@ class Person(object):
 
     .. warning::
 
-        **Any names and email addresses** you put into a Person object, will
-        eventually be included in the feed and thus **published** together with
+        **Any names and email addresses** you put into a Person object will
+        eventually be included and **published** together with
         the feed. If you want to keep a name or email address private, then you
         must make sure it isn't used in a Person object (or to be precise: that
         the Person object with the name or email address isn't used in any
@@ -58,7 +58,10 @@ class Person(object):
 
     @property
     def name(self):
-        """This person's name."""
+        """This person's name.
+
+        :type: :obj:`str`
+        """
         return self.__name
 
     @name.setter
@@ -71,7 +74,10 @@ class Person(object):
 
     @property
     def email(self):
-        """This person's public email address."""
+        """This person's public email address.
+
+        :type: :obj:`str`
+        """
         return self.__email
 
     @email.setter

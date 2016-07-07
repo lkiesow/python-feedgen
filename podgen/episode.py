@@ -40,7 +40,7 @@ class Episode(object):
              ValueError if you set an attribute to an invalid value.
 
     You must have filled in either :attr:`.title` or :attr:`.summary` before
-    the RSS is generated.
+    the RSS can be generated.
 
     To add an episode to a podcast::
 
@@ -51,12 +51,12 @@ class Episode(object):
 
     You may also replace the last two lines with a shortcut::
 
-        >>> episode = p.add_episode(Episode())
+        >>> episode = p.add_episode(podgen.Episode())
 
 
     .. seealso::
 
-       The :doc:`Basic Usage Guide </user/basic_usage_guide/part_2>`
+       :doc:`/user/basic_usage_guide/part_2`
           A friendlier introduction to episodes.
     """
 
@@ -79,19 +79,24 @@ class Episode(object):
         up to 4000 characters in length.
 
         See also :py:attr:`.Episode.subtitle` and
-        :py:attr:`.Episode.long_summary`."""
+        :py:attr:`.Episode.long_summary`.
+
+        :type: :obj:`str` which can be parsed as XHTML.
+        :RSS: description"""
 
         self.long_summary = None
         """A long (read: full) summary, which supplements the shorter
-        :attr:`~podgen.Episode.summary`.
+        :attr:`~podgen.Episode.summary`. Like summary, this must be compatible
+        with XHTML parsers; use :func:`podgen.htmlencode` if this isn't HTML.
 
         This attribute should be seen as a full, longer variation of
         summary if summary exists. Even then, the long_summary should be
         independent from summary, in that you only need to read one of them.
         This means you may have to repeat the first sentences.
 
-        If summary does not exist but this does, this is used in place of
-        summary."""
+        :type: :obj:`str` which can be parsed as XHTML.
+        :RSS: content:encoded or description
+        """
 
         self.__media = None
 
@@ -101,7 +106,7 @@ class Episode(object):
         If not present, the URL of the enclosed media is used. This is usually
         the best way to go, **as long as the media URL doesn't change**.
 
-        Set the id to boolean False if you don't want to associate any id to
+        Set the id to boolean ``False`` if you don't want to associate any id to
         this episode.
 
         It is important that an episode keeps the same ID until the end of time,
@@ -116,17 +121,28 @@ class Episode(object):
         domain which you own (for example, use something like
         http://example.org/podcast/episode1 if you own example.org).
 
-        This property corresponds to the RSS GUID element."""
+        :type: :obj:`str`, :obj:`None` to use default or :obj:`False` to leave
+            out.
+        :RSS: guid
+        """
 
         self.link = None
-        """The link to the full version of this episode description.
-        Remember to start the link with the scheme, e.g. https://."""
+        """The link to the full version of this episode's :attr:`.summary`.
+        Remember to start the link with the scheme, e.g. https://.
+
+        :type: :obj:`str`
+        :RSS: link
+        """
 
         self.__publication_date = None
 
         self.title = None
         """This episode's human-readable title.
-        Title is mandatory and should not be blank."""
+        Title is mandatory and should not be blank.
+
+        :type: :obj:`str`
+        :RSS: title
+        """
 
         # ITunes tags
         # http://www.apple.com/itunes/podcasts/specs.html#rss
@@ -138,12 +154,15 @@ class Episode(object):
 
         self.__explicit = None
 
-        self.is_closed_captioned = None
-        """Whether this podcast includes a video episode with embedded closed
-        captioning support.
+        self.is_closed_captioned = False
+        """Whether this podcast includes a video episode with embedded `closed
+        captioning`_ support. Defaults to ``False``.
 
-        The two values for this tag are ``True`` and
-        ``False``."""
+        :type: :obj:`bool`
+        :RSS: itunes:isClosedCaptioned
+
+        .. _closed captioning: https://en.wikipedia.org/wiki/Closed_captioning
+        """
 
         self.__position = None
 
@@ -151,7 +170,11 @@ class Episode(object):
         """A short subtitle.
 
         This is shown in the Description column in iTunes.
-        The subtitle displays best if it is only a few words long."""
+        The subtitle displays best if it is only a few words long.
+
+        :type: :obj:`str`
+        :RSS: itunes:subtitle
+        """
 
         # It is time to assign the keyword arguments
         for attribute, value in iteritems(kwargs):
@@ -162,7 +185,13 @@ class Episode(object):
                                 "recognized!" % (attribute, value))
 
     def rss_entry(self):
-        """Create a RSS item and return it."""
+        """Create an RSS item using lxml's etree and return it.
+
+        This is primarily used by :class:`podgen.Podcast` when generating the
+        podcast's RSS feed.
+
+        :returns: etree.Element('item')
+        """
 
         ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
         DUBLIN_NS = 'http://purl.org/dc/elements/1.1/'
@@ -279,8 +308,8 @@ class Episode(object):
         """List of :class:`~podgen.Person` that contributed to this
         episode.
 
-        The authors don't need to have both name and email set. The names are
-        shown under the podcast's title on iTunes.
+        The authors don't need to have both name and email set. They're usually
+        not displayed anywhere.
 
         .. note::
 
@@ -308,6 +337,9 @@ class Episode(object):
             >>> # Or assign a new list (discarding earlier authors)
             >>> ep.authors = [Person("John Doe", "johndoe@example.org"),
             ...               Person("Mary Sue", "marysue@example.org")]
+
+        :type: :obj:`list` of :class:`podgen.Person`
+        :RSS: author or dc:creator, and itunes:author
         """
         return self.__authors
 
@@ -322,11 +354,22 @@ class Episode(object):
 
     @property
     def publication_date(self):
-        """Set or get the time that this episode first was made public.
+        """The time and date this episode was first published.
 
-        The value can either be a string which will automatically be parsed or a
-        datetime.datetime object. In both cases you must ensure that the value
-        includes timezone information.
+        The value can be a :obj:`str`, which will be parsed and
+        made into a :class:`datetime.datetime` object when assigned. You may
+        also assign a :class:`datetime.datetime` object directly. In both cases,
+        you must ensure that the value includes timezone information.
+
+        :type: :obj:`str` (will be converted to and stored as
+            :class:`datetime.datetime`) or :class:`datetime.datetime`.
+        :RSS: pubDate
+
+        .. note::
+
+           Don't use the media file's modification date as the publication
+           date, unless they're the same. It looks very odd when an episode
+           suddenly pops up in the feed, but it claims to be several hours old!
         """
         return self.__publication_date
 
@@ -348,13 +391,16 @@ class Episode(object):
         """Get or set the :class:`~podgen.Media` object that is attached
         to this episode.
 
-        Note that if :py:attr:`.id` is not set, the enclosure's url is used as
-        the globally unique identifier. If you rely on this, you should make
-        sure the url never changes, since changing the id messes up with clients
-        (they will think this episode is new again, even if the user already
-        has listened to it). Therefore, you should only rely on this behaviour
-        if you own the domain which the episodes reside on. If you don't, then
-        you must set :py:attr:`.id` to an appropriate value manually.
+        Note that if :py:attr:`.id` is not set, the media's URL is used as
+        the id. If you rely on this, you should make sure the URL never changes,
+        since changing the id messes up with clients (they will think this
+        episode is new again, even if the user has listened to it already).
+        Therefore, you should only rely on this behaviour if you own the domain
+        which the episodes reside on. If you don't, then you must set
+        :py:attr:`.id` to an appropriate value manually.
+
+        :type: :class:`podgen.Media`
+        :RSS: enclosure and itunes:duration
         """
         return self.__media
 
@@ -374,17 +420,20 @@ class Episode(object):
 
     @property
     def withhold_from_itunes(self):
-        """Get or set the iTunes block attribute. Use this to prevent episodes
-        from appearing in the iTunes podcast directory. Note that the episode
-        can still be found by inspecting the XML, so it is still public.
+        """Prevent this episode from appearing in the iTunes podcast directory.
+        Note that the episode can still be found by inspecting the XML, so it is
+        still public.
 
-        One use case is if you know that this episode will get you kicked
+        One use case would be if you knew that this episode would get you kicked
         out from iTunes, should it make it there. In such cases, you can set
         withhold_from_itunes to ``True`` so this episode isn't published on
         iTunes, allowing you to publish it to everyone else while keeping your
         podcast on iTunes.
 
         This attribute defaults to ``False``, of course.
+
+        :type: :obj:`bool`
+        :RSS: itunes:block
         """
         return self.__withhold_from_itunes
 
@@ -401,29 +450,35 @@ class Episode(object):
 
     @property
     def image(self):
-        """The podcast episode's image.
+        """The podcast episode's image, overriding the podcast's
+        :attr:`~.Podcast.image`.
+
+        This attribute specifies the absolute URL to the artwork for your
+        podcast. iTunes prefers square images that are at least ``1400x1400``
+        pixels.
+
+        iTunes supports images in JPEG and PNG formats with an RGB color space
+        (CMYK is not supported). The URL must end in ".jpg" or ".png".
+
+        :type: :obj:`str`
+        :RSS: itunes:image
+
+        .. note::
+
+           If you change an episode’s image, you should also change the file’s
+           name; iTunes doesn't check the actual file to see if it's changed.
+
+           Additionally, the server hosting your cover art image must allow HTTP
+           HEAD requests.
 
         .. warning::
 
             Almost no podcatchers support this. iTunes supports it only if you
             embed the cover in the media file (the same way you would embed
-            an album cover), and recommends you use Garageband's Enhanced
-            Podcast feature. If you don't, the podcast's image is used instead.
+            an album cover), and recommends that you use Garageband's Enhanced
+            Podcast feature.
 
-        This tag specifies the artwork for your podcast.
-        iTunes prefers square .jpg images that are at least 1400x1400 pixels,
-        which is different from what is specified for the standard RSS image
-        tag. In order for a podcast to be eligible for an iTunes Store feature,
-        the accompanying image must be at least 1400x1400 pixels.
-
-        iTunes supports images in JPEG and PNG formats with an RGB color space
-        (CMYK is not supported). The URL must end in ".jpg" or ".png".
-
-        If you change an episode’s image, you should also change the file’s
-        name. iTunes may not change the image if it checks your feed and the
-        image URL is the same. The server hosting your cover art image must
-        allow HTTP head requests for iTunes to be able to automatically update
-        your cover art.
+            The podcast's image is used if this isn't supported.
         """
         return self.__image
 
@@ -444,13 +499,16 @@ class Episode(object):
         inappropriate for children.
         
         The value of the podcast's explicit attribute is used by default, if
-        this is ``None``.
+        this is kept as ``None``.
 
         If you set this to ``True``, an "explicit" parental advisory
         graphic will appear in the Name column in iTunes. If the value is 
         ``False``, the parental advisory type is considered Clean, meaning that 
         no explicit language or adult content is included anywhere in this 
         episode, and a "clean" graphic will appear.
+
+        :type: :obj:`bool`
+        :RSS: itunes:explicit
         """
         return self.__explicit
 
@@ -471,9 +529,14 @@ class Episode(object):
 
         If you would like this episode to appear first, set it to ``1``.
         If you want it second, set it to ``2``, and so on. If multiple episodes
-        share the same position, they will be sorted by their publication date.
+        share the same position, they will be sorted by their
+        :attr:`publication date <.Episode.publication_date>`.
 
-        To remove the order from the episode, set the position back to ``None``.
+        To remove the order from the episode, set the position back to
+        :obj:`None`.
+
+        :type: :obj:`int`
+        :RSS: itunes:order
         """
         return self.__position
 

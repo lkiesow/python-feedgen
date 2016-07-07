@@ -2,13 +2,15 @@
 Why the fork?
 =============
 
-This project is a fork of ``python-feedgen`` which cuts away everything that
+This project is a fork of python-feedgen_ which cuts away everything that
 doesn't serve the goal of **making it easy and simple to generate podcasts** from
 a Python program. Thus, this project includes only a **subset** of the features
-of ``python-feedgen``. And I don't think anyone in their right mind would accept a pull
+of python-feedgen_. And I don't think anyone in their right mind would accept a pull
 request which removes 70% of the features ;-) Among other things, support for ATOM and
 Dublin Core is removed, and the remaining code is almost entirely rewritten.
 
+A more detailed reasoning follows. Read it if you're interested, but feel free
+to skip to :doc:`basic_usage_guide/part_1`.
 
 Inspiration
 -----------
@@ -17,21 +19,22 @@ The reason I felt like making such drastic changes, is that the original library
 **exceptionally hard to learn** and use. Error messages would not tell you what was wrong,
 the concept of extensions is poorly explained and the methods are a bit weird, in that
 they function as getters and setters at the same time. The fact that you have three
-separate ways to go about setting multi-value variables, is also a bit confusing.
+separate ways to go about setting multi-value variables is also a bit confusing.
 
 Perhaps the biggest problem, though, is the awkwardness that stems from enabling
 RSS and ATOM feeds through the same API. In case you don't know, ATOM is a
-"competitor" to RSS, and has many more capabilities than RSS. However, it is
-not used for podcasting. It is confusing because some methods will map an ATOM value to
+competitor to RSS, and has many more capabilities than RSS. However, it is
+not used for podcasting. The result of mixing both ATOM and RSS include methods that will map an ATOM value to
 its closest sibling in RSS, some in logical ways (like the ATOM method ``rights`` setting
 the value of the RSS property ``copyright``) and some differ in subtle ways (like using
 (ATOM) ``logo`` versus (RSS) ``image``). Other methods are more complex (see ``link``). They're all
 confusing, though, since changing one property automatically changes another implicitly.
 They also cause bugs, since it is so difficult to wrap your head around how one
 interact with another.
-Removing ATOM fixes all these issues.
+Removing ATOM support fixes all these issues.
 
-Even then, ``python-feedgen`` aims at being comprehensive, which means you must
+Even then, python-feedgen_ aims at being comprehensive, and gives you a one-to-one
+mapping to the resulting XML elements. This means that you must
 learn the RSS and podcast standards, which include many legacy elements you
 don't really need. For example, the original RSS spec
 includes support for an image, but that image is required to be less than 144 pixels
@@ -45,7 +48,7 @@ image must be larger than 1400x1400 pixels, not the history behind everything.
 Alignment with the philosophies
 -------------------------------
 
-``python-feedgen``'s code breaks all the philosophies listed above:
+python-feedgen_'s code breaks all the philosophies listed in the :doc:`introduction`:
 
 #. Beautiful is better than ugly, yet all properties are set through hybrid
    setter/getter methods.
@@ -56,7 +59,8 @@ Alignment with the philosophies
    are available as methods of the extension's name, which suddenly is
    available as a property of your FeedGenerator object.
 #. Complex is better than complicated, yet an entire framework is built to
-   handle extensions, rather than using class inheritance.
+   handle extensions, rather than using class inheritance. (Said framework
+   even requires that the extension resides inside a specific folder!)
 #. Readability counts, yet classes are named after their function and not what
    they represent, and (again) properties are set through methods.
 
@@ -70,16 +74,29 @@ bring it there, so it can benefit **everyone**.
 Summary of changes
 ------------------
 
-* ``FeedGenerator`` is renamed to :class:`~podgen.Podcast` and ``FeedItem`` is accessed
-  at ``Podcast.Episode`` (or directly: :class:`~podgen.BaseEpisode`).
-* Support for ATOM removed.
-* Move from using getter and setter methods to using properties, which you can
-  assign just like you would assign any other property.
+If you've used python-feedgen_ and want to move over to PodGen, you might as
+well be moving to a completely different library. Everything has been renamed,
+some attributes expect :obj:`bool` where they earlier expected :obj:`str`, and
+so on – you'll have to forget whatever you've learnt about the library.
+Hopefully, the simple API should ease the pain of switching, and make the
+resulting code easier to maintain.
 
-  * Compound values (like managingEditor or enclosure) use
-    classes now.
+The following list is not exhaustive.
 
-* Remove support for some uncommon elements:
+* The module is renamed from ``feedgen`` to ``podgen``.
+* ``FeedGenerator`` is renamed to :class:`~podgen.Podcast` and ``FeedItem`` is
+  renamed to :class:`~podgen.Episode`.
+* All classes are available at package level, so you no longer need to import
+  them from the module they reside in. For example, :class:`podgen.Podcast` and
+  :class:`podgen.Episode`.
+* Support for ATOM is removed.
+* Stop using getter and setter methods and start using attributes.
+
+  * Compound values (like :attr:`~podgen.Podcast.managing_editor` or
+    :attr:`~podgen.Episode.media`) expect
+    objects now, like :class:`~podgen.Person` and :class:`~podgen.Media`.
+
+* Remove support for some uncommon, obsolete or difficult to use elements:
 
   * ttl
   * category
@@ -91,6 +108,10 @@ Summary of changes
 * Rename the remaining properties so their names don't necessarily match the RSS
   elements they map to. Instead, the names should be descriptive and easy to
   understand.
+* :attr:`.Podcast.explicit` is now required, and is :obj:`bool`.
 * Add shorthand for generating the RSS: Just try to converting your :class:`~podgen.Podcast`
   object to :obj:`str`!
-* Improve the documentation
+* Improve the documentation (as you've surely noticed).
+* Move away from the extension framework, and rely on class inheritance instead.
+
+.. _python-feedgen: https://github.com/lkiesow/python-feedgen

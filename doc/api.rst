@@ -1,28 +1,6 @@
 =================
-Developer's Guide
-=================
-
-
--------
-Testing
--------
-
-You can test the module integration-testing-style by simply executing::
-
-    $ python -m podgen
-
-When working on this project, you should run the unit tests as well as the
-integration test, like this::
-
-    $ make test
-
-The unit tests reside in ``podgen/tests`` and are written using the
-:mod:`unittest` module.
-
-
------------------
 API Documentation
------------------
+=================
 
 .. autosummary::
 

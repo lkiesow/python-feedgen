@@ -9,46 +9,53 @@ PodGen
    :target: http://podgen.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-Wouldn't it be nice if there was a **clean and simple library** which could help you
-**generate podcast RSS feeds** from your Python code? Well, today's your lucky day!
+.. image:: https://badge.waffle.io/tobinus/python-podgen.svg?label=ready&title=Ready
+   :target: https://waffle.io/tobinus/python-podgen
+   :alt: 'Stories in Ready'
+
+Don't you wish there was a **clean and simple library** which could help you
+**generate podcast RSS feeds** with your Python code? Well, today's your lucky day!
 
    >>> from podgen import Podcast, Episode, Media
    >>> # Create the Podcast
    >>> p = Podcast(
-          name="My Awesome Podcast",
+          name="The Library Tuesday Talk",
           description="My friends and I discuss Python"
                       " libraries each Tuesday!",
-          website="http://example.org/awesomepodcast"
+          website="http://example.org/librarytuesdaytalk"
        )
    >>> # Add some episodes
    >>> p.episodes += [
-          Episode(title="PodGen rocks!",
+          Episode(title="Worry about timezones no more",
                   media=Media("http://example.org/ep1.mp3", 11932295),
-                  summary="I found an awesome library for creating podcasts"),
+                  summary="Using pytz, you can make your code timezone-aware "
+                          "with very little hassle."),
           Episode(title="Heard about clint?",
                   media=Media("http://example.org/ep2.mp3", 15363464),
                   summary="The man behind Requests made something useful "
-                          "for us command-line lovers."
+                          "for us command-line nerds."
        ]
    >>> # Generate the RSS feed
    >>> rss = str(p)
 
 You don't need to read the RSS specification, write XML by hand or wrap your
-head around ambiguous, undocumented APIs. Just provide the data, and PodGen
-fixes the rest for you!
+head around ambiguous, undocumented APIs. PodGen incorporates the industry's
+best practices and lets you focus on collecting the necessary metadata and
+publishing the podcast.
 
-Where to start
---------------
 
-Take a look at the :doc:`user/example` for a larger example, read about
-:doc:`the project's background <user/introduction>` or refer to
-the :doc:`user/basic_usage_guide/index` for a detailed introduction to PodGen.
-
-Contents
---------
+User Guide
+----------
 
 .. toctree::
    :maxdepth: 3
 
-   user/index
+   user/introduction
+   user/installation
+   user/fork
+   user/basic_usage_guide/part_1
+   user/basic_usage_guide/part_2
+   user/basic_usage_guide/part_3
+   user/example
+   contributing
    api

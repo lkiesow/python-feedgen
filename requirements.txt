@@ -1,3 +1,4 @@
+# Remember to add any new requirements to setup.py as well!
 dateutils
 lxml
 pytz

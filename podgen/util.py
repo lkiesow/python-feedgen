@@ -23,6 +23,7 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
     :param defaults:       Dictionary with default values.
     :returns:              List of checked dictionaries.
     """
+    # TODO: Check if this function is obsolete and perhaps remove it
     if not val:
         return None
     if allowed_values is None:
@@ -63,7 +64,16 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
 
 
 def formatRFC2822(d):
-    """Make sure the locale setting do not interfere with the time format.
+    """Format a datetime according to RFC2822.
+
+    This implementation exists as a workaround to ensure that the locale setting
+    does not interfere with the time format. For example, day names might get
+    translated to your local language, which would break with the standard.
+
+    :param d: Time and date you want to format according to RFC2822.
+    :type d: datetime.datetime
+    :returns: The datetime formatted according to the RFC2822.
+    :rtype: str
     """
     l = locale.setlocale(locale.LC_ALL)
     locale.setlocale(locale.LC_ALL, 'C')
@@ -79,14 +89,34 @@ if ver < (3, 2):
     import cgi
 
     def htmlencode(s):
+        """Encode the given string so its content won't be confused as HTML
+        markup.
+
+        This function exists as a cross-version compatibility alias."""
         return cgi.escape(s, quote=True)
 else:
     import html
 
     def htmlencode(s):
+        """Encode the given string so its content won't be confused as HTML
+        markup.
+
+        This function exists as a cross-version compatibility alias."""
         return html.escape(s)
 
+
 def listToHumanreadableStr(l):
+    """Create a human-readable string out of the given iterable.
+
+    Example::
+
+        >>> from podgen.util import listToHumanreadableStr
+        >>> listToHumanreadableStr([1, 2, 3])
+        1, 2 and 3
+
+    The string ``(empty)`` is returned if the list is empty – it is assumed
+    that you check whether the list is empty yourself.
+    """
     # TODO: Allow translations of "and" and "empty"
     length = len(l)
     l = [str(e) for e in l]

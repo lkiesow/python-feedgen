@@ -4,25 +4,33 @@ Adding episodes
 
 To add episodes to a feed, you need to create new
 :class:`podgen.Episode` objects and
-append them to the list of entries in the Podcast. That is pretty
+append them to the list of episodes in the Podcast. That is pretty
 straight-forward::
 
-    from podgen import Episode
+    from podgen import Podcast, Episode
+    # Create the podcast (see the previous section)
+    p = Podcast()
+    # Create new episode
     my_episode = Episode()
+    # Add it to the podcast
     p.episodes.append(my_episode)
 
 There is a convenience method called :meth:`Podcast.add_episode <podgen.Podcast.add_episode>`
 which optionally creates a new instance of :class:`~podgen.Episode`, adds it to the podcast
 and returns it, allowing you to assign it to a variable::
 
+    from podgen import Podcast
+    p = Podcast()
     my_episode = p.add_episode()
 
 If you prefer to use the constructor, there's nothing wrong with that::
 
+    from podgen import Podcast, Episode
+    p = Podcast()
     my_episode = p.add_episode(Episode())
 
-The advantage of using the latter form, is that you can pass data to the
-constructor, which can make your code more compact and readable.
+The advantage of using the latter form is that you can pass data to the
+constructor.
 
 Filling with data
 ~~~~~~~~~~~~~~~~~
@@ -63,14 +71,26 @@ Of course, this isn't much of a podcast if we don't have any
                              duration=timedelta(hours=1, minutes=2, seconds=36)
                             )
 
-Normally, you must specify how big the **file size** is in bytes (and the MIME
-type, if the file extension is unknown to iTunes), but PodcastGenerator
+The **type** of the media file is derived from the URI ending, if you don't
+provide it yourself. Even though you
+technically can have file names which don't end in their actual file extension,
+iTunes will use the file extension to determine what type of file it is, without
+even asking the server. You must therefore make sure your media files have the
+correct file extension. If you don't care about compatibility with iTunes, you
+can provide the MIME type yourself.
+
+The **duration** is also important to include for your listeners' convenience.
+Without it, they won't know how long an episode is before they start downloading
+and listening. It must be an instance of :class:`datetime.timedelta`.
+
+Normally, you must specify how big the **file size** is in bytes (and the `MIME
+type`_ if the file extension is unknown to iTunes), but PodGen
 can send a HEAD request to the URL and retrieve the missing information
-(file size and type). This is done by calling
+(both file size and type). This is done by calling
 :meth:`Media.create_from_server_response <podgen.Media.create_from_server_response>`
 instead of using the constructor directly.
 You must pass in the `requests <http://docs.python-requests.org/en/master/>`_
-module, so it must be installed! ::
+module, so make sure it's installed. ::
 
     import requests
     my_episode.media = Media.create_from_server_response(
@@ -79,27 +99,16 @@ module, so it must be installed! ::
                            duration=timedelta(hours=1, minutes=2, seconds=36)
                        )
 
+.. note::
 
-The **type** of the media file is derived from the URI ending, if you don't
-provide it yourself. Even though you
-technically can have file names which don't end in their actual file extension,
-iTunes will use the file extension to determine what type of file it is, without
-even asking the server. You must therefore make sure your media files have the
-correct file extension. If you don't care about compatibility with iTunes, you
-can provide the MIME type yourself.
-:meth:`Media.create_from_server_response <podgen.Media.create_from_server_response>`
-will also fetch the type for you, if it's not specified.
-
-The **duration** is also important to include, for your listeners' convenience.
-Without it, they won't know how long an episode is before they start downloading
-and listening. The duration cannot be fetched from the server automatically, and
-must be an instance of :class:`datetime.timedelta`.
+   The duration cannot be fetched from the server automatically.
 
 Read more about:
 
 * :attr:`podgen.Episode.media` (the attribute)
 * :class:`podgen.Media` (the class which you use as value)
 
+.. _MIME type: https://en.wikipedia.org/wiki/Media_type
 
 Identifying the episode
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -129,16 +138,15 @@ will get a new episode which appears to have existed for longer than it has.
 .. note::
 
    It is generally a bad idea to use the media file's modification date
-   as the publication date when you make your episodes some time in advance
-   – your listeners will suddenly get an "old" episode in
-   their feed!
+   as the publication date. If you make your episodes some time in advance, your
+   listeners will suddenly get an "old" episode in their feed!
 
 ::
 
    my_episode.publication_date = datetime.datetime(2016, 5, 18, 10, 0,
                                                  tzinfo=pytz.utc)
 
-Read more about :attr:`the publication_date attribute <podgen.Episode.id>`.
+Read more about :attr:`the publication_date attribute <podgen.Episode.publication_date>`.
 
 
 The Link
@@ -163,20 +171,13 @@ Read more about :attr:`the link attribute <podgen.Episode.link>`.
 The Authors
 ^^^^^^^^^^^
 
-.. note::
-
-   Some of the following attributes (not just authors) correspond to attributes
-   found in :class:`~podgen.Podcast`. In such cases, you should only set those
-   attributes at the episode level if they **differ** from their value at the
-   podcast level.
-
 Normally, the attributes :attr:`Podcast.authors <podgen.Podcast.authors>`
 and :attr:`Podcast.web_master <podgen.Podcast.web_master>` (if set) are
 used to determine the authors of an episode. Thus, if all your episodes have
 the same authors, you should just set it at the podcast level.
 
-If an episode's authors differs from the podcast's, though, you can override it
-like this::
+If an episode's list of authors differs from the podcast's, though, you can
+override it like this::
 
      my_episode.authors = [Person("Joe Bob")]
 
@@ -192,11 +193,20 @@ Less used attributes
 
 ::
 
+    # Not actually implemented by iTunes; the Podcast's image is used.
     my_episode.image = "http://example.com/static/best-example.png"
+
+    # Set it to override the Podcast's explicit attribute for this episode only.
     my_episode.explicit = False
-    my_episode.is_closed_captioned = False  # Only applicable for video
+
+    # Tell iTunes that the enclosed video is closed captioned.
+    my_episode.is_closed_captioned = False
+
+    # Tell iTunes that this episode should be the first episode on the store
+    # page.
     my_episode.position = 1
-    # Be careful about using the following attribute!
+
+    # Careful! This will hide this episode from the iTunes store page.
     my_episode.withhold_from_itunes = True
 
 More details:
@@ -209,7 +219,7 @@ More details:
 
 
 Shortcut for filling in data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Instead of assigning those values one at a time, you can assign them all in
 one go in the constructor – just like you can with Podcast. Just use the
@@ -225,4 +235,4 @@ See also the example in :doc:`the API Documentation </api.episode>`.
 
 --------------------------------------------------------------------------------
 
-The final step is :doc:`part_3`
+The final step is :doc:`part_3`.
