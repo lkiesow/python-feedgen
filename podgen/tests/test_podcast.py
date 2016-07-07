@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-
 """
-Tests for a basic feed
+    podgen.tests.test_podcast
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These are test cases for a basic feed.
-A basic feed does not contain entries so far.
+    Test the Podcast alone, without any Episode objects.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
 """
 
 import unittest

@@ -45,7 +45,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PodGen'
-copyright = u'2014, Lars Kiesow and 2016, Thorben Dahl'
+copyright = u'2014, Lars Kiesow. Modified work © 2016, Thorben Dahl'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
