@@ -3,7 +3,8 @@
     podgen.version
     ~~~~~~~~~~~~~~~
 
-    :copyright: 2013-2015, Lars Kiesow <lkiesow@uos.de>
+    :copyright: 2013-2015, Lars Kiesow <lkiesow@uos.de> and 2016, Thorben Dahl
+        <thorben@sjostrom.no>
 
     :license: FreeBSD and LGPL, see license.* for more details.
 

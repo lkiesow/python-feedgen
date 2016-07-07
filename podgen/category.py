@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    podgen.category
+    ~~~~~~~~~~~~~~~
+
+    This module contains Category, which represents a single iTunes category.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
+"""
 class Category(object):
     """Immutable class representing an iTunes category.
 

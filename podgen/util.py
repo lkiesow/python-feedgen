@@ -5,7 +5,8 @@
 
     This file contains helper functions for the feed generator module.
 
-    :copyright: 2013, Lars Kiesow <lkiesow@uos.de>
+    :copyright: 2013, Lars Kiesow <lkiesow@uos.de> and 2016, Thorben Dahl
+        <thorben@sjostrom.no>
     :license: FreeBSD and LGPL, see license.* for more details.
 """
 import sys, locale

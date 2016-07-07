@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+"""
+    podgen.media
+    ~~~~~~~~~~~~
+
+    This file contains the Media class, which represents a pointer to a media
+    file.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
+"""
 import warnings
 from future.moves.urllib.parse import urlparse
 import datetime

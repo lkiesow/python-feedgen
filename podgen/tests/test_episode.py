@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-
 """
-Tests for a basic entry
+    podgen.tests.test_episode
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These are test cases for a basic entry.
+    Test the Episode class.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
 """
 
 import unittest

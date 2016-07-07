@@ -1,3 +1,6 @@
+# Modified work Copyright 2016, Thorben Dahl <thorben@sjostrom.no>
+# See license.* for more details
+
 sdist: doc
 	python setup.py sdist
 

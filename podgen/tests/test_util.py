@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    podgen.tests.test_util
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    Test some of the functions found in the util module.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
+"""
 import unittest
 from podgen import util
 

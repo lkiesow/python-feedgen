@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    podgen.tests.test_media
+    ~~~~~~~~~~~~~~~~~~~~~~~
+
+    Test the Media class, which represents a pointer to a media file.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
+"""
 from future.utils import iteritems
 import unittest
 import warnings

@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+    podgen.tests.test_category
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Module for testing the Category class.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
+"""
 import unittest
 
 from podgen import Category

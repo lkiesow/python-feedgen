@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+"""
+    podgen.person
+    ~~~~~~~~~~~~~
+
+    This file contains the Person class, which is used to represent a person or
+    an entity.
+
+    :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
+    :license: FreeBSD and LGPL, see license.* for more details.
+"""
 class Person(object):
     """Data-oriented class representing a single person or entity.
 
