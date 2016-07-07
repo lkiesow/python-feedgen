@@ -417,5 +417,17 @@ class TestPodcast(unittest.TestCase):
             .find("{%s}block" % self.nsItunes)
         assert itunes_block is None
 
+    def test_modifyingSkipDaysAfterwards(self):
+        self.fg.skip_days.add("Unrecognized day")
+        self.assertRaises(ValueError, self.fg.rss_str)
+        self.fg.skip_days.remove("Unrecognized day")
+        self.fg.rss_str()  # Now it works
+
+    def test_modifyingSkipHoursAfterwards(self):
+        self.fg.skip_hours.add(26)
+        self.assertRaises(ValueError, self.fg.rss_str)
+        self.fg.skip_hours.remove(26)
+        self.fg.rss_str()  # Now it works
+
 if __name__ == '__main__':
     unittest.main()

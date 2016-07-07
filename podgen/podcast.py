@@ -420,11 +420,15 @@ class Podcast(object):
             pubDate.text = formatRFC2822(actual_pubDate)
 
         if self.skip_hours:
+            # Ensure any modifications to the set are accounted for
+            self.skip_hours = self.skip_hours
             skipHours = etree.SubElement(channel, 'skipHours')
             for h in self.skip_hours:
                 hour = etree.SubElement(skipHours, 'hour')
                 hour.text = str(h)
         if self.skip_days:
+            # Ensure any modifications to the set are accounted for
+            self.skip_days = self.skip_days
             skipDays = etree.SubElement(channel, 'skipDays')
             for d in self.skip_days:
                 day = etree.SubElement(skipDays, 'day')
