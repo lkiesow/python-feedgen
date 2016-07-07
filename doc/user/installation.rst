@@ -2,21 +2,11 @@
 Installation
 ============
 
-#. Clone the `GitHub repository`_.
+Use `pip <https://pypi.python.org/pypi>`_::
 
-#. Ensure your project has a virtualenv.
+    $ pip install podgen
 
-#. Activate your project's virtualenv.
+Just a word of warning: PodGen depends on
+`lxml <https://pypi.python.org/pypi/lxml>`_, which can take several minutes to build.
 
-#. Install the requirements listed in ``requirements.txt`` inside podgen::
-
-    pip install -r requirements.txt
-
-#. Add this library to the Python path, and you should be able to use it.
-
-
-This is a pretty bad way to install something, but I haven't had the time to
-set up a PyPi package yet. Until then, you'd be better off using the original
-python-feedgen.
-
-.. _GitHub repository: https://github.com/tobinus/python-podgen/tree/podcastgen
+Remember to `use a virtual environment <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_!

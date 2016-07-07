@@ -2,13 +2,10 @@
 Working example
 ===============
 
-Below is a working example of how you can go about using PodGen. It
-also shows you how you can use the different properties of Podcast and Episode.
+This example is located at ``podgen/__main__.py`` in the package, and is run
+as part of the :doc:`testing routines </contributing>`.
 
 .. literalinclude:: ../../podgen/__main__.py
    :pyobject: main
    :linenos:
 
-Once you understand the basic way you do things, you're ready to look at the
-:doc:`/api` in conjunction with the :doc:`basic_usage_guide/index` to see exactly what properties you can set, and how they
-affect the end result.

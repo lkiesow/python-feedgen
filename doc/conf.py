@@ -16,7 +16,10 @@ import podgen.version
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-#needs_sphinx = '1.0'
+needs_sphinx = '1.4'
+
+# Don't show warnings about the button images not being local
+suppress_warnings = ['image.nonlocal_uri']
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -103,12 +106,11 @@ html_theme_options = {
     'fixed_sidebar': False,
     'page_width': "1000px",
     'sidebar_width': "225px",
-    'show_related': True,
     'body_text': "rgba(0, 0, 0, 0.8)",
     'footer_text': "rgba(0, 0, 0, 0.5)",
     'gray_1': "rgba(0, 0, 0, 0.9)",
     'gray_2': "rgba(0, 0, 0, 0.2)",
-    'gray_3': "rgba(0, 0, 0, 0.1)",
+    'gray_3': "rgba(198, 198, 198, 0.9)",
 
     'github_user': 'tobinus',
     'github_repo': 'python-podgen',
@@ -134,7 +136,7 @@ html_short_title = "PodGen"
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = "favicon.ico"
+html_favicon = "_static/favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -215,13 +217,13 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'pyPodGen.tex', u'pyPodGen Documentation',
-        u'Lars Kiesow', 'manual'),
+    ('index', 'pyPodGen.tex', u'PodGen Documentation',
+        u'Lars Kiesow and Thorben Dahl', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = '_static/logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -231,13 +233,13 @@ latex_documents = [
 #latex_show_pagerefs = False
 
 # If true, show URL addresses after external links.
-#latex_show_urls = False
+latex_show_urls = True
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
 
 # If false, no module index is generated.
-#latex_domain_indices = True
+latex_domain_indices = False
 
 
 # -- Options for manual page output --------------------------------------------
@@ -250,7 +252,7 @@ man_pages = [
 ]
 
 # If true, show URL addresses after external links.
-#man_show_urls = False
+man_show_urls = True
 
 
 # -- Options for Texinfo output ------------------------------------------------
@@ -275,7 +277,7 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/3': None}
 
 
 # Ugly way of setting tabsize

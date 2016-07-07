@@ -1,5 +1,5 @@
-Populating the podcast
-----------------------
+Creating the podcast
+--------------------
 
 Creating a new instance
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +104,7 @@ Read more:
 * :attr:`~podgen.Podcast.withhold_from_itunes`
 
 Shortcut for filling in data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Instead of creating a new :class:`.Podcast` object in one statement, and
 populating it with data one statement at a time afterwards, you can create a

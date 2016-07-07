@@ -209,7 +209,7 @@ More details:
 
 
 Shortcut for filling in data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Instead of assigning those values one at a time, you can assign them all in
 one go in the constructor – just like you can with Podcast. Just use the
