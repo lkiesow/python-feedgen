@@ -52,8 +52,8 @@ You must also make sure you **update any relevant documentation**. Remember that
 the documentation includes lots of examples and also describes the API
 independently from docstring comments in the code itself.
 
-Pull requests in which the unittests and/or documentation don't match up the
-code will NOT be accepted.
+Pull requests in which the unittests and documentation are NOT up to date
+with the code will NOT be accepted.
 
 Lastly, a single **commit** shouldn't include more changes than it needs. It's better to do a big
 change in small steps, each of which is one commit. Explain the impact of your
@@ -67,6 +67,8 @@ The Workflow
 
    * Find the issue you wish to work on.
    * Add your issue if it's not already there.
+   * Discuss the issue and get feedback on your proposed solution. Don't waste
+     time on a solution that might not be accepted!
 
 #. Work on the issue in a separate branch which follows the name scheme
    ``tobinus/python-podgen#<issue-number>-<brief-description>`` in your own fork. To be honest, I

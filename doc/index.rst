@@ -22,7 +22,7 @@ Don't you wish there was a **clean and simple library** which could help you
           name="The Library Tuesday Talk",
           description="My friends and I discuss Python"
                       " libraries each Tuesday!",
-          website="http://example.org/awesomepodcast"
+          website="http://example.org/librarytuesdaytalk"
        )
    >>> # Add some episodes
    >>> p.episodes += [
