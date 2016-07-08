@@ -578,6 +578,33 @@ class Podcast(object):
         doc.write(filename, pretty_print=not minimize, encoding=encoding,
                   xml_declaration=xml_declaration)
 
+    def apply_episode_order(self):
+        """Make sure that the episodes appear on iTunes in the exact order
+        they have in :attr:`~.Podcast.episodes`.
+
+        This will set each :attr:`.Episode.position` so it matches the episode's
+        position in :attr:`.Podcast.episodes`.
+
+        If you're using some :class:`.Episode` objects in multiple podcast
+        feeds and you don't use this method with every feed, you might want to
+        call :meth:`.Podcast.clear_episode_order` after generating this feed's
+        RSS so an episode's position in this feed won't affect its position in
+        the other feeds.
+        """
+        for i, episode in enumerate(self.episodes):
+            position = i + 1
+            episode.position = position
+
+    def clear_episode_order(self):
+        """Reset :attr:`.Episode.position` for every single episode.
+
+        Use this if you want to reuse an :class:`.Episode` object in another
+        feed, and don't want its position in this feed to affect where it
+        appears in the other feed. This is not needed if you'll call
+        :meth:`.Podcast.apply_episode_order` on the other feed, though."""
+        for episode in self.episodes:
+            episode.position = None
+
     @property
     def last_updated(self):
         """The last time the feed was generated. It defaults to the time and

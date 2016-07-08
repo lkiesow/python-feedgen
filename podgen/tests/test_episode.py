@@ -353,4 +353,24 @@ class TestBaseEpisode(unittest.TestCase):
         assert d is not None
         assert "A &lt;b&gt;cool&lt;/b&gt; summary" in d.text
 
+    def test_applyOrder(self):
+        # Test that position is set (testing Podcast and Episode)
+        self.fg.apply_episode_order()
+        self.assertEqual(self.fg.episodes[0].position, 1)
+        self.assertEqual(self.fg.episodes[1].position, 2)
+        self.assertEqual(self.fg.episodes[2].position, 3)
 
+        # Test that position is also output as part of RSS (testing Episode)
+        itunes_order = self.fe.rss_entry().find("{%s}order" % self.itunes_ns)
+        assert itunes_order is not None
+        self.assertEqual(itunes_order.text, str(self.fe.position))
+
+        # Test that clearing works (testing Podcast and Episode)
+        self.fg.clear_episode_order()
+        assert self.fg.episodes[0].position is None
+        assert self.fg.episodes[1].position is None
+        assert self.fg.episodes[2].position is None
+
+        # No longer itunes:order element (testing Episode)
+        itunes_order = self.fe.rss_entry().find("{%s}order" % self.itunes_ns)
+        assert itunes_order is None
