@@ -3,6 +3,7 @@ venv
 *.pyo
 *.swp
 
+# JetBrains IDE
 .idea/
 
 # Documentation build
