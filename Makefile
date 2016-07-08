@@ -11,7 +11,6 @@ clean: doc-clean
 	@echo Removing source distribution files...
 	@rm -rf dist/
 	@rm -f MANIFEST
-	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
 
 doc: doc-clean doc-html doc-man doc-latexpdf
 
@@ -49,4 +48,3 @@ test:
 	  podgen.tests.test_person podgen.tests.test_media \
 	  podgen.tests.test_util podgen.tests.test_category
 	python -m podgen rss > /dev/null
-	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
