@@ -248,6 +248,54 @@ class Podcast(object):
         :RSS: itunes:subtitle
         """
 
+        self.pubsubhubbub = None
+        """The URL at which the PubSubHubbub_ hub can be found.
+
+        Podcatchers can tell the hub that they want to be notified when a new
+        episode is released. This way, they don't need to check for new episodes
+        every few hours; instead, the episodes arrive at their doorstep as soon
+        as they're published, through a notification sent by the hub.
+
+        :type: :obj:`str`
+        :RSS: atom:link with ``rel="hub"``
+
+        .. note::
+
+           You only need to worry about this attribute if you've `set up
+           PubSubHubbub`_ for your podcast. PodGen does NOT include this
+           functionality for you, and you must notify the hub of new content
+           yourself.
+
+        .. note::
+
+           In addition to setting this attribute, you should set the
+           :attr:`.feed_url` to the canonical URL of this feed. That way, there
+           is no confusion about which URL should be given to the PubSubHubbub
+           by the podcatcher when subscribing.
+
+        .. note::
+
+           On top of all this, you MUST make sure you also use the
+           `Link header`_ in the HTTP response that is sent with this feed,
+           duplicating the link to the PubSubHubbub and the feed. Example of
+           what it might look like:
+
+           .. code-block:: none
+
+              Link: <https://link.to.pubsubhubbub.example.org/>; rel="hub",
+                    <https://example.org/podcast.rss>; rel="self"
+
+           This is necessary for compatibility with the different versions of
+           PubSubHubbub. The `latest version of the standard`_ specifically says
+           that publishers MUST use the Link header.
+
+        .. _PubSubHubbub: https://en.wikipedia.org/wiki/PubSubHubbub
+        .. _set up PubSubHubbub:
+           https://indieweb.org/How_to_publish_and_consume_PubSubHubbub
+        .. _Link header: https://tools.ietf.org/html/rfc5988#page-6
+        .. _latest version of the standard: http://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#rfc.section.4
+        """
+
         # Populate the podcast with the keyword arguments
         for attribute, value in iteritems(kwargs):
             if hasattr(self, attribute):
@@ -522,6 +570,11 @@ class Podcast(object):
             link_to_self.attrib['href'] = self.feed_url
             link_to_self.attrib['rel'] = 'self'
             link_to_self.attrib['type'] = 'application/rss+xml'
+
+        if self.pubsubhubbub:
+            link_to_hub = etree.SubElement(channel, '{%s}link' % nsmap['atom'])
+            link_to_hub.attrib['href'] = self.pubsubhubbub
+            link_to_hub.attrib['rel'] = 'hub'
 
         for entry in self.episodes:
             item = entry.rss_entry()
