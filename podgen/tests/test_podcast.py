@@ -37,6 +37,7 @@ class TestPodcast(unittest.TestCase):
 
         self.website = 'http://example.com'
         self.description = 'This is a cool feed!'
+        self.subtitle = 'Coolest of all'
 
         self.language = 'en'
 
@@ -63,11 +64,13 @@ class TestPodcast(unittest.TestCase):
         self.image = "http://example.com/static/podcast.png"
         self.owner = self.author
         self.complete = True
+        self.new_feed_url = "https://example.com/feeds/myfeed2.rss"
 
 
         fg.name = self.name
         fg.website = self.website
         fg.description = self.description
+        fg.subtitle = self.subtitle
         fg.language = self.language
         fg.cloud = (self.cloudDomain, self.cloudPort, self.cloudPath,
                     self.cloudRegisterProcedure, self.cloudProtocol)
@@ -82,6 +85,7 @@ class TestPodcast(unittest.TestCase):
         fg.image = self.image
         fg.owner = self.owner
         fg.complete = self.complete
+        fg.new_feed_url = self.new_feed_url
 
         self.fg = fg
 
@@ -91,6 +95,7 @@ class TestPodcast(unittest.TestCase):
             name=self.name,
             website=self.website,
             description=self.description,
+            subtitle=self.subtitle,
             language=self.language,
             cloud=(self.cloudDomain, self.cloudPort, self.cloudPath,
                    self.cloudRegisterProcedure, self.cloudProtocol),
@@ -105,6 +110,7 @@ class TestPodcast(unittest.TestCase):
             image=self.image,
             owner=self.owner,
             complete=self.complete,
+            new_feed_url=self.new_feed_url
         )
         # Test that the fields are actually set
         self.test_baseFeed()
@@ -124,6 +130,7 @@ class TestPodcast(unittest.TestCase):
         assert fg.website == self.website
 
         assert fg.description == self.description
+        assert fg.subtitle == self.subtitle
 
         assert fg.language == self.language
         assert fg.feed_url == self.feed_url
@@ -131,6 +138,12 @@ class TestPodcast(unittest.TestCase):
         assert fg.owner == self.owner
         assert fg.complete == self.complete
         assert fg.pubsubhubbub == self.pubsubhubbub
+        assert fg.cloud == (self.cloudDomain, self.cloudPort, self.cloudPath,
+                            self.cloudRegisterProcedure, self.cloudProtocol)
+        assert fg.copyright == self.copyright
+        assert fg.new_feed_url == self.new_feed_url
+        assert fg.skip_days == self.skip_days
+        assert fg.skip_hours == self.skip_hours
 
     def test_rssFeedFile(self):
         fg = self.fg
@@ -180,7 +193,11 @@ class TestPodcast(unittest.TestCase):
 
         assert channel.find("title").text == self.name
         assert channel.find("description").text == self.description
+        assert channel.find("{%s}subtitle" % self.nsItunes).text == \
+            self.subtitle
+        assert channel.find("link").text == self.website
         assert channel.find("lastBuildDate").text != None
+        assert channel.find("language").text == self.language
         assert channel.find("docs").text == "http://www.rssboard.org/rss-specification"
         assert self.programname in channel.find("generator").text
         assert channel.find("cloud").get('domain') == self.cloudDomain
@@ -216,6 +233,8 @@ class TestPodcast(unittest.TestCase):
         assert owner.find("{%s}email" % self.nsItunes).text == self.owner.email
         assert channel.find("{%s}complete" % self.nsItunes).text.lower() == \
             "yes"
+        assert channel.find("{%s}new-feed-url" % self.nsItunes).text == \
+            self.new_feed_url
 
     def test_feedUrlValidation(self):
         self.assertRaises(ValueError, setattr, self.fg, "feed_url",
