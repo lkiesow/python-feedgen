@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+from setuptools import setup
 import podgen.version
 
 setup(
@@ -12,7 +12,7 @@ setup(
         author = 'Thorben W. S. Dahl',
         author_email = 'thorben@sjostrom.no',
         url = 'http://podgen.readthedocs.io/en/latest/',
-        keywords = ['feed','RSS','podcast','iTunes'],
+        keywords = ['feed', 'RSS', 'podcast', 'iTunes', 'generator'],
         license = 'FreeBSD and LGPLv3+',
         install_requires = ['lxml', 'dateutils', 'future', 'pytz'],
         classifiers = [

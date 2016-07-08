@@ -12,5 +12,14 @@ tmp_Atomfeed.xml
 tmp_Rssfeed.xml
 # JetBrains IDE
 .idea/
+
+# Documentation build
 /doc/_build
 /docs
+
+# Distribution and building the package
+/dist
+/MANIFEST
+/build
+/podgen.egg-info
+
