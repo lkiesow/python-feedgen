@@ -288,11 +288,10 @@ class Episode(object):
             explicit = etree.SubElement(entry, '{%s}explicit' % ITUNES_NS)
             explicit.text = "Yes" if self.__explicit else "No"
 
-        if self.is_closed_captioned is not None:
+        if self.is_closed_captioned:
             is_closed_captioned = etree.SubElement(entry,
                                             '{%s}isClosedCaptioned' % ITUNES_NS)
-            is_closed_captioned.text = 'Yes' if self.is_closed_captioned \
-                else 'No'
+            is_closed_captioned.text = 'Yes'
 
         if self.__position is not None and self.__position >= 0:
             order = etree.SubElement(entry, '{%s}order' % ITUNES_NS)
