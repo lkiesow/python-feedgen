@@ -11,6 +11,8 @@
 
 import unittest
 from lxml import etree
+import tempfile
+import os
 
 from podgen import Person, Category, Podcast
 import podgen.version
@@ -127,11 +129,34 @@ class TestPodcast(unittest.TestCase):
 
     def test_rssFeedFile(self):
         fg = self.fg
-        filename = 'tmp_Rssfeed.xml'
-        fg.rss_file(filename=filename, xml_declaration=False)
 
-        with open (filename, "r") as myfile:
-            rssString=myfile.read().replace('\n', '')
+        # Keep track of our temporary file and its filename
+        filename = None
+        file = None
+        try:
+            # Get our temporary file name
+            file = tempfile.NamedTemporaryFile(delete=False)
+            filename = file.name
+            # Close the file; we will just use its name
+            file.close()
+            # Write the RSS to the file (overwriting it)
+            fg.rss_file(filename=filename, xml_declaration=False)
+            # Read the resulting RSS
+            with open(filename, "r") as myfile:
+                rssString=myfile.read().replace('\n', '')
+        finally:
+            # We don't need the file any longer, so delete it
+            if filename:
+                os.unlink(filename)
+            elif file:
+                # Ops, we were interrupted between the first and second stmt
+                filename = file.name
+                file.close()
+                os.unlink(filename)
+            else:
+                # We were interrupted between entering the try-block and
+                # getting the temporary file. Not much we can do.
+                pass
 
         self.checkRssString(rssString)
 

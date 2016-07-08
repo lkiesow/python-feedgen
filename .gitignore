@@ -3,14 +3,6 @@ venv
 *.pyo
 *.swp
 
-podgen/tests/tmp_Atomfeed.xml
-
-podgen/tests/tmp_Rssfeed.xml
-
-tmp_Atomfeed.xml
-
-tmp_Rssfeed.xml
-# JetBrains IDE
 .idea/
 
 # Documentation build
