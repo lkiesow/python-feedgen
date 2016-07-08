@@ -44,6 +44,8 @@ class TestPodcast(unittest.TestCase):
         self.cloudRegisterProcedure = 'registerProcedure'
         self.cloudProtocol = 'SOAP 1.1'
 
+        self.pubsubhubbub = "http://pubsubhubbub.example.com/"
+
         self.contributor = {'name':"Contributor Name",
                             'email': 'Contributor email'}
         self.copyright = "The copyright notice"
@@ -67,6 +69,7 @@ class TestPodcast(unittest.TestCase):
         fg.language = self.language
         fg.cloud = (self.cloudDomain, self.cloudPort, self.cloudPath,
                     self.cloudRegisterProcedure, self.cloudProtocol)
+        fg.pubsubhubbub = self.pubsubhubbub
         fg.copyright = self.copyright
         fg.authors.append(self.author)
         fg.skip_days = self.skip_days
@@ -89,6 +92,7 @@ class TestPodcast(unittest.TestCase):
             language=self.language,
             cloud=(self.cloudDomain, self.cloudPort, self.cloudPath,
                    self.cloudRegisterProcedure, self.cloudProtocol),
+            pubsubhubbub=self.pubsubhubbub,
             copyright=self.copyright,
             authors=[self.author],
             skip_days=self.skip_days,
@@ -124,6 +128,7 @@ class TestPodcast(unittest.TestCase):
         assert fg.image == self.image
         assert fg.owner == self.owner
         assert fg.complete == self.complete
+        assert fg.pubsubhubbub == self.pubsubhubbub
 
     def test_rssFeedFile(self):
         fg = self.fg
@@ -164,10 +169,21 @@ class TestPodcast(unittest.TestCase):
         assert channel.find("skipDays").find("day").text in self.skip_days
         assert int(channel.find("skipHours").find("hour").text) in self.skip_hours
         assert self.web_master.email in channel.find("webMaster").text
-        assert channel.find("{%s}link" % nsAtom).get('href') == self.feed_url
-        assert channel.find("{%s}link" % nsAtom).get('rel') == 'self'
-        assert channel.find("{%s}link" % nsAtom).get('type') == \
-               'application/rss+xml'
+
+        links = channel.findall("{%s}link" % nsAtom)
+        selflinks = [link for link in links if link.get('rel') == 'self']
+        hublinks = [link for link in links if link.get('rel') == 'hub']
+
+        assert selflinks, "No <atom:link rel='self'> element found"
+        selflink = selflinks[0]
+        assert selflink.get('href') == self.feed_url
+        assert selflink.get('type') == 'application/rss+xml'
+
+        assert hublinks, "No <atom:link rel='hub'> element found"
+        hublink = hublinks[0]
+        assert hublink.get('href') == self.pubsubhubbub
+        assert hublink.get('type') is None
+
         assert channel.find("{%s}image" % self.nsItunes).get('href') == \
             self.image
         owner = channel.find("{%s}owner" % self.nsItunes)
