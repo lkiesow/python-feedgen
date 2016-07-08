@@ -320,7 +320,7 @@ class TestBaseEpisode(unittest.TestCase):
         self.fe.summary = "A short summary"
         d = self.fe.rss_entry().find("description")
         assert d is not None
-        assert "A short summary" in d.text
+        assert "A short summary" == d.text
         ce = self.fe.rss_entry().find(content_encoded)
         assert ce is None
 
@@ -328,7 +328,7 @@ class TestBaseEpisode(unittest.TestCase):
         self.fe.long_summary = "A long summary with more words"
         d = self.fe.rss_entry().find("description")
         assert d is not None
-        assert "A long summary with more words" in d.text
+        assert "A long summary with more words" == d.text
         ce = self.fe.rss_entry().find(content_encoded)
         assert ce is None
 
@@ -337,23 +337,23 @@ class TestBaseEpisode(unittest.TestCase):
         self.fe.long_summary = "A long summary with more words"
         d = self.fe.rss_entry().find("description")
         assert d is not None
-        assert "A short summary" in d.text
+        assert "A short summary" == d.text
         ce = self.fe.rss_entry().find(content_encoded)
         assert ce is not None
-        assert "A long summary with more words" in ce.text
+        assert "A long summary with more words" == ce.text
 
     def test_summariesHtml(self):
         self.fe.summary = "A <b>cool</b> summary"
         d = self.fe.rss_entry().find("description")
         assert d is not None
-        assert "A <b>cool</b> summary" in d.text
+        assert "A <b>cool</b> summary" == d.text
 
         self.fe.summary = htmlencode("A <b>cool</b> summary")
         d = self.fe.rss_entry().find("description")
         assert d is not None
-        assert "A &lt;b&gt;cool&lt;/b&gt; summary" in d.text
+        assert "A &lt;b&gt;cool&lt;/b&gt; summary" == d.text
 
-    def test_applyOrder(self):
+    def test_position(self):
         # Test that position is set (testing Podcast and Episode)
         self.fg.apply_episode_order()
         self.assertEqual(self.fg.episodes[0].position, 1)
@@ -374,3 +374,161 @@ class TestBaseEpisode(unittest.TestCase):
         # No longer itunes:order element (testing Episode)
         itunes_order = self.fe.rss_entry().find("{%s}order" % self.itunes_ns)
         assert itunes_order is None
+
+    def test_mandatoryAttributes(self):
+        ep = Episode()
+        self.assertRaises((RuntimeError, ValueError), ep.rss_entry)
+
+        ep.title = "A title"
+        ep.rss_entry()
+
+        ep.title = ""
+        self.assertRaises((RuntimeError, ValueError), ep.rss_entry)
+
+        ep.title = None
+        self.assertRaises((RuntimeError, ValueError), ep.rss_entry)
+
+        ep.summary = "A summary"
+        ep.rss_entry()
+
+        ep.summary = ""
+        self.assertRaises((RuntimeError, ValueError), ep.rss_entry)
+
+        ep.summary = None
+        self.assertRaises((RuntimeError, ValueError), ep.rss_entry)
+
+    def test_explicit(self):
+        # Don't appear if None (use podcast's explicit value)
+        assert self.fe.explicit is None
+        assert self.fe.rss_entry().find("{%s}explicit" % self.itunes_ns) is None
+
+        # Appear and say it's explicit if True
+        self.fe.explicit = True
+        itunes_explicit = self.fe.rss_entry()\
+            .find("{%s}explicit" % self.itunes_ns)
+        assert itunes_explicit is not None
+        assert itunes_explicit.text.lower() in ("yes", "explicit", "true")
+
+        # Appear and say it's clean if False
+        self.fe.explicit = False
+        itunes_explicit = self.fe.rss_entry()\
+            .find("{%s}explicit" % self.itunes_ns)
+        assert itunes_explicit is not None
+        assert itunes_explicit.text.lower() in ("no", "clean", "false")
+
+    def test_image(self):
+        # Test that the attribute works
+        assert self.fe.image is None
+
+        image = "https://static.example.org/img/hello.png"
+        self.fe.image = image
+        self.assertEqual(self.fe.image, image)
+
+        # Test that it appears in XML
+        itunes_image = self.fe.rss_entry().find("{%s}image" % self.itunes_ns)
+        assert itunes_image is not None
+
+        # Test that its contents is correct
+        self.assertEqual(itunes_image.get("href"), image)
+        assert itunes_image.text is None
+
+    def test_isClosedCaptioned(self):
+        def get_element():
+            return self.fe.rss_entry()\
+                .find("{%s}isClosedCaptioned" % self.itunes_ns)
+
+        # Starts out as False or None
+        assert self.fe.is_closed_captioned is None or \
+            self.fe.is_closed_captioned is False
+
+        # Not used when set to False
+        self.fe.is_closed_captioned = False
+        self.assertEqual(self.fe.is_closed_captioned, False)
+        assert get_element() is None
+
+        # Not used when set to None
+        self.fe.is_closed_captioned = None
+        assert self.fe.is_closed_captioned is None
+        assert get_element() is None
+
+        # Used and says "yes" when set to True
+        self.fe.is_closed_captioned = True
+        self.assertEqual(self.fe.is_closed_captioned, True)
+        assert get_element() is not None
+        self.assertEqual(get_element().text.lower(), "yes")
+
+    def test_link(self):
+        def get_element():
+            return self.fe.rss_entry().find("link")
+
+        # Starts out as None or empty
+        assert self.fe.link is None or self.fe.link == ""
+
+        # Not used when set to None
+        self.fe.link = None
+        assert self.fe.link is None
+        assert get_element() is None
+
+        # Not used when set to empty
+        self.fe.link = ""
+        assert self.fe.link == ""
+        assert get_element() is None
+
+        # Used when set to something
+        link = "http://example.com/episode1.html"
+        self.fe.link = link
+        self.assertEqual(self.fe.link, link)
+        assert get_element() is not None
+        self.assertEqual(get_element().text, link)
+
+    def test_subtitle(self):
+        def get_element():
+            return self.fe.rss_entry().find("{%s}subtitle" % self.itunes_ns)
+
+        # Starts out as None or empty
+        assert self.fe.subtitle is None or self.fe.subtitle == ""
+
+        # Not used when set to None
+        self.fe.subtitle = None
+        assert self.fe.subtitle is None
+        assert get_element() is None
+
+        # Not used when set to empty
+        self.fe.subtitle = ""
+        self.assertEqual(self.fe.subtitle, "")
+        assert get_element() is None
+
+        # Used when set to something
+        subtitle = "This is a subtitle"
+        self.fe.subtitle = subtitle
+        self.assertEqual(self.fe.subtitle, subtitle)
+        element = get_element()
+        assert element is not None
+        self.assertEqual(element.text, subtitle)
+
+    def test_title(self):
+        ep = Episode()
+
+        def get_element():
+            return ep.rss_entry().find("title")
+        # Starts out as None or empty.
+        assert ep.title is None or ep.title == ""
+
+        # We test that you cannot create RSS when it's empty or blank in
+        # another method.
+
+        # Test that it is set correctly
+        ep.title = None
+        assert ep.title is None
+
+        ep.title = ""
+        self.assertEqual(ep.title, "")
+
+        # Test that the title is used correctly
+        title = "My Fine Title"
+        ep.title = title
+        self.assertEqual(ep.title, title)
+
+        element = get_element()
+        assert element is not None
+        self.assertEqual(element.text, title)
