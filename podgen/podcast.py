@@ -73,6 +73,16 @@ class Podcast(object):
         self.__episode_class = Episode
         """The internal value used by self.Episode."""
 
+        self._nsmap = {
+            'atom':  'http://www.w3.org/2005/Atom',
+            'content': 'http://purl.org/rss/1.0/modules/content/',
+            'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
+            'dc': 'http://purl.org/dc/elements/1.1/'
+        }
+        """A dictionary which maps namespace prefixes to their namespace URI.
+        Add a new entry here if you want to use that namespace.
+        """
+
         ## RSS
         # http://www.rssboard.org/rss-specification
         # Mandatory:
@@ -414,17 +424,9 @@ class Podcast(object):
         :returns: The root element (ie. the rss element) of the feed.
         :rtype: lxml.etree.Element
         """
+        ITUNES_NS = self._nsmap['itunes']
 
-        nsmap = {
-            'atom':  'http://www.w3.org/2005/Atom',
-            'content': 'http://purl.org/rss/1.0/modules/content/',
-            'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
-            'dc': 'http://purl.org/dc/elements/1.1/'
-        }
-
-        ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
-
-        feed = etree.Element('rss', version='2.0', nsmap=nsmap )
+        feed = etree.Element('rss', version='2.0', nsmap=self._nsmap)
         channel = etree.SubElement(feed, 'channel')
         if not (self.name and self.website and self.description
                 and self.explicit is not None):
@@ -484,7 +486,7 @@ class Podcast(object):
                 # author without email)
                 for a in self.authors or []:
                     author = etree.SubElement(channel,
-                                              '{%s}creator' % nsmap['dc'])
+                                              '{%s}creator' % self._nsmap['dc'])
                     if a.name and a.email:
                         author.text = "%s <%s>" % (a.name, a.email)
                     elif a.name:
@@ -566,13 +568,13 @@ class Podcast(object):
             subtitle.text = self.subtitle
 
         if self.feed_url:
-            link_to_self = etree.SubElement(channel, '{%s}link' % nsmap['atom'])
+            link_to_self = etree.SubElement(channel, '{%s}link' % self._nsmap['atom'])
             link_to_self.attrib['href'] = self.feed_url
             link_to_self.attrib['rel'] = 'self'
             link_to_self.attrib['type'] = 'application/rss+xml'
 
         if self.pubsubhubbub:
-            link_to_hub = etree.SubElement(channel, '{%s}link' % nsmap['atom'])
+            link_to_hub = etree.SubElement(channel, '{%s}link' % self._nsmap['atom'])
             link_to_hub.attrib['href'] = self.pubsubhubbub
             link_to_hub.attrib['rel'] = 'hub'
 
