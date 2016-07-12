@@ -56,6 +56,7 @@ Commonly used
     p.feed_url = "https://example.com/feeds/podcast.rss"  # URL of this feed
     p.category = Category("Technology", "Podcasting")
     p.owner = p.authors[0]
+    p.xslt = "https://example.com/feed/stylesheet.xsl"  # URL of XSLT stylesheet
 
 Read more:
 
@@ -65,6 +66,7 @@ Read more:
 * :attr:`~podgen.Podcast.feed_url`
 * :attr:`~podgen.Podcast.category`
 * :attr:`~podgen.Podcast.owner`
+* :attr:`~podgen.Podcast.xslt`
 
 
 Less commonly used
