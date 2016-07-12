@@ -65,6 +65,7 @@ class TestPodcast(unittest.TestCase):
         self.owner = self.author
         self.complete = True
         self.new_feed_url = "https://example.com/feeds/myfeed2.rss"
+        self.xslt = "http://example.com/feed/stylesheet.xsl"
 
 
         fg.name = self.name
@@ -86,6 +87,7 @@ class TestPodcast(unittest.TestCase):
         fg.owner = self.owner
         fg.complete = self.complete
         fg.new_feed_url = self.new_feed_url
+        fg.xslt = self.xslt
 
         self.fg = fg
 
@@ -110,7 +112,8 @@ class TestPodcast(unittest.TestCase):
             image=self.image,
             owner=self.owner,
             complete=self.complete,
-            new_feed_url=self.new_feed_url
+            new_feed_url=self.new_feed_url,
+            xslt=self.xslt,
         )
         # Test that the fields are actually set
         self.test_baseFeed()
@@ -144,10 +147,15 @@ class TestPodcast(unittest.TestCase):
         assert fg.new_feed_url == self.new_feed_url
         assert fg.skip_days == self.skip_days
         assert fg.skip_hours == self.skip_hours
+        assert fg.xslt == self.xslt
 
     def test_rssFeedFile(self):
         fg = self.fg
+        rssString = self.getRssFeedFileContents(fg, xml_declaration=False)\
+            .replace('\n', '')
+        self.checkRssString(rssString)
 
+    def getRssFeedFileContents(self, fg, **kwargs):
         # Keep track of our temporary file and its filename
         filename = None
         file = None
@@ -158,10 +166,10 @@ class TestPodcast(unittest.TestCase):
             # Close the file; we will just use its name
             file.close()
             # Write the RSS to the file (overwriting it)
-            fg.rss_file(filename=filename, xml_declaration=False)
+            fg.rss_file(filename=filename, **kwargs)
             # Read the resulting RSS
             with open(filename, "r") as myfile:
-                rssString=myfile.read().replace('\n', '')
+                rssString = myfile.read()
         finally:
             # We don't need the file any longer, so delete it
             if filename:
@@ -175,13 +183,18 @@ class TestPodcast(unittest.TestCase):
                 # We were interrupted between entering the try-block and
                 # getting the temporary file. Not much we can do.
                 pass
+        return rssString
 
-        self.checkRssString(rssString)
 
     def test_rssFeedString(self):
         fg = self.fg
         rssString = fg.rss_str(xml_declaration=False)
         self.checkRssString(rssString)
+
+    def test_rssStringAndFileAreEqual(self):
+        rss_string = self.fg.rss_str()
+        rss_file = self.getRssFeedFileContents(self.fg)
+        self.assertEqual(rss_string, rss_file)
 
     def checkRssString(self, rssString):
         feed = etree.fromstring(rssString)
@@ -490,6 +503,40 @@ class TestPodcast(unittest.TestCase):
         self.assertRaises(ValueError, self.fg.rss_str)
         self.fg.skip_hours.remove(26)
         self.fg.rss_str()  # Now it works
+
+    # Tests for xslt
+    def test_xslt_str(self):
+        def use_str(**kwargs):
+            return self.fg.rss_str(**kwargs)
+        self.help_test_xslt_using(use_str)
+
+    def test_xslt_file(self):
+        def use_file(**kwargs):
+            return self.getRssFeedFileContents(self.fg, **kwargs)
+        self.help_test_xslt_using(use_file)
+
+    def help_test_xslt_using(self, generated_feed):
+        """Run tests for xslt, generating the feed str using the given function.
+        """
+        xslt_path = "http://example.com/mystylesheet.xsl"
+        xslt_pi = "<?xml-stylesheet"
+
+        # No xslt when set to None
+        self.fg.xslt = None
+        assert xslt_pi not in generated_feed()
+        assert xslt_pi not in generated_feed(minimize=True)
+        assert xslt_pi not in generated_feed(xml_declaration=False)
+
+        self.fg.xslt = xslt_path
+
+        # Now we have the stylesheet in there
+        assert xslt_pi in generated_feed()
+        assert xslt_pi in generated_feed(minimize=True)
+        assert xslt_pi in generated_feed(xml_declaration=False)
+
+        assert xslt_path in generated_feed()
+        assert xslt_path in generated_feed(minimize=True)
+        assert xslt_path in generated_feed(xml_declaration=False)
 
 if __name__ == '__main__':
     unittest.main()

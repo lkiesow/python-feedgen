@@ -15,7 +15,8 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from podgen.episode import Episode
-from podgen.util import ensure_format, formatRFC2822, listToHumanreadableStr
+from podgen.util import ensure_format, formatRFC2822, listToHumanreadableStr, \
+    htmlencode
 from podgen.person import Person
 import podgen.version
 import sys
@@ -306,6 +307,37 @@ class Podcast(object):
         .. _latest version of the standard: http://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#rfc.section.4
         """
 
+        self.xslt = None
+        """
+        Absolute URL to the XSLT file which web browsers should use with this
+        feed.
+
+        `XSLT`_ stands for Extensible Stylesheet Language Transformations and
+        can be regarded as a template language made for transforming XML into
+        XHTML (among other things). You can use it to avoid giving users an
+        ugly XML listing when trying to subscribe to your podcast; this
+        technique is in fact employed by most podcast publishers today.
+        In a web browser, it looks like a web page, and to the
+        podcatchers, it looks like a normal podcast feed. To put it another
+        way, the very same URL can be used as an information web page about the
+        podcast as well as the URL you subscribe to in podcatchers.
+
+        :type: :obj:`str`
+        :RSS: Processor instruction right after the xml declaration called
+            ``xml-stylesheet``, with type set to ``text/xsl`` and href set to
+            this attribute.
+
+        .. note::
+
+           Firefox will use its own stylesheet for RSS feeds, so you
+           must test using another browser and possibly a `simple web server`_
+           (``python -m http.server 8000 -b 127.0.0.1``).
+
+        .. _XSLT: https://en.wikipedia.org/wiki/XSLT
+        .. _simple web server:
+           https://docs.python.org/3/library/http.server.html
+        """
+
         # Populate the podcast with the keyword arguments
         for attribute, value in iteritems(kwargs):
             if hasattr(self, attribute):
@@ -584,6 +616,34 @@ class Podcast(object):
 
         return feed
 
+    def _add_xslt_pi(self, rss, xml_declaration):
+        """Add an XSLT processor instruction to the RSS string provided."""
+        # This is a hackish way of getting a processor instruction between
+        # the XML declaration and the RSS element; simply because lxml doesn't
+        # support processor instructions outside the root element. So we do
+        # a str.replace to replace the first newline with the processor
+        # instruction, since the XML declaration is followed by a newline.
+
+        # Get the processor instruction as a string
+        pi = self._get_xslt_pi()
+        if xml_declaration:
+            return rss.replace(
+             "\n",
+             '\n%s\n' % pi,
+             1)
+        else:
+            # No declaration, so just put it at the beginning (assuming the
+            # caller wants it there, why else would you set self.xslt?)
+            return pi + "\n" + rss
+
+    def _get_xslt_pi(self):
+        htmlescaped_url = htmlencode(self.xslt)
+        quote_sanitized = htmlescaped_url.replace('"', '').replace("\\", "")
+        return etree.tostring(etree.ProcessingInstruction(
+            "xml-stylesheet",
+            'type="text/xsl" href="' + quote_sanitized + '"',
+        ), encoding=str)
+
     def __str__(self):
         """Print the podcast in RSS format, using the default options.
 
@@ -607,13 +667,27 @@ class Podcast(object):
         :returns: The generated RSS feed as a :obj:`str`.
         """
         feed = self._create_rss()
-        return etree.tostring(feed, pretty_print=not minimize, encoding=encoding,
+        rss = etree.tostring(feed, pretty_print=not minimize, encoding=encoding,
                               xml_declaration=xml_declaration).decode(encoding)
-
+        if self.xslt:
+            return self._add_xslt_pi(rss, xml_declaration=xml_declaration)
+        else:
+            return rss
 
     def rss_file(self, filename, minimize=False,
                  encoding='UTF-8', xml_declaration=True):
         """Generate an RSS feed and write the resulting XML to a file.
+
+        .. note::
+
+           If atomicity is needed, then you are expected to provide that
+           yourself. That means that you should write the feed to a temporary
+           file which you rename to the final name afterwards; renaming is an
+           atomic operation on Unix(like) systems.
+
+        .. note::
+
+           File-like objects given to this method will not be closed.
 
         :param filename: Name of file to write, or a file-like object, or a URL.
         :type filename: str or fd
@@ -628,10 +702,20 @@ class Podcast(object):
         :type xml_declaration: bool
         :returns: Nothing.
         """
-        feed = self._create_rss()
-        doc = etree.ElementTree(feed)
-        doc.write(filename, pretty_print=not minimize, encoding=encoding,
-                  xml_declaration=xml_declaration)
+        rss = self.rss_str(minimize=minimize, encoding=encoding,
+                           xml_declaration=xml_declaration)
+        # Have we got a filename, or a file-like object?
+        if isinstance(filename, string_types):
+            # It is a string, assume it is filename
+            with open(filename, "w") as fd:
+                fd.write(rss)
+        elif hasattr(filename, "write"):
+            # It is file-like enough to fool us
+            filename.write(rss)
+        else:
+            raise TypeError("filename must either be a filename (str/unicode) "
+                            "or a file-like object (with write method); "
+                            "%s satisfies none of those conditions." % filename)
 
     def apply_episode_order(self):
         """Make sure that the episodes appear on iTunes in the exact order

@@ -57,6 +57,7 @@ def main():
     p.complete = False
     p.new_feed_url = 'http://example.com/new-feed.rss'
     p.owner = Person('John Doe', 'john@example.com')
+    p.xslt = "http://example.com/stylesheet.xsl"
 
     e1 = p.add_episode()
     e1.id = 'http://lernfunk.de/_MEDIAID_123#1'
