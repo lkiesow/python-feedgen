@@ -13,6 +13,7 @@ import unittest
 from lxml import etree
 import tempfile
 import os
+from future.utils import raise_from
 
 from podgen import Person, Category, Podcast
 import podgen.version
@@ -53,8 +54,8 @@ class TestPodcast(unittest.TestCase):
                             'email': 'Contributor email'}
         self.copyright = "The copyright notice"
         self.docs = 'http://www.rssboard.org/rss-specification'
-        self.skip_days = {'Tuesday'}
-        self.skip_hours = {23}
+        self.skip_days = set(['Tuesday'])
+        self.skip_hours = set([23])
 
         self.explicit = False
 
@@ -454,12 +455,12 @@ class TestPodcast(unittest.TestCase):
         # Try to create a Podcast once for each mandatory property.
         # On each iteration, exactly one of the properties is not set.
         # Therefore, an exception should be thrown on each iteration.
-        mandatory_properties = {
+        mandatory_properties = set([
             "description",
             "title",
             "link",
             "explicit",
-        }
+        ])
 
         for test_property in mandatory_properties:
             fg = Podcast()
@@ -474,8 +475,8 @@ class TestPodcast(unittest.TestCase):
             try:
                 self.assertRaises(ValueError, fg._create_rss)
             except AssertionError as e:
-                raise AssertionError("The test failed for %s" % test_property)\
-                    from e
+                raise_from(AssertionError(
+                    "The test failed for %s" % test_property), e)
 
     def test_withholdFromItunesOffByDefault(self):
         assert not self.fg.withhold_from_itunes

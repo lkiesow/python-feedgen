@@ -43,6 +43,8 @@ head around ambiguous, undocumented APIs. PodGen incorporates the industry's
 best practices and lets you focus on collecting the necessary metadata and
 publishing the podcast.
 
+PodGen is compatible with Python 2.7 and 3.3+.
+
 
 User Guide
 ----------

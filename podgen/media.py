@@ -11,6 +11,7 @@
 """
 import warnings
 from future.moves.urllib.parse import urlparse
+from future.utils import raise_from
 import datetime
 
 from podgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
@@ -246,11 +247,11 @@ class Media(object):
         try:
             return self.file_types[file_extension]
         except KeyError as e:
-            raise ValueError("The file extension %s was not recognized, which "
-                             "means it's not supported by iTunes. If this is "
-                             "intended, please provide the type yourself so "
-                             "clients can see what type of file it is."
-                             % file_extension) from e
+            raise_from(ValueError(
+                "The file extension %s was not recognized, which means it's "
+                "not supported by iTunes. If this is intended, please provide "
+                "the type yourself so clients can see what type of file it is."
+                % file_extension), e)
 
     @property
     def duration(self):

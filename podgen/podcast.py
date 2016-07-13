@@ -643,7 +643,7 @@ class Podcast(object):
         return etree.tostring(etree.ProcessingInstruction(
             "xml-stylesheet",
             'type="text/xsl" href="' + quote_sanitized + '"',
-        ), encoding=str)
+        ), encoding="UTF-8").decode("UTF-8")
 
     def __str__(self):
         """Print the podcast in RSS format, using the default options.
@@ -660,12 +660,12 @@ class Podcast(object):
             lines and adding properly indentation, saving bytes at the cost of
             readability (default: False).
         :type minimize: bool
-        :param encoding: Encoding used in the XML file (default: UTF-8).
+        :param encoding: Encoding used in the XML declaration (default: UTF-8).
         :type encoding: str
         :param xml_declaration: Whether an XML declaration should be added to
             the output (default: True).
         :type xml_declaration: bool
-        :returns: The generated RSS feed as a :obj:`str`.
+        :returns: The generated RSS feed as a :obj:`str` (unicode in 2.7)
         """
         feed = self._create_rss()
         rss = etree.tostring(feed, pretty_print=not minimize, encoding=encoding,
@@ -1133,7 +1133,7 @@ class Podcast(object):
                 if not d.lower() in ['monday', 'tuesday', 'wednesday', 'thursday',
                         'friday', 'saturday', 'sunday']:
                     raise ValueError('Invalid day %s' % d)
-            self.__skip_days = {day.capitalize() for day in days}
+            self.__skip_days = set(day.capitalize() for day in days)
         else:
             self.__skip_days = None
 
