@@ -57,6 +57,6 @@ User Guide
    user/basic_usage_guide/part_2
    user/basic_usage_guide/part_3
    user/example
-   extending
+   advanced/index
    contributing
    api

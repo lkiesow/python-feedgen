@@ -4,10 +4,6 @@ Adding new tags
 Are there XML elements you want to use that aren't supported by PodGen? If so,
 you should be able to add them in using inheritance.
 
-.. warning::
-
-   This is an advanced topic.
-
 .. note::
 
    There hasn't been a focus on making it easy to extend PodGen.
