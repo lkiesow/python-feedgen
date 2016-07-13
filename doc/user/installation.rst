@@ -2,6 +2,9 @@
 Installation
 ============
 
+PodGen can be used on any system (if not: file a bug report!), and supports
+Python 2.7 and 3.3, 3.4 and 3.5.
+
 Use `pip <https://pypi.python.org/pypi>`_::
 
     $ pip install podgen

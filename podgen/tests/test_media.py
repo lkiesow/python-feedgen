@@ -112,13 +112,13 @@ class TestMedia(unittest.TestCase):
         # Mapping between url file extension and type given by iTunes
         # https://help.apple.com/itc/podcasts_connect/#/itcb54353390
         types = {
-            '.mp3': {"audio/mpeg"},
-            '.m4a': {"audio/x-m4a"},
-            '.mov': {"video/quicktime"},
-            '.mp4': {"video/mp4"},
-            '.m4v': {"video/x-m4v"},
-            '.pdf': {"application/pdf"},
-            '.epub': {"document/x-epub"},
+            '.mp3': set(["audio/mpeg"]),
+            '.m4a': set(["audio/x-m4a"]),
+            '.mov': set(["video/quicktime"]),
+            '.mp4': set(["video/mp4"]),
+            '.m4v': set(["video/x-m4v"]),
+            '.pdf': set(["application/pdf"]),
+            '.epub': set(["document/x-epub"]),
         }
 
         for (file_extension, allowed_types) in iteritems(types):
