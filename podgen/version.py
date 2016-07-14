@@ -11,7 +11,7 @@
 """
 
 'Version of python-podgen represented as tuple'
-version = (1, 0, "0b2")
+version = (1, 0, "0b3")
 
 
 'Version of python-podgen represented as string'
