@@ -271,41 +271,18 @@ class Podcast(object):
         :type: :obj:`str`
         :RSS: atom:link with ``rel="hub"``
 
-        .. note::
+        .. warning::
 
-           You only need to worry about this attribute if you've :doc:`set up
-           PubSubHubbub </advanced/pubsubhubbub>` for your podcast.
+           Do NOT set this attribute if you haven't set up mechanics for
+           notifying the hub of new episodes. Doing so could make it appear to
+           your listeners like there is no new content for this feed. See the
+           guide.
 
-        .. note::
-
-           In addition to setting this attribute, you must set the
-           :attr:`.feed_url` to the canonical URL of this feed. That way, there
-           is no confusion about which URL should be given to the PubSubHubbub
-           by the podcatcher when subscribing.
-
-        .. note::
-
-           On top of all this, you MUST make sure you also use the
-           `Link header`_ in the HTTP response that is sent with this feed,
-           duplicating the link to the PubSubHubbub and the feed. Example of
-           what it might look like:
-
-           .. code-block:: none
-
-              Link: <https://link.to.pubsubhubbub.example.org/>; rel="hub",
-                    <https://example.org/podcast.rss>; rel="self"
-
-           This is necessary for compatibility with the different versions of
-           PubSubHubbub. The `latest version of the standard`_ specifically says
-           that publishers MUST use the Link header.
-
-        .. seealso:
+        .. seealso::
            The :doc:`guide on how to use PubSubHubbub </advanced/pubsubhubbub>`
-              A more detailed walk-through on how to use PubSubHubbub.
+              A step-for-step guide with examples.
 
         .. _PubSubHubbub: https://en.wikipedia.org/wiki/PubSubHubbub
-        .. _Link header: https://tools.ietf.org/html/rfc5988#page-6
-        .. _latest version of the standard: http://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#rfc.section.4
         """
 
         self.xslt = None
@@ -744,119 +721,6 @@ class Podcast(object):
         :meth:`.Podcast.apply_episode_order` on the other feed, though."""
         for episode in self.episodes:
             episode.position = None
-
-    @classmethod
-    def notify_multiple(cls, requests, feeds, timeout=10.0):
-        """Notify the PubSubHubbub hubs of additions in multiple Podcasts.
-
-        When using PubSubHubbub, you must notify the hub whenever a feed has
-        new entries. Using this method, you can give a list of feeds
-        which all have new content. This saves time compared to
-        :meth:`~.Podcast.notify_hub` since they can be made into one request per
-        hub, instead of having one request per feed per hub.
-
-        The Podcast objects don't need to use the same PubSubHubbub hub.
-
-        :param requests: The requests module, or a Session object.
-        :type requests: requests or requests.Session
-        :param feeds: List of Podcast objects which have new or changed content
-            published.
-        :type feeds: :obj:`list` of :class:`.Podcast`
-        :param timeout: Number of seconds we can wait for the server to respond.
-            Applies to each hub separately. Defaults to ten seconds.
-        :type timeout: float
-        :warnings: UserWarning for each feed that has no value for
-            :attr:`~.Podcast.pubsubhubbub` and :attr:`~.Podcast.feed_url`.
-
-        .. note::
-
-           This method is blocking, and will return when the servers respond.
-
-        .. note::
-
-           For this to work for a given feed, it must have
-           :attr:`~.Podcast.feed_url` and :attr:`~.Podcast.pubsubhubbub` set
-           correctly.
-
-        .. seealso::
-
-           The instance method :meth:`~.Podcast.notify_hub`
-              For notifying a single hub about a single feed
-
-           The :doc:`guide on using PubSubHubbub </advanced/pubsubhubbub>`
-              For a step-for-step guide with examples.
-        """
-        # Which hubs should be notified about what feeds?
-        hubs = dict()
-        for feed in feeds:
-            if feed.pubsubhubbub:
-                hubs.setdefault(feed.pubsubhubbub, []).append(feed)
-            else:
-                warnings.warn("Cannot notify feed %s: pubsubhubbub not set"
-                              % feed)
-
-        # We now have a dictionary which maps a hub to a list of its feeds
-        for hub, hub_feeds in iteritems(hubs):
-            # Create the POST parameters
-            # Tell the PubSubHubbub we are notifying it of updates
-            params = [("hub.mode", "publish")]
-            # Tell the hub which feeds have been updated
-            for feed in hub_feeds:
-                if feed.feed_url:
-                    params.append(("hub.url", feed.feed_url))
-                else:
-                    warnings.warn("Cannot notify feed %s: feed_url not set"
-                                  % feed)
-            # Do the notifying!
-            if len(params) > 1:
-                r = requests.post(hub, data=params, timeout=timeout)
-                r.raise_for_status()
-            else:
-                # No feeds which we can notify this hub of...
-                pass
-
-    def notify_hub(self, requests, timeout=5.0):
-        """Notify this podcast's PubSubHubbub hub about new episode(s).
-
-        When using PubSubHubbub, you must notify it whenever there's a new
-        episode available. Use this method to do
-        so, *after* the new episode is available -- the hub will check the feed
-        to figure out what's new once you do so.
-
-        :param requests: The requests module, or a Session object.
-        :type requests: requests or requests.Session
-        :param timeout: Number of seconds to wait for the hub to respond.
-            Defaults to five seconds.
-        :type timeout: float
-
-        .. note::
-
-           This method is blocking, and will return when the server responds.
-
-        .. note::
-
-           For this to work, this feed must have
-           :attr:`~.Podcast.feed_url` and :attr:`~.Podcast.pubsubhubbub` set
-           correctly.
-
-        .. seealso::
-
-           The class method :meth:`~.Podcast.notify_multiple`
-              For sending notifications about multiple feeds.
-
-           The :doc:`guide on using PubSubHubbub </advanced/pubsubhubbub>`
-              For a step-for-step guide with examples.
-        """
-        if not self.feed_url:
-            raise RuntimeError("Cannot notify hub of this feed, since feed_url "
-                               "is not set.")
-        elif not self.pubsubhubbub:
-            raise RuntimeError("Cannot notify hub of this feed, since "
-                               "pubsubhubbub is not set.")
-        else:
-            self.notify_multiple(requests, [self], timeout=timeout)
-
-
 
     @property
     def last_updated(self):
