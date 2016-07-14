@@ -14,6 +14,12 @@ Read about `what PubSubHubbub is`_ before you continue.
    While the protocol supports having multiple PubSubHubbub hubs for a single
    Podcast, there is no support for this in PodGen at the moment.
 
+.. warning::
+
+   Read through the whole guide at least once before you start implementing
+   this. Specifically, you must *not* set the :attr:`~.Podcast.pubsubhubbub`
+   attribute if you haven't got a way to notify hubs of new episodes.
+
 --------------------------------------------------------------------------------
 
 .. contents::
@@ -37,11 +43,10 @@ Step 2: Decide on a hub
 
 The `Wikipedia article`_ mentions a few options you can use (called Community
 Hosted hub providers). Alternatively, you can set up and host your own server
-using one of the implementations found at the `official PubSubHubbub project
-page`_.
+using one of the open source alternatives, like for instance `Switchboard`_.
 
 .. _Wikipedia article: https://en.wikipedia.org/wiki/PubSubHubbub#Usage
-.. _official PubSubHubbub project page: https://github.com/pubsubhubbub
+.. _Switchboard: https://github.com/aaronpk/Switchboard
 
 Step 3: Set pubsubhubbub
 ------------------------
@@ -68,7 +73,7 @@ what it might look like:
          <https://example.org/podcast.rss>; rel="self"
 
 How you can achieve this varies from framework to framework. Here is an example
-using Flask (assuming the code is inside a view function)::
+using `Flask`_ (assuming the code is inside a view function)::
 
     from flask import make_response
     from podgen import Podcast
@@ -91,63 +96,46 @@ just fine.
 
 .. _Link header: https://tools.ietf.org/html/rfc5988#page-6
 .. _latest version of the standard: http://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#rfc.section.4
+.. _Flask: http://flask.pocoo.org/
 
-Step 5: Publish the changes
----------------------------
-
-Ensure the changes above are published before proceeding. That is, if a client
-downloads the feed, it should receive the Link headers and the pubsubhubbub
-and feed_url contents.
-
-Step 6: Notify the hub of new episodes
+Step 5: Notify the hub of new episodes
 --------------------------------------
+
+.. warning::
+
+   The hub won't know that you've published new episodes unless you tell it about
+   it. If you don't do this, the hub will assume there is no new content, and
+   clients which trust the hub to inform them of new episodes will think there
+   is no new content either. **Don't set the pubsubhubbub field if you haven't set
+   this up yet.**
+
+Different hubs have different ways of notifying it of new episodes. That's why
+you must notify the hubs yourself; supporting all hubs is out of scope for
+PodGen.
+
+If you use the `Google PubSubHubbub`_ or the `Superfeedr hub`_, there is a
+pip package called `PubSubHubbub_Publisher`_ which provides this functionality
+for you. Example::
+
+    from pubsubhubbub_publish import publish, PublishError
+    from podgen import Podcast
+    # ...
+    try:
+        publish(p.pubsubhubbub, p.feed_url)
+    except PublishError as e:
+        # Handle error
+
+In all other cases, you're encouraged to use `Requests`_ to make the necessary
+`POST request`_ (if no publisher package is available).
 
 .. note::
 
-   PodGen does not contain any logic for figuring out whether a Podcast has
-   changed or not. You must do that part yourself.
+   If you have changes in multiple feeds, you can usually send just one single
+   notification to the hub with all the feeds' URLs included. It is worth
+   researching, as it can save both you and the hub a lot of time.
 
-PodGen has two convenience methods that you can use to notify the hub you chose
-of any additions made to the feed. The way this works, is that you say to the
-hub "Hey, we've made additions to this feed", and the hub looks at the feed and
-determines what is new, and sends the new episode(s) to any subscribed clients.
-
-There are three pre-requisites for using those methods:
-
-#. The `Requests`_ module has been installed.
-#. The :class:`.Podcast` object must have :attr:`~.Podcast.pubsubhubbub` and
-   :attr:`~.Podcast.feed_url` set.
-#. The new episodes will be included in the feed if someone requests the feed
-   at the moment the methods are called.
-
-   * If this isn't true, the hub will always be lagging one change behind!
-
+.. _Google PubSubHubbub: https://pubsubhubbub.appspot.com/
+.. _Superfeedr hub: https://pubsubhubbub.superfeedr.com/
+.. _PubSubHubbub_Publisher: https://pypi.python.org/pypi/PubSubHubbub_Publisher
 .. _Requests: http://docs.python-requests.org
-
-One of the methods work best when only one feed has changed. The other one can
-handle both the case where one feed has changed, and the case where multiple
-feeds have changed.
-
-.. autosummary::
-   podgen.Podcast.notify_hub
-   podgen.Podcast.notify_multiple
-
-Example where one Podcast has changed::
-
-    import requests
-    from podgen import Podcast
-    # ...
-    p.notify_hub(requests)
-
-Example where multiple Podcasts have changed::
-
-    import requests
-    from podgen import Podcast
-    # ...
-    changed_podcasts = [
-        # ... multiple Podcast objects here
-    ]
-    Podcast.notify_multiple(requests, changed_podcasts)
-
-Always use the latter form when multiple Podcasts have changed; you'll save
-lots of time since only one request needs to be made per hub.
+.. _POST request: http://docs.python-requests.org/en/master/user/quickstart/#make-a-request
