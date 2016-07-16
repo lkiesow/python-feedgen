@@ -284,7 +284,7 @@ class TestMedia(unittest.TestCase):
         if 'stream' in mock_requests.get.call_args[1] and \
                 mock_requests.get.call_args[1]['stream']:
             # The request is streamed, so iter_content was used
-            mock_requests_response.iter_content.assert_called_once()
+            self.assertEqual(mock_requests_response.iter_content.call_count, 1)
             fd = mock_open.return_value.__enter__.return_value
             expected = [((i,),) for i in range(5)]
             self.assertEqual(fd.write.call_args_list, expected)
