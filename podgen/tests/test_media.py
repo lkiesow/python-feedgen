@@ -15,7 +15,11 @@ from future.utils import iteritems
 import unittest
 import warnings
 from datetime import timedelta
-import mock
+import sys
+if sys.version_info[0:1] >= (3,4):
+    from unittest import mock
+else:
+    import mock
 import io
 
 from podgen import Media, NotSupportedByItunesWarning
