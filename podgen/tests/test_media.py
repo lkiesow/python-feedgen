@@ -265,10 +265,8 @@ class TestMedia(unittest.TestCase):
         mock_requests_response.content = "binary data here"
         # The content, as returned by an iterator (supposed to be chunks of
         # mp3-file)
-        mock_requests_response.iter_content = mock.Mock()
         mock_requests_response.iter_content.return_value = range(5)
         # Make sure our fake response is returned by requests.get()
-        mock_requests.get = mock.Mock()
         mock_requests.get.return_value = mock_requests_response
 
         # Return the correct number of seconds from TinyTag
