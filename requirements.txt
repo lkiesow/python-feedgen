@@ -3,3 +3,5 @@ dateutils
 lxml
 pytz
 future
+mock
+tinytag

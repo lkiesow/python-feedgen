@@ -71,26 +71,34 @@ Of course, this isn't much of a podcast if we don't have any
                              duration=timedelta(hours=1, minutes=2, seconds=36)
                             )
 
-The **type** of the media file is derived from the URI ending, if you don't
-provide it yourself. Even though you
-technically can have file names which don't end in their actual file extension,
-iTunes will use the file extension to determine what type of file it is, without
-even asking the server. You must therefore make sure your media files have the
-correct file extension. If you don't care about compatibility with iTunes, you
-can provide the MIME type yourself.
+The media's attributes (and the arguments to the constructor) are:
 
-The **duration** is also important to include for your listeners' convenience.
-Without it, they won't know how long an episode is before they start downloading
-and listening. It must be an instance of :class:`datetime.timedelta`.
+:``url``: The URL at which this media file is accessible.
+:``size``: The size of the media file as bytes, given either as :obj:`int` or
+    a :obj:`str` which will be parsed.
+:``type``: The media file's `MIME type`_.
+:``duration``: How long the media file lasts, given as a
+    :class:`datetime.timedelta`
 
-Normally, you must specify how big the **file size** is in bytes (and the `MIME
-type`_ if the file extension is unknown to iTunes), but PodGen
-can send a HEAD request to the URL and retrieve the missing information
-(both file size and type). This is done by calling
+You can leave out some of these:
+
+:``url``: Mandatory.
+:``size``: Can be 0, but do so only if you cannot determine its size (for
+    example if it's a stream).
+:``type``: Can be left out if the URL has a recognized file extensions. In that
+    case, the type will be determined from the URL's file extension.
+:``duration``: Can be left out since it is optional. It will stay as
+    :obj:`None`.
+
+Populating size and type from server
+====================================
+
+By using the special factory
 :meth:`Media.create_from_server_response <podgen.Media.create_from_server_response>`
-instead of using the constructor directly.
-You must pass in the `requests <http://docs.python-requests.org/en/master/>`_
-module, so make sure it's installed. ::
+you can gather missing information by asking the server at which the file is
+hosted. This requires that you have installed the
+`requests <http://docs.python-requests.org/en/master/>`_ library, and that you
+pass it as the first parameter. Example::
 
     import requests
     my_episode.media = Media.create_from_server_response(
@@ -99,9 +107,44 @@ module, so make sure it's installed. ::
                            duration=timedelta(hours=1, minutes=2, seconds=36)
                        )
 
+Here's the effect of leaving out the fields:
+
+:``requests``: Mandatory.
+:``url``: Mandatory.
+:``size``: Will be populated using the ``Content-Length`` header.
+:``type``: Will be populated using the ``Content-Type`` header.
+:``duration``: Will *not* be populated by data from the server; will stay
+   :obj:`None`.
+
+Populating duration from server
+===============================
+
+Determining duration requires that the media file is downloaded to the local
+machine, and is therefore not done unless you specifically ask for it. If you
+don't have the media file locally, you can populate the :attr:`~.Media.duration`
+field by using :meth:`.Media.fetch_duration`::
+
+    my_episode.media.fetch_duration(requests)
+
+If you *do* happen to have the media file in your file system, you can use it
+to populate the :attr:`~.Media.duration` attribute by calling
+:meth:`.Media.populate_duration_from`::
+
+    filename = "/home/example/Music/podcast/s01e10.mp3"
+    my_episode.media.populate_duration_from(filename)
+
 .. note::
 
-   The duration cannot be fetched from the server automatically.
+   Even though you technically can have file names which don't end in their
+   actual file extension, iTunes will use the file extension to determine what
+   type of file it is, without even asking the server. You must therefore make
+   sure your media files have the correct file extension.
+
+   If you don't care about compatibility with iTunes, you can provide the MIME
+   type yourself to fix any errors you receive about this.
+
+   This also applies to the tool used to determine a file's duration, which
+   uses the file's file extension to determine its type.
 
 Read more about:
 

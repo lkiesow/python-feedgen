@@ -14,7 +14,7 @@ setup(
         url = 'http://podgen.readthedocs.io/en/latest/',
         keywords = ['feed', 'RSS', 'podcast', 'iTunes', 'generator'],
         license = 'FreeBSD and LGPLv3+',
-        install_requires = ['lxml', 'dateutils', 'future', 'pytz'],
+        install_requires = ['lxml', 'dateutils', 'future', 'pytz', 'tinytag'],
         classifiers = [
             'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',

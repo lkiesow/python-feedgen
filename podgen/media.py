@@ -16,6 +16,8 @@ from future.moves.urllib.parse import urlparse
 from future.utils import raise_from
 import datetime
 
+from tinytag import TinyTag
+
 from podgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
 from podgen import version
 
@@ -116,6 +118,11 @@ class Media(object):
         self._url = url
 
     @property
+    def file_extension(self):
+        """The file extension of :attr:`~.Media.url`. Read-only."""
+        return '.' + urlparse(self.url).path.split('.')[-1]
+
+    @property
     def size(self):
         """The media's file size in bytes.
 
@@ -164,26 +171,29 @@ class Media(object):
                 self.size = 0
             else:
                 raise e
+
     @staticmethod
     def _str_to_bytes(size):
-            units = {
-                "b": 1,
-                "kb": 1000,
-                "kib": 1024,
-                "mb": 1000**2,
-                "mib": 1024**2,
-                "gb": 1000**3,
-                "gib": 1024**3,
-                "tb": 1000**4,
-                "tib": 1024**4
-            }
-            size = str(size).lower().strip().replace(" ", "")
-            number = float(size.rstrip("bkimgt"))
-            unit = size.lstrip("0123456789.")
-            try:
-                return round(number * units[unit])
-            except KeyError:
-                raise ValueError("The unit %s was not recognized." % unit)
+        """Parse ``size`` and return the number of bytes it names.
+        See :attr:`.Media.size` for more information on this conversion."""
+        units = {
+            "b": 1,
+            "kb": 1000,
+            "kib": 1024,
+            "mb": 1000**2,
+            "mib": 1024**2,
+            "gb": 1000**3,
+            "gib": 1024**3,
+            "tb": 1000**4,
+            "tib": 1024**4
+        }
+        size = str(size).lower().strip().replace(" ", "")
+        number = float(size.rstrip("bkimgt"))
+        unit = size.lstrip("0123456789.")
+        try:
+            return round(number * units[unit])
+        except KeyError:
+            raise ValueError("The unit %s was not recognized." % unit)
 
     @property
     def type(self):
@@ -309,6 +319,9 @@ class Media(object):
         """Create new Media object, with size and/or type fetched from the
         server when not given.
 
+        See :meth:`.Media.fetch_duration` for a (slow!) way to fill in the
+        duration as well.
+
         Like the signature suggests, this factory method requires that
         `Requests <http://docs.python-requests.org/en/master/>`_ is installed.
 
@@ -414,3 +427,53 @@ class Media(object):
             if fd and not destination_is_fd:
                 # Close the file we've opened (doesn't hurt to close twice)
                 fd.close()
+
+    def populate_duration_from(self, filename):
+        """Populate :attr:`.Media.duration` by analyzing the given file.
+
+        Use :meth:`.Media.fetch_duration` if you want to populate the
+        duration property of this object.
+
+        :param filename: Path to the media file which shall be used to determine
+            this media's duration. The file extension must match its file type,
+            since it is used to determine what type of media file it is. For
+            a list of supported formats, see
+            https://pypi.python.org/pypi/tinytag/
+        :type filename: str
+        """
+        self.duration = self.get_duration_of(filename)
+
+    @staticmethod
+    def get_duration_of(filename):
+        """Return the duration of the media file located at ``filename``.
+
+        Use :meth:`.Media.fetch_duration` if you want to populate the
+        duration property of this object.
+
+        :param filename: Path to the media file which shall be used to determine
+            this media's duration. The file extension must match its file type,
+            since it is used to determine what type of media file it is. For
+            a list of supported formats, see
+            https://pypi.python.org/pypi/tinytag/
+        :type filename: str
+        :returns: datetime.timedelta
+        """
+        return datetime.timedelta(seconds=TinyTag.get(filename).duration)
+
+    def fetch_duration(self, requests):
+        """Download :attr:`.Media.url` locally and use it to populate
+        :attr:`.Media.duration`.
+
+        This method will take quite some time, since the media file must be
+        downloaded before it can be analyzed.
+        """
+        filename = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                    delete=False, suffix=self.file_extension) as fd:
+                filename = fd.name
+                self.download(requests, fd)
+            self.populate_duration_from(filename)
+        finally:
+            if filename:
+                os.remove(filename)
