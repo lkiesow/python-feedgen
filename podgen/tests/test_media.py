@@ -8,10 +8,14 @@
     :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
     :license: FreeBSD and LGPL, see license.* for more details.
 """
+import os
+import tempfile
+
 from future.utils import iteritems
 import unittest
 import warnings
 from datetime import timedelta
+import io
 
 from podgen import Media, NotSupportedByItunesWarning
 
@@ -243,5 +247,45 @@ class TestMedia(unittest.TestCase):
         self.assertEqual(m.size, size)
         self.assertEqual(m.type, type)
         self.assertEqual(m.duration, self.duration)
+
+    def test_downloadMedia(self):
+        class MyLittleRequests(object):
+            @staticmethod
+            def get(*args, **kwargs):
+                self.assertEqual(args[0], self.url)
+                is_streaming = kwargs.get("stream")
+
+                class MyLittleResponse(object):
+                    if is_streaming:
+                        content = "binary content".encode("UTF-8")
+
+                    @staticmethod
+                    def iter_content(chunk_size):
+                        assert chunk_size is None or chunk_size >= 1024
+                        for char in "binary content":
+                            yield char.encode("UTF-8")
+
+                    @staticmethod
+                    def raise_for_status():
+                        pass
+
+                return MyLittleResponse
+
+        # Test that the given file object is used
+        m = Media(self.url, self.size, self.type)
+        fd = io.BytesIO()
+        m.download(MyLittleRequests, fd)
+        self.assertEqual(fd.getvalue().decode("UTF-8"), "binary content")
+        fd.close()
+
+        # Test that the given filename is used
+        with tempfile.NamedTemporaryFile(delete=False) as fd:
+            filename = fd.name
+        try:
+            m.download(MyLittleRequests, filename)
+            with open(filename, "rb") as fd:
+                self.assertEqual(fd.read().decode("UTF-8"), "binary content")
+        finally:
+            os.remove(filename)
 
 

@@ -9,6 +9,8 @@
     :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
     :license: FreeBSD and LGPL, see license.* for more details.
 """
+import os
+import tempfile
 import warnings
 from future.moves.urllib.parse import urlparse
 from future.utils import raise_from
@@ -367,3 +369,48 @@ class Media(object):
 
     def __repr__(self):
         return self.__str__()
+
+    def download(self, requests, destination):
+        """Download the media file.
+
+        This method will block until the file is downloaded in its entirety.
+
+        .. note::
+
+            The destination will not be populated atomically; if you need this,
+            you must give provide a temporary file as destination and rename the
+            file yourself.
+
+        :param requests: The requests library, or its Session object.
+        :type requests: requests or requests.Session
+        :param destination: Where to save the media file. Either a filename,
+            or a file-like object. The file-like object will *not* be closed by
+            PodGen.
+        :type destination: :obj:`fd` or :obj:`str`.
+        """
+
+        r = requests.get(self.url, stream=True)
+        r.raise_for_status()
+        fd = None
+        destination_is_fd = hasattr(destination, "write")
+        try:
+            if destination_is_fd:
+                fd = destination
+            else:
+                fd = open(destination, "wb")
+            for chunk in r.iter_content(chunk_size=None):
+                fd.write(chunk)
+                del chunk
+        except (Exception, KeyboardInterrupt, InterruptedError):
+            # Don't leave half-finished files laying around.
+            if fd and not destination_is_fd:
+                try:
+                    fd.close()
+                    os.remove(destination)
+                except FileNotFoundError:
+                    pass
+            raise
+        finally:
+            if fd and not destination_is_fd:
+                # Close the file we've opened (doesn't hurt to close twice)
+                fd.close()
