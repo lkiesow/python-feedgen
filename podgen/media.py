@@ -416,6 +416,15 @@ class Media(object):
     def __repr__(self):
         return self.__str__()
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['requests_session']
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.requests_session = _get_new_requests_session()
+
     def download(self, destination):
         """Download the media file.
 

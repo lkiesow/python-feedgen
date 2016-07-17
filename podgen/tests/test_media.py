@@ -11,6 +11,7 @@
 import os
 import tempfile
 
+import pickle
 from future.utils import iteritems
 import unittest
 import warnings
@@ -366,3 +367,13 @@ class TestMedia(unittest.TestCase):
         requests_session = podgen.media._get_new_requests_session()
         # Is it set to requests?
         self.assertEqual(requests_session, mock_requests)
+
+    @mock.patch("podgen.media.requests", autospec=True)
+    def test_pickling(self, mock_requests):
+        m = Media(self.url, self.size, self.type, self.duration)
+        m2 = pickle.loads(pickle.dumps(m))
+        self.assertEqual(m.url, m2.url)
+        self.assertEqual(m.size, m2.size)
+        self.assertEqual(m.type, m2.type)
+        self.assertEqual(m.duration, m2.duration)
+
