@@ -1,7 +1,9 @@
-# Remember to add any new requirements to setup.py as well!
+# Remember to add any new requirements to setup.py as well, if they are required
+# for users of this package.
 dateutils
 lxml
 pytz
 future
 mock
 tinytag
+requests

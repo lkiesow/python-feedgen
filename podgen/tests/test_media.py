@@ -15,15 +15,14 @@ from future.utils import iteritems
 import unittest
 import warnings
 from datetime import timedelta
-import sys
-if sys.version_info[0:1] >= (3,4):
-    from unittest import mock
-else:
-    import mock
+import mock
 import io
 
 from podgen import Media, NotSupportedByItunesWarning
+import podgen.media
 
+# Because of a bug in the unittest.mock implementation, we must skip some tests
+# in Python 3.4.2
 
 class TestMedia(unittest.TestCase):
     def setUp(self):
@@ -231,8 +230,6 @@ class TestMedia(unittest.TestCase):
                 assert args[0] == url
                 assert kwargs['allow_redirects'] == True
                 assert 'timeout' in kwargs
-                assert 'headers' in kwargs
-                assert 'User-Agent' in kwargs['headers']
 
                 class MyLittleResponse(object):
                     headers = {
@@ -246,8 +243,8 @@ class TestMedia(unittest.TestCase):
 
                 return MyLittleResponse
 
-        m = Media.create_from_server_response(MyLittleRequests, url,
-                                              duration=self.duration)
+        m = Media.create_from_server_response(url, duration=self.duration,
+                                              requests_=MyLittleRequests)
         self.assertEqual(m.url, url)
         self.assertEqual(m.size, size)
         self.assertEqual(m.type, type)
@@ -275,7 +272,8 @@ class TestMedia(unittest.TestCase):
 
         # Now do the actual testing
         m = Media(self.url, self.size, self.type)
-        m.fetch_duration(mock_requests)
+        m.requests_session = mock_requests
+        m.fetch_duration()
         self.assertAlmostEqual(m.duration.total_seconds(),
                                seconds, places=0)
 
@@ -320,8 +318,9 @@ class TestMedia(unittest.TestCase):
 
         # Test that the given file object is used
         m = Media(self.url, self.size, self.type)
+        m.requests_session = MyLittleRequests
         fd = io.BytesIO()
-        m.download(MyLittleRequests, fd)
+        m.download(fd)
         self.assertEqual(fd.getvalue().decode("UTF-8"), "binary content")
         fd.close()
 
@@ -329,7 +328,7 @@ class TestMedia(unittest.TestCase):
         with tempfile.NamedTemporaryFile(delete=False) as fd:
             filename = fd.name
         try:
-            m.download(MyLittleRequests, filename)
+            m.download(filename)
             with open(filename, "rb") as fd:
                 self.assertEqual(fd.read().decode("UTF-8"), "binary content")
         finally:
@@ -348,4 +347,15 @@ class TestMedia(unittest.TestCase):
         # Check that the underlying library is used correctly
         mock_tinytag.get.assert_called_once_with(filename)
 
+    @mock.patch("podgen.media.requests", autospec=True)
+    def test_create_requests_session(self, mock_requests):
+        # Mock cannot know that Session().headers is a dict
+        mock_requests.Session.return_value.headers = dict()
+        # Run the function under test
+        requests_session = podgen.media._get_new_requests_session()
+        # Did it return requests.Session()?
+        self.assertEqual(requests_session, mock_requests.Session.return_value)
+        # Did it set the User-Agent header so it includes podgen?
+        assert "podgen" in mock_requests.Session.return_value\
+            .headers['User-Agent']
 

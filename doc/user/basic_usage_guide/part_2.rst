@@ -55,6 +55,7 @@ Read more:
 * :attr:`~podgen.Episode.summary`
 * :attr:`~podgen.Episode.long_summary`
 
+.. _podgen.Media-guide:
 
 Enclosing media
 ^^^^^^^^^^^^^^^
@@ -73,22 +74,31 @@ Of course, this isn't much of a podcast if we don't have any
 
 The media's attributes (and the arguments to the constructor) are:
 
-:``url``: The URL at which this media file is accessible.
-:``size``: The size of the media file as bytes, given either as :obj:`int` or
-    a :obj:`str` which will be parsed.
-:``type``: The media file's `MIME type`_.
-:``duration``: How long the media file lasts, given as a
-    :class:`datetime.timedelta`
+======================== =======================================================
+Attribute                Description
+======================== =======================================================
+:attr:`~.Media.url`      The URL at which this media file is accessible.
+:attr:`~.Media.size`     The size of the media file as bytes, given either as
+                         :obj:`int` or a :obj:`str` which will be parsed.
+:attr:`~.Media.type`     The media file's `MIME type`_.
+:attr:`~.Media.duration` How long the media file lasts, given as a
+                         :class:`datetime.timedelta`
+======================== =======================================================
 
 You can leave out some of these:
 
-:``url``: Mandatory.
-:``size``: Can be 0, but do so only if you cannot determine its size (for
-    example if it's a stream).
-:``type``: Can be left out if the URL has a recognized file extensions. In that
-    case, the type will be determined from the URL's file extension.
-:``duration``: Can be left out since it is optional. It will stay as
-    :obj:`None`.
+======================== =======================================================
+Attribute                Effect if left out
+======================== =======================================================
+:attr:`~.Media.url`      Mandatory.
+:attr:`~.Media.size`     Can be 0, but do so only if you cannot determine its
+                         size (for example if it's a stream).
+:attr:`~.Media.type`     Can be left out if the URL has a recognized file
+                         extensions. In that case, the type will be determined
+                         from the URL's file extension.
+:attr:`~.Media.duration` Can be left out since it is optional. It will stay as
+                         :obj:`None`.
+======================== =======================================================
 
 Populating size and type from server
 ====================================
@@ -96,25 +106,24 @@ Populating size and type from server
 By using the special factory
 :meth:`Media.create_from_server_response <podgen.Media.create_from_server_response>`
 you can gather missing information by asking the server at which the file is
-hosted. This requires that you have installed the
-`requests <http://docs.python-requests.org/en/master/>`_ library, and that you
-pass it as the first parameter. Example::
+hosted::
 
-    import requests
     my_episode.media = Media.create_from_server_response(
-                           requests,
                            "http://example.com/podcast/s01e10.mp3",
                            duration=timedelta(hours=1, minutes=2, seconds=36)
                        )
 
 Here's the effect of leaving out the fields:
 
-:``requests``: Mandatory.
-:``url``: Mandatory.
-:``size``: Will be populated using the ``Content-Length`` header.
-:``type``: Will be populated using the ``Content-Type`` header.
-:``duration``: Will *not* be populated by data from the server; will stay
-   :obj:`None`.
+======================== =======================================================
+Attribute                Effect if left out
+======================== =======================================================
+:attr:`~.Media.url`      Mandatory.
+:attr:`~.Media.size`     Will be populated using the ``Content-Length`` header.
+:attr:`~.Media.type`     Will be populated using the ``Content-Type`` header.
+:attr:`~.Media.duration` Will *not* be populated by data from the server; will
+                         stay :obj:`None`.
+======================== =======================================================
 
 Populating duration from server
 ===============================
@@ -124,7 +133,7 @@ machine, and is therefore not done unless you specifically ask for it. If you
 don't have the media file locally, you can populate the :attr:`~.Media.duration`
 field by using :meth:`.Media.fetch_duration`::
 
-    my_episode.media.fetch_duration(requests)
+    my_episode.media.fetch_duration()
 
 If you *do* happen to have the media file in your file system, you can use it
 to populate the :attr:`~.Media.duration` attribute by calling
