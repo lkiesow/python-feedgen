@@ -8,13 +8,21 @@
     :copyright: 2016, Thorben Dahl <thorben@sjostrom.no>
     :license: FreeBSD and LGPL, see license.* for more details.
 """
+import os
+import tempfile
+
 from future.utils import iteritems
 import unittest
 import warnings
 from datetime import timedelta
+import mock
+import io
 
 from podgen import Media, NotSupportedByItunesWarning
+import podgen.media
 
+# Because of a bug in the unittest.mock implementation, we must skip some tests
+# in Python 3.4.2
 
 class TestMedia(unittest.TestCase):
     def setUp(self):
@@ -113,6 +121,7 @@ class TestMedia(unittest.TestCase):
         # https://help.apple.com/itc/podcasts_connect/#/itcb54353390
         types = {
             '.mp3': set(["audio/mpeg"]),
+            '.MP3': set(["audio/mpeg"]),  # case shouldn't matter
             '.m4a': set(["audio/x-m4a"]),
             '.mov': set(["video/quicktime"]),
             '.mp4': set(["video/mp4"]),
@@ -222,8 +231,6 @@ class TestMedia(unittest.TestCase):
                 assert args[0] == url
                 assert kwargs['allow_redirects'] == True
                 assert 'timeout' in kwargs
-                assert 'headers' in kwargs
-                assert 'User-Agent' in kwargs['headers']
 
                 class MyLittleResponse(object):
                     headers = {
@@ -237,11 +244,125 @@ class TestMedia(unittest.TestCase):
 
                 return MyLittleResponse
 
-        m = Media.create_from_server_response(MyLittleRequests, url,
-                                              duration=self.duration)
+        m = Media.create_from_server_response(url, duration=self.duration,
+                                              requests_=MyLittleRequests)
         self.assertEqual(m.url, url)
         self.assertEqual(m.size, size)
         self.assertEqual(m.type, type)
         self.assertEqual(m.duration, self.duration)
 
+    @mock.patch("os.remove", autospec=True)
+    @mock.patch("podgen.media.tempfile.NamedTemporaryFile", autospec=True)
+    @mock.patch("podgen.media.TinyTag", autospec=True)
+    def test_getDuration(self, mock_tinytag, mock_open, mock_rm):
+        # Create our fake requests module
+        mock_requests = mock.Mock()
+        # Prepare the response which the code will get from requests.get()
+        mock_requests_response = mock.Mock()
+        # The content (supposed to be binary mp3 file)
+        mock_requests_response.content = "binary data here"
+        # The content, as returned by an iterator (supposed to be chunks of
+        # mp3-file)
+        mock_requests_response.iter_content.return_value = range(5)
+        # Make sure our fake response is returned by requests.get()
+        mock_requests.get.return_value = mock_requests_response
 
+        # Return the correct number of seconds from TinyTag
+        seconds = 14 * 60
+        mock_tinytag.get.return_value.duration = seconds
+
+        # Now do the actual testing
+        m = Media(self.url, self.size, self.type)
+        m.requests_session = mock_requests
+        m.fetch_duration()
+        self.assertAlmostEqual(m.duration.total_seconds(),
+                               seconds, places=0)
+
+        # Check that the underlying libraries were used correctly
+        self.assertEqual(mock_requests.get.call_args[0][0], self.url)
+        if 'stream' in mock_requests.get.call_args[1] and \
+                mock_requests.get.call_args[1]['stream']:
+            # The request is streamed, so iter_content was used
+            self.assertEqual(mock_requests_response.iter_content.call_count, 1)
+            fd = mock_open.return_value.__enter__.return_value
+            expected = [((i,),) for i in range(5)]
+            self.assertEqual(fd.write.call_args_list, expected)
+        else:
+            # The entire file was downloaded in one go
+            mock_open.return_value.__enter__.return_value.\
+                write.assert_called_once_with("binary data here")
+        mock_rm.assert_called_once_with(mock_open.return_value.
+                                        __enter__.return_value.name)
+
+    def test_downloadMedia(self):
+        class MyLittleRequests(object):
+            @staticmethod
+            def get(*args, **kwargs):
+                self.assertEqual(args[0], self.url)
+                is_streaming = kwargs.get("stream")
+
+                class MyLittleResponse(object):
+                    if is_streaming:
+                        content = "binary content".encode("UTF-8")
+
+                    @staticmethod
+                    def iter_content(chunk_size):
+                        assert chunk_size is None or chunk_size >= 1024
+                        for char in "binary content":
+                            yield char.encode("UTF-8")
+
+                    @staticmethod
+                    def raise_for_status():
+                        pass
+
+                return MyLittleResponse
+
+        # Test that the given file object is used
+        m = Media(self.url, self.size, self.type)
+        m.requests_session = MyLittleRequests
+        fd = io.BytesIO()
+        m.download(fd)
+        self.assertEqual(fd.getvalue().decode("UTF-8"), "binary content")
+        fd.close()
+
+        # Test that the given filename is used
+        with tempfile.NamedTemporaryFile(delete=False) as fd:
+            filename = fd.name
+        try:
+            m.download(filename)
+            with open(filename, "rb") as fd:
+                self.assertEqual(fd.read().decode("UTF-8"), "binary content")
+        finally:
+            os.remove(filename)
+
+    @mock.patch("podgen.media.TinyTag", autospec=True)
+    def test_calculateDuration(self, mock_tinytag):
+        # Return the correct number of seconds from TinyTag
+        seconds = 14.0 * 60.0
+        mock_tinytag.get.return_value.duration = seconds
+
+        filename = "my_little_file.mp3"
+        m = Media(self.url, self.size, self.type)
+        m.populate_duration_from(filename)
+        self.assertAlmostEqual(m.duration.total_seconds(), seconds, places=0)
+        # Check that the underlying library is used correctly
+        mock_tinytag.get.assert_called_once_with(filename)
+
+    @mock.patch("podgen.media.requests", autospec=True)
+    def skip_test_create_requests_session(self, mock_requests):
+        # Mock cannot know that Session().headers is a dict
+        mock_requests.Session.return_value.headers = dict()
+        # Run the function under test
+        requests_session = podgen.media._get_new_requests_session()
+        # Did it return requests.Session()?
+        self.assertEqual(requests_session, mock_requests.Session.return_value)
+        # Did it set the User-Agent header so it includes podgen?
+        assert "podgen" in mock_requests.Session.return_value\
+            .headers['User-Agent']
+
+    @mock.patch("podgen.media.requests", autospec=True)
+    def test_createRequestsSessionWorkaround(self, mock_requests):
+        # Run the function under test
+        requests_session = podgen.media._get_new_requests_session()
+        # Is it set to requests?
+        self.assertEqual(requests_session, mock_requests)
