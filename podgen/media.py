@@ -142,11 +142,13 @@ class Media(object):
         file_extension = parsed_url.path.split('.')[-1].lower()
         if file_extension not in self.file_types:
             warnings.warn("File extension %s is not supported by iTunes."
-                          % file_extension, NotSupportedByItunesWarning)
+                          % file_extension, NotSupportedByItunesWarning,
+                          stacklevel=2)
         if parsed_url.scheme not in ("http", "https"):
             warnings.warn("URL scheme %s is not supported by iTunes. Make sure "
                           "you use absolute URLs and HTTP or HTTPS."
-                          % parsed_url.scheme, NotSupportedByItunesWarning)
+                          % parsed_url.scheme, NotSupportedByItunesWarning,
+                          stacklevel=2)
         self._url = url
 
     @property
@@ -257,8 +259,8 @@ class Media(object):
         type = type.strip().lower()
 
         if type not in self.file_types.values():
-            warnings.warn("Media type %s is not supported by iTunes.",
-                          NotSupportedByItunesWarning)
+            warnings.warn("Media type %s is not supported by iTunes." % type,
+                          NotSupportedByItunesWarning, stacklevel=2)
         self._type = type
 
     def get_type(self, url):
