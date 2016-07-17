@@ -283,7 +283,7 @@ class Media(object):
         :returns: The guessed MIME type.
         :raises: ValueError if the MIME type couldn't be guessed from the URL.
         """
-        file_extension = urlparse(url).path.split(".")[-1]
+        file_extension = urlparse(url).path.split(".")[-1].lower()
         try:
             return self.file_types[file_extension]
         except KeyError as e:

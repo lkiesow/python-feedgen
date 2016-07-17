@@ -121,6 +121,7 @@ class TestMedia(unittest.TestCase):
         # https://help.apple.com/itc/podcasts_connect/#/itcb54353390
         types = {
             '.mp3': set(["audio/mpeg"]),
+            '.MP3': set(["audio/mpeg"]),  # case shouldn't matter
             '.m4a': set(["audio/x-m4a"]),
             '.mov': set(["video/quicktime"]),
             '.mp4': set(["video/mp4"]),
