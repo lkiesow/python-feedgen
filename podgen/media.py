@@ -22,10 +22,17 @@ import requests
 from podgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
 from podgen import version
 
+
 def _get_new_requests_session():
-    requests_session = requests.Session()
-    requests_session.headers['User-Agent'] = "%s v%s" % \
-                                             (version.name, version.version_full_str)
+    # TODO: Change into condition about requests' version once bug is fixed
+    if False:
+        requests_session = requests.Session()
+        requests_session.headers['User-Agent'] = "%s v%s" % \
+                                                 (version.name, version.version_full_str)
+    else:
+        # Currently work-around for bug in requests
+        # See #3421 (https://github.com/kennethreitz/requests/issues/3421)
+        requests_session = requests
     return requests_session
 
 
