@@ -10,12 +10,14 @@
 """
 
 import unittest
+import warnings
+
 from lxml import etree
 import tempfile
 import os
 from future.utils import raise_from
 
-from podgen import Person, Category, Podcast
+from podgen import NotSupportedByItunesWarning, Person, Category, Podcast
 import podgen.version
 import datetime
 import dateutil.tz
@@ -91,6 +93,11 @@ class TestPodcast(unittest.TestCase):
         fg.xslt = self.xslt
 
         self.fg = fg
+
+        warnings.simplefilter("always")
+        def noop(*args, **kwargs):
+            pass
+        warnings.showwarning = noop
 
     def test_constructor(self):
         # Overwrite fg from setup
@@ -539,6 +546,48 @@ class TestPodcast(unittest.TestCase):
         assert xslt_path in generated_feed(minimize=True)
         assert xslt_path in generated_feed(xml_declaration=False)
 
+    def test_imageWarningNoExt(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(len(w), 0)
+
+            # Set image to a URL without proper file extension
+            no_ext = "http://static.example.com/images/logo"
+            self.fg.image = no_ext
+            # Did we get a warning?
+            self.assertEqual(1, len(w))
+            assert issubclass(w.pop().category, NotSupportedByItunesWarning)
+            # Was the image set?
+            self.assertEqual(no_ext, self.fg.image)
+
+    def test_imageWarningBadExt(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+
+            # Set image to a URL with an unsupported file extension
+            bad_ext = "http://static.example.com/images/logo.gif"
+            self.fg.image = bad_ext
+            # Did we get a warning?
+            self.assertEqual(1, len(w))
+            # Was it of the correct type?
+            assert issubclass(w.pop().category, NotSupportedByItunesWarning)
+            # Was the image still set?
+            self.assertEqual(bad_ext, self.fg.image)
+
+    def test_imageNoWarningWithGoodExt(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+
+            # Set image to a URL with a supported file extension
+            extensions = ["jpg", "png", "jpeg"]
+            for extension in extensions:
+                good_ext = "http://static.example.com/images/logo." + extension
+                self.fg.image = good_ext
+                # Did we get no warning?
+                self.assertEqual(0, len(w), "Extension %s raised warnings (%s)"
+                                 % (extension, w))
+                # Was the image set?
+                self.assertEqual(good_ext, self.fg.image)
 
 if __name__ == '__main__':
     unittest.main()
