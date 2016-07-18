@@ -1075,7 +1075,8 @@ class Podcast(object):
                 warnings.warn\
                   (
                     'Image URL must end with png or jpg, not '
-                    '%s' % image.split(".")[-1], NotSupportedByItunesWarning
+                    '%s' % image.split(".")[-1], NotSupportedByItunesWarning,
+                    stacklevel=2
                   )
             self.__image = image
         else:

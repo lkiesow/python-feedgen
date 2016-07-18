@@ -493,7 +493,8 @@ class Episode(object):
             lowercase_image = str(image).lower()
             if not (lowercase_image.endswith(('.jpg', '.jpeg', '.png'))):
                 warnings.warn('Image filename must end with png or jpg, not '
-                      '%s' % image.split(".")[-1], NotSupportedByItunesWarning)
+                      '%s' % image.split(".")[-1], NotSupportedByItunesWarning,
+                      stacklevel=2)
             self.__image = image
         else:
             self.__image = None
