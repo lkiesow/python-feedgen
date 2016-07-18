@@ -8,10 +8,14 @@
 
     :license: FreeBSD and LGPL, see license.* for more details.
 """
+import warnings
+
 from lxml import etree
 from datetime import datetime
 import dateutil.parser
 import dateutil.tz
+
+from podgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
 from podgen.util import formatRFC2822, listToHumanreadableStr
 from podgen.compat import string_types
 from builtins import str
@@ -458,7 +462,8 @@ class Episode(object):
         pixels.
 
         iTunes supports images in JPEG and PNG formats with an RGB color space
-        (CMYK is not supported). The URL must end in ".jpg" or ".png".
+        (CMYK is not supported). The URL must end in ".jpg" or ".png"; a
+        :class:`.NotSupportedByItunesWarning` will be issued if it doesn't.
 
         :type: :obj:`str`
         :RSS: itunes:image
@@ -487,8 +492,8 @@ class Episode(object):
         if image is not None:
             lowercase_image = str(image).lower()
             if not (lowercase_image.endswith(('.jpg', '.jpeg', '.png'))):
-                raise ValueError('Image filename must end with png or jpg, not '
-                                 '.%s' % image.split(".")[-1])
+                warnings.warn('Image filename must end with png or jpg, not '
+                      '%s' % image.split(".")[-1], NotSupportedByItunesWarning)
             self.__image = image
         else:
             self.__image = None

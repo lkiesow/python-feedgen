@@ -15,6 +15,7 @@ from datetime import datetime
 import dateutil.parser
 import dateutil.tz
 from podgen.episode import Episode
+from podgen.not_supported_by_itunes_warning import NotSupportedByItunesWarning
 from podgen.util import ensure_format, formatRFC2822, listToHumanreadableStr, \
     htmlencode
 from podgen.person import Person
@@ -1050,7 +1051,8 @@ class Podcast(object):
         featured on the iTunes Store.
 
         iTunes supports images in JPEG and PNG formats with an RGB color space
-        (CMYK is not supported). The URL must end in ".jpg" or ".png".
+        (CMYK is not supported). The URL must end in ".jpg" or ".png"; if they
+        don't, a :class:`.NotSupportedByItunesWarning` will be issued.
 
         :type: :obj:`str`
         :RSS: itunes:image
@@ -1070,8 +1072,11 @@ class Podcast(object):
         if image is not None:
             lowercase_itunes_image = image.lower()
             if not (lowercase_itunes_image.endswith(('.jpg', '.jpeg', '.png'))):
-                raise ValueError('Image filename must end with png or jpg, not '
-                                 '.%s' % image.split(".")[-1])
+                warnings.warn\
+                  (
+                    'Image URL must end with png or jpg, not '
+                    '%s' % image.split(".")[-1], NotSupportedByItunesWarning
+                  )
             self.__image = image
         else:
             self.__image = None

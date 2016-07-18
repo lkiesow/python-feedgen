@@ -22,8 +22,6 @@ import io
 from podgen import Media, NotSupportedByItunesWarning
 import podgen.media
 
-# Because of a bug in the unittest.mock implementation, we must skip some tests
-# in Python 3.4.2
 
 class TestMedia(unittest.TestCase):
     def setUp(self):
