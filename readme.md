@@ -165,7 +165,7 @@ plugins by temporary disabling them during the feed generation.  This can be
 done by calling the generating method with the keyword argument `extensions`
 set to `False`.
 
-**Example: Producing a Podcast**
+**Custom Extensions**
 
 If you want to load custom extension which are not part of the feedgen Python
 package, you can use the method `register_extension` instead. You can directly
