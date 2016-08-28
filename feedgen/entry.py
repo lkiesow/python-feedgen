@@ -56,6 +56,7 @@ class FeedEntry(object):
 
 		# Extension list:
 		self.__extensions = {}
+		self.__extensions_register = {}
 
 
 	def atom_entry(self, extensions=True):
@@ -654,3 +655,43 @@ class FeedEntry(object):
 		extinst = ext()
 		setattr(self, name, extinst)
 		self.__extensions[name] = {'inst':extinst,'atom':atom,'rss':rss}
+
+	def register_extension(
+		self,
+		namespace,
+		extension_class_feed=None,
+		extension_class_entry=None,
+		atom=True,
+		rss=True
+	):
+		'''Register a specific extension by classes to a namespace.
+
+		:param namespace: namespace for the extension
+		:param extension_class_feed: Class of the feed extension to load.
+		:param extension_class_entry: Class of the entry extension to load.
+		:param atom: If the extension should be used for ATOM feeds.
+		:param rss: If the extension should be used for RSS feeds.
+		'''
+		# Check loaded extensions
+		# `load_extension` ignores the "Extension" suffix.
+		if not isinstance(self.__extensions, dict):
+			self.__extensions = {}
+		if namespace in self.__extensions.keys():
+			raise ImportError('Extension already loaded')
+
+		extinst = extension_class_entry()
+		setattr(self, namespace, extinst)
+
+		# `load_extension` registry
+		self.__extensions[namespace] = {'inst': extinst,
+										'atom': atom,
+										'rss': rss
+										}
+
+		# `register_extension` registry
+		self.__extensions_register[namespace] = {
+			'extension_class_feed': extension_class_feed,
+			'extension_class_entry': extension_class_entry,
+			'atom': atom,
+			'rss': rss,
+		}
