@@ -1,16 +1,20 @@
 sdist: doc
 	python setup.py sdist
 
+bdist_wheel: doc
+	python setup.py bdist_wheel
+
 clean: doc-clean
 	@echo Removing binary files...
 	@rm -f `find feedgen -name '*.pyc'`
 	@rm -f `find feedgen -name '*.pyo'`
+	@rm -rf feedgen.egg-info/ build/
 	@echo Removing source distribution files...
 	@rm -rf dist/
 	@rm -f MANIFEST
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
 
-doc: doc-clean doc-html doc-man doc-latexpdf
+doc: doc-clean doc-html doc-man
 
 doc-clean:
 	@echo Removing docs...
@@ -41,14 +45,11 @@ doc-latexpdf:
 	@echo 'Copying pdf to into docs dir'
 	@cp doc/_build/latex/*.pdf docs/pdf/
 
-publish: sdist
-	python setup.py register sdist upload
-
-publish_wheel: sdist
-	python setup.py bdist_wheel upload
+publish:
+	twine upload dist/*
 
 test:
-	python -m unittest feedgen.tests.test_feed
-	python -m unittest feedgen.tests.test_entry
-	python -m unittest feedgen.tests.test_extension
+	python -m unittest tests.test_feed
+	python -m unittest tests.test_entry
+	python -m unittest tests.test_extension
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml

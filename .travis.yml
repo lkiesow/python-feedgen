@@ -9,8 +9,7 @@ python:
   - "3.5"
 
 before_install:
-  - python setup.py bdist_wheel --include-test-subpackage
+  - python setup.py bdist_wheel
   - pip install dist/feedgen*
-  - rm -rf feedgen
 
 script: make test

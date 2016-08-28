@@ -8,7 +8,7 @@ These are test cases for a basic entry.
 
 import unittest
 from lxml import etree
-from ..feed import FeedGenerator
+from feedgen.feed import FeedGenerator
 
 class TestSequenceFunctions(unittest.TestCase):
 

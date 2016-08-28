@@ -5,7 +5,7 @@ Tests for extensions
 """
 
 import unittest
-from ..feed import FeedGenerator
+from feedgen.feed import FeedGenerator
 from lxml import etree
 
 

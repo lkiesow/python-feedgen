@@ -1,21 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-MAGIC_BUILD_FLAG = '--include-test-subpackage'
-if MAGIC_BUILD_FLAG in sys.argv:
-    sys.argv.remove(MAGIC_BUILD_FLAG)
-    with_tests = True
-else:
-    with_tests = False
-
-import setuptools
-from distutils.core import setup
+from setuptools import setup
 import feedgen.version
 
 packages = ['feedgen', 'feedgen/ext']
-if with_tests:
-    packages.append('feedgen/tests')
 
 setup(
 		name = 'feedgen',
@@ -29,7 +18,6 @@ setup(
 		license = 'FreeBSD and LGPLv3+',
 		install_requires = ['lxml', 'python-dateutil'],
 		classifiers = [
-			'Development Status :: 4 - Beta',
 			'Development Status :: 5 - Production/Stable',
 			'Intended Audience :: Developers',
 			'Intended Audience :: Information Technology',
