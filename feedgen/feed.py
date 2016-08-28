@@ -538,6 +538,7 @@ class FeedGenerator(object):
 		rel, type, hreflang, title, and length. Href is mandatory for ATOM.
 
 		This method can be called with:
+
 		- the fields of a link as keyword arguments
 		- the fields of a link as a dictionary
 		- a list of dictionaries containing the link fields
@@ -567,7 +568,8 @@ class FeedGenerator(object):
 		RSS only supports one link with URL only.
 
 		:param link:    Dict or list of dicts with data.
-		:param replace: Add or replace old data.
+		:param replace: If old links are to be replaced (default: False)
+		:returns:       Current set of link data
 
 		Example::
 
