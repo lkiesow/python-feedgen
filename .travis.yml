@@ -8,6 +8,9 @@ python:
   - "3.4"
   - "3.5"
 
-before_install: pip install --quiet lxml python-dateutil
+before_install:
+  - python setup.py bdist_wheel --include-test-subpackage
+  - pip install dist/feedgen*
+  - rm -rf feedgen
 
 script: make test
