@@ -10,6 +10,7 @@ A basic feed does not contain entries so far.
 import unittest
 from lxml import etree
 from ..feed import FeedGenerator
+from ..ext.dc import DcExtension, DcEntryExtension
 
 class TestSequenceFunctions(unittest.TestCase):
 
@@ -234,11 +235,27 @@ class TestSequenceFunctions(unittest.TestCase):
 
 	def test_loadPodcastExtension(self):
 		fg = self.fg
+		fg.add_entry()
 		fg.load_extension('podcast', atom=True, rss=True)
+		fg.add_entry()
 
 	def test_loadDcExtension(self):
 		fg = self.fg
+		fg.add_entry()
 		fg.load_extension('dc', atom=True, rss=True)
+		fg.add_entry()
+
+	def test_extensionAlreadyLoaded(self):
+		fg = self.fg
+		fg.load_extension('dc', atom=True, rss=True)
+		with self.assertRaises(ImportError) as context:
+			fg.load_extension('dc')
+
+	def test_registerCustomExtension(self):
+		fg = self.fg
+		fg.add_entry()
+		fg.register_extension('dc', DcExtension, DcEntryExtension)
+		fg.add_entry()
 
 	def checkRssString(self, rssString):
 

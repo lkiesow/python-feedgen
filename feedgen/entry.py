@@ -641,33 +641,22 @@ class FeedEntry(object):
 
 		# Load extension
 		extname = name[0].upper() + name[1:] + 'EntryExtension'
-
-		# Try to import extension from dedicated module for entry:
 		try:
 			supmod = __import__('feedgen.ext.%s_entry' % name)
 			extmod = getattr(supmod.ext, name + '_entry')
 		except ImportError:
-			# Try the FeedExtension module instead
+			# Use FeedExtension module instead
 			supmod = __import__('feedgen.ext.%s' % name)
 			extmod = getattr(supmod.ext, name)
+		ext = getattr(extmod, extname)
+		self.register_extension(name, ext, atom, rss)
 
-		ext    = getattr(extmod, extname)
-		extinst = ext()
-		setattr(self, name, extinst)
-		self.__extensions[name] = {'inst':extinst,'atom':atom,'rss':rss}
 
-	def register_extension(
-		self,
-		namespace,
-		extension_class_feed=None,
-		extension_class_entry=None,
-		atom=True,
-		rss=True
-	):
+	def register_extension(self, namespace, extension_class_entry=None,
+			atom=True, rss=True):
 		'''Register a specific extension by classes to a namespace.
 
 		:param namespace: namespace for the extension
-		:param extension_class_feed: Class of the feed extension to load.
 		:param extension_class_entry: Class of the entry extension to load.
 		:param atom: If the extension should be used for ATOM feeds.
 		:param rss: If the extension should be used for RSS feeds.
@@ -678,20 +667,16 @@ class FeedEntry(object):
 			self.__extensions = {}
 		if namespace in self.__extensions.keys():
 			raise ImportError('Extension already loaded')
+		if not extension_class_entry:
+			raise ImportError('No extension class')
 
 		extinst = extension_class_entry()
 		setattr(self, namespace, extinst)
 
 		# `load_extension` registry
-		self.__extensions[namespace] = {'inst': extinst,
-										'atom': atom,
-										'rss': rss
-										}
-
-		# `register_extension` registry
-		self.__extensions_register[namespace] = {
-			'extension_class_feed': extension_class_feed,
-			'extension_class_entry': extension_class_entry,
-			'atom': atom,
-			'rss': rss,
-		}
+		self.__extensions[namespace] = {
+				'inst':extinst,
+				'extension_class_entry': extension_class_entry,
+				'atom':atom,
+				'rss':rss
+				}
