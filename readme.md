@@ -128,10 +128,9 @@ is required to have at least the two methods `extend_rss(...)` and
 either in the same file as SomextExtension or in `ext/someext_entry.py` which
 is suggested especially for large extensions.
 
-The parameters `atom` and `rss` tell the FeedGenerator if the extensions should
-only be used for either ATOM or RSS feeds. The default value for both
-parameters is true which means that the extension would be used for both kinds
-of feeds.
+The parameters `atom` and `rss` control if the extension is used for ATOM and
+RSS feeds, respectively. The default value for both parameters is `true`
+meaning the extension is used for both kinds of feeds.
 
 **Example: Producing a Podcast**
 
@@ -161,10 +160,17 @@ extension is loaded for the whole feed. You can, however, load an extension for
 a specific FeedEntry by calling `load_extension(...)` on that entry. But this
 is a rather uncommon use.
 
-Of cause you can still produce a normal ATOM or RSS feed, even if you have
-loaded some plugins by temporary disabling them during the feed generation.
-This can be done by calling the generating method with the keyword argument
-`extensions` set to `False`.
+You can still produce a normal ATOM or RSS feed, even if you have loaded some
+plugins by temporary disabling them during the feed generation.  This can be
+done by calling the generating method with the keyword argument `extensions`
+set to `False`.
+
+**Example: Producing a Podcast**
+
+If you want to load custom extension which are not part of the feedgen Python
+package, you can use the method `register_extension` instead. You can directly
+pass the classes for the feed and the entry extension to this method meaning
+that you can define them everywhere.
 
 
 ---------------------
