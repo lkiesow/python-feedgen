@@ -211,6 +211,11 @@ class FeedGenerator(object):
 		:param xml_declaration: If an XML declaration should be added to the
 			output (Default: enabled).
 		:returns: String representation of the ATOM feed.
+
+		**Return type:** The return type may vary between different Python
+		versions and your encoding parameters passed to this method. For details
+		have a look at the `lxml documentation
+		<https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring>`_
 		'''
 		feed, doc = self._create_atom(extensions=extensions)
 		return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
@@ -383,6 +388,11 @@ class FeedGenerator(object):
 		:param xml_declaration: If an XML declaration should be added to the
 			output (Default: enabled).
 		:returns: String representation of the RSS feed.
+
+		**Return type:** The return type may vary between different Python
+		versions and your encoding parameters passed to this method. For details
+		have a look at the `lxml documentation
+		<https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring>`_
 		'''
 		feed, doc = self._create_rss(extensions=extensions)
 		return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
