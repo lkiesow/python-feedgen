@@ -92,7 +92,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
 		result = fg.rss_str()
 		assert b'domain="http://www.somedomain.com/category"' in result
-		
+
 	def test_content_cdata_type(self):
 		fg = FeedGenerator()
 		fg.title('some title')

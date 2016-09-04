@@ -48,3 +48,27 @@ class TestExtensionSyndication(unittest.TestCase):
                                'sy':'http://purl.org/rss/1.0/modules/syndication/'
                            })
         assert a[0].text == base
+
+
+class TestExtensionPodcast(unittest.TestCase):
+
+    def setUp(self):
+        self.fg = FeedGenerator()
+        self.fg.load_extension('podcast')
+        self.fg.title('title')
+        self.fg.link(href='http://example.com', rel='self')
+        self.fg.description('description')
+
+    def test_category(self):
+        self.fg.podcast.itunes_category('Technology', 'Podcasting')
+        self.fg.podcast.itunes_explicit('no')
+        self.fg.podcast.itunes_complete('no')
+        self.fg.podcast.itunes_new_feed_url('http://example.com/new-feed.rss')
+        self.fg.podcast.itunes_owner('John Doe', 'john@example.com')
+        ns = {'itunes':'http://www.itunes.com/dtds/podcast-1.0.dtd'}
+        root = etree.fromstring(self.fg.rss_str())
+        cat = root.xpath('/rss/channel/itunes:category/@text', namespaces=ns)
+        scat = root.xpath('/rss/channel/itunes:category/itunes:category/@text',
+              namespaces=ns)
+        assert cat[0] == 'Technology'
+        assert scat[0] == 'Podcasting'
