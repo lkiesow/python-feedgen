@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API Documentation &mdash; python-feedgen 0.3.1 documentation</title>
+    <title>API Documentation &mdash; python-feedgen 0.4.0 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.1',
+        VERSION:     '0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.3.1 documentation" href="index.html" />
+    <link rel="top" title="python-feedgen 0.4.0 documentation" href="index.html" />
     <link rel="next" title="feedgen.feed" href="api.feed.html" />
     <link rel="prev" title="Feedgenerator" href="index.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.3.1 documentation</span></a></h1>
+          <span>python-feedgen 0.4.0 documentation</span></a></h1>
         <h2 class="heading"><span>API Documentation</span></h2>
       </div>
       <div class="topnav">
@@ -67,16 +67,16 @@ produce Podcasts.</p>
 <h3>Create a Feed<a class="headerlink" href="#create-a-feed" title="Permalink to this headline">¶</a></h3>
 <p>To create a feed simply instanciate the FeedGenerator class and insert some
 data:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span> <span class="o">=</span> <span class="n">FeedGenerator</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s">&#39;http://lernfunk.de/media/654321&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Some Testfeed&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span><span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;john@example.de&#39;</span><span class="p">}</span> <span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s">&#39;alternate&#39;</span> <span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">logo</span><span class="p">(</span><span class="s">&#39;http://ex.com/logo.jpg&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">subtitle</span><span class="p">(</span><span class="s">&#39;This is a cool feed!&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s">&#39;http://larskiesow.de/test.atom&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s">&#39;self&#39;</span> <span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">language</span><span class="p">(</span><span class="s">&#39;en&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s1">&#39;http://lernfunk.de/media/654321&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Some Testfeed&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span><span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;john@example.de&#39;</span><span class="p">}</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s1">&#39;alternate&#39;</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">logo</span><span class="p">(</span><span class="s1">&#39;http://ex.com/logo.jpg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">subtitle</span><span class="p">(</span><span class="s1">&#39;This is a cool feed!&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;http://larskiesow.de/test.atom&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s1">&#39;self&#39;</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">language</span><span class="p">(</span><span class="s1">&#39;en&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that for the methods which set fields that can occur more than once in
@@ -87,19 +87,19 @@ a feed you can use all of the following ways to provide data:</p>
 <li>Provide a list of dictionaries with the data for several elements</li>
 </ul>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;jdoe@example.com&#39;</span> <span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">([{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">},</span> <span class="o">...</span><span class="p">])</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;jdoe@example.com&#39;</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;jdoe@example.com&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">contributor</span><span class="p">([{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;jdoe@example.com&#39;</span><span class="p">},</span> <span class="o">...</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="generate-the-feed">
 <h3>Generate the Feed<a class="headerlink" href="#generate-the-feed" title="Permalink to this headline">¶</a></h3>
 <p>After that you can generate both RSS or ATOM by calling the respective method:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">atomfeed</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">atom_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># Get the ATOM feed as string</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rssfeed</span>  <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">rss_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># Get the RSS feed as string</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">atom_file</span><span class="p">(</span><span class="s">&#39;atom.xml&#39;</span><span class="p">)</span> <span class="c"># Write the ATOM feed to a file</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s">&#39;rss.xml&#39;</span><span class="p">)</span> <span class="c"># Write the RSS feed to a file</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">atomfeed</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">atom_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># Get the ATOM feed as string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rssfeed</span>  <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">rss_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># Get the RSS feed as string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">atom_file</span><span class="p">(</span><span class="s1">&#39;atom.xml&#39;</span><span class="p">)</span> <span class="c1"># Write the ATOM feed to a file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s1">&#39;rss.xml&#39;</span><span class="p">)</span> <span class="c1"># Write the RSS feed to a file</span>
 </pre></div>
 </div>
 </div>
@@ -109,9 +109,9 @@ a feed you can use all of the following ways to provide data:</p>
 and append them to the list of entries in the FeedGenerator. The most
 convenient way to go is to use the FeedGenerator itself for the
 instantiation of the FeedEntry object:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">add_entry</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s">&#39;http://lernfunk.de/media/654321/1&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;The First Episode&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">add_entry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s1">&#39;http://lernfunk.de/media/654321/1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;The First Episode&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The FeedGenerators method add_entry(...) without argument provides will
@@ -123,7 +123,7 @@ added.</p>
 <h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h3>
 <p>The FeedGenerator supports extension to include additional data into the XML
 structure of the feeds. Extensions can be loaded like this:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s">&#39;someext&#39;</span><span class="p">,</span> <span class="n">atom</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rss</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s1">&#39;someext&#39;</span><span class="p">,</span> <span class="n">atom</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rss</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will try to load the extension “someext” from the file
@@ -143,14 +143,14 @@ kinds of feeds.</p>
 <p>One extension already provided is the podcast extension. A podcast is an RSS
 feed with some additional elements for ITunes.</p>
 <p>To produce a podcast simply load the <cite>podcast</cite> extension:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span> <span class="o">=</span> <span class="n">FeedGenerator</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s">&#39;podcast&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s1">&#39;podcast&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">podcast</span><span class="o">.</span><span class="n">itunes_category</span><span class="p">(</span><span class="s">&#39;Technology&#39;</span><span class="p">,</span> <span class="s">&#39;Podcasting&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">podcast</span><span class="o">.</span><span class="n">itunes_category</span><span class="p">(</span><span class="s1">&#39;Technology&#39;</span><span class="p">,</span> <span class="s1">&#39;Podcasting&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s">&#39;podcast.xml&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s1">&#39;podcast.xml&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Of cause the extension has to be loaded for the FeedEntry objects as well
@@ -166,7 +166,7 @@ This can be done by calling the generating method with the keyword argument
 <div class="section" id="testing-the-generator">
 <h3>Testing the Generator<a class="headerlink" href="#testing-the-generator" title="Permalink to this headline">¶</a></h3>
 <p>You can test the module by simply executing:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ python -m feedgen
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ python -m feedgen
 </pre></div>
 </div>
 </div>
@@ -181,6 +181,7 @@ This can be done by calling the generating method with the keyword argument
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.dc.html">feedgen.ext.dc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast.html">feedgen.ext.podcast</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast_entry.html">feedgen.ext.podcast_entry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.torrent.html">feedgen.ext.torrent</a></li>
 </ul>
 </div>
 </div>
@@ -200,8 +201,8 @@ This can be done by calling the generating method with the keyword argument
       </div>
 
     <div class="footer">
-        &copy; Copyright 2013, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

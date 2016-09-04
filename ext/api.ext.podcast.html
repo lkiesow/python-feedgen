@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.ext.podcast &mdash; python-feedgen 0.3.1 documentation</title>
+    <title>feedgen.ext.podcast &mdash; python-feedgen 0.4.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,14 +23,14 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.3.1 documentation" href="../index.html" />
+    <link rel="top" title="python-feedgen 0.4.0 documentation" href="../index.html" />
     <link rel="up" title="API Documentation" href="../api.html" />
     <link rel="next" title="feedgen.ext.podcast_entry" href="api.ext.podcast_entry.html" />
     <link rel="prev" title="feedgen.ext.dc" href="api.ext.dc.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.3.1 documentation</span></a></h1>
+          <span>python-feedgen 0.4.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.podcast</span></h2>
       </div>
       <div class="topnav">
@@ -47,7 +47,8 @@
       <div class="content">
         
         
-  <div class="apititle"><b>Contents</b></div>
+  <script type=application/javascript src=_static/theme_extras.js></script>
+<div class="apititle"><b>Contents</b></div>
 <div class="apitoc"></div><span class="target" id="module-feedgen.ext.podcast"></span><div class="section" id="feedgen-ext-podcast">
 <h1>feedgen.ext.podcast<a class="headerlink" href="#feedgen-ext-podcast" title="Permalink to this headline">¶</a></h1>
 <p>Extends the FeedGenerator to produce podcasts.</p>
@@ -117,26 +118,57 @@ podcast from appearing in the iTunes podcast directory.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_category">
-<tt class="descname">itunes_category</tt><big>(</big><em>itunes_category=None</em>, <em>itunes_subcategory=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_category" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">itunes_category</tt><big>(</big><em>itunes_category=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_category" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the ITunes category which appears in the category column
 and in iTunes Store Browser.</p>
 <p>The (sub-)category has to be one from the values defined at
 <a class="reference external" href="http://www.apple.com/itunes/podcasts/specs.html#categories">http://www.apple.com/itunes/podcasts/specs.html#categories</a></p>
+<p>This method can be called with:</p>
+<ul class="simple">
+<li>the fields of an itunes_category as keyword arguments</li>
+<li>the fields of an itunes_category as a dictionary</li>
+<li>a list of dictionaries containing the itunes_category fields</li>
+</ul>
+<p>An itunes_category has the following fields:</p>
+<ul class="simple">
+<li><em>cat</em> name for a category.</li>
+<li><em>sub</em> name for a subcategory, child of category</li>
+</ul>
+<p>If a podcast has more than one subcategory from the same category, the
+category is called more than once.</p>
+<p>Likei the parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="s2">&quot;Arts&quot;</span><span class="p">,</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;Design&quot;</span><span class="p">},{</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="s2">&quot;Arts&quot;</span><span class="p">,</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;Food&quot;</span><span class="p">}]</span>
+</pre></div>
+</div>
+<p>…would become:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;itunes:category text=&quot;Arts&quot;&gt;
+    &lt;itunes:category text=&quot;Design&quot;/&gt;
+    &lt;itunes:category text=&quot;Food&quot;/&gt;
+&lt;/itunes:category&gt;
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>itunes_category</strong> &#8211; Category of the podcast.</li>
-<li><strong>itunes_subcategory</strong> &#8211; Subcategory of the podcast.</li>
+<li><strong>itunes_category</strong> &#8211; Dictionary or list of dictionaries with
+itunes_category data.</li>
+<li><strong>replace</strong> &#8211; Add or replace old data.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Category data of the podcast.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of itunes_categories as dictionaries.</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p>&#8212;</p>
+<p><strong>Important note about deprecated parameter syntax:</strong> Old version of the
+feedgen did only support one category plus one subcategory which would be
+passed to this ducntion as first two parameters. For compatibility
+reasons, this still works but should not be used any may be removed at
+any time.</p>
 </dd></dl>
 
 <dl class="method">
@@ -311,8 +343,8 @@ are used.</p>
       </div>
 
     <div class="footer">
-        &copy; Copyright 2013, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

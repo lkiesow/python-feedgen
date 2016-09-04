@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.feed &mdash; python-feedgen 0.3.1 documentation</title>
+    <title>feedgen.feed &mdash; python-feedgen 0.4.0 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.1',
+        VERSION:     '0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,14 +23,14 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.3.1 documentation" href="index.html" />
+    <link rel="top" title="python-feedgen 0.4.0 documentation" href="index.html" />
     <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.entry" href="api.entry.html" />
     <link rel="prev" title="API Documentation" href="api.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.3.1 documentation</span></a></h1>
+          <span>python-feedgen 0.4.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.feed</span></h2>
       </div>
       <div class="topnav">
@@ -47,7 +47,8 @@
       <div class="content">
         
         
-  <div class="apititle"><b>Contents</b></div>
+  <script type=application/javascript src=_static/theme_extras.js></script>
+<div class="apititle"><b>Contents</b></div>
 <div class="apitoc"></div><span class="target" id="module-feedgen.feed"></span><div class="section" id="feedgen-feed">
 <h1>feedgen.feed<a class="headerlink" href="#feedgen-feed" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
@@ -81,7 +82,7 @@ the prefered way to add new entries to a feed.</p>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre>...
+<div class="highlight-python"><div class="highlight"><pre><span></span>...
 &gt;&gt;&gt; entry = feedgen.add_entry()
 &gt;&gt;&gt; entry.title(&#39;First feed entry&#39;)
 </pre></div>
@@ -98,7 +99,7 @@ another name for add_entry(...)</p>
 
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.atom_file">
-<tt class="descname">atom_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em>, <em>pretty=False</em>, <em>encoding='UTF-8'</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.atom_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">atom_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em>, <em>pretty=False</em>, <em>encoding='UTF-8'</em>, <em>xml_declaration=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.atom_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates an ATOM feed and write the resulting XML to a file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -108,6 +109,11 @@ another name for add_entry(...)</p>
 <li><strong>filename</strong> &#8211; Name of file to write, or a file-like object, or a URL.</li>
 <li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
+<li><strong>pretty</strong> &#8211; If the feed should be split into multiple lines and
+properly indented.</li>
+<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+output (Default: enabled).</li>
 </ul>
 </td>
 </tr>
@@ -117,7 +123,7 @@ generation (default: enabled).</li>
 
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.atom_str">
-<tt class="descname">atom_str</tt><big>(</big><em>pretty=False</em>, <em>extensions=True</em>, <em>encoding='unicode'</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.atom_str" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">atom_str</tt><big>(</big><em>pretty=False</em>, <em>extensions=True</em>, <em>encoding='UTF-8'</em>, <em>xml_declaration=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.atom_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates an ATOM feed and returns the feed XML as string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -128,6 +134,9 @@ generation (default: enabled).</li>
 properly indented.</li>
 <li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
+<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+output (Default: enabled).</li>
 </ul>
 </td>
 </tr>
@@ -136,6 +145,9 @@ generation (default: enabled).</li>
 </tr>
 </tbody>
 </table>
+<p><strong>Return type:</strong> The return type may vary between different Python
+versions and your encoding parameters passed to this method. For details
+have a look at the <a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring">lxml documentation</a></p>
 </dd></dl>
 
 <dl class="method">
@@ -172,14 +184,14 @@ for RSS.</p>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="p">{</span> <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span> <span class="p">}</span> <span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;jdoe@example.com&#39;</span> <span class="p">}</span> <span class="p">)</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">([{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Mr. X&#39;</span><span class="p">},{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Max&#39;</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">([{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Mr. X&#39;</span><span class="p">},{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Max&#39;</span><span class="p">}])</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;},</span>
 <span class="go">        {&#39;name&#39;:&#39;John Doe&#39;}, {&#39;name&#39;:&#39;Max&#39;}]</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;jdoe@example.com&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span> <span class="p">)</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
 </pre></div>
 </div>
@@ -493,10 +505,12 @@ include timezone information.</p>
 <tt class="descname">link</tt><big>(</big><em>link=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.link" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set link data. An link element is a dict with the fields href,
 rel, type, hreflang, title, and length. Href is mandatory for ATOM.</p>
-<p>This method can be called with:
-- the fields of a link as keyword arguments
-- the fields of a link as a dictionary
-- a list of dictionaries containing the link fields</p>
+<p>This method can be called with:</p>
+<ul class="simple">
+<li>the fields of a link as keyword arguments</li>
+<li>the fields of a link as a dictionary</li>
+<li>a list of dictionaries containing the link fields</li>
+</ul>
 <p>A link has the following fields:</p>
 <ul>
 <li><p class="first"><em>href</em> is the URI of the referenced resource (typically a Web page)</p>
@@ -532,16 +546,19 @@ display purposes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>link</strong> &#8211; Dict or list of dicts with data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>replace</strong> &#8211; If old links are to be replaced (default: False)</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Current set of link data</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s">&#39;http://example.com/&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s">&#39;self&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;http://example.com/&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s1">&#39;self&#39;</span><span class="p">)</span>
 <span class="go">[{&#39;href&#39;:&#39;http://example.com/&#39;, &#39;rel&#39;:&#39;self&#39;}]</span>
 </pre></div>
 </div>
@@ -633,6 +650,27 @@ value.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="feedgen.feed.FeedGenerator.register_extension">
+<tt class="descname">register_extension</tt><big>(</big><em>namespace</em>, <em>extension_class_feed=None</em>, <em>extension_class_entry=None</em>, <em>atom=True</em>, <em>rss=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.register_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers an extension by class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>namespace</strong> &#8211; namespace for the extension</li>
+<li><strong>extension_class_feed</strong> &#8211; Class of the feed extension to load.</li>
+<li><strong>extension_class_entry</strong> &#8211; Class of the entry extension to load</li>
+<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="feedgen.feed.FeedGenerator.remove_entry">
 <tt class="descname">remove_entry</tt><big>(</big><em>entry</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.remove_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a single entry from the feed. This method accepts both the
@@ -672,7 +710,7 @@ will also set rss:copyright.</p>
 
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.rss_file">
-<tt class="descname">rss_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em>, <em>pretty=False</em>, <em>encoding='UTF-8'</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.rss_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">rss_file</tt><big>(</big><em>filename</em>, <em>extensions=True</em>, <em>pretty=False</em>, <em>encoding='UTF-8'</em>, <em>xml_declaration=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.rss_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates an RSS feed and write the resulting XML to a file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -682,6 +720,11 @@ will also set rss:copyright.</p>
 <li><strong>filename</strong> &#8211; Name of file to write, or a file-like object, or a URL.</li>
 <li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
+<li><strong>pretty</strong> &#8211; If the feed should be split into multiple lines and
+properly indented.</li>
+<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+output (Default: enabled).</li>
 </ul>
 </td>
 </tr>
@@ -691,7 +734,7 @@ generation (default: enabled).</li>
 
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.rss_str">
-<tt class="descname">rss_str</tt><big>(</big><em>pretty=False</em>, <em>extensions=True</em>, <em>encoding='unicode'</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.rss_str" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">rss_str</tt><big>(</big><em>pretty=False</em>, <em>extensions=True</em>, <em>encoding='UTF-8'</em>, <em>xml_declaration=True</em><big>)</big><a class="headerlink" href="#feedgen.feed.FeedGenerator.rss_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates an RSS feed and returns the feed XML as string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -702,6 +745,9 @@ generation (default: enabled).</li>
 properly indented.</li>
 <li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
+<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+output (Default: enabled).</li>
 </ul>
 </td>
 </tr>
@@ -710,6 +756,9 @@ generation (default: enabled).</li>
 </tr>
 </tbody>
 </table>
+<p><strong>Return type:</strong> The return type may vary between different Python
+versions and your encoding parameters passed to this method. For details
+have a look at the <a class="reference external" href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring">lxml documentation</a></p>
 </dd></dl>
 
 <dl class="method">
@@ -903,8 +952,8 @@ This is an RSS only value.</p>
       </div>
 
     <div class="footer">
-        &copy; Copyright 2013, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>feedgen.ext.torrent &mdash; python-feedgen 0.4.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-feedgen 0.4.0 documentation" href="../index.html" />
+    <link rel="up" title="API Documentation" href="../api.html" />
+    <link rel="prev" title="feedgen.ext.podcast_entry" href="api.ext.podcast_entry.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="../index.html">
+          <span>python-feedgen 0.4.0 documentation</span></a></h1>
+        <h2 class="heading"><span>feedgen.ext.torrent</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="api.ext.podcast_entry.html">feedgen.ext.podcast_entry</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <script type=application/javascript src=_static/theme_extras.js></script>
+<div class="apititle"><b>Contents</b></div>
+<div class="apitoc"></div><span class="target" id="module-feedgen.ext.torrent"></span><div class="section" id="feedgen-ext-torrent">
+<h1>feedgen.ext.torrent<a class="headerlink" href="#feedgen-ext-torrent" title="Permalink to this headline">¶</a></h1>
+<p>Extends the FeedGenerator to produce torrent feeds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2016, Raspbeguy &lt;<a class="reference external" href="mailto:raspbeguy&#37;&#52;&#48;hashtagueule&#46;fr">raspbeguy<span>&#64;</span>hashtagueule<span>&#46;</span>fr</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension">
+<em class="property">class </em><tt class="descclassname">feedgen.ext.torrent.</tt><tt class="descname">TorrentEntryExtension</tt><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>FeedEntry extention for torrent feeds</p>
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.contentlength">
+<tt class="descname">contentlength</tt><big>(</big><em>torrent_contentlength=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.contentlength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the size of the target file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_contentlength</strong> &#8211; The target file size.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The target file size.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.extend_rss">
+<tt class="descname">extend_rss</tt><big>(</big><em>entry</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add additional fields to an RSS item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feed</strong> &#8211; The RSS item XML element to use.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.filename">
+<tt class="descname">filename</tt><big>(</big><em>torrent_filename=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the name of the torrent file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_filename</strong> &#8211; The name of the torrent file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The name of the torrent file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.infohash">
+<tt class="descname">infohash</tt><big>(</big><em>torrent_infohash=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.infohash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the hash of the target file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> &#8211; The target file hash.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The target hash file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.peers">
+<tt class="descname">peers</tt><big>(</big><em>torrent_peers=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.peers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the number od peers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> &#8211; The peers number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The peers number.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.seeds">
+<tt class="descname">seeds</tt><big>(</big><em>torrent_seeds=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.seeds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the number of seeds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_seeds</strong> &#8211; The seeds number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The seeds number.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="feedgen.ext.torrent.TorrentEntryExtension.verified">
+<tt class="descname">verified</tt><big>(</big><em>torrent_verified=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.verified" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the number of verified peers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> &#8211; The verified peers number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The verified peers number.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="feedgen.ext.torrent.TorrentExtension">
+<em class="property">class </em><tt class="descclassname">feedgen.ext.torrent.</tt><tt class="descname">TorrentExtension</tt><a class="headerlink" href="#feedgen.ext.torrent.TorrentExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>FeedGenerator extension for torrent feeds.</p>
+</dd></dl>
+
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="api.ext.podcast_entry.html">feedgen.ext.podcast_entry</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.entry &mdash; python-feedgen 0.3.1 documentation</title>
+    <title>feedgen.entry &mdash; python-feedgen 0.4.0 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.1',
+        VERSION:     '0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,14 +23,14 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.3.1 documentation" href="index.html" />
+    <link rel="top" title="python-feedgen 0.4.0 documentation" href="index.html" />
     <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.util" href="api.util.html" />
     <link rel="prev" title="feedgen.feed" href="api.feed.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.3.1 documentation</span></a></h1>
+          <span>python-feedgen 0.4.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.entry</span></h2>
       </div>
       <div class="topnav">
@@ -47,7 +47,8 @@
       <div class="content">
         
         
-  <div class="apititle"><b>Contents</b></div>
+  <script type=application/javascript src=_static/theme_extras.js></script>
+<div class="apititle"><b>Contents</b></div>
 <div class="apitoc"></div><span class="target" id="module-feedgen.entry"></span><div class="section" id="feedgen-entry">
 <h1>feedgen.entry<a class="headerlink" href="#feedgen-entry" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
@@ -98,14 +99,14 @@ for RSS.</p>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">(</span> <span class="p">{</span> <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;jdoe@example.com&#39;</span> <span class="p">}</span> <span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">(</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;jdoe@example.com&#39;</span> <span class="p">}</span> <span class="p">)</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">([{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Mr. X&#39;</span><span class="p">},{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;Max&#39;</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">([{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Mr. X&#39;</span><span class="p">},{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Max&#39;</span><span class="p">}])</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;},</span>
 <span class="go">        {&#39;name&#39;:&#39;John Doe&#39;}, {&#39;name&#39;:&#39;Max&#39;}]</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;jdoe@example.com&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">author</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;jdoe@example.com&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span> <span class="p">)</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
 </pre></div>
 </div>
@@ -411,6 +412,26 @@ include timezone information.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="feedgen.entry.FeedEntry.register_extension">
+<tt class="descname">register_extension</tt><big>(</big><em>namespace</em>, <em>extension_class_entry=None</em>, <em>atom=True</em>, <em>rss=True</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.register_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a specific extension by classes to a namespace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>namespace</strong> &#8211; namespace for the extension</li>
+<li><strong>extension_class_entry</strong> &#8211; Class of the entry extension to load.</li>
+<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="feedgen.entry.FeedEntry.rights">
 <tt class="descname">rights</tt><big>(</big><em>rights=None</em><big>)</big><a class="headerlink" href="#feedgen.entry.FeedEntry.rights" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the rights value of the entry which conveys information
@@ -531,8 +552,8 @@ include timezone information.</p>
       </div>
 
     <div class="footer">
-        &copy; Copyright 2013, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>
