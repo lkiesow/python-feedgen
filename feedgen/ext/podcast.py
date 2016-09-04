@@ -13,6 +13,7 @@
 from lxml import etree
 from feedgen.ext.base import BaseExtension
 from feedgen.util import ensure_format
+from feedgen.compat import string_types
 
 
 class PodcastExtension(BaseExtension):
@@ -134,28 +135,51 @@ class PodcastExtension(BaseExtension):
 		http://www.apple.com/itunes/podcasts/specs.html#categories
 
 		This method can be called with:
+
 		- the fields of an itunes_category as keyword arguments
 		- the fields of an itunes_category as a dictionary
 		- a list of dictionaries containing the itunes_category fields
 
 		An itunes_category has the following fields:
+
 		- *cat* name for a category.
 		- *sub* name for a subcategory, child of category
 
-		If a podcast has more than one subcategory from the same category, the 
+		If a podcast has more than one subcategory from the same category, the
 		category is called more than once.
-		Like: [{"cat":"Arts","sub":"Design"},{"cat":"Arts","sub":"Food"}]
-		The code will be:
-		<itunes:category text="Arts">
-	    	<itunes:category text="Design"/>
-	    	<itunes:category text="Food"/>
-	    </itunes:category>
+
+		Likei the parameter::
+
+		    [{"cat":"Arts","sub":"Design"},{"cat":"Arts","sub":"Food"}]
+
+		…would become::
+
+			<itunes:category text="Arts">
+				<itunes:category text="Design"/>
+				<itunes:category text="Food"/>
+			</itunes:category>
 
 
-		:param itunes_category: Dictionary or list of dictionaries with itunes_category data.
+		:param itunes_category: Dictionary or list of dictionaries with
+		                        itunes_category data.
 		:param replace: Add or replace old data.
 		:returns: List of itunes_categories as dictionaries.
+
+		---
+
+		**Important note about deprecated parameter syntax:** Old version of the
+		feedgen did only support one category plus one subcategory which would be
+		passed to this ducntion as first two parameters. For compatibility
+		reasons, this still works but should not be used any may be removed at
+		any time.
 		'''
+		# Ensure old API still works for now. Note that the API is deprecated and
+		# this fallback may be removed at any time.
+		if isinstance(itunes_category, string_types):
+			itunes_category = {'cat':itunes_category}
+			if replace:
+				itunes_category['sub'] = replace
+			replace=True
 		if itunes_category is None and kwargs:
 			itunes_category = kwargs
 		if not itunes_category is None:

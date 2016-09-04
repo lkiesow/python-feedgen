@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# vim: set et ts=4 sw=4 sts=4 sta tw=80 cc=81:
 
 """
 Tests for extensions
@@ -58,6 +59,21 @@ class TestExtensionPodcast(unittest.TestCase):
         self.fg.title('title')
         self.fg.link(href='http://example.com', rel='self')
         self.fg.description('description')
+
+    def test_category_new(self):
+        self.fg.podcast.itunes_category([{'cat':'Technology',
+            'sub':'Podcasting'}])
+        self.fg.podcast.itunes_explicit('no')
+        self.fg.podcast.itunes_complete('no')
+        self.fg.podcast.itunes_new_feed_url('http://example.com/new-feed.rss')
+        self.fg.podcast.itunes_owner('John Doe', 'john@example.com')
+        ns = {'itunes':'http://www.itunes.com/dtds/podcast-1.0.dtd'}
+        root = etree.fromstring(self.fg.rss_str())
+        cat = root.xpath('/rss/channel/itunes:category/@text', namespaces=ns)
+        scat = root.xpath('/rss/channel/itunes:category/itunes:category/@text',
+              namespaces=ns)
+        assert cat[0] == 'Technology'
+        assert scat[0] == 'Podcasting'
 
     def test_category(self):
         self.fg.podcast.itunes_category('Technology', 'Podcasting')
