@@ -40,7 +40,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'python-feedgen'
-copyright = u'2013, Lars Kiesow'
+copyright = u'2013-2016, Lars Kiesow'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
