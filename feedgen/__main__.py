@@ -3,7 +3,7 @@
 	feedgen
 	~~~~~~~
 
-	:copyright: 2013, Lars Kiesow <lkiesow@uos.de>
+	:copyright: 2013-2016, Lars Kiesow <lkiesow@uos.de>
 
 	:license: FreeBSD and LGPL, see license.* for more details.
 '''
@@ -38,8 +38,8 @@ if __name__ == '__main__':
 		print_enc ('  podcast          -- Generate Podcast test output and print it to stdout.')
 		print_enc ('  dc.atom          -- Generate DC extension test output (atom format) and print it to stdout.')
 		print_enc ('  dc.rss           -- Generate DC extension test output (rss format) and print it to stdout.')
-		print_enc ('  syndication.atom -- Generate DC extension test output (atom format) and print it to stdout.')
-		print_enc ('  syndication.rss  -- Generate DC extension test output (rss format) and print it to stdout.')
+		print_enc ('  syndication.atom -- Generate syndication extension test output (atom format) and print it to stdout.')
+		print_enc ('  syndication.rss  -- Generate syndication extension test output (rss format) and print it to stdout.')
 		print_enc ('  torrent          -- Generate Torrent test output and print it to stdout.')
 		print_enc ('')
 		exit()
