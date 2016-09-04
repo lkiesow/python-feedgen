@@ -10,11 +10,11 @@ setup(
 		name = 'feedgen',
 		packages = packages,
 		version = feedgen.version.version_full_str,
-		description = 'Feed Generator (ATOM, RSS, Podcasts, torrent)',
+		description = 'Feed Generator (ATOM, RSS, Podcasts)',
 		author = 'Lars Kiesow',
 		author_email = 'lkiesow@uos.de',
 		url = 'http://lkiesow.github.io/python-feedgen',
-		keywords = ['feed','ATOM','RSS','podcast','torrent'],
+		keywords = ['feed','ATOM','RSS','podcast'],
 		license = 'FreeBSD and LGPLv3+',
 		install_requires = ['lxml', 'python-dateutil'],
 		classifiers = [
