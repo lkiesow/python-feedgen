@@ -215,7 +215,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		assert feed.find("{%s}subtitle" % nsAtom).text == self.subtitle
 		assert feed.find("{%s}contributor" % nsAtom).find("{%s}name" % nsAtom).text == self.contributor['name']
 		assert feed.find("{%s}contributor" % nsAtom).find("{%s}email" % nsAtom).text == self.contributor['email']
-		assert feed.find("{%s}contributor" % nsAtom).find("{%s}url" % nsAtom).text == self.contributor['uri']
+		assert feed.find("{%s}contributor" % nsAtom).find("{%s}uri" % nsAtom).text == self.contributor['uri']
 		assert feed.find("{%s}rights" % nsAtom).text == self.copyright
 
 	def test_rssFeedFile(self):

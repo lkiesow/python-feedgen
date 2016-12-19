@@ -90,8 +90,8 @@ class FeedEntry(object):
 				email = etree.SubElement(author, 'email')
 				email.text = a.get('email')
 			if a.get('uri'):
-				email = etree.SubElement(author, 'url')
-				email.text = a.get('uri')
+				uri = etree.SubElement(author, 'uri')
+				uri.text = a.get('uri')
 
 		if self.__atom_content:
 			content = etree.SubElement(entry, 'content')
@@ -156,8 +156,8 @@ class FeedEntry(object):
 				email = etree.SubElement(contrib, 'email')
 				email.text = c.get('email')
 			if c.get('uri'):
-				email = etree.SubElement(contrib, 'url')
-				email.text = c.get('uri')
+				uri = etree.SubElement(contrib, 'uri')
+				uri.text = c.get('uri')
 
 		if self.__atom_published:
 			published   = etree.SubElement(entry, 'published')

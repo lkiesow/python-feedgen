@@ -47,7 +47,7 @@ class FeedGenerator(object):
 		self.__atom_contributor = None
 		self.__atom_generator   = {
 				'value'  :'python-feedgen',
-				'url'    :'http://lkiesow.github.io/python-feedgen',
+				'uri'    :'http://lkiesow.github.io/python-feedgen',
 				'version':feedgen.version.version_str } #{value*,uri,version}
 		self.__atom_icon     = None
 		self.__atom_logo     = None
@@ -124,8 +124,8 @@ class FeedGenerator(object):
 				email = etree.SubElement(author, 'email')
 				email.text = a.get('email')
 			if a.get('uri'):
-				email = etree.SubElement(author, 'url')
-				email.text = a.get('uri')
+				uri = etree.SubElement(author, 'uri')
+				uri.text = a.get('uri')
 
 		for l in self.__atom_link or []:
 			link = etree.SubElement(feed, 'link', href=l['href'])
@@ -159,8 +159,8 @@ class FeedGenerator(object):
 				email = etree.SubElement(contrib, 'email')
 				email.text = c.get('email')
 			if c.get('uri'):
-				email = etree.SubElement(contrib, 'url')
-				email.text = c.get('uri')
+				uri = etree.SubElement(contrib, 'uri')
+				uri.text = c.get('uri')
 
 		if self.__atom_generator:
 			generator = etree.SubElement(feed, 'generator')
