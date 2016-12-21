@@ -197,8 +197,10 @@ class FeedEntry(object):
 			description = etree.SubElement(entry, 'description')
 			description.text = self.__rss_description
 		elif self.__rss_content:
-			description = etree.SubElement(entry, 'description')
-			description.text = self.__rss_content['content']
+			content = etree.SubElement(entry, '{%s}encoded' %
+									'http://purl.org/rss/1.0/modules/content/')
+			content.text = etree.CDATA(self.__rss_content['content']) \
+				if self.__rss_content.get('type', '') == 'CDATA' else self.__rss_content['content']
 		for a in self.__rss_author or []:
 			author = etree.SubElement(entry, 'author')
 			author.text = a
