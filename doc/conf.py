@@ -3,7 +3,10 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os, time, codecs, re
+import sys
+import os
+import codecs
+import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -13,18 +16,18 @@ sys.path.insert(0, os.path.abspath('.'))
 
 import feedgen.version
 
-# -- General configuration -----------------------------------------------------
+# -- General configuration ----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #needs_sphinx = '1.0'
 
-# Add any Sphinx extension module names here, as strings. They can be extensions
-# coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
+# Add any Sphinx extension module names here, as strings. They can be
+# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-		'sphinx.ext.intersphinx',
-		'sphinx.ext.coverage',
-		'sphinx.ext.autodoc'
-	]
+        'sphinx.ext.intersphinx',
+        'sphinx.ext.coverage',
+        'sphinx.ext.autodoc'
+    ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -65,7 +68,8 @@ release = feedgen.version.version_full_str
 # directories to ignore when looking for source files.
 exclude_patterns = ['_build']
 
-# The reST default role (used for this markup: `text`) to use for all documents.
+# The reST default role (used for this markup: `text`) to use for all
+# documents.
 #default_role = None
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
@@ -86,7 +90,7 @@ pygments_style = 'sphinx'
 #modindex_common_prefix = []
 
 
-# -- Options for HTML output ---------------------------------------------------
+# -- Options for HTML output --------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -169,24 +173,24 @@ html_static_path = ['_static']
 htmlhelp_basename = 'pyFeedGen'
 
 
-# -- Options for LaTeX output --------------------------------------------------
+# -- Options for LaTeX output -------------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+    # The paper size ('letterpaper' or 'a4paper').
+    #'papersize': 'letterpaper',
 
-# The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
+    # The font size ('10pt', '11pt' or '12pt').
+    #'pointsize': '10pt',
 
-# Additional stuff for the LaTeX preamble.
-#'preamble': '',
+    # Additional stuff for the LaTeX preamble.
+    #'preamble': '',
 }
 
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto/manual]).
+# Grouping the document tree into LaTeX files. List of tuples (source start
+# file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-	('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-		u'Lars Kiesow', 'manual'),
+    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation', u'Lars Kiesow',
+     'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -210,28 +214,28 @@ latex_documents = [
 #latex_domain_indices = True
 
 
-# -- Options for manual page output --------------------------------------------
+# -- Options for manual page output -------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-	('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-		[u'Lars Kiesow'], 1)
+    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
+        [u'Lars Kiesow'], 1)
 ]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
 
 
-# -- Options for Texinfo output ------------------------------------------------
+# -- Options for Texinfo output -----------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-	('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-		u'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
-		'Miscellaneous'),
+    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
+        u'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
+        'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -248,36 +252,18 @@ texinfo_documents = [
 intersphinx_mapping = {'http://docs.python.org/': None}
 
 
-# Ugly way of setting tabsize
-import re
-
-def process_docstring(app, what, name, obj, options, lines):
-	'''
-	spaces_pat = re.compile(r"(?<=        )( {8})")
-	ll = []
-	for l in lines:
-		ll.append(spaces_pat.sub("   ",l))
-	'''
-	spaces_pat = re.compile(r"^ *")
-	ll = []
-	for l in lines:
-		spacelen = len(spaces_pat.search(l).group(0))
-		newlen = (spacelen % 8) + (spacelen / 8 * 4)
-		ll.append( (' '*newlen) + l.lstrip(' ') )
-	lines[:] = ll
-
-
 # Include the GitHub readme file in index.rst
 r = re.compile(r'\[`*([^\]`]+)`*\]\(([^\)]+)\)')
 r2 = re.compile(r'.. include-github-readme')
+
+
 def substitute_link(app, docname, text):
-	if docname == 'index':
-		readme_text = ''
-		with codecs.open(os.path.abspath('../readme.md'), 'r', 'utf-8') as f:
-			readme_text = r.sub(r'`\1 <\2>`_', f.read())
-		text[0] = r2.sub(readme_text, text[0])
+    if docname == 'index':
+        readme_text = ''
+        with codecs.open(os.path.abspath('../readme.md'), 'r', 'utf-8') as f:
+            readme_text = r.sub(r'`\1 <\2>`_', f.read())
+        text[0] = r2.sub(readme_text, text[0])
 
 
 def setup(app):
-	app.connect('autodoc-process-docstring', process_docstring)
-	app.connect('source-read', substitute_link)
+    app.connect('source-read', substitute_link)

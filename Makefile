@@ -53,3 +53,4 @@ test:
 	python -m unittest tests.test_entry
 	python -m unittest tests.test_extension
 	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
+	flake8 $$(find setup.py tests feedgen -name '*.py')
