@@ -2,12 +2,13 @@
 Feedgenerator
 =============
 
-[![Build Status](https://travis-ci.org/lkiesow/python-feedgen.svg?branch=master)
-](https://travis-ci.org/lkiesow/python-feedgen)
+.. image:: https://travis-ci.org/lkiesow/python-feedgen.svg?branch=master
+    :target: https://travis-ci.org/lkiesow/python-feedgen
+    :alt: Build Status
+
 
 This module can be used to generate web feeds in both ATOM and RSS format.  It
-has support for extensions. Included is for example an extension to produce
-Podcasts.
+has support for extensions. Included is for example an extension to produce Podcasts.
 
 It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look
@@ -29,14 +30,13 @@ Installation
 If you are running Fedora Linux, RedHat Enterprise Linux, CentOS or Scientific
 Linux you can use the RPM Copr repostiory:
 
-[http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/
-](http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/)
+http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/
 
-Simply enable the repository and run:
+Simply enable the repository and run::
 
     $ yum install python-feedgen
 
-or for the Python 3 package:
+or for the Python 3 package::
 
     $ yum install python3-feedgen
 
@@ -183,4 +183,4 @@ You can test the module by simply executing::
 
 If you want to have a look at the code for this test to have a working code
 example for a whole feed generation process, you can find it in the
-[`__main__.py`](https://github.com/lkiesow/python-feedgen/blob/master/feedgen/__main__.py).
+`__main__.py <https://github.com/lkiesow/python-feedgen/blob/master/feedgen/__main__.py>`_.

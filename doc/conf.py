@@ -260,7 +260,7 @@ r2 = re.compile(r'.. include-github-readme')
 def substitute_link(app, docname, text):
     if docname == 'index':
         readme_text = ''
-        with codecs.open(os.path.abspath('../readme.md'), 'r', 'utf-8') as f:
+        with codecs.open(os.path.abspath('../readme.rst'), 'r', 'utf-8') as f:
             readme_text = r.sub(r'`\1 <\2>`_', f.read())
         text[0] = r2.sub(readme_text, text[0])
 
