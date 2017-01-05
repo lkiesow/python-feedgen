@@ -45,7 +45,7 @@ Podcasts.
 %prep
 %setup -q -n %{srcname}-%{version}
 mkdir python2
-mv PKG-INFO  docs  feedgen  license.bsd  license.lgpl  readme.md  setup.py python2
+mv PKG-INFO  docs  feedgen  license.bsd  license.lgpl  readme.rst  setup.py python2
 cp -r python2 python3
 
 # ensure the right python version is used
