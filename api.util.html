@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.util &mdash; python-feedgen 0.4.0 documentation</title>
+    <title>feedgen.util &#8212; python-feedgen 0.5.1 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.0',
+        VERSION:     '0.5.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,17 +23,19 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.4.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="python-feedgen 0.5.1 documentation" href="index.html" />
     <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.ext.base" href="ext/api.ext.base.html" />
     <link rel="prev" title="feedgen.entry" href="api.entry.html" /> 
   </head>
-  <body>
-      <div class="header"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.4.0 documentation</span></a></h1>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="index.html">
+          <span>python-feedgen 0.5.1 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.util</span></h2>
       </div>
-      <div class="topnav">
+      <div class="topnav" role="navigation" aria-label="top navigation">
       
         <p>
         «&#160;&#160;<a href="api.entry.html">feedgen.entry</a>
@@ -64,7 +66,7 @@
 </table>
 <dl class="function">
 <dt id="feedgen.util.ensure_format">
-<tt class="descclassname">feedgen.util.</tt><tt class="descname">ensure_format</tt><big>(</big><em>val</em>, <em>allowed</em>, <em>required</em>, <em>allowed_values=None</em>, <em>defaults=None</em><big>)</big><a class="headerlink" href="#feedgen.util.ensure_format" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">feedgen.util.</code><code class="descname">ensure_format</code><span class="sig-paren">(</span><em>val</em>, <em>allowed</em>, <em>required</em>, <em>allowed_values=None</em>, <em>defaults=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.util.ensure_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a dictionary or a list of dictionaries and check if all keys are in
 the set of allowed keys, if all required keys are present and if the values
 of a specific key are ok.</p>
@@ -76,7 +78,8 @@ of a specific key are ok.</p>
 <li><strong>val</strong> &#8211; Dictionaries to check.</li>
 <li><strong>allowed</strong> &#8211; Set of allowed keys.</li>
 <li><strong>required</strong> &#8211; Set of required keys.</li>
-<li><strong>allowed_values</strong> &#8211; Dictionary with keys and sets of their allowed values.</li>
+<li><strong>allowed_values</strong> &#8211; Dictionary with keys and sets of their allowed
+values.</li>
 <li><strong>defaults</strong> &#8211; Dictionary with default values.</li>
 </ul>
 </td>
@@ -90,7 +93,7 @@ of a specific key are ok.</p>
 
 <dl class="function">
 <dt id="feedgen.util.formatRFC2822">
-<tt class="descclassname">feedgen.util.</tt><tt class="descname">formatRFC2822</tt><big>(</big><em>d</em><big>)</big><a class="headerlink" href="#feedgen.util.formatRFC2822" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">feedgen.util.</code><code class="descname">formatRFC2822</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.util.formatRFC2822" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make sure the locale setting do not interfere with the time format.</p>
 </dd></dl>
 
@@ -98,7 +101,7 @@ of a specific key are ok.</p>
 
 
       </div>
-      <div class="bottomnav">
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
       
         <p>
         «&#160;&#160;<a href="api.entry.html">feedgen.entry</a>
@@ -110,9 +113,9 @@ of a specific key are ok.</p>
 
       </div>
 
-    <div class="footer">
-        &copy; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

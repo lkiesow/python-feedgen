@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.ext.podcast_entry &mdash; python-feedgen 0.4.0 documentation</title>
+    <title>feedgen.ext.podcast_entry &#8212; python-feedgen 0.5.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.0',
+        VERSION:     '0.5.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,17 +23,19 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.4.0 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="python-feedgen 0.5.1 documentation" href="../index.html" />
     <link rel="up" title="API Documentation" href="../api.html" />
     <link rel="next" title="feedgen.ext.torrent" href="api.ext.torrent.html" />
     <link rel="prev" title="feedgen.ext.podcast" href="api.ext.podcast.html" /> 
   </head>
-  <body>
-      <div class="header"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.4.0 documentation</span></a></h1>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
+          <span>python-feedgen 0.5.1 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.podcast_entry</span></h2>
       </div>
-      <div class="topnav">
+      <div class="topnav" role="navigation" aria-label="top navigation">
       
         <p>
         «&#160;&#160;<a href="api.ext.podcast.html">feedgen.ext.podcast</a>
@@ -56,7 +58,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</td>
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013-2016, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</td>
 </tr>
 <tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
 </tr>
@@ -64,11 +66,11 @@
 </table>
 <dl class="class">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension">
-<em class="property">class </em><tt class="descclassname">feedgen.ext.podcast_entry.</tt><tt class="descname">PodcastEntryExtension</tt><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">feedgen.ext.podcast_entry.</code><code class="descname">PodcastEntryExtension</code><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>FeedEntry extension for podcasts.</p>
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss">
-<tt class="descname">extend_rss</tt><big>(</big><em>entry</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<code class="descname">extend_rss</code><span class="sig-paren">(</span><em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add additional fields to an RSS item.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -82,12 +84,12 @@
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author">
-<tt class="descname">itunes_author</tt><big>(</big><em>itunes_author=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_author</code><span class="sig-paren">(</span><em>itunes_author=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:author of the podcast episode. The content of
 this tag is shown in the Artist column in iTunes. If the tag is not
-present, iTunes uses the contents of the &lt;author&gt; tag. If &lt;itunes:author&gt;
-is not present at the feed level, iTunes will use the contents of
-&lt;managingEditor&gt;.</p>
+present, iTunes uses the contents of the &lt;author&gt; tag. If
+&lt;itunes:author&gt; is not present at the feed level, iTunes will use the
+contents of &lt;managingEditor&gt;.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -102,7 +104,7 @@ is not present at the feed level, iTunes will use the contents of
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block">
-<tt class="descname">itunes_block</tt><big>(</big><em>itunes_block=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_block</code><span class="sig-paren">(</span><em>itunes_block=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the ITunes block attribute. Use this to prevent episodes
 from appearing in the iTunes podcast directory.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -119,15 +121,15 @@ from appearing in the iTunes podcast directory.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration">
-<tt class="descname">itunes_duration</tt><big>(</big><em>itunes_duration=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_duration</code><span class="sig-paren">(</span><em>itunes_duration=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the duration of the podcast episode. The content of this
 tag is shown in the Time column in iTunes.</p>
 <p>The tag can be formatted HH:MM:SS, H:MM:SS, MM:SS, or M:SS (H = hours,
-M = minutes, S = seconds). If an integer is provided (no colon present),
-the value is assumed to be in seconds. If one colon is present, the
-number to the left is assumed to be minutes, and the number to the right
-is assumed to be seconds. If more than two colons are present, the
-numbers farthest to the right are ignored.</p>
+M = minutes, S = seconds). If an integer is provided (no colon
+present), the value is assumed to be in seconds. If one colon is
+present, the number to the left is assumed to be minutes, and the
+number to the right is assumed to be seconds. If more than two colons
+are present, the numbers farthest to the right are ignored.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -142,22 +144,25 @@ numbers farthest to the right are ignored.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit">
-<tt class="descname">itunes_explicit</tt><big>(</big><em>itunes_explicit=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or the the itunes:explicit value of the podcast episode. This tag
-should be used to indicate whether your podcast episode contains explicit
-material. The three values for this tag are &#8220;yes&#8221;, &#8220;no&#8221;, and &#8220;clean&#8221;.</p>
+<code class="descname">itunes_explicit</code><span class="sig-paren">(</span><em>itunes_explicit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or the the itunes:explicit value of the podcast episode. This
+tag should be used to indicate whether your podcast episode contains
+explicit material. The three values for this tag are &#8220;yes&#8221;, &#8220;no&#8221;, and
+&#8220;clean&#8221;.</p>
 <p>If you populate this tag with &#8220;yes&#8221;, an &#8220;explicit&#8221; parental advisory
-graphic will appear next to your podcast artwork on the iTunes Store and
-in the Name column in iTunes. If the value is &#8220;clean&#8221;, the parental
+graphic will appear next to your podcast artwork on the iTunes Store
+and in the Name column in iTunes. If the value is &#8220;clean&#8221;, the parental
 advisory type is considered Clean, meaning that no explicit language or
-adult content is included anywhere in the episodes, and a &#8220;clean&#8221; graphic
-will appear. If the explicit tag is present and has any other value
-(e.g., &#8220;no&#8221;), you see no indicator — blank is the default advisory type.</p>
+adult content is included anywhere in the episodes, and a &#8220;clean&#8221;
+graphic will appear. If the explicit tag is present and has any other
+value (e.g., &#8220;no&#8221;), you see no indicator — blank is the default
+advisory type.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_explicit</strong> &#8211; If the podcast episode contains explicit material.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_explicit</strong> &#8211; If the podcast episode contains explicit
+material.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the podcast episode contains explicit material.</td>
 </tr>
@@ -167,20 +172,21 @@ will appear. If the explicit tag is present and has any other value
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image">
-<tt class="descname">itunes_image</tt><big>(</big><em>itunes_image=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_image</code><span class="sig-paren">(</span><em>itunes_image=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the image for the podcast episode. This tag specifies the
-artwork for your podcast. Put the URL to the image in the href attribute.
-iTunes prefers square .jpg images that are at least 1400x1400 pixels,
-which is different from what is specified for the standard RSS image tag.
-In order for a podcast to be eligible for an iTunes Store feature, the
-accompanying image must be at least 1400x1400 pixels.</p>
+artwork for your podcast. Put the URL to the image in the href
+attribute.  iTunes prefers square .jpg images that are at least
+1400x1400 pixels, which is different from what is specified for the
+standard RSS image tag.  In order for a podcast to be eligible for an
+iTunes Store feature, the accompanying image must be at least 1400x1400
+pixels.</p>
 <p>iTunes supports images in JPEG and PNG formats with an RGB color space
 (CMYK is not supported). The URL must end in &#8221;.jpg&#8221; or &#8221;.png&#8221;. If the
 &lt;itunes:image&gt; tag is not present, iTunes will use the contents of the
 RSS image tag.</p>
 <p>If you change your podcast’s image, also change the file’s name. iTunes
-may not change the image if it checks your feed and the image URL is the
-same. The server hosting your cover art image must allow HTTP head
+may not change the image if it checks your feed and the image URL is
+the same. The server hosting your cover art image must allow HTTP head
 requests for iTS to be able to automatically update your cover art.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -196,16 +202,17 @@ requests for iTS to be able to automatically update your cover art.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned">
-<tt class="descname">itunes_is_closed_captioned</tt><big>(</big><em>itunes_is_closed_captioned=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or set the is_closed_captioned value of the podcast episode. This
-tag should be used if your podcast includes a video episode with embedded
-closed captioning support. The two values for this tag are &#8220;yes&#8221; and
-&#8220;no”.</p>
+<code class="descname">itunes_is_closed_captioned</code><span class="sig-paren">(</span><em>itunes_is_closed_captioned=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the is_closed_captioned value of the podcast episode.
+This tag should be used if your podcast includes a video episode with
+embedded closed captioning support. The two values for this tag are
+&#8220;yes&#8221; and &#8220;no”.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_closed_captioned</strong> &#8211; If the episode has closed captioning support.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_closed_captioned</strong> &#8211; If the episode has closed captioning
+support.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the episode has closed captioning support.</td>
 </tr>
@@ -215,16 +222,17 @@ closed captioning support. The two values for this tag are &#8220;yes&#8221; and
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order">
-<tt class="descname">itunes_order</tt><big>(</big><em>itunes_order=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or set the itunes:order value of the podcast episode. This tag can
-be used to override the default ordering of episodes on the store.</p>
+<code class="descname">itunes_order</code><span class="sig-paren">(</span><em>itunes_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the itunes:order value of the podcast episode. This tag
+can be used to override the default ordering of episodes on the store.</p>
 <p>This tag is used at an &lt;item&gt; level by populating with the number value
-in which you would like the episode to appear on the store. For example,
-if you would like an &lt;item&gt; to appear as the first episode in the
-podcast, you would populate the &lt;itunes:order&gt; tag with “1”. If
-conflicting order values are present in multiple episodes, the store will
-use default ordering (pubDate).</p>
-<p>To remove the order from the episode set the order to a value below zero.</p>
+in which you would like the episode to appear on the store. For
+example, if you would like an &lt;item&gt; to appear as the first episode in
+the podcast, you would populate the &lt;itunes:order&gt; tag with “1”. If
+conflicting order values are present in multiple episodes, the store
+will use default ordering (pubDate).</p>
+<p>To remove the order from the episode set the order to a value below
+zero.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -239,7 +247,7 @@ use default ordering (pubDate).</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle">
-<tt class="descname">itunes_subtitle</tt><big>(</big><em>itunes_subtitle=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_subtitle</code><span class="sig-paren">(</span><em>itunes_subtitle=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:subtitle value for the podcast episode. The
 contents of this tag are shown in the Description column in iTunes. The
 subtitle displays best if it is only a few words long.</p>
@@ -257,13 +265,13 @@ subtitle displays best if it is only a few words long.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary">
-<tt class="descname">itunes_summary</tt><big>(</big><em>itunes_summary=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_summary</code><span class="sig-paren">(</span><em>itunes_summary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:summary value for the podcast episode. The
-contents of this tag are shown in a separate window that appears when the
-&#8220;circled i&#8221; in the Description column is clicked. It also appears on the
-iTunes page for your podcast. This field can be up to 4000 characters. If
-&lt;itunes:summary&gt; is not included, the contents of the &lt;description&gt; tag
-are used.</p>
+contents of this tag are shown in a separate window that appears when
+the &#8220;circled i&#8221; in the Description column is clicked. It also appears
+on the iTunes page for your podcast. This field can be up to 4000
+characters. If &lt;itunes:summary&gt; is not included, the contents of the
+&lt;description&gt; tag are used.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -282,7 +290,7 @@ are used.</p>
 
 
       </div>
-      <div class="bottomnav">
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
       
         <p>
         «&#160;&#160;<a href="api.ext.podcast.html">feedgen.ext.podcast</a>
@@ -294,9 +302,9 @@ are used.</p>
 
       </div>
 
-    <div class="footer">
-        &copy; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

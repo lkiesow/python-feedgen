@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.ext.podcast &mdash; python-feedgen 0.4.0 documentation</title>
+    <title>feedgen.ext.podcast &#8212; python-feedgen 0.5.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.0',
+        VERSION:     '0.5.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,17 +23,19 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="python-feedgen 0.4.0 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="python-feedgen 0.5.1 documentation" href="../index.html" />
     <link rel="up" title="API Documentation" href="../api.html" />
     <link rel="next" title="feedgen.ext.podcast_entry" href="api.ext.podcast_entry.html" />
     <link rel="prev" title="feedgen.ext.dc" href="api.ext.dc.html" /> 
   </head>
-  <body>
-      <div class="header"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.4.0 documentation</span></a></h1>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
+          <span>python-feedgen 0.5.1 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.podcast</span></h2>
       </div>
-      <div class="topnav">
+      <div class="topnav" role="navigation" aria-label="top navigation">
       
         <p>
         «&#160;&#160;<a href="api.ext.dc.html">feedgen.ext.dc</a>
@@ -64,11 +66,11 @@
 </table>
 <dl class="class">
 <dt id="feedgen.ext.podcast.PodcastExtension">
-<em class="property">class </em><tt class="descclassname">feedgen.ext.podcast.</tt><tt class="descname">PodcastExtension</tt><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">feedgen.ext.podcast.</code><code class="descname">PodcastExtension</code><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>FeedGenerator extension for podcasts.</p>
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.extend_rss">
-<tt class="descname">extend_rss</tt><big>(</big><em>rss_feed</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<code class="descname">extend_rss</code><span class="sig-paren">(</span><em>rss_feed</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extend an RSS feed root with set itunes fields.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -82,9 +84,9 @@
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_author">
-<tt class="descname">itunes_author</tt><big>(</big><em>itunes_author=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_author" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or set the itunes:author. The content of this tag is shown in the
-Artist column in iTunes. If the tag is not present, iTunes uses the
+<code class="descname">itunes_author</code><span class="sig-paren">(</span><em>itunes_author=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_author" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the itunes:author. The content of this tag is shown in
+the Artist column in iTunes. If the tag is not present, iTunes uses the
 contents of the &lt;author&gt; tag. If &lt;itunes:author&gt; is not present at the
 feed level, iTunes will use the contents of &lt;managingEditor&gt;.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -101,9 +103,9 @@ feed level, iTunes will use the contents of &lt;managingEditor&gt;.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_block">
-<tt class="descname">itunes_block</tt><big>(</big><em>itunes_block=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or set the ITunes block attribute. Use this to prevent the entire
-podcast from appearing in the iTunes podcast directory.</p>
+<code class="descname">itunes_block</code><span class="sig-paren">(</span><em>itunes_block=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the ITunes block attribute. Use this to prevent the
+entire podcast from appearing in the iTunes podcast directory.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -118,7 +120,7 @@ podcast from appearing in the iTunes podcast directory.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_category">
-<tt class="descname">itunes_category</tt><big>(</big><em>itunes_category=None</em>, <em>replace=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_category" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_category</code><span class="sig-paren">(</span><em>itunes_category=None</em>, <em>replace=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_category" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the ITunes category which appears in the category column
 and in iTunes Store Browser.</p>
 <p>The (sub-)category has to be one from the values defined at
@@ -137,14 +139,14 @@ and in iTunes Store Browser.</p>
 <p>If a podcast has more than one subcategory from the same category, the
 category is called more than once.</p>
 <p>Likei the parameter:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="s2">&quot;Arts&quot;</span><span class="p">,</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;Design&quot;</span><span class="p">},{</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="s2">&quot;Arts&quot;</span><span class="p">,</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;Food&quot;</span><span class="p">}]</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="s2">&quot;Arts&quot;</span><span class="p">,</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;Design&quot;</span><span class="p">},{</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="s2">&quot;Arts&quot;</span><span class="p">,</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;Food&quot;</span><span class="p">}]</span>
 </pre></div>
 </div>
 <p>…would become:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;itunes:category text=&quot;Arts&quot;&gt;
-    &lt;itunes:category text=&quot;Design&quot;/&gt;
-    &lt;itunes:category text=&quot;Food&quot;/&gt;
-&lt;/itunes:category&gt;
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">itunes</span><span class="p">:</span><span class="n">category</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Arts&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">itunes</span><span class="p">:</span><span class="n">category</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Design&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">itunes</span><span class="p">:</span><span class="n">category</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Food&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;/</span><span class="n">itunes</span><span class="p">:</span><span class="n">category</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -164,16 +166,16 @@ itunes_category data.</li>
 </tbody>
 </table>
 <p>&#8212;</p>
-<p><strong>Important note about deprecated parameter syntax:</strong> Old version of the
-feedgen did only support one category plus one subcategory which would be
-passed to this ducntion as first two parameters. For compatibility
-reasons, this still works but should not be used any may be removed at
-any time.</p>
+<p><strong>Important note about deprecated parameter syntax:</strong> Old version of
+the feedgen did only support one category plus one subcategory which
+would be passed to this ducntion as first two parameters. For
+compatibility reasons, this still works but should not be used any may
+be removed at any time.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_complete">
-<tt class="descname">itunes_complete</tt><big>(</big><em>itunes_complete=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_complete" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_complete</code><span class="sig-paren">(</span><em>itunes_complete=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_complete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:complete value of the podcast. This tag can be
 used to indicate the completion of a podcast.</p>
 <p>If you populate this tag with &#8220;yes&#8221;, you are indicating that no more
@@ -194,17 +196,18 @@ the podcast.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_explicit">
-<tt class="descname">itunes_explicit</tt><big>(</big><em>itunes_explicit=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_explicit</code><span class="sig-paren">(</span><em>itunes_explicit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or the the itunes:explicit value of the podcast. This tag should
-be used to indicate whether your podcast contains explicit material. The
-three values for this tag are &#8220;yes&#8221;, &#8220;no&#8221;, and &#8220;clean&#8221;.</p>
+be used to indicate whether your podcast contains explicit material.
+The three values for this tag are &#8220;yes&#8221;, &#8220;no&#8221;, and &#8220;clean&#8221;.</p>
 <p>If you populate this tag with &#8220;yes&#8221;, an &#8220;explicit&#8221; parental advisory
-graphic will appear next to your podcast artwork on the iTunes Store and
-in the Name column in iTunes. If the value is &#8220;clean&#8221;, the parental
+graphic will appear next to your podcast artwork on the iTunes Store
+and in the Name column in iTunes. If the value is &#8220;clean&#8221;, the parental
 advisory type is considered Clean, meaning that no explicit language or
-adult content is included anywhere in the episodes, and a &#8220;clean&#8221; graphic
-will appear. If the explicit tag is present and has any other value
-(e.g., &#8220;no&#8221;), you see no indicator — blank is the default advisory type.</p>
+adult content is included anywhere in the episodes, and a &#8220;clean&#8221;
+graphic will appear. If the explicit tag is present and has any other
+value (e.g., &#8220;no&#8221;), you see no indicator — blank is the default
+advisory type.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -219,20 +222,20 @@ will appear. If the explicit tag is present and has any other value
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_image">
-<tt class="descname">itunes_image</tt><big>(</big><em>itunes_image=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_image" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_image</code><span class="sig-paren">(</span><em>itunes_image=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the image for the podcast. This tag specifies the artwork
-for your podcast. Put the URL to the image in the href attribute. iTunes
-prefers square .jpg images that are at least 1400x1400 pixels, which is
-different from what is specified for the standard RSS image tag. In order
-for a podcast to be eligible for an iTunes Store feature, the
-accompanying image must be at least 1400x1400 pixels.</p>
+for your podcast. Put the URL to the image in the href attribute.
+iTunes prefers square .jpg images that are at least 1400x1400 pixels,
+which is different from what is specified for the standard RSS image
+tag. In order for a podcast to be eligible for an iTunes Store feature,
+the accompanying image must be at least 1400x1400 pixels.</p>
 <p>iTunes supports images in JPEG and PNG formats with an RGB color space
 (CMYK is not supported). The URL must end in &#8221;.jpg&#8221; or &#8221;.png&#8221;. If the
 &lt;itunes:image&gt; tag is not present, iTunes will use the contents of the
 RSS image tag.</p>
 <p>If you change your podcast’s image, also change the file’s name. iTunes
-may not change the image if it checks your feed and the image URL is the
-same. The server hosting your cover art image must allow HTTP head
+may not change the image if it checks your feed and the image URL is
+the same. The server hosting your cover art image must allow HTTP head
 requests for iTS to be able to automatically update your cover art.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -248,12 +251,12 @@ requests for iTS to be able to automatically update your cover art.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_new_feed_url">
-<tt class="descname">itunes_new_feed_url</tt><big>(</big><em>itunes_new_feed_url=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_new_feed_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_new_feed_url</code><span class="sig-paren">(</span><em>itunes_new_feed_url=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_new_feed_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the new-feed-url property of the podcast. This tag allows
 you to change the URL where the podcast feed is located</p>
 <p>After adding the tag to your old feed, you should maintain the old feed
-for 48 hours before retiring it. At that point, iTunes will have updated
-the directory with the new feed URL.</p>
+for 48 hours before retiring it. At that point, iTunes will have
+updated the directory with the new feed URL.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -268,7 +271,7 @@ the directory with the new feed URL.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_owner">
-<tt class="descname">itunes_owner</tt><big>(</big><em>name=None</em>, <em>email=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_owner" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_owner</code><span class="sig-paren">(</span><em>name=None</em>, <em>email=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_owner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:owner of the podcast. This tag contains
 information that will be used to contact the owner of the podcast for
 communication specifically about the podcast. It will not be publicly
@@ -287,7 +290,7 @@ displayed.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_subtitle">
-<tt class="descname">itunes_subtitle</tt><big>(</big><em>itunes_subtitle=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_subtitle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_subtitle</code><span class="sig-paren">(</span><em>itunes_subtitle=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_subtitle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:subtitle value for the podcast. The contents of
 this tag are shown in the Description column in iTunes. The subtitle
 displays best if it is only a few words long.</p>
@@ -305,13 +308,13 @@ displays best if it is only a few words long.</p>
 
 <dl class="method">
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_summary">
-<tt class="descname">itunes_summary</tt><big>(</big><em>itunes_summary=None</em><big>)</big><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
+<code class="descname">itunes_summary</code><span class="sig-paren">(</span><em>itunes_summary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:summary value for the podcast. The contents of
-this tag are shown in a separate window that appears when the &#8220;circled i&#8221;
-in the Description column is clicked. It also appears on the iTunes page
-for your podcast. This field can be up to 4000 characters. If
-&lt;itunes:summary&gt; is not included, the contents of the &lt;description&gt; tag
-are used.</p>
+this tag are shown in a separate window that appears when the &#8220;circled
+i&#8221; in the Description column is clicked. It also appears on the iTunes
+page for your podcast. This field can be up to 4000 characters. If
+<cite>&lt;itunes:summary&gt;</cite> is not included, the contents of the &lt;description&gt;
+tag are used.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -330,7 +333,7 @@ are used.</p>
 
 
       </div>
-      <div class="bottomnav">
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
       
         <p>
         «&#160;&#160;<a href="api.ext.dc.html">feedgen.ext.dc</a>
@@ -342,9 +345,9 @@ are used.</p>
 
       </div>
 
-    <div class="footer">
-        &copy; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013-2016, Lars Kiesow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>
