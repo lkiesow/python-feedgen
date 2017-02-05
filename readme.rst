@@ -6,6 +6,10 @@ Feedgenerator
     :target: https://travis-ci.org/lkiesow/python-feedgen
     :alt: Build Status
 
+.. image:: https://coveralls.io/repos/lkiesow/python-feedgen/badge.png?branch=master
+    :target: https://coveralls.io/r/lkiesow/python-feedgen
+    :alt: Test Coverage Status
+
 
 This module can be used to generate web feeds in both ATOM and RSS format.  It
 has support for extensions. Included is for example an extension to produce Podcasts.
