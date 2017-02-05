@@ -82,6 +82,29 @@ class TestExtensionPodcast(unittest.TestCase):
         assert cat[0] == 'Technology'
         assert scat[0] == 'Podcasting'
 
+    def test_podcastItems(self):
+        fg = self.fg
+        fg.podcast.itunes_author('Lars Kiesow')
+        fg.podcast.itunes_block('x')
+        fg.podcast.itunes_complete(False)
+        fg.podcast.itunes_explicit('no')
+        fg.podcast.itunes_image('x.png')
+        fg.podcast.itunes_subtitle('x')
+        fg.podcast.itunes_summary('x')
+        assert fg.podcast.itunes_author() == 'Lars Kiesow'
+        assert fg.podcast.itunes_block() == 'x'
+        assert fg.podcast.itunes_complete() == 'no'
+        assert fg.podcast.itunes_explicit() == 'no'
+        assert fg.podcast.itunes_image() == 'x.png'
+        assert fg.podcast.itunes_subtitle() == 'x'
+        assert fg.podcast.itunes_summary() == 'x'
+
+        # Check that we have the item in the resulting XML
+        ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
+        root = etree.fromstring(self.fg.rss_str())
+        author = root.xpath('/rss/channel/itunes:author/text()', namespaces=ns)
+        assert author == ['Lars Kiesow']
+
     def test_podcastEntryItems(self):
         fe = self.fg.add_item()
         fe.title('y')
@@ -134,3 +157,7 @@ class TestExtensionDc(unittest.TestCase):
                 m = getattr(self.fg.dc, method)
                 m(method)
                 assert m() == [method]
+
+        self.fg.id('123')
+        assert self.fg.atom_str()
+        assert self.fg.rss_str()

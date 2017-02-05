@@ -40,6 +40,21 @@ class TestSequenceFunctions(unittest.TestCase):
 
         self.fg = fg
 
+    def test_setEntries(self):
+        fg2 = FeedGenerator()
+        fg2.entry(self.fg.entry())
+        assert len(fg2.entry()) == 3
+        assert self.fg.entry() == fg2.entry()
+
+    def test_loadExtension(self):
+        fe = self.fg.add_item()
+        fe.id('1')
+        fe.title(u'…')
+        fe.content(u'…')
+        fe.load_extension('base')
+        assert fe.base
+        assert self.fg.atom_str()
+
     def test_checkEntryNumbers(self):
         fg = self.fg
         assert len(fg.entry()) == 3

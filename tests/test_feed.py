@@ -100,6 +100,9 @@ class TestSequenceFunctions(unittest.TestCase):
                      name=self.textInputName, link=self.textInputLink)
         fg.ttl(self.ttl)
         fg.webMaster(self.webMaster)
+        fg.updated('2017-02-05 13:26:58+01:00')
+        fg.pubDate('2017-02-05 13:26:58+01:00')
+        fg.generator('python-feedgen', 'x', uri='http://github.com/lkie...')
 
         self.fg = fg
 
