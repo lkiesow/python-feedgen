@@ -7,7 +7,7 @@ python:
   - "3.5"
 
 before_install:
-  - pip install flake8
+  - pip install flake8 python-coveralls coverage
   - python setup.py bdist_wheel
   - pip install dist/feedgen*
 
@@ -16,3 +16,6 @@ script:
   - python -m feedgen
   - python -m feedgen atom
   - python -m feedgen rss
+
+after_success:
+   - coveralls

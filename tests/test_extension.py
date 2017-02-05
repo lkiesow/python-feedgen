@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# vim: set et ts=4 sw=4 sts=4 sta tw=80 cc=81:
 
 """
 Tests for extensions
@@ -82,3 +81,56 @@ class TestExtensionPodcast(unittest.TestCase):
                           namespaces=ns)
         assert cat[0] == 'Technology'
         assert scat[0] == 'Podcasting'
+
+    def test_podcastEntryItems(self):
+        fe = self.fg.add_item()
+        fe.title('y')
+        fe.podcast.itunes_author('Lars Kiesow')
+        fe.podcast.itunes_block('x')
+        fe.podcast.itunes_duration('00:01:30')
+        fe.podcast.itunes_explicit('no')
+        fe.podcast.itunes_image('x.png')
+        fe.podcast.itunes_is_closed_captioned('yes')
+        fe.podcast.itunes_order(1)
+        fe.podcast.itunes_subtitle('x')
+        fe.podcast.itunes_summary('x')
+        assert fe.podcast.itunes_author() == 'Lars Kiesow'
+        assert fe.podcast.itunes_block() == 'x'
+        assert fe.podcast.itunes_duration() == '00:01:30'
+        assert fe.podcast.itunes_explicit() == 'no'
+        assert fe.podcast.itunes_image() == 'x.png'
+        assert fe.podcast.itunes_is_closed_captioned()
+        assert fe.podcast.itunes_order() == 1
+        assert fe.podcast.itunes_subtitle() == 'x'
+        assert fe.podcast.itunes_summary() == 'x'
+
+        # Check that we have the item in the resulting XML
+        ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
+        root = etree.fromstring(self.fg.rss_str())
+        author = root.xpath('/rss/channel/item/itunes:author/text()',
+                            namespaces=ns)
+        assert author == ['Lars Kiesow']
+
+
+class TestExtensionDc(unittest.TestCase):
+
+    def setUp(self):
+        self.fg = FeedGenerator()
+        self.fg.load_extension('dc')
+        self.fg.title('title')
+        self.fg.link(href='http://example.com', rel='self')
+        self.fg.description('description')
+
+    def test_entryLoadExtension(self):
+        fe = self.fg.add_item()
+        try:
+            fe.load_extension('dc')
+        except ImportError:
+            pass  # Extension already loaded
+
+    def test_elements(self):
+        for method in dir(self.fg.dc):
+            if method.startswith('dc_'):
+                m = getattr(self.fg.dc, method)
+                m(method)
+                assert m() == [method]

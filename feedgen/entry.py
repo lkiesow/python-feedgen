@@ -464,7 +464,7 @@ class FeedEntry(object):
             if isSummary:
                 self.__atom_summary = description
             else:
-                self.__atom_content = description
+                self.__atom_content = {'content': description}
         return self.__rss_description
 
     def category(self, category=None, replace=False, **kwargs):

@@ -8,7 +8,7 @@
     Descriptions partly taken from
     http://dublincore.org/documents/dcmi-terms/#elements-coverage
 
-    :copyright: 2013-2016, Lars Kiesow <lkiesow@uos.de>
+    :copyright: 2013-2017, Lars Kiesow <lkiesow@uos.de>
 
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
@@ -223,6 +223,7 @@ class DcBaseExtension(BaseExtension):
             if replace or not self._dcelem_identifier:
                 self._dcelem_identifier = []
             self._dcelem_identifier += identifier
+        return self._dcelem_identifier
 
     def dc_language(self, language=None, replace=True):
         '''Get or set the dc:language which describes a language of the

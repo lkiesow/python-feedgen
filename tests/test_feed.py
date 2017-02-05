@@ -7,6 +7,8 @@ These are test cases for a basic feed.
 A basic feed does not contain entries so far.
 """
 
+import os
+import tempfile
 import unittest
 from lxml import etree
 from feedgen.feed import FeedGenerator
@@ -123,13 +125,14 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_atomFeedFile(self):
         fg = self.fg
-        filename = 'tmp_Atomfeed.xml'
+        _, filename = tempfile.mkstemp()
         fg.atom_file(filename=filename, pretty=True, xml_declaration=False)
 
         with open(filename, "r") as myfile:
             atomString = myfile.read().replace('\n', '')
 
         self.checkAtomString(atomString)
+        os.remove(filename)
 
     def test_atomFeedString(self):
         fg = self.fg
@@ -243,7 +246,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_rssFeedFile(self):
         fg = self.fg
-        filename = 'tmp_Rssfeed.xml'
+        _, filename = tempfile.mkstemp()
         fg.rss_file(filename=filename, pretty=True, xml_declaration=False)
 
         with open(filename, "r") as myfile:

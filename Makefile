@@ -49,8 +49,5 @@ publish:
 	twine upload dist/*
 
 test:
-	python -m unittest tests.test_feed
-	python -m unittest tests.test_entry
-	python -m unittest tests.test_extension
-	@rm -f tmp_Atomfeed.xml tmp_Rssfeed.xml
+	coverage run --omit='*/lib/*,tests/*' -m unittest discover -s tests
 	flake8 $$(find setup.py tests feedgen -name '*.py')

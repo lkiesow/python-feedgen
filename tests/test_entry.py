@@ -13,41 +13,79 @@ from feedgen.feed import FeedGenerator
 class TestSequenceFunctions(unittest.TestCase):
 
     def setUp(self):
-
         fg = FeedGenerator()
         self.feedId = 'http://example.com'
         self.title = 'Some Testfeed'
 
         fg.id(self.feedId)
         fg.title(self.title)
+        fg.link(href='http://lkiesow.de', rel='alternate')[0]
+        fg.description('...')
 
         fe = fg.add_entry()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The First Episode')
+        fe.content(u'…')
 
         # Use also the different name add_item
         fe = fg.add_item()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Second Episode')
+        fe.content(u'…')
 
         fe = fg.add_entry()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
+        fe.content(u'…')
 
         self.fg = fg
 
     def test_checkEntryNumbers(self):
-
         fg = self.fg
         assert len(fg.entry()) == 3
 
-    def test_checkItemNumbers(self):
+    def test_TestEntryItems(self):
+        fe = self.fg.add_item()
+        fe.title('qwe')
+        assert fe.title() == 'qwe'
+        author = fe.author(name='John Doe', email='jdoe@example.com')[0]
+        assert author.get('name') == 'John Doe'
+        assert author.get('email') == 'jdoe@example.com'
+        contributor = fe.contributor(name='John Doe', email='jdoe@ex.com')[0]
+        assert contributor == fe.contributor()[0]
+        assert contributor.get('name') == 'John Doe'
+        assert contributor.get('email') == 'jdoe@ex.com'
+        link = fe.link(href='http://lkiesow.de', rel='alternate')[0]
+        assert link == fe.link()[0]
+        assert link.get('href') == 'http://lkiesow.de'
+        assert link.get('rel') == 'alternate'
+        fe.guid('123')
+        assert fe.guid() == '123'
+        fe.updated('2017-02-05 13:26:58+01:00')
+        assert fe.updated().year == 2017
+        fe.summary('asdf')
+        assert fe.summary() == 'asdf'
+        fe.description('asdfx')
+        assert fe.description() == 'asdfx'
+        fe.pubdate('2017-02-05 13:26:58+01:00')
+        assert fe.pubdate().year == 2017
+        fe.rights('asdfx')
+        assert fe.rights() == 'asdfx'
+        fe.comments('asdfx')
+        assert fe.comments() == 'asdfx'
+        fe.enclosure(url='http://lkiesow.de', type='text/plain', length='1')
+        assert fe.enclosure().get('url') == 'http://lkiesow.de'
+        fe.ttl(8)
+        assert fe.ttl() == 8
 
+        self.fg.rss_str()
+        self.fg.atom_str()
+
+    def test_checkItemNumbers(self):
         fg = self.fg
         assert len(fg.item()) == 3
 
     def test_checkEntryContent(self):
-
         fg = self.fg
         assert fg.entry()
 
