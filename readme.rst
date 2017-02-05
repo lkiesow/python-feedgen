@@ -6,8 +6,8 @@ Feedgenerator
     :target: https://travis-ci.org/lkiesow/python-feedgen
     :alt: Build Status
 
-.. image:: https://coveralls.io/repos/lkiesow/python-feedgen/badge.png?branch=master
-    :target: https://coveralls.io/r/lkiesow/python-feedgen
+.. image:: https://coveralls.io/repos/github/lkiesow/python-feedgen/badge.svg?branch=master
+    :target: https://coveralls.io/github/lkiesow/python-feedgen?branch=master
     :alt: Test Coverage Status
 
 
