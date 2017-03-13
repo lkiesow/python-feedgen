@@ -49,5 +49,5 @@ publish:
 	twine upload dist/*
 
 test:
-	coverage run --omit='*/lib/*,tests/*' -m unittest discover -s tests
+	coverage run --source=feedgen -m unittest discover -s tests
 	flake8 $$(find setup.py tests feedgen -name '*.py')
