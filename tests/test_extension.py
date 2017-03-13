@@ -192,5 +192,5 @@ class TestExtensionTorrent(unittest.TestCase):
         ns = {'torrent': 'http://xmlns.ezrss.it/0.1/dtd/'}
         root = etree.fromstring(self.fg.rss_str())
         filename = root.xpath('/rss/channel/item/torrent:filename/text()',
-                            namespaces=ns)
+                              namespaces=ns)
         assert filename == ['file.xy']
