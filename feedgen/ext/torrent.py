@@ -32,6 +32,7 @@ class TorrentEntryExtension(BaseEntryExtension):
         self.__torrent_contentlength = None
         self.__torrent_seeds = None
         self.__torrent_peers = None
+        self.__torrent_verified = None
 
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
@@ -61,7 +62,7 @@ class TorrentEntryExtension(BaseEntryExtension):
             peers = etree.SubElement(entry, '{%s}peers' % TORRENT_NS)
             peers.text = self.__torrent_peers
 
-        if self.__torrent_seeds:
+        if self.__torrent_verified:
             verified = etree.SubElement(entry, '{%s}verified' % TORRENT_NS)
             verified.text = self.__torrent_verified
 
