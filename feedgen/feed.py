@@ -1030,7 +1030,7 @@ class FeedGenerator(object):
             except ImportError:
                 pass
 
-        self.__feed_entries.append(feedEntry)
+        self.__feed_entries.insert(0, feedEntry)
         return feedEntry
 
     def add_item(self, item=None):
