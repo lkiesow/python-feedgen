@@ -44,7 +44,7 @@ def print_enc(s):
         print(s)
 
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) != 2 or not (
             sys.argv[1].endswith('rss') or
             sys.argv[1].endswith('atom') or
@@ -138,3 +138,7 @@ if __name__ == '__main__':
 
     elif arg.endswith('rss'):
         fg.rss_file(arg)
+
+
+if __name__ == '__main__':
+    main()
