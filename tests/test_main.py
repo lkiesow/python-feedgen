@@ -31,10 +31,11 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_file(self):
         for extemsion in '.atom', '.rss':
-            _, filename = tempfile.mkstemp(extemsion)
+            fh, filename = tempfile.mkstemp(extemsion)
             sys.argv = ['feedgen', filename]
             try:
                 __main__.main()
             except:
                 assert False
+            os.close(fh)
             os.remove(filename)

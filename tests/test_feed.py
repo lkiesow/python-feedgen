@@ -134,13 +134,14 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_atomFeedFile(self):
         fg = self.fg
-        _, filename = tempfile.mkstemp()
+        fh, filename = tempfile.mkstemp()
         fg.atom_file(filename=filename, pretty=True, xml_declaration=False)
 
         with open(filename, "r") as myfile:
             atomString = myfile.read().replace('\n', '')
 
         self.checkAtomString(atomString)
+        os.close(fh)
         os.remove(filename)
 
     def test_atomFeedString(self):
