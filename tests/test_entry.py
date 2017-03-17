@@ -93,6 +93,14 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.ttl(8)
         assert fe.ttl() == 8
 
+        fe = self.fg.add_item()
+        fe.title('qwe')
+        fe.description('asdfx')
+        fe.guid('123')
+        fe.updated('2017-02-05 13:26:58+01:00')
+        fe.author({'name': 'John Doe'})
+        assert author.get('name') == 'John Doe'
+
         self.fg.rss_str()
         self.fg.atom_str()
 

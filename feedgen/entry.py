@@ -46,6 +46,7 @@ class FeedEntry(object):
         self.__rss_category = None
         self.__rss_comments = None
         self.__rss_description = None
+        self.__rss_dcCreator = None
         self.__rss_content = None
         self.__rss_enclosure = None
         self.__rss_guid = None
@@ -207,6 +208,10 @@ class FeedEntry(object):
         for a in self.__rss_author or []:
             author = etree.SubElement(entry, 'author')
             author.text = a
+        for a in self.__rss_dcCreator or []:
+            XMLNS_DC = 'http://purl.org/dc/elements/1.1/'
+            dcCreator = etree.SubElement(entry, '{%s}creator' % XMLNS_DC)
+            dcCreator.text = a
         if self.__rss_guid:
             guid = etree.SubElement(entry, 'guid')
             guid.text = self.__rss_guid
@@ -335,9 +340,12 @@ class FeedEntry(object):
                                                 set(['name', 'email', 'uri']),
                                                 set(['name']))
             self.__rss_author = []
+            self.__rss_dcCreator = []
             for a in self.__atom_author:
                 if a.get('email'):
                     self.__rss_author.append('%(email)s (%(name)s)' % a)
+                else:
+                    self.__rss_dcCreator.append('%(name)s' %a)
         return self.__atom_author
 
     def content(self, content=None, src=None, type=None):
