@@ -2,8 +2,8 @@
 Installation
 ============
 
-PodGen can be used on any system (if not: file a bug report!), and supports
-Python 2.7 and 3.3, 3.4 and 3.5.
+PodGen can be used on any system (if not: file a bug report!), and officially supports
+Python 2.7 and 3.3, 3.4, 3.5 and 3.6.
 
 Use `pip <https://pypi.python.org/pypi>`_::
 
