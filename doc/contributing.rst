@@ -7,7 +7,7 @@ Setting up
 
 To install the dependencies, run::
 
-    $ pip install -r requirements
+    $ pip install -r requirements.txt
 
 while you have a `virtual environment <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_
 activated.

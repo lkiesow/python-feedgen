@@ -1,4 +1,3 @@
-===================================
 PodGen (forked from python-feedgen)
 ===================================
 
@@ -24,7 +23,6 @@ More details about the project:
 See the documentation link above for installation instructions and
 guides on how to use this module.
 
-----------
 Known bugs
 ----------
 
