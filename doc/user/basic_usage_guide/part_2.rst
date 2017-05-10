@@ -100,6 +100,19 @@ Attribute                Effect if left out
                          :obj:`None`.
 ======================== =======================================================
 
+.. warning::
+
+   Remember to encode special characters in your URLs! For example, say
+   you have a file named ``library-pod-#023-future.mp3``, which you host at
+   ``http://podcast.example.org/episodes``. You might try to use the URL
+   ``http://podcast.example.org/episodes/library-pod-#023-future.mp3``. This,
+   however, will not work, since the hash (#) has a special meaning in URLs.
+   Instead, you should use :func:`urllib.parse.quote` in Python3, or
+   :func:`urllib.quote` in Python2, to escape the special characters in the
+   filename in the URL. The correct URL would then become
+   ``http://podcast.example.org/episodes/library-pod-%23023-future.mp3``.
+
+
 Populating size and type from server
 ====================================
 
