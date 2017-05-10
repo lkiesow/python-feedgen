@@ -7,3 +7,4 @@ future
 mock
 tinytag
 requests
+Sphinx
