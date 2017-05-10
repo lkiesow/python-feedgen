@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
-import podgen.version
 
 setup(
         name = 'podgen',
         packages = ['podgen'],
-        version = podgen.version.version_full_str,
+        # Remember to update the version in podgen.version, too!
+        version = '1.0.0b5',
         description = 'Generating podcasts with Python should be easy!',
         author = 'Thorben W. S. Dahl',
         author_email = 'thorben@sjostrom.no',

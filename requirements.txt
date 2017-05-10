@@ -1,10 +1,6 @@
-# Remember to add any new requirements to setup.py as well, if they are required
-# for users of this package.
-dateutils
-lxml
-pytz
-future
+# Packages required by users of this library belong in setup.py
+# Install using setup.py:
+-e .
+# Packages needed for development:
 mock
-tinytag
-requests
 Sphinx
