@@ -130,6 +130,13 @@ class Media(object):
         https://. The server should support HEAD-requests and byte-range
         requests.
 
+        Ensure you quote parts of the URL that are not supposed to carry any
+        special meaning to the browser, typically the name of your file.
+        Common offenders include the slash character when not used to separate
+        folders, the hash mark (#) and the question mark (?). Use
+        :func:`urllib.parse.quote` in Python3 and :func:`urllib.quote` in
+        Python2.
+
         :type: :obj:`str`
         """
         return self._url
