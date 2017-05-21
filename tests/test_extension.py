@@ -211,7 +211,7 @@ class TestExtensionMedia(unittest.TestCase):
         fe.id('id')
         fe.title('title')
         fe.content('content')
-        fe.media.media_content(url='file1.xy')
+        fe.media.content(url='file1.xy')
 
         ns = {'media': 'http://search.yahoo.com/mrss/',
               'a': 'http://www.w3.org/2005/Atom'}

@@ -87,10 +87,10 @@ class MediaEntryExtension(BaseEntryExtension):
     def extend_rss(self, item):
         return self.extend_atom(item)
 
-    def media_content(self, url=None, fileSize=None, type=None, medium=None,
-                      isDefault=None, expression=None, bitrate=None,
-                      framerate=None, samplingrate=None, channels=None,
-                      duration=None, height=None, width=None, lang=None):
+    def content(self, url=None, fileSize=None, type=None, medium=None,
+                isDefault=None, expression=None, bitrate=None, framerate=None,
+                samplingrate=None, channels=None, duration=None, height=None,
+                width=None, lang=None):
         '''<media:content> is a sub-element of either <item> or <media:group>.
         Media objects that are not the same content should not be included in
         the same <media:group> element. The sequence of these items implies
@@ -152,7 +152,7 @@ class MediaEntryExtension(BaseEntryExtension):
 
         return self.__media_content
 
-    def media_thumbnail(self, url=None, height=None, width=None, time=None):
+    def thumbnail(self, url=None, height=None, width=None, time=None):
         '''Allows particular images to be used as representative images for
         the media object. If multiple thumbnails are included, and time
         coding is not at play, it is assumed that the images are in order
