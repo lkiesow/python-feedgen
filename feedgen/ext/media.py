@@ -31,7 +31,7 @@ class MediaEntryExtension(BaseEntryExtension):
 
     def __init__(self):
         self.__media_content = []
-        self.__media_thumbnail = None
+        self.__media_thumbnail = []
 
     def extend_atom(self, entry):
         '''Add additional fields to an RSS item.
@@ -54,16 +54,17 @@ class MediaEntryExtension(BaseEntryExtension):
                 if media_content.get(attr):
                     content.set(attr, media_content[attr])
 
-        if self.__media_thumbnail:
+        for media_thumbnail in self.__media_thumbnail:
+            # Define current media:group
+            group = groups.get(media_thumbnail.get('group'))
+            if group is None:
+                group = etree.SubElement(entry, '{%s}group' % MEDIA_NS)
+                groups[media_thumbnail.get('group')] = group
+            # Add thumbnails
             thumbnail = etree.SubElement(group, '{%s}thumbnail' % MEDIA_NS)
-            if self.__media_thumbnail.get('url'):
-                thumbnail.set('url', self.__media_thumbnail.get('url'))
-            if self.__media_thumbnail.get('height'):
-                thumbnail.set('height', self.__media_thumbnail.get('height'))
-            if self.__media_thumbnail.get('width'):
-                thumbnail.set('width', self.__media_thumbnail.get('width'))
-            if self.__media_thumbnail.get('lang'):
-                thumbnail.set('lang', self.__media_thumbnail.get('lang'))
+            for attr in ('url', 'height', 'width', 'time'):
+                if media_thumbnail.get(attr):
+                    thumbnail.set(attr, media_thumbnail[attr])
 
         return entry
 
@@ -134,28 +135,50 @@ class MediaEntryExtension(BaseEntryExtension):
                     set(['url', 'group']))
         return self.__media_content
 
-    def thumbnail(self, url=None, height=None, width=None, time=None):
-        '''Allows particular images to be used as representative images for
+    def thumbnail(self, thumbnail=None, replace=False, group='default',
+                  **kwargs):
+        '''Get or set media:thumbnail data.
+
+        This method can be called with:
+        - the fields of a media:content as keyword arguments
+        - the fields of a media:content as a dictionary
+        - a list of dictionaries containing the media:content fields
+
+        Allows particular images to be used as representative images for
         the media object. If multiple thumbnails are included, and time
         coding is not at play, it is assumed that the images are in order
         of importance. It has one required attribute and three optional
         attributes.
 
-        :param url: should specify the direct URL to the media object.
-        :param height: height of the media object.
-        :param width: width of the media object.
-        :param time: specifies the time offset in relation to the media object.
+        media:thumbnail has the following fields:
+        - *url* should specify the direct URL to the media object.
+        - *height* height of the media object.
+        - *width* width of the media object.
+        - *time* specifies the time offset in relation to the media object.
+
+        :param thumbnail: Dictionary or list of dictionaries with thumbnail
+                          data.
+        :param replace: Add or replace old data.
+        :param group: Media group to put this content in.
 
         :returns: The media thumbnail tag.
         '''
-
-        if url is not None:
-            self.__media_thumbnail = {'url': url}
-            if height is not None:
-                self.__media_thumbnail['height'] = height
-            if width is not None:
-                self.__media_thumbnail['width'] = width
-            if time is not None:
-                self.__media_thumbnail['time'] = time
-
+        # Handle kwargs
+        if thumbnail is None and kwargs:
+            thumbnail = kwargs
+        # Handle new data
+        if thumbnail is not None:
+            # Reset data if we want to replace them
+            if replace or self.__media_thumbnail is None:
+                self.__media_thumbnail = []
+            # Ensure list
+            if not isinstance(thumbnail, list):
+                thumbnail = [thumbnail]
+            # Define media group
+            for t in thumbnail:
+                t['group'] = t.get('group', group)
+            self.__media_thumbnail += ensure_format(
+                    thumbnail,
+                    set(['url', 'height', 'width', 'time', 'group']),
+                    set(['url', 'group']))
         return self.__media_thumbnail
