@@ -5,7 +5,7 @@
 
     Extends the feedgen to produce media tags.
 
-    :copyright: 2013-2016, Lars Kiesow <lkiesow@uos.de>
+    :copyright: 2013-2017, Lars Kiesow <lkiesow@uos.de>
 
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
@@ -29,7 +29,7 @@ class MediaEntryExtension(BaseEntryExtension):
     '''
 
     def __init__(self):
-        self.__media_content = None
+        self.__media_content = []
         self.__media_thumbnail = None
 
     def extend_atom(self, entry):
@@ -83,6 +83,9 @@ class MediaEntryExtension(BaseEntryExtension):
                 thumbnail.set('lang', self.__media_thumbnail.get('lang'))
 
         return entry
+
+    def extend_rss(self, item):
+        return self.extend_atom(item)
 
     def media_content(self, url=None, fileSize=None, type=None, medium=None,
                       isDefault=None, expression=None, bitrate=None,
