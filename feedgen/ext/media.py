@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
     feedgen.ext.media
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~
 
     Extends the feedgen to produce media tags.
 
@@ -11,6 +11,7 @@
 '''
 
 from lxml import etree
+from feedgen.util import ensure_format
 from feedgen.ext.base import BaseExtension, BaseEntryExtension
 
 MEDIA_NS = 'http://search.yahoo.com/mrss/'
@@ -38,39 +39,21 @@ class MediaEntryExtension(BaseEntryExtension):
         :param feed: The RSS item XML element to use.
         '''
 
-        group = etree.SubElement(entry, '{%s}group' % MEDIA_NS)
-        if self.__media_content:
+        groups = {None: entry}
+        for media_content in self.__media_content:
+            # Define current media:group
+            group = groups.get(media_content.get('group'))
+            if group is None:
+                group = etree.SubElement(entry, '{%s}group' % MEDIA_NS)
+                groups[media_content.get('group')] = group
+            # Add content
             content = etree.SubElement(group, '{%s}content' % MEDIA_NS)
-            if self.__media_content.get('url'):
-                content.set('url', self.__media_content.get('url'))
-            if self.__media_content.get('fileSize'):
-                content.set('fileSize', self.__media_content.get('fileSize'))
-            if self.__media_content.get('type'):
-                content.set('type', self.__media_content.get('type'))
-            if self.__media_content.get('medium'):
-                content.set('medium', self.__media_content.get('medium'))
-            if self.__media_content.get('isDefault'):
-                content.set('isDefault', self.__media_content.get('isDefault'))
-            if self.__media_content.get('expression'):
-                content.set(
-                    'expression', self.__media_content.get('expression'))
-            if self.__media_content.get('bitrate'):
-                content.set('bitrate', self.__media_content.get('bitrate'))
-            if self.__media_content.get('framerate'):
-                content.set('framerate', self.__media_content.get('framerate'))
-            if self.__media_content.get('samplingrate'):
-                content.set('samplingrate',
-                            self.__media_content.get('samplingrate'))
-            if self.__media_content.get('channels'):
-                content.set('channels', self.__media_content.get('channels'))
-            if self.__media_content.get('duration'):
-                content.set('duration', self.__media_content.get('duration'))
-            if self.__media_content.get('height'):
-                content.set('height', self.__media_content.get('height'))
-            if self.__media_content.get('width'):
-                content.set('width', self.__media_content.get('width'))
-            if self.__media_content.get('lang'):
-                content.set('lang', self.__media_content.get('lang'))
+            for attr in ('url', 'fileSize', 'type', 'medium', 'isDefault',
+                         'expression', 'bitrate', 'framerate', 'samplingrate',
+                         'channels', 'duration', 'height', 'width', 'lang'):
+                if media_content.get(attr):
+                    content.set(attr, media_content[attr])
+
         if self.__media_thumbnail:
             thumbnail = etree.SubElement(group, '{%s}thumbnail' % MEDIA_NS)
             if self.__media_thumbnail.get('url'):
@@ -87,69 +70,68 @@ class MediaEntryExtension(BaseEntryExtension):
     def extend_rss(self, item):
         return self.extend_atom(item)
 
-    def content(self, url=None, fileSize=None, type=None, medium=None,
-                isDefault=None, expression=None, bitrate=None, framerate=None,
-                samplingrate=None, channels=None, duration=None, height=None,
-                width=None, lang=None):
-        '''<media:content> is a sub-element of either <item> or <media:group>.
+    def content(self, content=None, replace=False, group='default', **kwargs):
+        '''Get or set media:content data.
+
+        This method can be called with:
+        - the fields of a media:content as keyword arguments
+        - the fields of a media:content as a dictionary
+        - a list of dictionaries containing the media:content fields
+
+        <media:content> is a sub-element of either <item> or <media:group>.
         Media objects that are not the same content should not be included in
         the same <media:group> element. The sequence of these items implies
         the order of presentation. While many of the attributes appear to be
         audio/video specific, this element can be used to publish any type
         of media. It contains 14 attributes, most of which are optional.
 
-        :param url: should specify the direct URL to the media object.
-        :param fileSize: number of bytes of the media object.
-        :param type: standard MIME type of the object.
-        :param medium: type of object
-                       (image | audio | video | document | executable).
-        :param isDefault: determines if this is the default object.
-        :param expression: determines if the object is a sample or the full
-                           version of the object, or even if it is a
-                           continuous stream (sample | full | nonstop).
-        :param bitrate: kilobits per second rate of media.
-        :param framerate: number of frames per second for the media object.
-        :param samplingrate: number of samples per second taken to create the
-                             media object. It is expressed in thousands of
-                             samples per second (kHz).
-        :param channels: number of audio channels in the media object.
-        :param duration: number of seconds the media object plays.
-        :param height: height of the media object.
-        :param width: width of the media object.
-        :param lang: is the primary language encapsulated in the media object.
+        media:content has the following fields:
+        - *url* should specify the direct URL to the media object.
+        - *fileSize* number of bytes of the media object.
+        - *type* standard MIME type of the object.
+        - *medium* type of object (image | audio | video | document |
+          executable).
+        - *isDefault* determines if this is the default object.
+        - *expression* determines if the object is a sample or the full version
+          of the object, or even if it is a continuous stream (sample | full |
+          nonstop).
+        - *bitrate* kilobits per second rate of media.
+        - *framerate* number of frames per second for the media object.
+        - *samplingrate* number of samples per second taken to create the media
+          object. It is expressed in thousands of samples per second (kHz).
+        - *channels* number of audio channels in the media object.
+        - *duration* number of seconds the media object plays.
+        - *height* height of the media object.
+        - *width* width of the media object.
+        - *lang* is the primary language encapsulated in the media object.
+
+        :param content: Dictionary or list of dictionaries with content data.
+        :param replace: Add or replace old data.
+        :param group: Media group to put this content in.
 
         :returns: The media content tag.
         '''
-
-        if url is not None:
-            self.__media_content = {'url': url}
-            if fileSize is not None:
-                self.__media_content['fileSize'] = fileSize
-            if type is not None:
-                self.__media_content['type'] = type
-            if medium is not None:
-                self.__media_content['medium'] = medium
-            if isDefault is not None:
-                self.__media_content['isDefault'] = isDefault
-            if expression is not None:
-                self.__media_content['expression'] = expression
-            if bitrate is not None:
-                self.__media_content['bitrate'] = bitrate
-            if framerate is not None:
-                self.__media_content['framerate'] = framerate
-            if samplingrate is not None:
-                self.__media_content['samplingrate'] = samplingrate
-            if channels is not None:
-                self.__media_content['channels'] = channels
-            if duration is not None:
-                self.__media_content['duration'] = duration
-            if height is not None:
-                self.__media_content['height'] = height
-            if width is not None:
-                self.__media_content['width'] = width
-            if lang is not None:
-                self.__media_content['lang'] = lang
-
+        # Handle kwargs
+        if content is None and kwargs:
+            content = kwargs
+        # Handle new data
+        if content is not None:
+            # Reset data if we want to replace them
+            if replace or self.__media_content is None:
+                self.__media_content = []
+            # Ensure list
+            if not isinstance(content, list):
+                content = [content]
+            # define media group
+            for c in content:
+                c['group'] = c.get('group', group)
+            self.__media_content += ensure_format(
+                    content,
+                    set(['url', 'fileSize', 'type', 'medium', 'isDefault',
+                         'expression', 'bitrate', 'framerate', 'samplingrate',
+                         'channels', 'duration', 'height', 'width', 'lang',
+                         'group']),
+                    set(['url', 'group']))
         return self.__media_content
 
     def thumbnail(self, url=None, height=None, width=None, time=None):

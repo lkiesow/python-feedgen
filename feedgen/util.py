@@ -26,7 +26,7 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
     :returns:              List of checked dictionaries.
     '''
     if not val:
-        return None
+        return []
     if allowed_values is None:
         allowed_values = {}
     if defaults is None:
