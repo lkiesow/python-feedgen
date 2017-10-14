@@ -63,7 +63,11 @@ class TestSequenceFunctions(unittest.TestCase):
         fe = self.fg.add_item()
         fe.title('qwe')
         assert fe.title() == 'qwe'
-        author = fe.author(name='John Doe', email='jdoe@example.com')[0]
+        author = fe.author(email='ldoe@example.com')[0]
+        assert not author.get('name')
+        assert author.get('email') == 'ldoe@example.com'
+        author = fe.author(name='John Doe', email='jdoe@example.com',
+                           replace=True)[0]
         assert author.get('name') == 'John Doe'
         assert author.get('email') == 'jdoe@example.com'
         contributor = fe.contributor(name='John Doe', email='jdoe@ex.com')[0]
