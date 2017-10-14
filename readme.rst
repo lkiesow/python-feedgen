@@ -107,6 +107,7 @@ FeedEntry object::
     >>> fe = fg.add_entry()
     >>> fe.id('http://lernfunk.de/media/654321/1')
     >>> fe.title('The First Episode')
+    >>> fe.link(href="http://lernfunk.de/feed")
 
 The FeedGenerators method `add_entry(...)` without argument provides will
 automatically generate a new FeedEntry object, append it to the feeds internal
