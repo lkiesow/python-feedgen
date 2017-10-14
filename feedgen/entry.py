@@ -333,11 +333,14 @@ class FeedEntry(object):
                 self.__atom_author = []
             self.__atom_author += ensure_format(author,
                                                 set(['name', 'email', 'uri']),
-                                                set(['name']))
+                                                set())
             self.__rss_author = []
             for a in self.__atom_author:
                 if a.get('email'):
-                    self.__rss_author.append('%(email)s (%(name)s)' % a)
+                    if a.get('name'):
+                        self.__rss_author.append('%(email)s (%(name)s)' % a)
+                    else:
+                        self.__rss_author.append('%(email)s' % a)
         return self.__atom_author
 
     def content(self, content=None, src=None, type=None):
