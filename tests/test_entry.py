@@ -75,7 +75,7 @@ class TestSequenceFunctions(unittest.TestCase):
         assert link.get('href') == 'http://lkiesow.de'
         assert link.get('rel') == 'alternate'
         fe.guid('123')
-        assert fe.guid() == '123'
+        assert fe.guid().get('guid') == '123'
         fe.updated('2017-02-05 13:26:58+01:00')
         assert fe.updated().year == 2017
         fe.summary('asdf')
