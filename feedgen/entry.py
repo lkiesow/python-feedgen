@@ -48,7 +48,7 @@ class FeedEntry(object):
         self.__rss_description = None
         self.__rss_content = None
         self.__rss_enclosure = None
-        self.__rss_guid = None
+        self.__rss_guid = {}
         self.__rss_link = None
         self.__rss_pubDate = None
         self.__rss_source = None
@@ -207,10 +207,11 @@ class FeedEntry(object):
         for a in self.__rss_author or []:
             author = etree.SubElement(entry, 'author')
             author.text = a
-        if self.__rss_guid:
+        if self.__rss_guid.get('guid'):
             guid = etree.SubElement(entry, 'guid')
-            guid.text = self.__rss_guid
-            guid.attrib['isPermaLink'] = 'false'
+            guid.text = self.__rss_guid['guid']
+            permaLink = str(self.__rss_guid.get('permalink', False)).lower()
+            guid.attrib['isPermaLink'] = permaLink
         for cat in self.__rss_category or []:
             category = etree.SubElement(entry, 'category')
             category.text = cat['value']
@@ -252,25 +253,29 @@ class FeedEntry(object):
         '''Get or set the entry id which identifies the entry using a
         universally unique and permanent URI. Two entries in a feed can have
         the same value for id if they represent the same entry at different
-        points in time. This method will also set rss:guid.  Id is mandatory
-        for an ATOM entry.
+        points in time. This method will also set rss:guid with permalink set
+        to False. Id is mandatory for an ATOM entry.
 
         :param id: New Id of the entry.
         :returns: Id of the entry.
         '''
         if id is not None:
             self.__atom_id = id
-            self.__rss_guid = id
+            self.__rss_guid = {'guid': id, 'permalink': False}
         return self.__atom_id
 
-    def guid(self, guid=None):
+    def guid(self, guid=None, permalink=False):
         '''Get or set the entries guid which is a string that uniquely
         identifies the item. This will also set atom:id.
 
         :param guid: Id of the entry.
-        :returns: Id of the entry.
+        :param permalink: If this is a permanent identifier for this item
+        :returns: Id and permalink setting of the entry.
         '''
-        return self.id(guid)
+        if guid is not None:
+            self.__atom_id = guid
+            self.__rss_guid = {'guid': guid, 'permalink': permalink}
+        return self.__rss_guid
 
     def updated(self, updated=None):
         '''Set or get the updated value which indicates the last time the entry
