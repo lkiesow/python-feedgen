@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>feedgen.entry &#8212; python-feedgen 0.5.1 documentation</title>
+    <title>feedgen.entry &#8212; python-feedgen 0.6.1 documentation</title>
     
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,10 +14,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5.1',
+        VERSION:     '0.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,14 +26,12 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="python-feedgen 0.5.1 documentation" href="index.html" />
-    <link rel="up" title="API Documentation" href="api.html" />
     <link rel="next" title="feedgen.util" href="api.util.html" />
     <link rel="prev" title="feedgen.feed" href="api.feed.html" /> 
   </head>
   <body role="document">
       <div class="header" role="banner"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.5.1 documentation</span></a></h1>
+          <span>python-feedgen 0.6.1 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.entry</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -273,16 +272,21 @@ the feed.  However, only the last one is used for RSS.</p>
 
 <dl class="method">
 <dt id="feedgen.entry.FeedEntry.guid">
-<code class="descname">guid</code><span class="sig-paren">(</span><em>guid=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.entry.FeedEntry.guid" title="Permalink to this definition">¶</a></dt>
+<code class="descname">guid</code><span class="sig-paren">(</span><em>guid=None</em>, <em>permalink=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.entry.FeedEntry.guid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the entries guid which is a string that uniquely
 identifies the item. This will also set atom:id.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>guid</strong> &#8211; Id of the entry.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>guid</strong> &#8211; Id of the entry.</li>
+<li><strong>permalink</strong> &#8211; If this is a permanent identifier for this item</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Id of the entry.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Id and permalink setting of the entry.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -294,8 +298,8 @@ identifies the item. This will also set atom:id.</p>
 <dd><p>Get or set the entry id which identifies the entry using a
 universally unique and permanent URI. Two entries in a feed can have
 the same value for id if they represent the same entry at different
-points in time. This method will also set rss:guid.  Id is mandatory
-for an ATOM entry.</p>
+points in time. This method will also set rss:guid with permalink set
+to False. Id is mandatory for an ATOM entry.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -559,7 +563,7 @@ include timezone information.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
