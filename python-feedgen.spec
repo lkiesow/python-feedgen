@@ -1,149 +1,83 @@
-%define srcname feedgen
+%global pypi_name feedgen
 
-Name:           python-%{srcname}
+Name:           python-%{pypi_name}
 Version:        0.6.1
 Release:        1%{?dist}
 Summary:        Feed Generator (ATOM, RSS, Podcasts)
 
-Group:          Development/Libraries
-License:        LGPLv3+ or BSD
-URL:            http://lkiesow.github.io/%{name}/
-
-Source0:        https://pypi.python.org/packages/source/f/%{srcname}/%{srcname}-%{version}.tar.gz
-
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-
+License:        BSD or LGPLv3
+URL:            http://lkiesow.github.io/python-feedgen
+Source0:        https://github.com/lkiesow/%{name}/archive/v%{version}.tar.gz
 BuildArch:      noarch
+
+BuildRequires:  python2-dateutil 
 BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
+BuildRequires:  python2-lxml
+BuildRequires:  python2-setuptools
+
+BuildRequires:  python3-dateutil 
 BuildRequires:  python3-devel
+BuildRequires:  python3-lxml
 BuildRequires:  python3-setuptools
 
-Requires:       python-lxml
-Requires:       python-dateutil
-
 %description
-This module can be used to generate web feeds in both ATOM and RSS format. It
-has support for extensions. Included is for example an extension to produce
-Podcasts.
+Feedgenerator This module can be used to generate web feeds in both ATOM and
+RSS format. It has support for extensions. Included is for example an extension
+to produce Podcasts.
 
+%package -n     python2-%{pypi_name}
+Summary:        %{summary}
+%{?python_provide:%python_provide python2-%{pypi_name}}
+ 
+Requires:       python2-dateutil
+Requires:       python2-lxml
+%description -n python2-%{pypi_name}
+Feedgenerator This module can be used to generate web feeds in both ATOM and
+RSS format. It has support for extensions. Included is for example an extension
+to produce Podcasts.
 
-%package -n python3-%{srcname}
-Summary:        Feed Generator (ATOM, RSS, Podcasts)
-Group:          Development/Libraries
-
-Requires:       python3-lxml
+%package -n     python3-%{pypi_name}
+Summary:        %{summary}
+%{?python_provide:%python_provide python3-%{pypi_name}}
+ 
 Requires:       python3-dateutil
-
-%description -n python3-%{srcname}
-This module can be used to generate web feeds in both ATOM and RSS format. It
-has support for extensions. Included is for example an extension to produce
-Podcasts.
+Requires:       python3-lxml
+%description -n python3-%{pypi_name}
+Feedgenerator This module can be used to generate web feeds in both ATOM and
+RSS format. It has support for extensions. Included is for example an extension
+to produce Podcasts.
 
 
 %prep
-%setup -q -n %{srcname}-%{version}
-mkdir python2
-mv PKG-INFO  docs  feedgen  license.bsd  license.lgpl  readme.rst  setup.py python2
-cp -r python2 python3
-
-# ensure the right python version is used
-find python3 -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
-find python2 -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python2}|'
-
+%autosetup
+# Remove bundled egg-info
+rm -rf %{pypi_name}.egg-info
 
 %build
-pushd python2
-%{__python2} setup.py build
-popd
-pushd python3
-%{__python3} setup.py build
-popd
-
+%py2_build
+%py3_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd python3
-%{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-popd
-pushd python2
-%{__python2} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-popd
-chmod 644 $RPM_BUILD_ROOT%{python3_sitelib}/%{srcname}/*.py
-chmod 644 $RPM_BUILD_ROOT%{python2_sitelib}/%{srcname}/*.py
+%py2_install
+%py3_install
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+%check
+%{__python2} setup.py test
+%{__python3} setup.py test
 
+%files -n python2-%{pypi_name}
+%license license.lgpl license.bsd
+%doc readme.rst
+%{python2_sitelib}/%{pypi_name}
+%{python2_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 
-%files
-%defattr(-,root,root,-)
-%license python2/license.*
-%doc python2/docs/*
-%{python2_sitelib}/*
-
-
-%files -n python3-%{srcname}
-%defattr(-,root,root,-)
-%license python3/license.*
-%doc python3/docs/*
-%{python3_sitelib}/*
-
+%files -n python3-%{pypi_name}
+%license license.lgpl license.bsd
+%doc readme.rst
+%{python3_sitelib}/%{pypi_name}
+%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 
 %changelog
-* Sat Oct 14 2017 Lars Kiesow <lkiesow@uos.de> - 0.6.1-1
-- Update to 0.6.1
-
-* Sat Oct 14 2017 Lars Kiesow <lkiesow@uos.de> - 0.6.0-1
-- Update to 0.6.0
-
-* Thu Jan 05 2017 Lars Kiesow <lkiesow@uos.de> - 0.5.1-1
-- Update to 0.5.1
-
-* Thu Jan 05 2017 Lars Kiesow <lkiesow@uos.de> - 0.5.0-1
-- Update to 0.5.0
-
-* Thu Jan 05 2017 Lars Kiesow <lkiesow@uos.de> - 0.4.1-1
-- Update to 0.4.1
-
-* Sun Sep 04 2016 Lars Kiesow <lkiesow@uos.de> - 0.4.0-1
-- Update to 0.4.0
-
-* Thu Oct 29 2015 Lars Kiesow <lkiesow@uos.de> - 0.3.2-1
-- Update to 0.3.2
-
-* Mon May  4 2015 Lars Kiesow <lkiesow@uos.de> - 0.3.1-2
-- Building for Python 3 as well
-
-* Fri Jan 16 2015 Lars Kiesow <lkiesow@uos.de> - 0.3.1-1
-- Update to 0.3.1
-
-* Sun Jul 20 2014 Lars Kiesow <lkiesow@uos.de> - 0.3.0-1
-- Update to 0.3
-
-* Wed Jan  1 2014 Lars Kiesow <lkiesow@uos.de> - 0.2.8-1
-- Update to 0.2.8
-
-
-* Wed Jan  1 2014 Lars Kiesow <lkiesow@uos.de> - 0.2.7-1
-- Update to 0.2.7
-
-* Mon Sep 23 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.6-1
-- Update to 0.2.6
-
-* Mon Jul 22 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.5-1
-- Updated to 0.2.5-1
-
-* Thu May 16 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.4-1
-- Update to 0.2.4
-
-* Tue May 14 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.3-1
-- Update to 0.2.3
-
-* Sun May  5 2013 Lars Kiesow <lkiesow@uos.de> - 0.2.2-1
-- Update to version 0.2.2
-
-* Sat May  4 2013 Lars Kiesow <lkiesow@uos.de> - 0.1-1
-- Initial build
+* Tue Oct 24 2017 Lumir Balhar <lbalhar@redhat.com> - 0.6.1-1
+- Initial package.
