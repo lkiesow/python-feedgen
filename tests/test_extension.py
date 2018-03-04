@@ -136,6 +136,7 @@ class TestExtensionPodcast(unittest.TestCase):
                             namespaces=ns)
         assert author == ['Lars Kiesow']
 
+
 class TestExtensionGeo(unittest.TestCase):
 
     def setUp(self):
@@ -156,7 +157,7 @@ class TestExtensionGeo(unittest.TestCase):
         ns = {'georss': 'http://www.georss.org/georss'}
         root = etree.fromstring(self.fg.rss_str())
         point = root.xpath('/rss/channel/item/georss:point/text()',
-                            namespaces=ns)
+                           namespaces=ns)
         assert point == ['42.36 -71.05']
 
 

@@ -13,6 +13,7 @@
 from lxml import etree
 from feedgen.ext.base import BaseEntryExtension
 
+
 class GeoEntryExtension(BaseEntryExtension):
     '''FeedEntry extension for Simple GeoRSS.
     '''
@@ -45,7 +46,7 @@ class GeoEntryExtension(BaseEntryExtension):
         '''Get or set the georss:point of the entry.
 
         :param point: The GeoRSS formatted point (i.e. "42.36 -71.05")
-        :returns: The author of the podcast.
+        :returns: The current georss:point of the entry.
         '''
 
         if point is not None:

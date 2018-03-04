@@ -12,9 +12,10 @@
 
 from feedgen.ext.base import BaseExtension
 
+
 class GeoExtension(BaseExtension):
     '''FeedGenerator extension for Simple GeoRSS.
     '''
 
     def extend_ns(self):
-        return { 'georss' : 'http://www.georss.org/georss' }
+        return {'georss': 'http://www.georss.org/georss'}
