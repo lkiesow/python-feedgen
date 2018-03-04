@@ -863,8 +863,8 @@ class FeedGenerator(object):
         for person responsible for editorial content.    This is a RSS only
         value.
 
-        :param managingEditor: Email adress of the managing editor.
-        :returns: Email adress of the managing editor.
+        :param managingEditor: Email address of the managing editor.
+        :returns: Email address of the managing editor.
         '''
         if managingEditor is not None:
             self.__rss_managingEditor = managingEditor
@@ -998,7 +998,7 @@ class FeedGenerator(object):
     def add_entry(self, feedEntry=None):
         '''This method will add a new entry to the feed. If the feedEntry
         argument is omittet a new Entry object is created automatically. This
-        is the prefered way to add new entries to a feed.
+        is the preferred way to add new entries to a feed.
 
         :param feedEntry: FeedEntry object to add.
         :returns: FeedEntry object created or passed to this function.

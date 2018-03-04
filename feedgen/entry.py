@@ -301,8 +301,8 @@ class FeedEntry(object):
         return self.__atom_updated
 
     def author(self, author=None, replace=False, **kwargs):
-        '''Get or set autor data. An author element is a dict containing a
-        name, an email adress and a uri. Name is mandatory for ATOM, email is
+        '''Get or set author data. An author element is a dict containing a
+        name, an email address and a uri. Name is mandatory for ATOM, email is
         mandatory for RSS.
 
         This method can be called with:
