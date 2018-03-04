@@ -25,7 +25,7 @@ class TorrentExtension(BaseExtension):
 
 
 class TorrentEntryExtension(BaseEntryExtension):
-    '''FeedEntry extention for torrent feeds
+    '''FeedEntry extension for torrent feeds
     '''
     def __init__(self):
         self.__torrent_filename = None
