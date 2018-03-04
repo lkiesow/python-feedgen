@@ -9,16 +9,17 @@
 
 '''
 
-from lxml import etree
+import sys
 from datetime import datetime
+
 import dateutil.parser
 import dateutil.tz
+from lxml import etree
+
+import feedgen.version
+from feedgen.compat import string_types
 from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format, formatRFC2822
-import feedgen.version
-import sys
-from feedgen.compat import string_types
-
 
 _feedgen_version = feedgen.version.version_str
 

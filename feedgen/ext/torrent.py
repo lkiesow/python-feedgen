@@ -11,7 +11,8 @@
 '''
 
 from lxml import etree
-from feedgen.ext.base import BaseExtension, BaseEntryExtension
+
+from feedgen.ext.base import BaseEntryExtension, BaseExtension
 
 TORRENT_NS = 'http://xmlns.ezrss.it/0.1/dtd/'
 

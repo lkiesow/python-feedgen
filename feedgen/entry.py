@@ -8,12 +8,14 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from lxml import etree
 from datetime import datetime
+
 import dateutil.parser
 import dateutil.tz
-from feedgen.util import ensure_format, formatRFC2822
+from lxml import etree
+
 from feedgen.compat import string_types
+from feedgen.util import ensure_format, formatRFC2822
 
 
 class FeedEntry(object):

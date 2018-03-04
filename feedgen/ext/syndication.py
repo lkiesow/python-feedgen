@@ -11,6 +11,7 @@ http://web.resource.org/rss/1.0/modules/syndication/
 '''
 
 from lxml import etree
+
 from feedgen.ext.base import BaseExtension
 
 SYNDICATION_NS = 'http://purl.org/rss/1.0/modules/syndication/'

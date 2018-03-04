@@ -5,8 +5,10 @@ Tests for extensions
 """
 
 import unittest
-from feedgen.feed import FeedGenerator
+
 from lxml import etree
+
+from feedgen.feed import FeedGenerator
 
 
 class TestExtensionSyndication(unittest.TestCase):

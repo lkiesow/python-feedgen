@@ -11,9 +11,10 @@
 '''
 
 from lxml import etree
+
+from feedgen.compat import string_types
 from feedgen.ext.base import BaseExtension
 from feedgen.util import ensure_format
-from feedgen.compat import string_types
 
 
 class PodcastExtension(BaseExtension):

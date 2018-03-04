@@ -11,8 +11,9 @@
 '''
 
 from lxml import etree
+
+from feedgen.ext.base import BaseEntryExtension, BaseExtension
 from feedgen.util import ensure_format
-from feedgen.ext.base import BaseExtension, BaseEntryExtension
 
 MEDIA_NS = 'http://search.yahoo.com/mrss/'
 

@@ -14,6 +14,7 @@
 '''
 
 from lxml import etree
+
 from feedgen.ext.base import BaseExtension
 
 

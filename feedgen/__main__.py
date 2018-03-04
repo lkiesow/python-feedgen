@@ -8,8 +8,9 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from feedgen.feed import FeedGenerator
 import sys
+
+from feedgen.feed import FeedGenerator
 
 
 USAGE = '''

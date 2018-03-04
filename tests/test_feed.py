@@ -10,9 +10,11 @@ A basic feed does not contain entries so far.
 import os
 import tempfile
 import unittest
+
 from lxml import etree
+
+from feedgen.ext.dc import DcEntryExtension, DcExtension
 from feedgen.feed import FeedGenerator
-from feedgen.ext.dc import DcExtension, DcEntryExtension
 
 
 class TestSequenceFunctions(unittest.TestCase):

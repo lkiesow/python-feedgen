@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
+
 import feedgen.version
 
 packages = ['feedgen', 'feedgen/ext']

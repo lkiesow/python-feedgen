@@ -7,6 +7,7 @@ These are test cases for a basic entry.
 """
 
 import unittest
+
 from feedgen.feed import FeedGenerator
 
 
