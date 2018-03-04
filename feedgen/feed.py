@@ -996,12 +996,15 @@ class FeedGenerator(object):
             self.__rss_webMaster = webMaster
         return self.__rss_webMaster
 
-    def add_entry(self, feedEntry=None):
+    def add_entry(self, feedEntry=None, order='prepend'):
         '''This method will add a new entry to the feed. If the feedEntry
         argument is omittet a new Entry object is created automatically. This
         is the preferred way to add new entries to a feed.
 
         :param feedEntry: FeedEntry object to add.
+        :param order: If `prepend` is chosen, the entry will be inserted
+                      at the beginning of the feed. If `append` is chosen,
+                      the entry will be appended to the feed. (default: `prepend`).
         :returns: FeedEntry object created or passed to this function.
 
         Example::
@@ -1031,7 +1034,10 @@ class FeedGenerator(object):
             except ImportError:
                 pass
 
-        self.__feed_entries.insert(0, feedEntry)
+	if order == 'prepend':
+	        self.__feed_entries.insert(0, feedEntry)
+	else:
+		self.__feed_entries.append(feedEntry)
         return feedEntry
 
     def add_item(self, item=None):
