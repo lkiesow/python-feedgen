@@ -1004,7 +1004,8 @@ class FeedGenerator(object):
         :param feedEntry: FeedEntry object to add.
         :param order: If `prepend` is chosen, the entry will be inserted
                       at the beginning of the feed. If `append` is chosen,
-                      the entry will be appended to the feed. (default: `prepend`).
+                      the entry will be appended to the feed.
+                      (default: `prepend`).
         :returns: FeedEntry object created or passed to this function.
 
         Example::
@@ -1034,10 +1035,10 @@ class FeedGenerator(object):
             except ImportError:
                 pass
 
-	if order == 'prepend':
-	        self.__feed_entries.insert(0, feedEntry)
-	else:
-		self.__feed_entries.append(feedEntry)
+        if order == 'prepend':
+            self.__feed_entries.insert(0, feedEntry)
+        else:
+            self.__feed_entries.append(feedEntry)
         return feedEntry
 
     def add_item(self, item=None):
