@@ -27,7 +27,7 @@ class TestSequenceFunctions(unittest.TestCase):
             sys.argv = ['feedgen', ftype]
             try:
                 __main__.main()
-            except:
+            except Exception:
                 assert False
 
     def test_file(self):
@@ -36,7 +36,7 @@ class TestSequenceFunctions(unittest.TestCase):
             sys.argv = ['feedgen', filename]
             try:
                 __main__.main()
-            except:
+            except Exception:
                 assert False
             os.close(fh)
             os.remove(filename)

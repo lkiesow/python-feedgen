@@ -64,11 +64,11 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
     return val
 
 
-def formatRFC2822(d):
+def formatRFC2822(date):
     '''Make sure the locale setting do not interfere with the time format.
     '''
-    l = locale.setlocale(locale.LC_ALL)
+    old = locale.setlocale(locale.LC_ALL)
     locale.setlocale(locale.LC_ALL, 'C')
-    d = d.strftime('%a, %d %b %Y %H:%M:%S %z')
-    locale.setlocale(locale.LC_ALL, l)
-    return d
+    date = date.strftime('%a, %d %b %Y %H:%M:%S %z')
+    locale.setlocale(locale.LC_ALL, old)
+    return date
