@@ -12,6 +12,7 @@ from datetime import datetime
 
 import dateutil.parser
 import dateutil.tz
+import warnings
 from lxml import etree
 
 from feedgen.compat import string_types
@@ -569,11 +570,23 @@ class FeedEntry(object):
 
         return self.__atom_published
 
-    def pubdate(self, pubDate=None):
+    def pubDate(self, pubDate=None):
         '''Get or set the pubDate of the entry which indicates when the entry
         was published. This method is just another name for the published(...)
         method.
         '''
+        return self.published(pubDate)
+
+    def pubdate(self, pubDate=None):
+        '''Get or set the pubDate of the entry which indicates when the entry
+        was published. This method is just another name for the published(...)
+        method.
+
+        pubdate(…) is deprected and may be removed in feedgen ≥ 0.8. Use
+        pubDate(…) instead.
+        '''
+        warnings.warn('pubdate(…) is deprected and may be removed in feedgen '
+                      '≥ 0.8. Use pubDate(…) instead.')
         return self.published(pubDate)
 
     def rights(self, rights=None):
