@@ -87,8 +87,8 @@ class TestSequenceFunctions(unittest.TestCase):
         assert fe.summary() == 'asdf'
         fe.description('asdfx')
         assert fe.description() == 'asdfx'
-        fe.pubdate('2017-02-05 13:26:58+01:00')
-        assert fe.pubdate().year == 2017
+        fe.pubDate('2017-02-05 13:26:58+01:00')
+        assert fe.pubDate().year == 2017
         fe.rights('asdfx')
         assert fe.rights() == 'asdfx'
         fe.comments('asdfx')
