@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>feedgen.ext.podcast &#8212; python-feedgen 0.6.1 documentation</title>
-    
+    <title>feedgen.ext.podcast &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.6.1',
+        VERSION:     '0.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -29,9 +26,9 @@
     <link rel="next" title="feedgen.ext.podcast_entry" href="api.ext.podcast_entry.html" />
     <link rel="prev" title="feedgen.ext.dc" href="api.ext.dc.html" /> 
   </head>
-  <body role="document">
+  <body>
       <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.6.1 documentation</span></a></h1>
+          <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.podcast</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -92,7 +89,7 @@ feed level, iTunes will use the contents of &lt;managingEditor&gt;.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_author</strong> &#8211; The author of the podcast.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_author</strong> – The author of the podcast.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The author of the podcast.</td>
 </tr>
@@ -109,7 +106,7 @@ entire podcast from appearing in the iTunes podcast directory.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_block</strong> &#8211; Block the podcast.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_block</strong> – Block the podcast.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the podcast is blocked.</td>
 </tr>
@@ -153,9 +150,9 @@ category is called more than once.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>itunes_category</strong> &#8211; Dictionary or list of dictionaries with
+<li><strong>itunes_category</strong> – Dictionary or list of dictionaries with
 itunes_category data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -164,7 +161,7 @@ itunes_category data.</li>
 </tr>
 </tbody>
 </table>
-<p>&#8212;</p>
+<p>—</p>
 <p><strong>Important note about deprecated parameter syntax:</strong> Old version of
 the feedgen did only support one category plus one subcategory which
 would be passed to this ducntion as first two parameters. For
@@ -177,7 +174,7 @@ be removed at any time.</p>
 <code class="descname">itunes_complete</code><span class="sig-paren">(</span><em>itunes_complete=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_complete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:complete value of the podcast. This tag can be
 used to indicate the completion of a podcast.</p>
-<p>If you populate this tag with &#8220;yes&#8221;, you are indicating that no more
+<p>If you populate this tag with “yes”, you are indicating that no more
 episodes will be added to the podcast. If the &lt;itunes:complete&gt; tag is
 present and has any other value (e.g. “no”), it will have no effect on
 the podcast.</p>
@@ -185,7 +182,7 @@ the podcast.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_complete</strong> &#8211; If the podcast is complete.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_complete</strong> – If the podcast is complete.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the podcast is complete.</td>
 </tr>
@@ -198,20 +195,20 @@ the podcast.</p>
 <code class="descname">itunes_explicit</code><span class="sig-paren">(</span><em>itunes_explicit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or the the itunes:explicit value of the podcast. This tag should
 be used to indicate whether your podcast contains explicit material.
-The three values for this tag are &#8220;yes&#8221;, &#8220;no&#8221;, and &#8220;clean&#8221;.</p>
-<p>If you populate this tag with &#8220;yes&#8221;, an &#8220;explicit&#8221; parental advisory
+The three values for this tag are “yes”, “no”, and “clean”.</p>
+<p>If you populate this tag with “yes”, an “explicit” parental advisory
 graphic will appear next to your podcast artwork on the iTunes Store
-and in the Name column in iTunes. If the value is &#8220;clean&#8221;, the parental
+and in the Name column in iTunes. If the value is “clean”, the parental
 advisory type is considered Clean, meaning that no explicit language or
-adult content is included anywhere in the episodes, and a &#8220;clean&#8221;
+adult content is included anywhere in the episodes, and a “clean”
 graphic will appear. If the explicit tag is present and has any other
-value (e.g., &#8220;no&#8221;), you see no indicator — blank is the default
+value (e.g., “no”), you see no indicator — blank is the default
 advisory type.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_explicit</strong> &#8211; If the podcast contains explicit material.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_explicit</strong> – If the podcast contains explicit material.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the podcast contains explicit material.</td>
 </tr>
@@ -229,7 +226,7 @@ which is different from what is specified for the standard RSS image
 tag. In order for a podcast to be eligible for an iTunes Store feature,
 the accompanying image must be at least 1400x1400 pixels.</p>
 <p>iTunes supports images in JPEG and PNG formats with an RGB color space
-(CMYK is not supported). The URL must end in &#8221;.jpg&#8221; or &#8221;.png&#8221;. If the
+(CMYK is not supported). The URL must end in “.jpg” or “.png”. If the
 &lt;itunes:image&gt; tag is not present, iTunes will use the contents of the
 RSS image tag.</p>
 <p>If you change your podcast’s image, also change the file’s name. iTunes
@@ -240,7 +237,7 @@ requests for iTS to be able to automatically update your cover art.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_image</strong> &#8211; Image of the podcast.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_image</strong> – Image of the podcast.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Image of the podcast.</td>
 </tr>
@@ -260,7 +257,7 @@ updated the directory with the new feed URL.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_new_feed_url</strong> &#8211; New feed URL.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_new_feed_url</strong> – New feed URL.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">New feed URL.</td>
 </tr>
@@ -279,7 +276,7 @@ displayed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_owner</strong> &#8211; The owner of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_owner</strong> – The owner of the feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Data of the owner of the feed.</td>
 </tr>
@@ -297,7 +294,7 @@ displays best if it is only a few words long.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_subtitle</strong> &#8211; Subtitle of the podcast.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_subtitle</strong> – Subtitle of the podcast.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Subtitle of the podcast.</td>
 </tr>
@@ -309,8 +306,8 @@ displays best if it is only a few words long.</p>
 <dt id="feedgen.ext.podcast.PodcastExtension.itunes_summary">
 <code class="descname">itunes_summary</code><span class="sig-paren">(</span><em>itunes_summary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast.PodcastExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:summary value for the podcast. The contents of
-this tag are shown in a separate window that appears when the &#8220;circled
-i&#8221; in the Description column is clicked. It also appears on the iTunes
+this tag are shown in a separate window that appears when the “circled
+i” in the Description column is clicked. It also appears on the iTunes
 page for your podcast. This field can be up to 4000 characters. If
 <cite>&lt;itunes:summary&gt;</cite> is not included, the contents of the &lt;description&gt;
 tag are used.</p>
@@ -318,7 +315,7 @@ tag are used.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_summary</strong> &#8211; Summary of the podcast.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_summary</strong> – Summary of the podcast.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Summary of the podcast.</td>
 </tr>
@@ -346,7 +343,7 @@ tag are used.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

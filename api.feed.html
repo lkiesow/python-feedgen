@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>feedgen.feed &#8212; python-feedgen 0.6.1 documentation</title>
-    
+    <title>feedgen.feed &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.1',
+        VERSION:     '0.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -29,9 +26,9 @@
     <link rel="next" title="feedgen.entry" href="api.entry.html" />
     <link rel="prev" title="API Documentation" href="api.html" /> 
   </head>
-  <body role="document">
+  <body>
       <div class="header" role="banner"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.6.1 documentation</span></a></h1>
+          <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.feed</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -68,17 +65,25 @@
 <dd><p>FeedGenerator for generating ATOM and RSS feeds.</p>
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.add_entry">
-<code class="descname">add_entry</code><span class="sig-paren">(</span><em>feedEntry=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.add_entry" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_entry</code><span class="sig-paren">(</span><em>feedEntry=None</em>, <em>order='prepend'</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.add_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method will add a new entry to the feed. If the feedEntry
 argument is omittet a new Entry object is created automatically. This
-is the prefered way to add new entries to a feed.</p>
+is the preferred way to add new entries to a feed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feedEntry</strong> &#8211; FeedEntry object to add.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>feedEntry</strong> – FeedEntry object to add.</li>
+<li><strong>order</strong> – If <cite>prepend</cite> is chosen, the entry will be inserted
+at the beginning of the feed. If <cite>append</cite> is chosen,
+the entry will be appended to the feed.
+(default: <cite>prepend</cite>).</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">FeedEntry object created or passed to this function.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">FeedEntry object created or passed to this function.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -95,7 +100,7 @@ is the prefered way to add new entries to a feed.</p>
 <code class="descname">add_item</code><span class="sig-paren">(</span><em>item=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.add_item" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method will add a new item to the feed. If the item argument is
 omittet a new FeedEntry object is created automatically. This is just
-another name for add_entry(...)</p>
+another name for add_entry(…)</p>
 </dd></dl>
 
 <dl class="method">
@@ -107,13 +112,13 @@ another name for add_entry(...)</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> &#8211; Name of file to write or a file-like object or a URL.</li>
-<li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
+<li><strong>filename</strong> – Name of file to write or a file-like object or a URL.</li>
+<li><strong>extensions</strong> – Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
-<li><strong>pretty</strong> &#8211; If the feed should be split into multiple lines and
+<li><strong>pretty</strong> – If the feed should be split into multiple lines and
 properly indented.</li>
-<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
-<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+<li><strong>encoding</strong> – Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> – If an XML declaration should be added to the
 output (Default: enabled).</li>
 </ul>
 </td>
@@ -131,12 +136,12 @@ output (Default: enabled).</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pretty</strong> &#8211; If the feed should be split into multiple lines and
+<li><strong>pretty</strong> – If the feed should be split into multiple lines and
 properly indented.</li>
-<li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
+<li><strong>extensions</strong> – Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
-<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
-<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+<li><strong>encoding</strong> – Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> – If an XML declaration should be added to the
 output (Default: enabled).</li>
 </ul>
 </td>
@@ -174,8 +179,8 @@ is mandatory for RSS.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>author</strong> &#8211; Dictionary or list of dictionaries with author data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>author</strong> – Dictionary or list of dictionaries with author data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -222,8 +227,8 @@ is used. The scheme is used for the domain attribute in RSS.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>link</strong> &#8211; Dict or list of dicts with data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>link</strong> – Dict or list of dicts with data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -245,11 +250,11 @@ can be implemented in HTTP-POST, XML-RPC or SOAP 1.1.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>domain</strong> &#8211; The domain where the webservice can be found.</li>
-<li><strong>port</strong> &#8211; The port the webservice listens to.</li>
-<li><strong>path</strong> &#8211; The path of the webservice.</li>
-<li><strong>registerProcedure</strong> &#8211; The procedure to call.</li>
-<li><strong>protocol</strong> &#8211; Can be either HTTP-POST, XML-RPC or SOAP 1.1.</li>
+<li><strong>domain</strong> – The domain where the webservice can be found.</li>
+<li><strong>port</strong> – The port the webservice listens to.</li>
+<li><strong>path</strong> – The path of the webservice.</li>
+<li><strong>registerProcedure</strong> – The procedure to call.</li>
+<li><strong>protocol</strong> – Can be either HTTP-POST, XML-RPC or SOAP 1.1.</li>
 </ul>
 </td>
 </tr>
@@ -278,9 +283,9 @@ value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>contributor</strong> &#8211; Dictionary or list of dictionaries with contributor
+<li><strong>contributor</strong> – Dictionary or list of dictionaries with contributor
 data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -300,7 +305,7 @@ value will also set the atom:rights value.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>copyright</strong> &#8211; The copyright notice.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>copyright</strong> – The copyright notice.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The copyright notice.</td>
 </tr>
@@ -319,7 +324,7 @@ this will also set atom:subtitle.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>description</strong> &#8211; Description of the channel.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>description</strong> – Description of the channel.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Description of the channel.</td>
 </tr>
@@ -340,7 +345,7 @@ what it is.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>docs</strong> &#8211; URL of the format documentation.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>docs</strong> – URL of the format documentation.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">URL of the format documentation.</td>
 </tr>
@@ -358,7 +363,7 @@ automatically create the FeedEntry objects.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry</strong> &#8211; FeedEntry object or list of FeedEntry objects.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry</strong> – FeedEntry object or list of FeedEntry objects.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List ob all feed entries.</td>
 </tr>
@@ -378,9 +383,9 @@ feed.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>generator</strong> &#8211; Software used to create the feed.</li>
-<li><strong>version</strong> &#8211; Version of the software.</li>
-<li><strong>uri</strong> &#8211; URI the software can be found.</li>
+<li><strong>generator</strong> – Software used to create the feed.</li>
+<li><strong>version</strong> – Version of the software.</li>
+<li><strong>uri</strong> – URI the software can be found.</li>
 </ul>
 </td>
 </tr>
@@ -398,7 +403,7 @@ square. This is an ATOM only value.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>icon</strong> &#8211; URI of the feeds icon.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>icon</strong> – URI of the feeds icon.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">URI of the feeds icon.</td>
 </tr>
@@ -411,13 +416,13 @@ square. This is an ATOM only value.</p>
 <code class="descname">id</code><span class="sig-paren">(</span><em>id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the feed id which identifies the feed using a universally
 unique and permanent URI. If you have a long-term, renewable lease on
-your Internet domain name, then you can feel free to use your website&#8217;s
+your Internet domain name, then you can feel free to use your website’s
 address. This field is for ATOM only. It is mandatory for ATOM.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> &#8211; New Id of the ATOM feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> – New Id of the ATOM feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Id of the feed.</td>
 </tr>
@@ -435,14 +440,14 @@ atom:logo.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>url</strong> &#8211; The URL of a GIF, JPEG or PNG image.</li>
-<li><strong>title</strong> &#8211; Describes the image. The default value is the feeds
+<li><strong>url</strong> – The URL of a GIF, JPEG or PNG image.</li>
+<li><strong>title</strong> – Describes the image. The default value is the feeds
 title.</li>
-<li><strong>link</strong> &#8211; URL of the site the image will link to. The default is to
+<li><strong>link</strong> – URL of the site the image will link to. The default is to
 use the feeds first altertate link.</li>
-<li><strong>width</strong> &#8211; Width of the image in pixel. The maximum is 144.</li>
-<li><strong>height</strong> &#8211; The height of the image. The maximum is 400.</li>
-<li><strong>description</strong> &#8211; Title of the link.</li>
+<li><strong>width</strong> – Width of the image in pixel. The maximum is 144.</li>
+<li><strong>height</strong> – The height of the image. The maximum is 400.</li>
+<li><strong>description</strong> – Title of the link.</li>
 </ul>
 </td>
 </tr>
@@ -456,7 +461,7 @@ use the feeds first altertate link.</li>
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.item">
 <code class="descname">item</code><span class="sig-paren">(</span><em>item=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or set feed items. This is just another name for entry(...)</p>
+<dd><p>Get or set feed items. This is just another name for entry(…)</p>
 </dd></dl>
 
 <dl class="method">
@@ -472,7 +477,7 @@ The value should be an IETF language tag.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>language</strong> &#8211; Language of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>language</strong> – Language of the feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Language of the feed.</td>
 </tr>
@@ -497,7 +502,7 @@ include timezone information.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lastBuildDate</strong> &#8211; The modification date.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lastBuildDate</strong> – The modification date.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Modification date as datetime.datetime</td>
 </tr>
@@ -553,8 +558,8 @@ display purposes.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>link</strong> &#8211; Dict or list of dicts with data.</li>
-<li><strong>replace</strong> &#8211; If old links are to be replaced (default: False)</li>
+<li><strong>link</strong> – Dict or list of dicts with data.</li>
+<li><strong>replace</strong> – If old links are to be replaced (default: False)</li>
 </ul>
 </td>
 </tr>
@@ -579,9 +584,9 @@ display purposes.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> &#8211; Name of the extension to load.</li>
-<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
-<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+<li><strong>name</strong> – Name of the extension to load.</li>
+<li><strong>atom</strong> – If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> – If the extension should be used for RSS feeds.</li>
 </ul>
 </td>
 </tr>
@@ -600,7 +605,7 @@ rss:image value.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logo</strong> &#8211; Logo of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logo</strong> – Logo of the feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Logo of the feed.</td>
 </tr>
@@ -618,9 +623,9 @@ value.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>managingEditor</strong> &#8211; Email adress of the managing editor.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>managingEditor</strong> – Email address of the managing editor.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Email adress of the managing editor.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Email address of the managing editor.</td>
 </tr>
 </tbody>
 </table>
@@ -631,7 +636,7 @@ value.</p>
 <code class="descname">pubDate</code><span class="sig-paren">(</span><em>pubDate=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.pubDate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set or get the publication date for the content in the channel. For
 example, the New York Times publishes on a daily basis, the publication
-date flips once every 24 hours. That&#8217;s when the pubDate of the channel
+date flips once every 24 hours. That’s when the pubDate of the channel
 changes.</p>
 <p>The value can either be a string which will automatically be parsed or
 a datetime.datetime object. In any case it is necessary that the value
@@ -641,7 +646,7 @@ include timezone information.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pubDate</strong> &#8211; The publication date.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pubDate</strong> – The publication date.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Publication date as datetime.datetime</td>
 </tr>
@@ -665,11 +670,11 @@ value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>namespace</strong> &#8211; namespace for the extension</li>
-<li><strong>extension_class_feed</strong> &#8211; Class of the feed extension to load.</li>
-<li><strong>extension_class_entry</strong> &#8211; Class of the entry extension to load</li>
-<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
-<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+<li><strong>namespace</strong> – namespace for the extension</li>
+<li><strong>extension_class_feed</strong> – Class of the feed extension to load.</li>
+<li><strong>extension_class_entry</strong> – Class of the entry extension to load</li>
+<li><strong>atom</strong> – If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> – If the extension should be used for RSS feeds.</li>
 </ul>
 </td>
 </tr>
@@ -686,7 +691,7 @@ FeedEntry object to remove or the index of the entry as argument.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry</strong> &#8211; Entry or index of entry to remove.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry</strong> – Entry or index of entry to remove.</td>
 </tr>
 </tbody>
 </table>
@@ -709,7 +714,7 @@ value will also set rss:copyright.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rights</strong> &#8211; Rights information of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rights</strong> – Rights information of the feed.</td>
 </tr>
 </tbody>
 </table>
@@ -724,13 +729,13 @@ value will also set rss:copyright.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> &#8211; Name of file to write or a file-like object or a URL.</li>
-<li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
+<li><strong>filename</strong> – Name of file to write or a file-like object or a URL.</li>
+<li><strong>extensions</strong> – Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
-<li><strong>pretty</strong> &#8211; If the feed should be split into multiple lines and
+<li><strong>pretty</strong> – If the feed should be split into multiple lines and
 properly indented.</li>
-<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
-<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+<li><strong>encoding</strong> – Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> – If an XML declaration should be added to the
 output (Default: enabled).</li>
 </ul>
 </td>
@@ -748,12 +753,12 @@ output (Default: enabled).</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pretty</strong> &#8211; If the feed should be split into multiple lines and
+<li><strong>pretty</strong> – If the feed should be split into multiple lines and
 properly indented.</li>
-<li><strong>extensions</strong> &#8211; Enable or disable the loaded extensions for the xml
+<li><strong>extensions</strong> – Enable or disable the loaded extensions for the xml
 generation (default: enabled).</li>
-<li><strong>encoding</strong> &#8211; Encoding used in the  XML file (default: UTF-8).</li>
-<li><strong>xml_declaration</strong> &#8211; If an XML declaration should be added to the
+<li><strong>encoding</strong> – Encoding used in the  XML file (default: UTF-8).</li>
+<li><strong>xml_declaration</strong> – If an XML declaration should be added to the
 output (Default: enabled).</li>
 </ul>
 </td>
@@ -774,14 +779,14 @@ details have a look at the <a class="reference external" href="https://docs.pyth
 <dd><p>Set or get the value of skipDays, a hint for aggregators telling
 them which days they can skip This is an RSS only value.</p>
 <p>This method can be called with a day name or a list of day names. The
-days are represented as strings from &#8216;Monday&#8217; to &#8216;Sunday&#8217;.</p>
+days are represented as strings from ‘Monday’ to ‘Sunday’.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>hours</strong> &#8211; List of days the feedreaders should not check the feed.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>hours</strong> – List of days the feedreaders should not check the feed.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -804,8 +809,8 @@ are represented as integer values from 0 to 23.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>hours</strong> &#8211; List of hours the feedreaders should not check the feed.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>hours</strong> – List of hours the feedreaders should not check the feed.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -826,7 +831,7 @@ will also set the value for rss:description.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>subtitle</strong> &#8211; The subtitle of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>subtitle</strong> – The subtitle of the feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The subtitle of the feed.</td>
 </tr>
@@ -846,10 +851,10 @@ feedback. Most aggregators ignore it.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>title</strong> &#8211; The label of the Submit button in the text input area.</li>
-<li><strong>description</strong> &#8211; Explains the text input area.</li>
-<li><strong>name</strong> &#8211; The name of the text object in the text input area.</li>
-<li><strong>link</strong> &#8211; The URL of the CGI script that processes text input
+<li><strong>title</strong> – The label of the Submit button in the text input area.</li>
+<li><strong>description</strong> – Explains the text input area.</li>
+<li><strong>name</strong> – The name of the text object in the text input area.</li>
+<li><strong>link</strong> – The URL of the CGI script that processes text input
 requests.</li>
 </ul>
 </td>
@@ -872,7 +877,7 @@ not be blank.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> &#8211; The new title of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> – The new title of the feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The feeds title.</td>
 </tr>
@@ -884,13 +889,13 @@ not be blank.</p>
 <dt id="feedgen.feed.FeedGenerator.ttl">
 <code class="descname">ttl</code><span class="sig-paren">(</span><em>ttl=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.ttl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the ttl value. It is an RSS only element. ttl stands for
-time to live. It&#8217;s a number of minutes that indicates how long a
+time to live. It’s a number of minutes that indicates how long a
 channel can be cached before refreshing from the source.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ttl</strong> &#8211; Integer value indicating how long the channel may be
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ttl</strong> – Integer value indicating how long the channel may be
 cached.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Time to live.</td>
@@ -916,7 +921,7 @@ include timezone information.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>updated</strong> &#8211; The modification date.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>updated</strong> – The modification date.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Modification date as datetime.datetime</td>
 </tr>
@@ -934,7 +939,7 @@ feed.  This is an RSS only value.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>webMaster</strong> &#8211; Email address of the webmaster.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>webMaster</strong> – Email address of the webmaster.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Email address of the webmaster.</td>
 </tr>
@@ -962,7 +967,7 @@ feed.  This is an RSS only value.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Feedgenerator &#8212; python-feedgen 0.6.1 documentation</title>
-    
+    <title>Feedgenerator &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.1',
+        VERSION:     '0.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,9 +25,9 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Documentation" href="api.html" /> 
   </head>
-  <body role="document">
+  <body>
       <div class="header" role="banner"><h1 class="heading"><a href="#">
-          <span>python-feedgen 0.6.1 documentation</span></a></h1>
+          <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>Feedgenerator</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -148,7 +145,7 @@ FeedEntry object:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">href</span><span class="o">=</span><span class="s2">&quot;http://lernfunk.de/feed&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The FeedGenerators method <cite>add_entry(...)</cite> without argument provides will
+<p>The FeedGenerators method <cite>add_entry(…)</cite> without argument provides will
 automatically generate a new FeedEntry object, append it to the feeds internal
 list of entries and return it, so that additional data can be added.</p>
 </div>
@@ -161,10 +158,10 @@ structure of the feeds. Extensions can be loaded like this:</p>
 </div>
 <p>This will try to load the extension “someext” from the file <cite>ext/someext.py</cite>.
 It is required that <cite>someext.py</cite> contains a class named “SomextExtension” which
-is required to have at least the two methods <cite>extend_rss(...)</cite> and
-<cite>extend_atom(...)</cite>. Although not required, it is strongly suggested to use
+is required to have at least the two methods <cite>extend_rss(…)</cite> and
+<cite>extend_atom(…)</cite>. Although not required, it is strongly suggested to use
 <cite>BaseExtension</cite> from <cite>ext/base.py</cite> as superclass.</p>
-<p><cite>load_extension(&#8216;someext&#8217;, ...)</cite> will also try to load a class named
+<p><cite>load_extension(‘someext’, …)</cite> will also try to load a class named
 “SomextEntryExtension” for every entry of the feed. This class can be located
 either in the same file as SomextExtension or in <cite>ext/someext_entry.py</cite> which
 is suggested especially for large extensions.</p>
@@ -194,7 +191,7 @@ feed with some additional elements for ITunes.</p>
 <p>Of cause the extension has to be loaded for the FeedEntry objects as well but
 this is done automatically by the FeedGenerator for every feed entry if the
 extension is loaded for the whole feed. You can, however, load an extension for
-a specific FeedEntry by calling <cite>load_extension(...)</cite> on that entry. But this
+a specific FeedEntry by calling <cite>load_extension(…)</cite> on that entry. But this
 is a rather uncommon use.</p>
 <p>You can still produce a normal ATOM or RSS feed, even if you have loaded some
 plugins by temporary disabling them during the feed generation.  This can be
@@ -259,7 +256,7 @@ example for a whole feed generation process, you can find it in the
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>feedgen.ext.torrent &#8212; python-feedgen 0.6.1 documentation</title>
-    
+    <title>feedgen.ext.torrent &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.6.1',
+        VERSION:     '0.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,9 +25,9 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="feedgen.ext.podcast_entry" href="api.ext.podcast_entry.html" /> 
   </head>
-  <body role="document">
+  <body>
       <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.6.1 documentation</span></a></h1>
+          <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.torrent</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -63,7 +60,7 @@
 <dl class="class">
 <dt id="feedgen.ext.torrent.TorrentEntryExtension">
 <em class="property">class </em><code class="descclassname">feedgen.ext.torrent.</code><code class="descname">TorrentEntryExtension</code><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension" title="Permalink to this definition">¶</a></dt>
-<dd><p>FeedEntry extention for torrent feeds</p>
+<dd><p>FeedEntry extension for torrent feeds</p>
 <dl class="method">
 <dt id="feedgen.ext.torrent.TorrentEntryExtension.contentlength">
 <code class="descname">contentlength</code><span class="sig-paren">(</span><em>torrent_contentlength=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.torrent.TorrentEntryExtension.contentlength" title="Permalink to this definition">¶</a></dt>
@@ -72,7 +69,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_contentlength</strong> &#8211; The target file size.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_contentlength</strong> – The target file size.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The target file size.</td>
 </tr>
@@ -88,7 +85,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feed</strong> &#8211; The RSS item XML element to use.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feed</strong> – The RSS item XML element to use.</td>
 </tr>
 </tbody>
 </table>
@@ -102,7 +99,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_filename</strong> &#8211; The name of the torrent file.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_filename</strong> – The name of the torrent file.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The name of the torrent file.</td>
 </tr>
@@ -118,7 +115,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> &#8211; The target file hash.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> – The target file hash.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The target hash file.</td>
 </tr>
@@ -134,7 +131,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> &#8211; The peers number.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> – The peers number.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The peers number.</td>
 </tr>
@@ -150,7 +147,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_seeds</strong> &#8211; The seeds number.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_seeds</strong> – The seeds number.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The seeds number.</td>
 </tr>
@@ -166,7 +163,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> &#8211; The verified peers number.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>torrent_infohash</strong> – The verified peers number.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The verified peers number.</td>
 </tr>
@@ -198,7 +195,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

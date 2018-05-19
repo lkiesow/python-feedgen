@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>feedgen.entry &#8212; python-feedgen 0.6.1 documentation</title>
-    
+    <title>feedgen.entry &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.1',
+        VERSION:     '0.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -29,9 +26,9 @@
     <link rel="next" title="feedgen.util" href="api.util.html" />
     <link rel="prev" title="feedgen.feed" href="api.feed.html" /> 
   </head>
-  <body role="document">
+  <body>
       <div class="header" role="banner"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.6.1 documentation</span></a></h1>
+          <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.entry</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -76,8 +73,8 @@ node.</p>
 <dl class="method">
 <dt id="feedgen.entry.FeedEntry.author">
 <code class="descname">author</code><span class="sig-paren">(</span><em>author=None</em>, <em>replace=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.entry.FeedEntry.author" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or set autor data. An author element is a dict containing a
-name, an email adress and a uri. Name is mandatory for ATOM, email is
+<dd><p>Get or set author data. An author element is a dict containing a
+name, an email address and a uri. Name is mandatory for ATOM, email is
 mandatory for RSS.</p>
 <p>This method can be called with:
 - the fields of an author as keyword arguments
@@ -92,8 +89,8 @@ mandatory for RSS.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>author</strong> &#8211; Dict or list of dicts with author data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>author</strong> – Dict or list of dicts with author data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -132,8 +129,8 @@ is used. The scheme is used for the domain attribute in RSS.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>category</strong> &#8211; Dict or list of dicts with data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>category</strong> – Dict or list of dicts with data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -153,7 +150,7 @@ comments page for the item. This is a RSS only value.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comments</strong> &#8211; URL to the comments page.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comments</strong> – URL to the comments page.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">URL to the comments page.</td>
 </tr>
@@ -174,9 +171,9 @@ rss:description.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>content</strong> &#8211; The content of the feed entry.</li>
-<li><strong>src</strong> &#8211; Link to the entries content.</li>
-<li><strong>type</strong> &#8211; If type is CDATA content would not be escaped.</li>
+<li><strong>content</strong> – The content of the feed entry.</li>
+<li><strong>src</strong> – Link to the entries content.</li>
+<li><strong>type</strong> – If type is CDATA content would not be escaped.</li>
 </ul>
 </td>
 </tr>
@@ -205,9 +202,9 @@ value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>contributor</strong> &#8211; Dictionary or list of dictionaries with contributor
+<li><strong>contributor</strong> – Dictionary or list of dictionaries with contributor
 data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -230,8 +227,8 @@ which ATOM value is set when setting description.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>description</strong> &#8211; Description of the entry.</li>
-<li><strong>isSummary</strong> &#8211; If the description should be used as content or
+<li><strong>description</strong> – Description of the entry.</li>
+<li><strong>isSummary</strong> – If the description should be used as content or
 summary.</li>
 </ul>
 </td>
@@ -257,9 +254,9 @@ the feed.  However, only the last one is used for RSS.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>url</strong> &#8211; URL of the media object.</li>
-<li><strong>length</strong> &#8211; Size of the media in bytes.</li>
-<li><strong>type</strong> &#8211; Mimetype of the linked media.</li>
+<li><strong>url</strong> – URL of the media object.</li>
+<li><strong>length</strong> – Size of the media in bytes.</li>
+<li><strong>type</strong> – Mimetype of the linked media.</li>
 </ul>
 </td>
 </tr>
@@ -280,8 +277,8 @@ identifies the item. This will also set atom:id.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>guid</strong> &#8211; Id of the entry.</li>
-<li><strong>permalink</strong> &#8211; If this is a permanent identifier for this item</li>
+<li><strong>guid</strong> – Id of the entry.</li>
+<li><strong>permalink</strong> – If this is a permanent identifier for this item</li>
 </ul>
 </td>
 </tr>
@@ -304,7 +301,7 @@ to False. Id is mandatory for an ATOM entry.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> &#8211; New Id of the entry.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> – New Id of the entry.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Id of the entry.</td>
 </tr>
@@ -362,8 +359,8 @@ the last link with rel=enclosure is used.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>link</strong> &#8211; Dict or list of dicts with data.</li>
-<li><strong>replace</strong> &#8211; Add or replace old data.</li>
+<li><strong>link</strong> – Dict or list of dicts with data.</li>
+<li><strong>replace</strong> – Add or replace old data.</li>
 </ul>
 </td>
 </tr>
@@ -383,9 +380,9 @@ the last link with rel=enclosure is used.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> &#8211; Name of the extension to load.</li>
-<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
-<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+<li><strong>name</strong> – Name of the extension to load.</li>
+<li><strong>atom</strong> – If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> – If the extension should be used for RSS feeds.</li>
 </ul>
 </td>
 </tr>
@@ -394,11 +391,21 @@ the last link with rel=enclosure is used.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="feedgen.entry.FeedEntry.pubDate">
+<code class="descname">pubDate</code><span class="sig-paren">(</span><em>pubDate=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.entry.FeedEntry.pubDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the pubDate of the entry which indicates when the entry
+was published. This method is just another name for the published(…)
+method.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="feedgen.entry.FeedEntry.pubdate">
 <code class="descname">pubdate</code><span class="sig-paren">(</span><em>pubDate=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.entry.FeedEntry.pubdate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the pubDate of the entry which indicates when the entry
-was published. This method is just another name for the published(...)
+was published. This method is just another name for the published(…)
 method.</p>
+<p>pubdate(…) is deprected and may be removed in feedgen ≥ 0.8. Use
+pubDate(…) instead.</p>
 </dd></dl>
 
 <dl class="method">
@@ -413,7 +420,7 @@ include timezone information.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>published</strong> &#8211; The creation date.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>published</strong> – The creation date.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Creation date as datetime.datetime</td>
 </tr>
@@ -430,10 +437,10 @@ include timezone information.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>namespace</strong> &#8211; namespace for the extension</li>
-<li><strong>extension_class_entry</strong> &#8211; Class of the entry extension to load.</li>
-<li><strong>atom</strong> &#8211; If the extension should be used for ATOM feeds.</li>
-<li><strong>rss</strong> &#8211; If the extension should be used for RSS feeds.</li>
+<li><strong>namespace</strong> – namespace for the extension</li>
+<li><strong>extension_class_entry</strong> – Class of the entry extension to load.</li>
+<li><strong>atom</strong> – If the extension should be used for ATOM feeds.</li>
+<li><strong>rss</strong> – If the extension should be used for RSS feeds.</li>
 </ul>
 </td>
 </tr>
@@ -451,7 +458,7 @@ value will also set rss:copyright.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rights</strong> &#8211; Rights information of the feed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rights</strong> – Rights information of the feed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Rights information of the feed.</td>
 </tr>
@@ -473,13 +480,13 @@ summary, abstract, or excerpt of the entry. Summary is an ATOM only
 element and should be provided if there either is no content provided
 for the entry, or that content is not inline (i.e., contains a src
 attribute), or if the content is encoded in base64.  This method will
-also set the rss:description field if it wasn&#8217;t previously set or
+also set the rss:description field if it wasn’t previously set or
 contains the old value of summary.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>summary</strong> &#8211; Summary of the entries contents.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>summary</strong> – Summary of the entries contents.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Summary of the entries contents.</td>
 </tr>
@@ -497,7 +504,7 @@ and should not be blank.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> &#8211; The new title of the entry.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> – The new title of the entry.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The entriess title.</td>
 </tr>
@@ -509,13 +516,13 @@ and should not be blank.</p>
 <dt id="feedgen.entry.FeedEntry.ttl">
 <code class="descname">ttl</code><span class="sig-paren">(</span><em>ttl=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.entry.FeedEntry.ttl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the ttl value. It is an RSS only element. ttl stands for
-time to live. It&#8217;s a number of minutes that indicates how long a
+time to live. It’s a number of minutes that indicates how long a
 channel can be cached before refreshing from the source.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ttl</strong> &#8211; Integer value representing the time to live.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ttl</strong> – Integer value representing the time to live.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Time to live of of the entry.</td>
 </tr>
@@ -535,7 +542,7 @@ include timezone information.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>updated</strong> &#8211; The modification date.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>updated</strong> – The modification date.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Modification date as datetime.datetime</td>
 </tr>
@@ -563,7 +570,7 @@ include timezone information.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

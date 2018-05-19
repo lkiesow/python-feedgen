@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>API Documentation &#8212; python-feedgen 0.6.1 documentation</title>
-    
+    <title>API Documentation &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.1',
+        VERSION:     '0.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -29,9 +26,9 @@
     <link rel="next" title="feedgen.feed" href="api.feed.html" />
     <link rel="prev" title="Feedgenerator" href="index.html" /> 
   </head>
-  <body role="document">
+  <body>
       <div class="header" role="banner"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.6.1 documentation</span></a></h1>
+          <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>API Documentation</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -117,7 +114,7 @@ instantiation of the FeedEntry object:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;The First Episode&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The FeedGenerators method add_entry(...) without argument provides will
+<p>The FeedGenerators method add_entry(…) without argument provides will
 automatically generate a new FeedEntry object, append it to the feeds
 internal list of entries and return it, so that additional data can be
 added.</p>
@@ -132,9 +129,9 @@ XML structure of the feeds. Extensions can be loaded like this:</p>
 <p>This will try to load the extension “someext” from the file
 <cite>ext/someext.py</cite>. It is required that <cite>someext.py</cite> contains a class named
 “SomextExtension” which is required to have at least the two methods
-<cite>extend_rss(...)</cite> and <cite>extend_atom(...)</cite>. Although not required, it is
+<cite>extend_rss(…)</cite> and <cite>extend_atom(…)</cite>. Although not required, it is
 strongly suggested to use BaseExtension from <cite>ext/base.py</cite> as superclass.</p>
-<p><cite>load_extension(&#8216;someext&#8217;, ...)</cite> will also try to load a class named
+<p><cite>load_extension(‘someext’, …)</cite> will also try to load a class named
 “SomextEntryExtension” for every entry of the feed. This class can be
 located either in the same file as SomextExtension or in
 <cite>ext/someext_entry.py</cite> which is suggested especially for large extensions.</p>
@@ -159,7 +156,7 @@ RSS feed with some additional elements for ITunes.</p>
 <p>Of cause the extension has to be loaded for the FeedEntry objects as well
 but this is done automatically by the FeedGenerator for every feed entry if
 the extension is loaded for the whole feed. You can, however, load an
-extension for a specific FeedEntry by calling <cite>load_extension(...)</cite> on that
+extension for a specific FeedEntry by calling <cite>load_extension(…)</cite> on that
 entry. But this is a rather uncommon use.</p>
 <p>Of cause you can still produce a normal ATOM or RSS feed, even if you have
 loaded some plugins by temporary disabling them during the feed generation.
@@ -205,7 +202,7 @@ This can be done by calling the generating method with the keyword argument
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>
