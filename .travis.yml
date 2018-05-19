@@ -1,5 +1,7 @@
 language: python
 
+sudo: false
+
 python:
   - "2.7"
   - "3.3"
@@ -7,7 +9,7 @@ python:
   - "3.5"
   - "3.6"
 
-before_install:
+install:
   - pip install flake8 python-coveralls coverage
   - python setup.py bdist_wheel
   - pip install dist/feedgen*
