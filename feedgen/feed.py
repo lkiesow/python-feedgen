@@ -709,9 +709,9 @@ class FeedGenerator(object):
         return self.__atom_contributor
 
     def generator(self, generator=None, version=None, uri=None):
-        '''Get or the generator of the feed which identifies the software used
-        to generate the feed, for debugging and other purposes. Both the uri
-        and version attributes are optional and only available in the ATOM
+        '''Get or set the generator of the feed which identifies the software
+        used to generate the feed, for debugging and other purposes. Both the
+        uri and version attributes are optional and only available in the ATOM
         feed.
 
         :param generator: Software used to create the feed.
