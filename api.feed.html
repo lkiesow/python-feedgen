@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>feedgen.feed &#8212; python-feedgen 0.7.0 documentation</title>
     <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.7.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -25,8 +17,7 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="feedgen.entry" href="api.entry.html" />
     <link rel="prev" title="API Documentation" href="api.html" /> 
-  </head>
-  <body>
+  </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="index.html">
           <span>python-feedgen 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.feed</span></h2>
@@ -88,7 +79,7 @@ the entry will be appended to the feed.
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">...</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span> <span class="o">=</span> <span class="n">feedgen</span><span class="o">.</span><span class="n">add_entry</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;First feed entry&#39;</span><span class="p">)</span>
 </pre></div>
@@ -190,7 +181,7 @@ is mandatory for RSS.</p>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;jdoe@example.com&#39;</span><span class="p">})</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span><span class="s1">&#39;jdoe@example.com&#39;</span><span class="p">})</span>
 <span class="go">[{&#39;name&#39;:&#39;John Doe&#39;,&#39;email&#39;:&#39;jdoe@example.com&#39;}]</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">author</span><span class="p">([{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Mr. X&#39;</span><span class="p">},{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Max&#39;</span><span class="p">}])</span>
@@ -374,9 +365,9 @@ automatically create the FeedEntry objects.</p>
 <dl class="method">
 <dt id="feedgen.feed.FeedGenerator.generator">
 <code class="descname">generator</code><span class="sig-paren">(</span><em>generator=None</em>, <em>version=None</em>, <em>uri=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.feed.FeedGenerator.generator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get or the generator of the feed which identifies the software used
-to generate the feed, for debugging and other purposes. Both the uri
-and version attributes are optional and only available in the ATOM
+<dd><p>Get or set the generator of the feed which identifies the software
+used to generate the feed, for debugging and other purposes. Both the
+uri and version attributes are optional and only available in the ATOM
 feed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -569,7 +560,7 @@ display purposes.</p>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;http://example.com/&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s1">&#39;self&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feedgen</span><span class="o">.</span><span class="n">link</span><span class="p">(</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;http://example.com/&#39;</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="s1">&#39;self&#39;</span><span class="p">)</span>
 <span class="go">[{&#39;href&#39;:&#39;http://example.com/&#39;, &#39;rel&#39;:&#39;self&#39;}]</span>
 </pre></div>
 </div>
@@ -967,7 +958,7 @@ feed.  This is an RSS only value.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>
