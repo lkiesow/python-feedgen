@@ -32,7 +32,7 @@ Installation
 **Prebuild packages**
 
 If you are running Fedora Linux, RedHat Enterprise Linux, CentOS or Scientific
-Linux you can use the RPM Copr repostiory:
+Linux you can use the RPM Copr repository:
 
 http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/
 
@@ -56,7 +56,7 @@ You can also use pip to install the feedgen module. Simply run::
 Create a Feed
 -------------
 
-To create a feed simply instanciate the FeedGenerator class and insert some
+To create a feed simply instantiate the FeedGenerator class and insert some
 data::
 
     >>> from feedgen.feed import FeedGenerator

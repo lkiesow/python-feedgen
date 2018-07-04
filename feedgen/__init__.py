@@ -16,7 +16,7 @@
     Create a Feed
     -------------
 
-    To create a feed simply instanciate the FeedGenerator class and insert some
+    To create a feed simply instantiate the FeedGenerator class and insert some
     data::
 
         >>> from feedgen.feed import FeedGenerator

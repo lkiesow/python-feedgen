@@ -582,10 +582,10 @@ class FeedEntry(object):
         was published. This method is just another name for the published(...)
         method.
 
-        pubdate(…) is deprected and may be removed in feedgen ≥ 0.8. Use
+        pubdate(…) is deprecated and may be removed in feedgen ≥ 0.8. Use
         pubDate(…) instead.
         '''
-        warnings.warn('pubdate(…) is deprected and may be removed in feedgen '
+        warnings.warn('pubdate(…) is deprecated and may be removed in feedgen '
                       '≥ 0.8. Use pubDate(…) instead.')
         return self.published(pubDate)
 

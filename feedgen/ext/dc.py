@@ -265,7 +265,7 @@ class DcBaseExtension(BaseExtension):
         return self._dcelem_publisher
 
     def dc_relation(self, relation=None, replace=False):
-        '''Get or set the dc:relation which describes a related ressource.
+        '''Get or set the dc:relation which describes a related resource.
 
         For more information see:
         http://dublincore.org/documents/dcmi-terms/#elements-relation
