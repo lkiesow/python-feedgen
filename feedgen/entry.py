@@ -206,7 +206,9 @@ class FeedEntry(object):
             description.text = self.__rss_description
         elif self.__rss_content:
             description = etree.SubElement(entry, 'description')
-            description.text = self.__rss_content['content']
+            description.text = etree.CDATA(self.__rss_content['content']) \
+                if self.__rss_content.get('type', '') == 'CDATA' \
+                else self.__rss_content['content']
         for a in self.__rss_author or []:
             author = etree.SubElement(entry, 'author')
             author.text = a
