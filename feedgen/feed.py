@@ -32,7 +32,7 @@ class FeedGenerator(object):
         self.__feed_entries = []
 
         # ATOM
-        # http://www.atomenabled.org/developers/syndication/
+        # https://tools.ietf.org/html/rfc4287
         # required
         self.__atom_id = None
         self.__atom_title = None
