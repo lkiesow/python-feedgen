@@ -604,8 +604,8 @@ class FeedEntry(object):
         return self.__atom_rights
 
     def comments(self, comments=None):
-        '''Get or set the the value of comments which is the url of the
-        comments page for the item. This is a RSS only value.
+        '''Get or set the value of comments which is the URL of the comments
+        page for the item. This is a RSS only value.
 
         :param comments: URL to the comments page.
         :returns: URL to the comments page.
