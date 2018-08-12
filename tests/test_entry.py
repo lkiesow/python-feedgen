@@ -91,6 +91,9 @@ class TestSequenceFunctions(unittest.TestCase):
         assert fe.pubDate().year == 2017
         fe.rights('asdfx')
         assert fe.rights() == 'asdfx'
+        source = fe.source(url='https://example.com', title='Test')
+        assert source.get('title') == 'Test'
+        assert source.get('url') == 'https://example.com'
         fe.comments('asdfx')
         assert fe.comments() == 'asdfx'
         fe.enclosure(url='http://lkiesow.de', type='text/plain', length='1')

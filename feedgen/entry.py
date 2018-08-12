@@ -173,6 +173,15 @@ class FeedEntry(object):
             rights = etree.SubElement(entry, 'rights')
             rights.text = self.__atom_rights
 
+        if self.__atom_source:
+            source = etree.SubElement(entry, 'source')
+            if self.__atom_source.get('title'):
+                source_title = etree.SubElement(source, 'title')
+                source_title.text = self.__atom_source['title']
+            if self.__atom_source.get('link'):
+                etree.SubElement(source, 'link',
+                                 href=self.__atom_source['link'])
+
         if extensions:
             for ext in self.__extensions.values() or []:
                 if ext.get('atom'):
@@ -233,6 +242,10 @@ class FeedEntry(object):
         if self.__rss_pubDate:
             pubDate = etree.SubElement(entry, 'pubDate')
             pubDate.text = formatRFC2822(self.__rss_pubDate)
+        if self.__rss_source:
+            source = etree.SubElement(entry, 'source',
+                                      url=self.__rss_source['url'])
+            source.text = self.__rss_source['title']
 
         if extensions:
             for ext in self.__extensions.values() or []:
@@ -613,6 +626,22 @@ class FeedEntry(object):
         if comments is not None:
             self.__rss_comments = comments
         return self.__rss_comments
+
+    def source(self, url=None, title=None):
+        '''Get or set the source for the current feed entry.
+
+        Note that ATOM feeds support a lot more sub elements than title and URL
+        (which is what RSS supports) but these are currently not supported.
+        Patches are welcome.
+
+        :param url: Link to the source.
+        :param title: Title of the linked resource
+        :returns: Source element as dictionaries.
+        '''
+        if url is not None and title is not None:
+            self.__rss_source = {'url': url, 'title': title}
+            self.__atom_source = {'link': url, 'title': title}
+        return self.__rss_source
 
     def enclosure(self, url=None, length=None, type=None):
         '''Get or set the value of enclosure which describes a media object
