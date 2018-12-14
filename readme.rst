@@ -11,8 +11,9 @@ Feedgenerator
     :alt: Test Coverage Status
 
 
-This module can be used to generate web feeds in both ATOM and RSS format.  It
-has support for extensions. Included is for example an extension to produce Podcasts.
+This module can be used to generate web feeds in both ATOM and RSS format. It
+has support for extensions. Included is for example an extension to produce
+Podcasts.
 
 It is licensed under the terms of both, the FreeBSD license and the LGPLv3+.
 Choose the one which is more convenient for you. For more details have a look
@@ -159,20 +160,17 @@ To produce a podcast simply load the `podcast` extension::
     >>> fg.rss_str(pretty=True)
     >>> fg.rss_file('podcast.xml')
 
-Of cause the extension has to be loaded for the FeedEntry objects as well but
-this is done automatically by the FeedGenerator for every feed entry if the
-extension is loaded for the whole feed. You can, however, load an extension for
-a specific FeedEntry by calling `load_extension(...)` on that entry. But this
-is a rather uncommon use.
+If the FeedGenerator class is used to load an extension, it is automatically
+loaded for every feed entry as well.  You can, however, load an extension for a
+specific FeedEntry only by calling `load_extension(...)` on that entry.
 
-You can still produce a normal ATOM or RSS feed, even if you have loaded some
-plugins by temporary disabling them during the feed generation.  This can be
-done by calling the generating method with the keyword argument `extensions`
-set to `False`.
+Even if extensions are loaded, they can be temporarily disabled during the feed
+generation by calling the generating method with the keyword argument
+`extensions` set to `False`.
 
 **Custom Extensions**
 
-If you want to load custom extension which are not part of the feedgen Python
+If you want to load custom extensions which are not part of the feedgen
 package, you can use the method `register_extension` instead. You can directly
 pass the classes for the feed and the entry extension to this method meaning
 that you can define them everywhere.
