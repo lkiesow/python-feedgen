@@ -367,7 +367,7 @@ class FeedEntry(object):
         return self.__atom_author
 
     def content(self, content=None, src=None, type=None):
-        '''Get or set the cntent of the entry which contains or links to the
+        '''Get or set the content of the entry which contains or links to the
         complete content of the entry. Content must be provided for ATOM
         entries if there is no alternate link, and should be provided if there
         is no summary. If the content is set (not linked) it will also set
