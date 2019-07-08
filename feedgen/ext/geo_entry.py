@@ -10,9 +10,46 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 import numbers
+import warnings
 
 from lxml import etree
 from feedgen.ext.base import BaseEntryExtension
+
+
+class GeoRSSPolygonInteriorWarning(Warning):
+    """
+    Simple placeholder for warning about ignored polygon interiors.
+
+    Stores the original geom on a ``geom`` attribute (if required warnings are
+    raised as errors).
+    """
+
+    def __init__(self, geom, *args, **kwargs):
+        self.geom = geom
+        super(GeoRSSPolygonInteriorWarning, self).__init__(*args, **kwargs)
+
+    def __str__(self):
+        return '{:d} interiors of polygon ignored'.format(
+            len(self.geom.__geo_interface__['coordinates']) - 1  # ignore exterior in count
+        )
+
+class GeoRSSGeometryError(ValueError):
+    """
+    Subclass of ValueError for a GeoRSS geometry error
+
+    Only some geometries are supported in Simple GeoRSS, so if not raise an
+    error. Offending geometry is stored on the ``geom`` attribute.
+
+    """
+
+    def __init__(self, geom, *args, **kwargs):
+        self.geom = geom
+        super(GeoRSSGeometryError, self).__init__(*args, **kwargs)
+
+    def __str__(self):
+        return "Geometry of type '{}' not in Point, Linestring or Polygon".format(
+            self.geom.__geo_interface__['type']
+        )
 
 
 class GeoEntryExtension(BaseEntryExtension):
@@ -224,3 +261,62 @@ class GeoEntryExtension(BaseEntryExtension):
             self.__radius = radius
 
         return self.__radius
+
+    def geom_from_geo_interface(self, geom):
+        '''
+        Generate a georss geometry from some Python object with a
+        ``__geo_interface__`` property (see the `geo_interface specification by
+        Sean Gillies`_geointerface )
+
+        Note only a subset of GeoJSON (see `geojson.org`_geojson ) can be easily
+        converted to GeoRSS:
+
+        - Point
+        - LineString
+        - Polygon (if there are holes / donuts in the polygons a warning will be
+          generaated
+
+        Other GeoJson types will raise a ``ValueError``.
+
+        .. note:: The geometry is assumed to be x, y as longitude, latitude in
+           the WGS84 projection.
+
+        .. _geointerface: https://gist.github.com/sgillies/2217756
+        .. _geojson: https://geojson.org/
+
+        :param geom: Geometry object with a __geo_interface__ property
+        :return: the formatted GeoRSS geometry
+        '''
+        geojson = geom.__geo_interface__
+
+        if geojson['type'] not in ('Point', 'LineString', 'Polygon'):
+            raise GeoRSSGeometryError(geom)
+
+        if geojson['type'] == 'Point':
+
+            coords = '%f %f'.format(
+                geojson['coordinates'][1],  # latitude is y
+                geojson['coordinates'][0]
+            )
+            return self.point(coords)
+
+        elif geojson['type'] == 'LineString':
+
+            coords = ' '.join(
+                '%f %f'.format(vertex[1], vertex[0])
+                for vertex in
+                geojson['coordinates']
+            )
+            return self.line(coords)
+
+        elif geojson['type'] == 'Polygon':
+
+            if len(geojson['coordinates']) > 1:
+                warnings.warn(GeoRSSPolygonInteriorWarning(geom))
+
+            coords = ' '.join(
+                '%f %f'.format(vertex[1], vertex[0])
+                for vertex in
+                geojson['coordinates'][0]
+            )
+            return self.polygon(coords)
