@@ -1,3 +1,4 @@
+from itertools import chain
 import unittest
 import warnings
 
@@ -296,6 +297,21 @@ class TestExtensionGeo(unittest.TestCase):
                            namespaces=ns)
         self.assertEqual(point, [str(self.point)])
 
+        coords = [float(c) for c in point[0].split()]
+
+        try:
+            self.assertCountEqual(
+                coords,
+                self.point.coords
+            )
+        except AttributeError:  # was assertItemsEqual in Python 2.7
+            self.assertItemsEqual(
+                coords,
+                list(chain.from_iterable(self.point.coords))
+            )
+
+
+
     def test_geom_from_geointerface_line(self):
         fe = self.fg.add_item()
         fe.title('y')
@@ -310,6 +326,20 @@ class TestExtensionGeo(unittest.TestCase):
                           namespaces=ns)
         self.assertEqual(line, [str(self.line)])
 
+        coords = [float(c) for c in line[0].split()]
+
+        try:
+            self.assertCountEqual(
+                coords,
+                list(chain.from_iterable(self.line.coords))
+            )
+        except AttributeError:  # was assertItemsEqual in Python 2.7
+            self.assertItemsEqual(
+                coords,
+                list(chain.from_iterable(self.line.coords))
+            )
+
+
     def test_geom_from_geointerface_poly(self):
         fe = self.fg.add_item()
         fe.title('y')
@@ -323,6 +353,19 @@ class TestExtensionGeo(unittest.TestCase):
         poly = root.xpath('/rss/channel/item/georss:polygon/text()',
                           namespaces=ns)
         self.assertEqual(poly, [str(self.polygon)])
+
+        coords = [float(c) for c in poly[0].split()]
+
+        try:
+            self.assertCountEqual(
+                coords,
+                list(chain.from_iterable(self.polygon.coords[0]))
+            )
+        except AttributeError:  # was assertItemsEqual in Python 2.7
+            self.assertItemsEqual(
+                coords,
+                list(chain.from_iterable(self.polygon.coords[0]))
+            )
 
     def test_geom_from_geointerface_fail_other_geom(self):
         fe = self.fg.add_item()
@@ -366,3 +409,16 @@ class TestExtensionGeo(unittest.TestCase):
         poly = root.xpath('/rss/channel/item/georss:polygon/text()',
                           namespaces=ns)
         self.assertEqual(poly, [str(self.polygon_with_interior)])
+
+        coords = [float(c) for c in poly[0].split()]
+
+        try:
+            self.assertCountEqual(
+                coords,
+                list(chain.from_iterable(self.polygon_with_interior.coords[0]))
+            )
+        except AttributeError:  # was assertItemsEqual in Python 2.7
+            self.assertItemsEqual(
+                coords,
+                list(chain.from_iterable(self.polygon_with_interior.coords[0]))
+            )
