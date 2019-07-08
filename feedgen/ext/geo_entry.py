@@ -294,7 +294,7 @@ class GeoEntryExtension(BaseEntryExtension):
 
         if geojson['type'] == 'Point':
 
-            coords = '%f %f'.format(
+            coords = '{:f} {:f}'.format(
                 geojson['coordinates'][1],  # latitude is y
                 geojson['coordinates'][0]
             )
@@ -303,7 +303,7 @@ class GeoEntryExtension(BaseEntryExtension):
         elif geojson['type'] == 'LineString':
 
             coords = ' '.join(
-                '%f %f'.format(vertex[1], vertex[0])
+                '{:f} {:f}'.format(vertex[1], vertex[0])
                 for vertex in
                 geojson['coordinates']
             )
@@ -315,7 +315,7 @@ class GeoEntryExtension(BaseEntryExtension):
                 warnings.warn(GeoRSSPolygonInteriorWarning(geom))
 
             coords = ' '.join(
-                '%f %f'.format(vertex[1], vertex[0])
+                '{:f} {:f}'.format(vertex[1], vertex[0])
                 for vertex in
                 geojson['coordinates'][0]
             )

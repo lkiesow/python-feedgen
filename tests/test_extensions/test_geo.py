@@ -26,7 +26,7 @@ class Geom(object):
     def __str__(self):
         if self.geom_type == 'Point':
 
-            coords = '%f %f'.format(
+            coords = '{:f} {:f}'.format(
                 self.coords[1],  # latitude is y
                 self.coords[0]
             )
@@ -35,7 +35,7 @@ class Geom(object):
         elif self.geom_type == 'LineString':
 
             coords = ' '.join(
-                '%f %f'.format(vertex[1], vertex[0])
+                '{:f} {:f}'.format(vertex[1], vertex[0])
                 for vertex in
                 self.coords
             )
@@ -44,7 +44,7 @@ class Geom(object):
         elif self.geom_type == 'Polygon':
 
             coords = ' '.join(
-                '%f %f'.format(vertex[1], vertex[0])
+                '{:f} {:f}'.format(vertex[1], vertex[0])
                 for vertex in
                 self.coords[0]
             )
@@ -54,7 +54,7 @@ class Geom(object):
             # box not really supported by GeoJSON, but it's a handy cheat here
             # for testing
             coords = ' '.join(
-                '%f %f'.format(vertex[1], vertex[0])
+                '{:f} {:f}'.format(vertex[1], vertex[0])
                 for vertex in
                 self.coords
             )
