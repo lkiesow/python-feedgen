@@ -114,15 +114,15 @@ class GeoEntryExtension(BaseEntryExtension):
 
         if self.__elev:
             elevation = etree.SubElement(entry, '{%s}elev' % GEO_NS)
-            elevation.text = self.__elev
+            elevation.text = str(self.__elev)
 
         if self.__floor:
             floor = etree.SubElement(entry, '{%s}floor' % GEO_NS)
-            floor.text = self.__floor
+            floor.text = str(self.__floor)
 
         if self.__radius:
             radius = etree.SubElement(entry, '{%s}radius' % GEO_NS)
-            radius.text = self.__radius
+            radius.text = str(self.__radius)
 
         return entry
 
@@ -178,7 +178,7 @@ class GeoEntryExtension(BaseEntryExtension):
 
         return self.__box
 
-    def featuretypetag(self, featuretypetag):
+    def featuretypetag(self, featuretypetag=None):
         '''
         Get or set the georss:featuretypetag of the entry
 
@@ -190,7 +190,7 @@ class GeoEntryExtension(BaseEntryExtension):
 
         return self.__featuretypetag
 
-    def relationshiptag(self, relationshiptag):
+    def relationshiptag(self, relationshiptag=None):
         '''
         Get or set the georss:relationshiptag of the entry
 
@@ -202,11 +202,11 @@ class GeoEntryExtension(BaseEntryExtension):
 
         return self.__relationshiptag
 
-    def featurename(self, featurename):
+    def featurename(self, featurename=None):
         '''
         Get or set the georss:featurename of the entry
 
-        :param featuretypetag: The GeoRSS featurename (e.g. "city")
+        :param featuretypetag: The GeoRSS featurename (e.g. "Footscray")
         :return: the current georss:featurename
         '''
         if featurename is not None:
@@ -214,7 +214,7 @@ class GeoEntryExtension(BaseEntryExtension):
 
         return self.__featurename
 
-    def elev(self, elev):
+    def elev(self, elev=None):
         '''
         Get or set the georss:elev of the entry
 
@@ -230,7 +230,7 @@ class GeoEntryExtension(BaseEntryExtension):
 
         return self.__elev
 
-    def floor(self, floor):
+    def floor(self, floor=None):
         '''
         Get or set the georss:floor of the entry
 
@@ -246,7 +246,7 @@ class GeoEntryExtension(BaseEntryExtension):
 
         return self.__floor
 
-    def radius(self, radius):
+    def radius(self, radius=None):
         '''
         Get or set the georss:radius of the entry
 
