@@ -30,8 +30,9 @@ class GeoRSSPolygonInteriorWarning(Warning):
 
     def __str__(self):
         return '{:d} interiors of polygon ignored'.format(
-            len(self.geom.__geo_interface__['coordinates']) - 1  # ignore exterior in count
-        )
+            len(self.geom.__geo_interface__['coordinates']) - 1
+        )  # ignore exterior in count
+
 
 class GeoRSSGeometryError(ValueError):
     """
@@ -39,7 +40,6 @@ class GeoRSSGeometryError(ValueError):
 
     Only some geometries are supported in Simple GeoRSS, so if not raise an
     error. Offending geometry is stored on the ``geom`` attribute.
-
     """
 
     def __init__(self, geom, *args, **kwargs):
@@ -47,7 +47,8 @@ class GeoRSSGeometryError(ValueError):
         super(GeoRSSGeometryError, self).__init__(*args, **kwargs)
 
     def __str__(self):
-        return "Geometry of type '{}' not in Point, Linestring or Polygon".format(
+        msg = "Geometry of type '{}' not in Point, Linestring or Polygon"
+        return msg.format(
             self.geom.__geo_interface__['type']
         )
 
@@ -101,11 +102,17 @@ class GeoEntryExtension(BaseEntryExtension):
             box.text = self.__box
 
         if self.__featuretypetag:
-            featuretypetag = etree.SubElement(entry, '{%s}featuretypetag' % GEO_NS)
+            featuretypetag = etree.SubElement(
+                entry,
+                '{%s}featuretypetag' % GEO_NS
+            )
             featuretypetag.text = self.__featuretypetag
 
         if self.__relationshiptag:
-            relationshiptag = etree.SubElement(entry, '{%s}relationshiptag' % GEO_NS)
+            relationshiptag = etree.SubElement(
+                entry,
+                '{%s}relationshiptag' % GEO_NS
+            )
             relationshiptag.text = self.__relationshiptag
 
         if self.__featurename:
@@ -147,7 +154,8 @@ class GeoEntryExtension(BaseEntryExtension):
     def line(self, line=None):
         '''Get or set the georss:line of the entry
 
-        :param point: The GeoRSS formatted line (i.e. "45.256 -110.45 46.46 -109.48 43.84 -109.86")
+        :param point: The GeoRSS formatted line (i.e. "45.256 -110.45 46.46
+                      -109.48 43.84 -109.86")
         :return: The current georss:line of the entry
         '''
         if line is not None:
@@ -158,7 +166,8 @@ class GeoEntryExtension(BaseEntryExtension):
     def polygon(self, polygon=None):
         '''Get or set the georss:polygon of the entry
 
-        :param polygon: The GeoRSS formatted polygon (i.e. "45.256 -110.45 46.46 -109.48 43.84 -109.86 45.256 -110.45")
+        :param polygon: The GeoRSS formatted polygon (i.e. "45.256 -110.45
+                        46.46 -109.48 43.84 -109.86 45.256 -110.45")
         :return: The current georss:polygon of the entry
         '''
         if polygon is not None:
@@ -170,7 +179,8 @@ class GeoEntryExtension(BaseEntryExtension):
         '''
         Get or set the georss:box of the entry
 
-        :param box: The GeoRSS formatted box (i.e. "42.943 -71.032 43.039 -69.856")
+        :param box: The GeoRSS formatted box (i.e. "42.943 -71.032 43.039
+                    -69.856")
         :return: The current georss:box of the entry
         '''
         if box is not None:
@@ -194,7 +204,8 @@ class GeoEntryExtension(BaseEntryExtension):
         '''
         Get or set the georss:relationshiptag of the entry
 
-        :param relationshiptag: The GeoRSS relationshiptag (e.g. "is-centred-at")
+        :param relationshiptag: The GeoRSS relationshiptag (e.g.
+                                "is-centred-at")
         :return: the current georss:relationshiptag
         '''
         if relationshiptag is not None:
@@ -256,7 +267,9 @@ class GeoEntryExtension(BaseEntryExtension):
         '''
         if radius is not None:
             if not isinstance(radius, numbers.Number):
-                raise ValueError("radius tag must be numeric: {}".format(radius))
+                raise ValueError(
+                    "radius tag must be numeric: {}".format(radius)
+                )
 
             self.__radius = radius
 
@@ -268,13 +281,13 @@ class GeoEntryExtension(BaseEntryExtension):
         ``__geo_interface__`` property (see the `geo_interface specification by
         Sean Gillies`_geointerface )
 
-        Note only a subset of GeoJSON (see `geojson.org`_geojson ) can be easily
-        converted to GeoRSS:
+        Note only a subset of GeoJSON (see `geojson.org`_geojson ) can be
+        easily converted to GeoRSS:
 
         - Point
         - LineString
-        - Polygon (if there are holes / donuts in the polygons a warning will be
-          generaated
+        - Polygon (if there are holes / donuts in the polygons a warning will
+          be generaated
 
         Other GeoJson types will raise a ``ValueError``.
 

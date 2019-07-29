@@ -5,7 +5,7 @@ import warnings
 from lxml import etree
 
 from feedgen.feed import FeedGenerator
-from feedgen.ext.geo_entry import GeoRSSPolygonInteriorWarning, GeoRSSGeometryError
+from feedgen.ext.geo_entry import GeoRSSPolygonInteriorWarning, GeoRSSGeometryError  # noqa: E501
 
 
 class Geom(object):
@@ -78,19 +78,22 @@ class TestExtensionGeo(unittest.TestCase):
     def setUpClass(cls):
         cls.point = Geom('Point', [-71.05, 42.36])
         cls.line = Geom('LineString', [[-71.05, 42.36], [-71.15, 42.46]])
-        cls.polygon = Geom('Polygon', [[[-71.05, 42.36], [-71.15, 42.46], [-71.15, 42.36]]])
+        cls.polygon = Geom(
+            'Polygon',
+            [[[-71.05, 42.36], [-71.15, 42.46], [-71.15, 42.36]]]
+        )
         cls.box = Geom('Box', [[-71.05, 42.36], [-71.15, 42.46]])
         cls.polygon_with_interior = Geom(
             'Polygon',
             [
-                [ # exterior
+                [  # exterior
                     [0, 0],
                     [0, 1],
                     [1, 1],
                     [1, 0],
                     [0, 0]
                 ],
-                [ # interior
+                [  # interior
                     [0.25, 0.25],
                     [0.25, 0.75],
                     [0.75, 0.75],
@@ -131,8 +134,10 @@ class TestExtensionGeo(unittest.TestCase):
         # Check that we have the item in the resulting XML
         ns = {'georss': 'http://www.georss.org/georss'}
         root = etree.fromstring(self.fg.rss_str())
-        line = root.xpath('/rss/channel/item/georss:line/text()',
-                           namespaces=ns)
+        line = root.xpath(
+            '/rss/channel/item/georss:line/text()',
+            namespaces=ns
+        )
         self.assertEqual(line, [str(self.line)])
 
     def test_polygon(self):
@@ -145,8 +150,10 @@ class TestExtensionGeo(unittest.TestCase):
         # Check that we have the item in the resulting XML
         ns = {'georss': 'http://www.georss.org/georss'}
         root = etree.fromstring(self.fg.rss_str())
-        poly = root.xpath('/rss/channel/item/georss:polygon/text()',
-                           namespaces=ns)
+        poly = root.xpath(
+            '/rss/channel/item/georss:polygon/text()',
+            namespaces=ns
+        )
         self.assertEqual(poly, [str(self.polygon)])
 
     def test_box(self):
@@ -159,8 +166,10 @@ class TestExtensionGeo(unittest.TestCase):
         # Check that we have the item in the resulting XML
         ns = {'georss': 'http://www.georss.org/georss'}
         root = etree.fromstring(self.fg.rss_str())
-        box = root.xpath('/rss/channel/item/georss:box/text()',
-                           namespaces=ns)
+        box = root.xpath(
+            '/rss/channel/item/georss:box/text()',
+            namespaces=ns
+        )
         self.assertEqual(box, [str(self.box)])
 
     def test_featuretypetag(self):
@@ -307,10 +316,8 @@ class TestExtensionGeo(unittest.TestCase):
         except AttributeError:  # was assertItemsEqual in Python 2.7
             self.assertItemsEqual(
                 coords,
-                list(chain.from_iterable(self.point.coords))
+                self.point.coords
             )
-
-
 
     def test_geom_from_geointerface_line(self):
         fe = self.fg.add_item()
@@ -338,7 +345,6 @@ class TestExtensionGeo(unittest.TestCase):
                 coords,
                 list(chain.from_iterable(self.line.coords))
             )
-
 
     def test_geom_from_geointerface_poly(self):
         fe = self.fg.add_item()
@@ -380,7 +386,6 @@ class TestExtensionGeo(unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             fe.geo.geom_from_geo_interface(str(self.box))
-
 
     def test_geom_from_geointerface_warn_poly_interior(self):
         """
