@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flkiesow%2Fpython-feedgen.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flkiesow%2Fpython-feedgen?ref=badge_shield)
+
 =============
 Feedgenerator
 =============
@@ -187,3 +189,7 @@ You can test the module by simply executing::
 If you want to have a look at the code for this test to have a working code
 example for a whole feed generation process, you can find it in the
 `__main__.py <https://github.com/lkiesow/python-feedgen/blob/master/feedgen/__main__.py>`_.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flkiesow%2Fpython-feedgen.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Flkiesow%2Fpython-feedgen?ref=badge_large)
