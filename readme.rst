@@ -22,7 +22,7 @@ at license.bsd and license.lgpl.
 More details about the project:
 
 - Repository:            https://github.com/lkiesow/python-feedgen
-- Documentation:         http://lkiesow.github.io/python-feedgen/
+- Documentation:         https://lkiesow.github.io/python-feedgen/
 - Python Package Index:  https://pypi.python.org/pypi/feedgen/
 
 
@@ -32,18 +32,10 @@ Installation
 
 **Prebuild packages**
 
-If you are running Fedora Linux, RedHat Enterprise Linux, CentOS or Scientific
-Linux you can use the RPM Copr repository:
+If your distribution includes this project as package, like Fedora Linux does,
+you can simply use your package manager to install the package. For example::
 
-http://copr.fedoraproject.org/coprs/lkiesow/python-feedgen/
-
-Simply enable the repository and run::
-
-    $ yum install python-feedgen
-
-or for the Python 3 package::
-
-    $ yum install python3-feedgen
+    $ dnf install python3-feedgen
 
 
 **Using pip**
