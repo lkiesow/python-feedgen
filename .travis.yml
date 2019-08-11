@@ -1,13 +1,12 @@
 language: python
 
-sudo: false
+dist: bionic
 
 # https://devguide.python.org/#branchstatus
 python:
   - "2.7"
-  - "3.4"
-  - "3.5"
   - "3.6"
+  - "3.7"
 
 install:
   - pip install flake8 python-coveralls coverage
