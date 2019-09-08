@@ -1,7 +1,7 @@
 %global pypi_name feedgen
 
 Name:           python-%{pypi_name}
-Version:        0.7.0
+Version:        0.8.0
 Release:        1%{?dist}
 Summary:        Feed Generator (ATOM, RSS, Podcasts)
 
