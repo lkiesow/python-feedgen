@@ -84,7 +84,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.updated('2017-02-05 13:26:58+01:00')
         assert fe.updated().year == 2017
         fe.summary('asdf')
-        assert fe.summary() == 'asdf'
+        assert fe.summary() == {'summary': 'asdf'}
         fe.description('asdfx')
         assert fe.description() == 'asdfx'
         fe.pubDate('2017-02-05 13:26:58+01:00')
@@ -164,3 +164,16 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.content('content', type='CDATA')
         result = fg.atom_str()
         assert b'<content type="CDATA"><![CDATA[content]]></content>' in result
+
+    def test_summary_html_type(self):
+        fg = FeedGenerator()
+        fg.title('some title')
+        fg.id('http://lernfunk.de/media/654322/1')
+        fe = fg.add_entry()
+        fe.id('http://lernfunk.de/media/654322/1')
+        fe.title('some title')
+        fe.link(href='http://lernfunk.de/media/654322/1')
+        fe.summary('<p>summary</p>', type='html')
+        result = fg.atom_str()
+        expected = b'<summary type="html">&lt;p&gt;summary&lt;/p&gt;</summary>'
+        assert expected in result

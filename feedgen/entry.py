@@ -19,6 +19,45 @@ from feedgen.compat import string_types
 from feedgen.util import ensure_format, formatRFC2822
 
 
+def _add_text_elm(entry, data, name):
+    """Add a text subelement to an entry"""
+    if not data:
+        return
+
+    elm = etree.SubElement(entry, name)
+    type_ = data.get('type')
+    if data.get('src'):
+        if name != 'content':
+            raise ValueError("Only the 'content' element of an entry can "
+                             "contain a 'src' attribute")
+        elm.attrib['src'] = data['src']
+    elif data.get(name):
+        # Surround xhtml with a div tag, parse it and embed it
+        if type_ == 'xhtml':
+            elm.append(etree.fromstring(
+                '<div xmlns="http://www.w3.org/1999/xhtml">' +
+                data.get(name) + '</div>'))
+        elif type_ == 'CDATA':
+            elm.text = etree.CDATA(
+                    data.get(name))
+        # Emed the text in escaped form
+        elif not type_ or type_.startswith('text') or type_ == 'html':
+            elm.text = data.get(name)
+        # Parse XML and embed it
+        elif type_.endswith('/xml') or type_.endswith('+xml'):
+            elm.append(etree.fromstring(
+                data[name]))
+        # Everything else should be included base64 encoded
+        else:
+            raise ValueError(
+                'base64 encoded {} is not supported at the moment. '
+                'Pull requests adding support are welcome.'.format(name)
+            )
+    # Add type description of the content
+    if type_:
+        elm.attrib['type'] = type_
+
+
 class FeedEntry(object):
     '''FeedEntry call representing an ATOM feeds entry node or an RSS feeds item
     node.
@@ -96,35 +135,7 @@ class FeedEntry(object):
                 uri = etree.SubElement(author, 'uri')
                 uri.text = a.get('uri')
 
-        if self.__atom_content:
-            content = etree.SubElement(entry, 'content')
-            type = self.__atom_content.get('type')
-            if self.__atom_content.get('src'):
-                content.attrib['src'] = self.__atom_content['src']
-            elif self.__atom_content.get('content'):
-                # Surround xhtml with a div tag, parse it and embed it
-                if type == 'xhtml':
-                    content.append(etree.fromstring(
-                        '<div xmlns="http://www.w3.org/1999/xhtml">' +
-                        self.__atom_content.get('content') + '</div>'))
-                elif type == 'CDATA':
-                    content.text = etree.CDATA(
-                            self.__atom_content.get('content'))
-                # Emed the text in escaped form
-                elif not type or type.startswith('text') or type == 'html':
-                    content.text = self.__atom_content.get('content')
-                # Parse XML and embed it
-                elif type.endswith('/xml') or type.endswith('+xml'):
-                    content.append(etree.fromstring(
-                        self.__atom_content['content']))
-                # Everything else should be included base64 encoded
-                else:
-                    raise ValueError('base64 encoded content is not ' +
-                                     'supported at the moment. Pull requests' +
-                                     ' adding support are welcome.')
-            # Add type description of the content
-            if type:
-                content.attrib['type'] = type
+        _add_text_elm(entry, self.__atom_content, 'content')
 
         for l in self.__atom_link or []:
             link = etree.SubElement(entry, 'link', href=l['href'])
@@ -139,9 +150,7 @@ class FeedEntry(object):
             if l.get('length'):
                 link.attrib['length'] = l['length']
 
-        if self.__atom_summary:
-            summary = etree.SubElement(entry, 'summary')
-            summary.text = self.__atom_summary
+        _add_text_elm(entry, self.__atom_summary, 'summary')
 
         for c in self.__atom_category or []:
             cat = etree.SubElement(entry, 'category', term=c['term'])
@@ -453,7 +462,7 @@ class FeedEntry(object):
         # return the set with more information (atom)
         return self.__atom_link
 
-    def summary(self, summary=None):
+    def summary(self, summary=None, type=None):
         '''Get or set the summary element of an entry which conveys a short
         summary, abstract, or excerpt of the entry. Summary is an ATOM only
         element and should be provided if there either is no content provided
@@ -467,11 +476,16 @@ class FeedEntry(object):
         '''
         if summary is not None:
             # Replace the RSS description with the summary if it was the
-            # summary before. Not if is the description.
-            if not self.__rss_description or \
-                    self.__rss_description == self.__atom_summary:
+            # summary before. Not if it is the description.
+            if not self.__rss_description or (
+                self.__atom_summary and
+                self.__rss_description == self.__atom_summary.get("summary")
+            ):
                 self.__rss_description = summary
-            self.__atom_summary = summary
+
+            self.__atom_summary = {'summary': summary}
+            if type is not None:
+                self.__atom_summary['type'] = type
         return self.__atom_summary
 
     def description(self, description=None, isSummary=False):
