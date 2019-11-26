@@ -49,7 +49,7 @@ def _add_text_elm(entry, data, name):
                 data[name]))
         # Everything else should be included base64 encoded
         else:
-            raise ValueError(
+            raise NotImplementedError(
                 'base64 encoded {} is not supported at the moment. '
                 'Pull requests adding support are welcome.'.format(name)
             )
