@@ -165,7 +165,7 @@ class FeedGenerator(object):
                 uri = etree.SubElement(contrib, 'uri')
                 uri.text = c.get('uri')
 
-        if self.__atom_generator:
+        if self.__atom_generator and self.__atom_generator.get('value'):
             generator = etree.SubElement(feed, 'generator')
             generator.text = self.__atom_generator['value']
             if self.__atom_generator.get('uri'):
