@@ -40,13 +40,13 @@ def _add_text_elm(entry, data, name):
         elif type_ == 'CDATA':
             elm.text = etree.CDATA(
                     data.get(name))
-        # Emed the text in escaped form
-        elif not type_ or type_.startswith('text') or type_ == 'html':
-            elm.text = data.get(name)
         # Parse XML and embed it
-        elif type_.endswith('/xml') or type_.endswith('+xml'):
+        elif type_ and (type_.endswith('/xml') or type_.endswith('+xml')):
             elm.append(etree.fromstring(
                 data[name]))
+        # Embed the text in escaped form
+        elif not type_ or type_.startswith('text') or type_ == 'html':
+            elm.text = data.get(name)
         # Everything else should be included base64 encoded
         else:
             raise NotImplementedError(
