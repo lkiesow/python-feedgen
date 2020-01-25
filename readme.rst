@@ -21,9 +21,9 @@ at license.bsd and license.lgpl.
 
 More details about the project:
 
-- Repository:            https://github.com/lkiesow/python-feedgen
-- Documentation:         https://lkiesow.github.io/python-feedgen/
-- Python Package Index:  https://pypi.python.org/pypi/feedgen/
+- `Repository <https://github.com/lkiesow/python-feedgen>`_
+- `Documentation <https://lkiesow.github.io/python-feedgen/>`_
+- `Python Package Index <https://pypi.python.org/pypi/feedgen/>`_
 
 
 ------------
@@ -50,18 +50,20 @@ Create a Feed
 -------------
 
 To create a feed simply instantiate the FeedGenerator class and insert some
-data::
+data:
 
-    >>> from feedgen.feed import FeedGenerator
-    >>> fg = FeedGenerator()
-    >>> fg.id('http://lernfunk.de/media/654321')
-    >>> fg.title('Some Testfeed')
-    >>> fg.author( {'name':'John Doe','email':'john@example.de'} )
-    >>> fg.link( href='http://example.com', rel='alternate' )
-    >>> fg.logo('http://ex.com/logo.jpg')
-    >>> fg.subtitle('This is a cool feed!')
-    >>> fg.link( href='http://larskiesow.de/test.atom', rel='self' )
-    >>> fg.language('en')
+.. code-block:: python
+
+    from feedgen.feed import FeedGenerator
+    fg = FeedGenerator()
+    fg.id('http://lernfunk.de/media/654321')
+    fg.title('Some Testfeed')
+    fg.author( {'name':'John Doe','email':'john@example.de'} )
+    fg.link( href='http://example.com', rel='alternate' )
+    fg.logo('http://ex.com/logo.jpg')
+    fg.subtitle('This is a cool feed!')
+    fg.link( href='http://larskiesow.de/test.atom', rel='self' )
+    fg.language('en')
 
 Note that for the methods which set fields that can occur more than once in a
 feed you can use all of the following ways to provide data:
@@ -70,22 +72,26 @@ feed you can use all of the following ways to provide data:
 - Provide the data for that element as dictionary
 - Provide a list of dictionaries with the data for several elements
 
-Example::
+Example:
 
-    >>> fg.contributor( name='John Doe', email='jdoe@example.com' )
-    >>> fg.contributor({'name':'John Doe', 'email':'jdoe@example.com'})
-    >>> fg.contributor([{'name':'John Doe', 'email':'jdoe@example.com'}, ...])
+.. code-block:: python
+
+    fg.contributor( name='John Doe', email='jdoe@example.com' )
+    fg.contributor({'name':'John Doe', 'email':'jdoe@example.com'})
+    fg.contributor([{'name':'John Doe', 'email':'jdoe@example.com'}, ...])
 
 -----------------
 Generate the Feed
 -----------------
 
-After that you can generate both RSS or ATOM by calling the respective method::
+After that you can generate both RSS or ATOM by calling the respective method:
 
-    >>> atomfeed = fg.atom_str(pretty=True) # Get the ATOM feed as string
-    >>> rssfeed  = fg.rss_str(pretty=True) # Get the RSS feed as string
-    >>> fg.atom_file('atom.xml') # Write the ATOM feed to a file
-    >>> fg.rss_file('rss.xml') # Write the RSS feed to a file
+.. code-block:: python
+
+    atomfeed = fg.atom_str(pretty=True) # Get the ATOM feed as string
+    rssfeed  = fg.rss_str(pretty=True) # Get the RSS feed as string
+    fg.atom_file('atom.xml') # Write the ATOM feed to a file
+    fg.rss_file('rss.xml') # Write the RSS feed to a file
 
 
 ----------------
@@ -95,31 +101,35 @@ Add Feed Entries
 To add entries (items) to a feed you need to create new FeedEntry objects and
 append them to the list of entries in the FeedGenerator. The most convenient
 way to go is to use the FeedGenerator itself for the instantiation of the
-FeedEntry object::
+FeedEntry object:
 
-    >>> fe = fg.add_entry()
-    >>> fe.id('http://lernfunk.de/media/654321/1')
-    >>> fe.title('The First Episode')
-    >>> fe.link(href="http://lernfunk.de/feed")
+.. code-block:: python
 
-The FeedGenerators method `add_entry(...)` without argument provides will
-automatically generate a new FeedEntry object, append it to the feeds internal
-list of entries and return it, so that additional data can be added.
+    fe = fg.add_entry()
+    fe.id('http://lernfunk.de/media/654321/1')
+    fe.title('The First Episode')
+    fe.link(href="http://lernfunk.de/feed")
+
+The FeedGenerator's method `add_entry(...)` will generate a new FeedEntry
+object, automatically append it to the feeds internal list of entries and
+return it, so that additional data can be added.
 
 ----------
 Extensions
 ----------
 
-The FeedGenerator supports extension to include additional data into the XML
-structure of the feeds. Extensions can be loaded like this::
+The FeedGenerator supports extensions to include additional data into the XML
+structure of the feeds. Extensions can be loaded like this:
 
-    >>> fg.load_extension('someext', atom=True, rss=True)
+.. code-block:: python
 
-This will try to load the extension “someext” from the file `ext/someext.py`.
-It is required that `someext.py` contains a class named “SomextExtension” which
-is required to have at least the two methods `extend_rss(...)` and
-`extend_atom(...)`. Although not required, it is strongly suggested to use
-`BaseExtension` from `ext/base.py` as superclass.
+    fg.load_extension('someext', atom=True, rss=True)
+
+This example would try to load the extension “someext” from the file
+`ext/someext.py`.  It is required that `someext.py` contains a class named
+“SomextExtension” which is required to have at least the two methods
+`extend_rss(...)` and `extend_atom(...)`. Although not required, it is strongly
+suggested to use `BaseExtension` from `ext/base.py` as superclass.
 
 `load_extension('someext', ...)` will also try to load a class named
 “SomextEntryExtension” for every entry of the feed. This class can be located
@@ -127,7 +137,7 @@ either in the same file as SomextExtension or in `ext/someext_entry.py` which
 is suggested especially for large extensions.
 
 The parameters `atom` and `rss` control if the extension is used for ATOM and
-RSS feeds, respectively. The default value for both parameters is `true`
+RSS feeds respectively. The default value for both parameters is `True`,
 meaning the extension is used for both kinds of feeds.
 
 **Example: Producing a Podcast**
@@ -135,22 +145,24 @@ meaning the extension is used for both kinds of feeds.
 One extension already provided is the podcast extension. A podcast is an RSS
 feed with some additional elements for ITunes.
 
-To produce a podcast simply load the `podcast` extension::
+To produce a podcast simply load the `podcast` extension:
 
-    >>> from feedgen.feed import FeedGenerator
-    >>> fg = FeedGenerator()
-    >>> fg.load_extension('podcast')
+.. code-block:: python
+
+    from feedgen.feed import FeedGenerator
+    fg = FeedGenerator()
+    fg.load_extension('podcast')
     ...
-    >>> fg.podcast.itunes_category('Technology', 'Podcasting')
+    fg.podcast.itunes_category('Technology', 'Podcasting')
     ...
-    >>> fe = fg.add_entry()
-    >>> fe.id('http://lernfunk.de/media/654321/1/file.mp3')
-    >>> fe.title('The First Episode')
-    >>> fe.description('Enjoy our first episode.')
-    >>> fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
+    fe = fg.add_entry()
+    fe.id('http://lernfunk.de/media/654321/1/file.mp3')
+    fe.title('The First Episode')
+    fe.description('Enjoy our first episode.')
+    fe.enclosure('http://lernfunk.de/media/654321/1/file.mp3', 0, 'audio/mpeg')
     ...
-    >>> fg.rss_str(pretty=True)
-    >>> fg.rss_file('podcast.xml')
+    fg.rss_str(pretty=True)
+    fg.rss_file('podcast.xml')
 
 If the FeedGenerator class is used to load an extension, it is automatically
 loaded for every feed entry as well.  You can, however, load an extension for a
