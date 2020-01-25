@@ -10,6 +10,28 @@
 '''
 import locale
 import sys
+import lxml  # nosec - we configure a safe parser below
+
+# Configure a safe parser which does not allow XML entity expansion
+parser = lxml.etree.XMLParser(
+        attribute_defaults=False,
+        dtd_validation=False,
+        load_dtd=False,
+        no_network=True,
+        recover=False,
+        remove_pis=True,
+        resolve_entities=False,
+        huge_tree=False)
+
+
+def xml_fromstring(xmlstring):
+    return lxml.etree.fromstring(xmlstring, parser)  # nosec - safe parser
+
+
+def xml_elem(name, parent=None, **kwargs):
+    if parent is not None:
+        return lxml.etree.SubElement(parent, name, **kwargs)
+    return lxml.etree.Element(name, **kwargs)
 
 
 def ensure_format(val, allowed, required, allowed_values=None, defaults=None):

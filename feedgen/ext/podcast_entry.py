@@ -10,9 +10,8 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from lxml import etree
-
 from feedgen.ext.base import BaseEntryExtension
+from feedgen.util import xml_elem
 
 
 class PodcastEntryExtension(BaseEntryExtension):
@@ -40,43 +39,43 @@ class PodcastEntryExtension(BaseEntryExtension):
         ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
 
         if self.__itunes_author:
-            author = etree.SubElement(entry, '{%s}author' % ITUNES_NS)
+            author = xml_elem('{%s}author' % ITUNES_NS, entry)
             author.text = self.__itunes_author
 
         if self.__itunes_block is not None:
-            block = etree.SubElement(entry, '{%s}block' % ITUNES_NS)
+            block = xml_elem('{%s}block' % ITUNES_NS, entry)
             block.text = 'yes' if self.__itunes_block else 'no'
 
         if self.__itunes_image:
-            image = etree.SubElement(entry, '{%s}image' % ITUNES_NS)
+            image = xml_elem('{%s}image' % ITUNES_NS, entry)
             image.attrib['href'] = self.__itunes_image
 
         if self.__itunes_duration:
-            duration = etree.SubElement(entry, '{%s}duration' % ITUNES_NS)
+            duration = xml_elem('{%s}duration' % ITUNES_NS, entry)
             duration.text = self.__itunes_duration
 
         if self.__itunes_explicit in ('yes', 'no', 'clean'):
-            explicit = etree.SubElement(entry, '{%s}explicit' % ITUNES_NS)
+            explicit = xml_elem('{%s}explicit' % ITUNES_NS, entry)
             explicit.text = self.__itunes_explicit
 
         if self.__itunes_is_closed_captioned is not None:
-            is_closed_captioned = etree.SubElement(
-                    entry, '{%s}isClosedCaptioned' % ITUNES_NS)
+            is_closed_captioned = xml_elem(
+                    '{%s}isClosedCaptioned' % ITUNES_NS, entry)
             if self.__itunes_is_closed_captioned:
                 is_closed_captioned.text = 'yes'
             else:
                 is_closed_captioned.text = 'no'
 
         if self.__itunes_order is not None and self.__itunes_order >= 0:
-            order = etree.SubElement(entry, '{%s}order' % ITUNES_NS)
+            order = xml_elem('{%s}order' % ITUNES_NS, entry)
             order.text = str(self.__itunes_order)
 
         if self.__itunes_subtitle:
-            subtitle = etree.SubElement(entry, '{%s}subtitle' % ITUNES_NS)
+            subtitle = xml_elem('{%s}subtitle' % ITUNES_NS, entry)
             subtitle.text = self.__itunes_subtitle
 
         if self.__itunes_summary:
-            summary = etree.SubElement(entry, '{%s}summary' % ITUNES_NS)
+            summary = xml_elem('{%s}summary' % ITUNES_NS, entry)
             summary.text = self.__itunes_summary
         return entry
 

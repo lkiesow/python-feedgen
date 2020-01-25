@@ -10,10 +10,8 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from lxml import etree
-
 from feedgen.ext.base import BaseEntryExtension, BaseExtension
-from feedgen.util import ensure_format
+from feedgen.util import ensure_format, xml_elem
 
 MEDIA_NS = 'http://search.yahoo.com/mrss/'
 
@@ -45,10 +43,10 @@ class MediaEntryExtension(BaseEntryExtension):
             # Define current media:group
             group = groups.get(media_content.get('group'))
             if group is None:
-                group = etree.SubElement(entry, '{%s}group' % MEDIA_NS)
+                group = xml_elem('{%s}group' % MEDIA_NS, entry)
                 groups[media_content.get('group')] = group
             # Add content
-            content = etree.SubElement(group, '{%s}content' % MEDIA_NS)
+            content = xml_elem('{%s}content' % MEDIA_NS, group)
             for attr in ('url', 'fileSize', 'type', 'medium', 'isDefault',
                          'expression', 'bitrate', 'framerate', 'samplingrate',
                          'channels', 'duration', 'height', 'width', 'lang'):
@@ -59,10 +57,10 @@ class MediaEntryExtension(BaseEntryExtension):
             # Define current media:group
             group = groups.get(media_thumbnail.get('group'))
             if group is None:
-                group = etree.SubElement(entry, '{%s}group' % MEDIA_NS)
+                group = xml_elem('{%s}group' % MEDIA_NS, entry)
                 groups[media_thumbnail.get('group')] = group
             # Add thumbnails
-            thumbnail = etree.SubElement(group, '{%s}thumbnail' % MEDIA_NS)
+            thumbnail = xml_elem('{%s}thumbnail' % MEDIA_NS, group)
             for attr in ('url', 'height', 'width', 'time'):
                 if media_thumbnail.get(attr):
                     thumbnail.set(attr, media_thumbnail[attr])

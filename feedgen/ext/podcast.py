@@ -10,11 +10,9 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from lxml import etree
-
 from feedgen.compat import string_types
 from feedgen.ext.base import BaseExtension
-from feedgen.util import ensure_format
+from feedgen.util import ensure_format, xml_elem
 
 
 class PodcastExtension(BaseExtension):
@@ -47,11 +45,11 @@ class PodcastExtension(BaseExtension):
         channel = rss_feed[0]
 
         if self.__itunes_author:
-            author = etree.SubElement(channel, '{%s}author' % ITUNES_NS)
+            author = xml_elem('{%s}author' % ITUNES_NS, channel)
             author.text = self.__itunes_author
 
         if self.__itunes_block is not None:
-            block = etree.SubElement(channel, '{%s}block' % ITUNES_NS)
+            block = xml_elem('{%s}block' % ITUNES_NS, channel)
             block.text = 'yes' if self.__itunes_block else 'no'
 
         for c in self.__itunes_category or []:
@@ -60,45 +58,42 @@ class PodcastExtension(BaseExtension):
             category = channel.find(
                     '{%s}category[@text="%s"]' % (ITUNES_NS, c.get('cat')))
             if category is None:
-                category = etree.SubElement(channel,
-                                            '{%s}category' % ITUNES_NS)
+                category = xml_elem('{%s}category' % ITUNES_NS, channel)
                 category.attrib['text'] = c.get('cat')
 
             if c.get('sub'):
-                subcategory = etree.SubElement(category,
-                                               '{%s}category' % ITUNES_NS)
+                subcategory = xml_elem('{%s}category' % ITUNES_NS, category)
                 subcategory.attrib['text'] = c.get('sub')
 
         if self.__itunes_image:
-            image = etree.SubElement(channel, '{%s}image' % ITUNES_NS)
+            image = xml_elem('{%s}image' % ITUNES_NS, channel)
             image.attrib['href'] = self.__itunes_image
 
         if self.__itunes_explicit in ('yes', 'no', 'clean'):
-            explicit = etree.SubElement(channel, '{%s}explicit' % ITUNES_NS)
+            explicit = xml_elem('{%s}explicit' % ITUNES_NS, channel)
             explicit.text = self.__itunes_explicit
 
         if self.__itunes_complete in ('yes', 'no'):
-            complete = etree.SubElement(channel, '{%s}complete' % ITUNES_NS)
+            complete = xml_elem('{%s}complete' % ITUNES_NS, channel)
             complete.text = self.__itunes_complete
 
         if self.__itunes_new_feed_url:
-            new_feed_url = etree.SubElement(channel,
-                                            '{%s}new-feed-url' % ITUNES_NS)
+            new_feed_url = xml_elem('{%s}new-feed-url' % ITUNES_NS, channel)
             new_feed_url.text = self.__itunes_new_feed_url
 
         if self.__itunes_owner:
-            owner = etree.SubElement(channel, '{%s}owner' % ITUNES_NS)
-            owner_name = etree.SubElement(owner, '{%s}name' % ITUNES_NS)
+            owner = xml_elem('{%s}owner' % ITUNES_NS, channel)
+            owner_name = xml_elem('{%s}name' % ITUNES_NS, owner)
             owner_name.text = self.__itunes_owner.get('name')
-            owner_email = etree.SubElement(owner, '{%s}email' % ITUNES_NS)
+            owner_email = xml_elem('{%s}email' % ITUNES_NS, owner)
             owner_email.text = self.__itunes_owner.get('email')
 
         if self.__itunes_subtitle:
-            subtitle = etree.SubElement(channel, '{%s}subtitle' % ITUNES_NS)
+            subtitle = xml_elem('{%s}subtitle' % ITUNES_NS, channel)
             subtitle.text = self.__itunes_subtitle
 
         if self.__itunes_summary:
-            summary = etree.SubElement(channel, '{%s}summary' % ITUNES_NS)
+            summary = xml_elem('{%s}summary' % ITUNES_NS, channel)
             summary.text = self.__itunes_summary
 
         return rss_feed
