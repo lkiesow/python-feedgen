@@ -22,7 +22,7 @@ class TestExtensionSyndication(unittest.TestCase):
             root = etree.fromstring(self.fg.rss_str())
             a = root.xpath('/rss/channel/sy:UpdatePeriod',
                            namespaces=self.SYN_NS)
-            assert a[0].text == period_type
+            self.assertEqual(a[0].text, period_type)
 
     def test_update_frequency(self):
         for frequency in (1, 100, 2000, 100000):
@@ -30,11 +30,11 @@ class TestExtensionSyndication(unittest.TestCase):
             root = etree.fromstring(self.fg.rss_str())
             a = root.xpath('/rss/channel/sy:UpdateFrequency',
                            namespaces=self.SYN_NS)
-            assert a[0].text == str(frequency)
+            self.assertEqual(a[0].text, str(frequency))
 
     def test_update_base(self):
         base = '2000-01-01T12:00+00:00'
         self.fg.syndication.update_base(base)
         root = etree.fromstring(self.fg.rss_str())
         a = root.xpath('/rss/channel/sy:UpdateBase', namespaces=self.SYN_NS)
-        assert a[0].text == base
+        self.assertEqual(a[0].text, base)

@@ -403,8 +403,9 @@ class TestExtensionGeo(unittest.TestCase):
             # Trigger a warning.
             fe.geo.geom_from_geo_interface(self.polygon_with_interior)
             # Verify some things
-            assert len(w) == 1
-            assert issubclass(w[-1].category, GeoRSSPolygonInteriorWarning)
+            self.assertEqual(len(w), 1)
+            self.assertTrue(issubclass(w[-1].category,
+                                       GeoRSSPolygonInteriorWarning))
 
         self.assertEqual(fe.geo.polygon(), str(self.polygon_with_interior))
 

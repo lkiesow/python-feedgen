@@ -24,8 +24,8 @@ class TestExtensionDc(unittest.TestCase):
             if method.startswith('dc_'):
                 m = getattr(self.fg.dc, method)
                 m(method)
-                assert m() == [method]
+                self.assertEqual(m(), [method])
 
         self.fg.id('123')
-        assert self.fg.atom_str()
-        assert self.fg.rss_str()
+        self.assertTrue(self.fg.atom_str())
+        self.assertTrue(self.fg.rss_str())

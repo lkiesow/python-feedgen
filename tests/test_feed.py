@@ -117,22 +117,22 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_baseFeed(self):
         fg = self.fg
 
-        assert fg.id() == self.feedId
-        assert fg.title() == self.title
+        self.assertEqual(fg.id(), self.feedId)
+        self.assertEqual(fg.title(), self.title)
 
-        assert fg.author()[0]['name'] == self.authorName
-        assert fg.author()[0]['email'] == self.authorMail
+        self.assertEqual(fg.author()[0]['name'], self.authorName)
+        self.assertEqual(fg.author()[0]['email'], self.authorMail)
 
-        assert fg.link()[0]['href'] == self.linkHref
-        assert fg.link()[0]['rel'] == self.linkRel
+        self.assertEqual(fg.link()[0]['href'], self.linkHref)
+        self.assertEqual(fg.link()[0]['rel'], self.linkRel)
 
-        assert fg.logo() == self.logo
-        assert fg.subtitle() == self.subtitle
+        self.assertEqual(fg.logo(), self.logo)
+        self.assertEqual(fg.subtitle(), self.subtitle)
 
-        assert fg.link()[1]['href'] == self.link2Href
-        assert fg.link()[1]['rel'] == self.link2Rel
+        self.assertEqual(fg.link()[1]['href'], self.link2Href)
+        self.assertEqual(fg.link()[1]['rel'], self.link2Rel)
 
-        assert fg.language() == self.language
+        self.assertEqual(fg.language(), self.language)
 
     def test_atomFeedFile(self):
         fg = self.fg
@@ -178,10 +178,10 @@ class TestSequenceFunctions(unittest.TestCase):
         nsAtom = self.nsAtom
         feed_links = feed.findall("{%s}link" % nsAtom)
         idx = 0
-        assert len(links) == len(feed_links)
+        self.assertEqual(len(links), len(feed_links))
         while idx < len(values_for_rel):
-            assert feed_links[idx].get('href') == links[idx]['href']
-            assert feed_links[idx].get('rel') == links[idx]['rel']
+            self.assertEqual(feed_links[idx].get('href'), links[idx]['href'])
+            self.assertEqual(feed_links[idx].get('rel'), links[idx]['rel'])
             idx += 1
 
     def test_rel_values_for_rss(self):
@@ -212,49 +212,85 @@ class TestSequenceFunctions(unittest.TestCase):
 
         atom_links = channel.findall("{%s}link" % nsAtom)
         # rss feed only implements atom's 'self' link
-        assert len(atom_links) == 1
-        assert atom_links[0].get('href') == '%s/%s' % (self.linkHref, 'self')
-        assert atom_links[0].get('rel') == 'self'
+        self.assertEqual(len(atom_links), 1)
+        self.assertEqual(atom_links[0].get('href'),
+                         '%s/%s' % (self.linkHref, 'self'))
+        self.assertEqual(atom_links[0].get('rel'), 'self')
 
         rss_links = channel.findall('link')
         # RSS only needs one URL. We use the first link for RSS:
-        assert len(rss_links) == 1
-        assert rss_links[0].text == '%s/%s' % \
-            (self.linkHref, 'working-copy-of'.replace('-', '_'))
+        self.assertEqual(len(rss_links), 1)
+        self.assertEqual(
+                rss_links[0].text,
+                '%s/%s' % (self.linkHref, 'working-copy-of'.replace('-', '_')))
 
     def checkAtomString(self, atomString):
 
         feed = etree.fromstring(atomString)
 
-        nsAtom = self.nsAtom
+        nsAtom = "{" + self.nsAtom + "}"
 
-        assert feed.find("{%s}title" % nsAtom).text == self.title
-        assert feed.find("{%s}updated" % nsAtom).text is not None
-        assert feed.find("{%s}id" % nsAtom).text == self.feedId
-        assert feed.find("{%s}category" % nsAtom)\
-            .get('term') == self.categoryTerm
-        assert feed.find("{%s}category" % nsAtom)\
-            .get('label') == self.categoryLabel
-        assert feed.find("{%s}author" % nsAtom)\
-            .find("{%s}name" % nsAtom).text == self.authorName
-        assert feed.find("{%s}author" % nsAtom)\
-            .find("{%s}email" % nsAtom).text == self.authorMail
-        assert feed.findall("{%s}link" % nsAtom)[0]\
-            .get('href') == self.linkHref
-        assert feed.findall("{%s}link" % nsAtom)[0].get('rel') == self.linkRel
-        assert feed.findall("{%s}link" % nsAtom)[1]\
-            .get('href') == self.link2Href
-        assert feed.findall("{%s}link" % nsAtom)[1].get('rel') == self.link2Rel
-        assert feed.find("{%s}logo" % nsAtom).text == self.logo
-        assert feed.find("{%s}icon" % nsAtom).text == self.icon
-        assert feed.find("{%s}subtitle" % nsAtom).text == self.subtitle
-        assert feed.find("{%s}contributor" % nsAtom)\
-            .find("{%s}name" % nsAtom).text == self.contributor['name']
-        assert feed.find("{%s}contributor" % nsAtom)\
-            .find("{%s}email" % nsAtom).text == self.contributor['email']
-        assert feed.find("{%s}contributor" % nsAtom)\
-            .find("{%s}uri" % nsAtom).text == self.contributor['uri']
-        assert feed.find("{%s}rights" % nsAtom).text == self.copyright
+        print(nsAtom)
+        print(f"{nsAtom}title")
+        testcases = [
+            (
+                feed.find(f"{nsAtom}title").text,
+                self.title
+            ), (
+                feed.find(f"{nsAtom}id").text,
+                self.feedId
+            ), (
+                feed.find(f"{nsAtom}category").get('term'),
+                self.categoryTerm
+            ), (
+                feed.find(f"{nsAtom}category").get('label'),
+                self.categoryLabel
+            ), (
+                feed.find(f"{nsAtom}author").find(f"{nsAtom}name").text,
+                self.authorName
+            ), (
+                feed.find(f"{nsAtom}author").find(f"{nsAtom}email").text,
+                self.authorMail
+            ), (
+                feed.findall(f"{nsAtom}link")[0].get('href'),
+                self.linkHref
+            ), (
+                feed.findall(f"{nsAtom}link")[0].get('rel'),
+                self.linkRel
+            ), (
+                feed.findall(f"{nsAtom}link")[1].get('href'),
+                self.link2Href
+            ), (
+                feed.findall(f"{nsAtom}link")[1].get('rel'),
+                self.link2Rel
+            ), (
+                feed.find(f"{nsAtom}logo").text,
+                self.logo
+            ), (
+                feed.find(f"{nsAtom}icon").text,
+                self.icon
+            ), (
+                feed.find(f"{nsAtom}subtitle").text,
+                self.subtitle
+            ), (
+                feed.find(f"{nsAtom}contributor").find(f"{nsAtom}name").text,
+                self.contributor['name']
+            ), (
+                feed.find(f"{nsAtom}contributor").find(f"{nsAtom}email").text,
+                self.contributor['email']
+            ), (
+                feed.find(f"{nsAtom}contributor").find(f"{nsAtom}uri").text,
+                self.contributor['uri']
+            ), (
+                feed.find(f"{nsAtom}rights").text,
+                self.copyright
+            )]
+        for actual, expected in testcases:
+            self.assertEqual(actual, expected)
+
+        self.assertIsNot(
+                feed.find(f"{nsAtom}updated").text,
+                None)
 
     def test_rssFeedFile(self):
         fg = self.fg
@@ -301,39 +337,64 @@ class TestSequenceFunctions(unittest.TestCase):
         nsAtom = self.nsAtom
 
         ch = feed.find("channel")
-        assert ch is not None
+        self.assertIsNot(ch, None)
 
-        assert ch.find("title").text == self.title
-        assert ch.find("description").text == self.subtitle
-        assert ch.find("lastBuildDate").text is not None
-        docs = "http://www.rssboard.org/rss-specification"
-        assert ch.find("docs").text == docs
-        assert ch.find("generator").text == "python-feedgen"
-        assert ch.findall("{%s}link" % nsAtom)[0].get('href') == self.link2Href
-        assert ch.findall("{%s}link" % nsAtom)[0].get('rel') == self.link2Rel
-        assert ch.find("image").find("url").text == self.logo
-        assert ch.find("image").find("title").text == self.title
-        assert ch.find("image").find("link").text == self.link2Href
-        assert ch.find("category").text == self.categoryLabel
-        assert ch.find("cloud").get('domain') == self.cloudDomain
-        assert ch.find("cloud").get('port') == self.cloudPort
-        assert ch.find("cloud").get('path') == self.cloudPath
-        assert ch.find("cloud").get('registerProcedure') == \
-            self.cloudRegisterProcedure
-        assert ch.find("cloud").get('protocol') == self.cloudProtocol
-        assert ch.find("copyright").text == self.copyright
-        assert ch.find("docs").text == self.docs
-        assert ch.find("managingEditor").text == self.managingEditor
-        assert ch.find("rating").text == self.rating
-        assert ch.find("skipDays").find("day").text == self.skipDays
-        assert int(ch.find("skipHours").find("hour").text) == self.skipHours
-        assert ch.find("textInput").get('title') == self.textInputTitle
-        assert ch.find("textInput").get('description') == \
-            self.textInputDescription
-        assert ch.find("textInput").get('name') == self.textInputName
-        assert ch.find("textInput").get('link') == self.textInputLink
-        assert int(ch.find("ttl").text) == self.ttl
-        assert ch.find("webMaster").text == self.webMaster
+        self.assertEqual(ch.find("title").text,
+                         self.title)
+        self.assertEqual(ch.find("description").text,
+                         self.subtitle)
+        self.assertIsNot(ch.find("lastBuildDate").text,
+                         None)
+        self.assertEqual(ch.find("docs").text,
+                         "http://www.rssboard.org/rss-specification")
+        self.assertEqual(ch.find("generator").text,
+                         "python-feedgen")
+        self.assertEqual(ch.findall("{%s}link" % nsAtom)[0].get('href'),
+                         self.link2Href)
+        self.assertEqual(ch.findall("{%s}link" % nsAtom)[0].get('rel'),
+                         self.link2Rel)
+        self.assertEqual(ch.find("image").find("url").text,
+                         self.logo)
+        self.assertEqual(ch.find("image").find("title").text,
+                         self.title)
+        self.assertEqual(ch.find("image").find("link").text,
+                         self.link2Href)
+        self.assertEqual(ch.find("category").text,
+                         self.categoryLabel)
+        self.assertEqual(ch.find("cloud").get('domain'),
+                         self.cloudDomain)
+        self.assertEqual(ch.find("cloud").get('port'),
+                         self.cloudPort)
+        self.assertEqual(ch.find("cloud").get('path'),
+                         self.cloudPath)
+        self.assertEqual(ch.find("cloud").get('registerProcedure'),
+                         self.cloudRegisterProcedure)
+        self.assertEqual(ch.find("cloud").get('protocol'),
+                         self.cloudProtocol)
+        self.assertEqual(ch.find("copyright").text,
+                         self.copyright)
+        self.assertEqual(ch.find("docs").text,
+                         self.docs)
+        self.assertEqual(ch.find("managingEditor").text,
+                         self.managingEditor)
+        self.assertEqual(ch.find("rating").text,
+                         self.rating)
+        self.assertEqual(ch.find("skipDays").find("day").text,
+                         self.skipDays)
+        self.assertEqual(int(ch.find("skipHours").find("hour").text),
+                         self.skipHours)
+        self.assertEqual(ch.find("textInput").get('title'),
+                         self.textInputTitle)
+        self.assertEqual(ch.find("textInput").get('description'),
+                         self.textInputDescription)
+        self.assertEqual(ch.find("textInput").get('name'),
+                         self.textInputName)
+        self.assertEqual(ch.find("textInput").get('link'),
+                         self.textInputLink)
+        self.assertEqual(int(ch.find("ttl").text),
+                         self.ttl)
+        self.assertEqual(ch.find("webMaster").text,
+                         self.webMaster)
 
 
 if __name__ == '__main__':
