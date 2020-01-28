@@ -10,9 +10,8 @@ See below for details
 http://web.resource.org/rss/1.0/modules/syndication/
 '''
 
-from lxml import etree
-
 from feedgen.ext.base import BaseExtension
+from feedgen.util import xml_elem
 
 SYNDICATION_NS = 'http://purl.org/rss/1.0/modules/syndication/'
 PERIOD_TYPE = ('hourly', 'daily', 'weekly', 'monthly', 'yearly')
@@ -20,7 +19,7 @@ PERIOD_TYPE = ('hourly', 'daily', 'weekly', 'monthly', 'yearly')
 
 def _set_value(channel, name, value):
     if value:
-        newelem = etree.SubElement(channel, '{%s}' % SYNDICATION_NS + name)
+        newelem = xml_elem('{%s}' % SYNDICATION_NS + name, channel)
         newelem.text = value
 
 

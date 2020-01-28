@@ -3,7 +3,7 @@
     feedgen.feed
     ~~~~~~~~~~~~
 
-    :copyright: 2013-2016, Lars Kiesow <lkiesow@uos.de>
+    :copyright: 2013-2020, Lars Kiesow <lkiesow@uos.de>
 
     :license: FreeBSD and LGPL, see license.* for more details.
 
@@ -14,12 +14,12 @@ from datetime import datetime
 
 import dateutil.parser
 import dateutil.tz
-from lxml import etree
+from lxml import etree  # nosec - not using this for parsing
 
 import feedgen.version
 from feedgen.compat import string_types
 from feedgen.entry import FeedEntry
-from feedgen.util import ensure_format, formatRFC2822
+from feedgen.util import ensure_format, formatRFC2822, xml_elem
 
 _feedgen_version = feedgen.version.version_str
 
@@ -47,7 +47,7 @@ class FeedGenerator(object):
         self.__atom_contributor = None
         self.__atom_generator = {
                 'value': 'python-feedgen',
-                'uri': 'http://lkiesow.github.io/python-feedgen',
+                'uri': 'https://lkiesow.github.io/python-feedgen',
                 'version': feedgen.version.version_str}  # {value*,uri,version}
         self.__atom_icon = None
         self.__atom_logo = None
@@ -95,9 +95,9 @@ class FeedGenerator(object):
                 if ext.get('atom'):
                     nsmap.update(ext['inst'].extend_ns())
 
-        feed = etree.Element('feed',
-                             xmlns='http://www.w3.org/2005/Atom',
-                             nsmap=nsmap)
+        feed = xml_elem('feed',
+                        xmlns='http://www.w3.org/2005/Atom',
+                        nsmap=nsmap)
         if self.__atom_feed_xml_lang:
             feed.attrib['{http://www.w3.org/XML/1998/namespace}lang'] = \
                     self.__atom_feed_xml_lang
@@ -108,11 +108,11 @@ class FeedGenerator(object):
                       ([] if self.__atom_updated else ['updated'])
             missing = ', '.join(missing)
             raise ValueError('Required fields not set (%s)' % missing)
-        id = etree.SubElement(feed, 'id')
+        id = xml_elem('id', feed)
         id.text = self.__atom_id
-        title = etree.SubElement(feed, 'title')
+        title = xml_elem('title', feed)
         title.text = self.__atom_title
-        updated = etree.SubElement(feed, 'updated')
+        updated = xml_elem('updated', feed)
         updated.text = self.__atom_updated.isoformat()
 
         # Add author elements
@@ -120,18 +120,18 @@ class FeedGenerator(object):
             # Atom requires a name. Skip elements without.
             if not a.get('name'):
                 continue
-            author = etree.SubElement(feed, 'author')
-            name = etree.SubElement(author, 'name')
+            author = xml_elem('author', feed)
+            name = xml_elem('name', author)
             name.text = a.get('name')
             if a.get('email'):
-                email = etree.SubElement(author, 'email')
+                email = xml_elem('email', author)
                 email.text = a.get('email')
             if a.get('uri'):
-                uri = etree.SubElement(author, 'uri')
+                uri = xml_elem('uri', author)
                 uri.text = a.get('uri')
 
         for l in self.__atom_link or []:
-            link = etree.SubElement(feed, 'link', href=l['href'])
+            link = xml_elem('link', feed, href=l['href'])
             if l.get('rel'):
                 link.attrib['rel'] = l['rel']
             if l.get('type'):
@@ -144,7 +144,7 @@ class FeedGenerator(object):
                 link.attrib['length'] = l['length']
 
         for c in self.__atom_category or []:
-            cat = etree.SubElement(feed, 'category', term=c['term'])
+            cat = xml_elem('category', feed, term=c['term'])
             if c.get('scheme'):
                 cat.attrib['scheme'] = c['scheme']
             if c.get('label'):
@@ -155,18 +155,18 @@ class FeedGenerator(object):
             # Atom requires a name. Skip elements without.
             if not c.get('name'):
                 continue
-            contrib = etree.SubElement(feed, 'contributor')
-            name = etree.SubElement(contrib, 'name')
+            contrib = xml_elem('contributor', feed)
+            name = xml_elem('name', contrib)
             name.text = c.get('name')
             if c.get('email'):
-                email = etree.SubElement(contrib, 'email')
+                email = xml_elem('email', contrib)
                 email.text = c.get('email')
             if c.get('uri'):
-                uri = etree.SubElement(contrib, 'uri')
+                uri = xml_elem('uri', contrib)
                 uri.text = c.get('uri')
 
         if self.__atom_generator and self.__atom_generator.get('value'):
-            generator = etree.SubElement(feed, 'generator')
+            generator = xml_elem('generator', feed)
             generator.text = self.__atom_generator['value']
             if self.__atom_generator.get('uri'):
                 generator.attrib['uri'] = self.__atom_generator['uri']
@@ -174,19 +174,19 @@ class FeedGenerator(object):
                 generator.attrib['version'] = self.__atom_generator['version']
 
         if self.__atom_icon:
-            icon = etree.SubElement(feed, 'icon')
+            icon = xml_elem('icon', feed)
             icon.text = self.__atom_icon
 
         if self.__atom_logo:
-            logo = etree.SubElement(feed, 'logo')
+            logo = xml_elem('logo', feed)
             logo.text = self.__atom_logo
 
         if self.__atom_rights:
-            rights = etree.SubElement(feed, 'rights')
+            rights = xml_elem('rights', feed)
             rights.text = self.__atom_rights
 
         if self.__atom_subtitle:
-            subtitle = etree.SubElement(feed, 'subtitle')
+            subtitle = xml_elem('subtitle', feed)
             subtitle.text = self.__atom_subtitle
 
         if extensions:
@@ -255,8 +255,8 @@ class FeedGenerator(object):
         nsmap.update({'atom':  'http://www.w3.org/2005/Atom',
                       'content': 'http://purl.org/rss/1.0/modules/content/'})
 
-        feed = etree.Element('rss', version='2.0', nsmap=nsmap)
-        channel = etree.SubElement(feed, 'channel')
+        feed = xml_elem('rss', version='2.0', nsmap=nsmap)
+        channel = xml_elem('channel', feed)
         if not (self.__rss_title and
                 self.__rss_link and
                 self.__rss_description):
@@ -265,18 +265,17 @@ class FeedGenerator(object):
                       ([] if self.__rss_description else ['description'])
             missing = ', '.join(missing)
             raise ValueError('Required fields not set (%s)' % missing)
-        title = etree.SubElement(channel, 'title')
+        title = xml_elem('title', channel)
         title.text = self.__rss_title
-        link = etree.SubElement(channel, 'link')
+        link = xml_elem('link', channel)
         link.text = self.__rss_link
-        desc = etree.SubElement(channel, 'description')
+        desc = xml_elem('description', channel)
         desc.text = self.__rss_description
         for ln in self.__atom_link or []:
             # It is recommended to include a atom self link in rss documents…
             if ln.get('rel') == 'self':
-                selflink = etree.SubElement(
-                        channel, '{http://www.w3.org/2005/Atom}link',
-                        href=ln['href'], rel='self')
+                selflink = xml_elem('{http://www.w3.org/2005/Atom}link',
+                                    channel, href=ln['href'], rel='self')
                 if ln.get('type'):
                     selflink.attrib['type'] = ln['type']
                 if ln.get('hreflang'):
@@ -288,12 +287,12 @@ class FeedGenerator(object):
                 break
         if self.__rss_category:
             for cat in self.__rss_category:
-                category = etree.SubElement(channel, 'category')
+                category = xml_elem('category', channel)
                 category.text = cat['value']
                 if cat.get('domain'):
                     category.attrib['domain'] = cat['domain']
         if self.__rss_cloud:
-            cloud = etree.SubElement(channel, 'cloud')
+            cloud = xml_elem('cloud', channel)
             cloud.attrib['domain'] = self.__rss_cloud.get('domain')
             cloud.attrib['port'] = self.__rss_cloud.get('port')
             cloud.attrib['path'] = self.__rss_cloud.get('path')
@@ -301,69 +300,69 @@ class FeedGenerator(object):
                     'registerProcedure')
             cloud.attrib['protocol'] = self.__rss_cloud.get('protocol')
         if self.__rss_copyright:
-            copyright = etree.SubElement(channel, 'copyright')
+            copyright = xml_elem('copyright', channel)
             copyright.text = self.__rss_copyright
         if self.__rss_docs:
-            docs = etree.SubElement(channel, 'docs')
+            docs = xml_elem('docs', channel)
             docs.text = self.__rss_docs
         if self.__rss_generator:
-            generator = etree.SubElement(channel, 'generator')
+            generator = xml_elem('generator', channel)
             generator.text = self.__rss_generator
         if self.__rss_image:
-            image = etree.SubElement(channel, 'image')
-            url = etree.SubElement(image, 'url')
+            image = xml_elem('image', channel)
+            url = xml_elem('url', image)
             url.text = self.__rss_image.get('url')
-            title = etree.SubElement(image, 'title')
+            title = xml_elem('title', image)
             title.text = self.__rss_image.get('title', self.__rss_title)
-            link = etree.SubElement(image, 'link')
+            link = xml_elem('link', image)
             link.text = self.__rss_image.get('link', self.__rss_link)
             if self.__rss_image.get('width'):
-                width = etree.SubElement(image, 'width')
+                width = xml_elem('width', image)
                 width.text = self.__rss_image.get('width')
             if self.__rss_image.get('height'):
-                height = etree.SubElement(image, 'height')
+                height = xml_elem('height', image)
                 height.text = self.__rss_image.get('height')
             if self.__rss_image.get('description'):
-                description = etree.SubElement(image, 'description')
+                description = xml_elem('description', image)
                 description.text = self.__rss_image.get('description')
         if self.__rss_language:
-            language = etree.SubElement(channel, 'language')
+            language = xml_elem('language', channel)
             language.text = self.__rss_language
         if self.__rss_lastBuildDate:
-            lastBuildDate = etree.SubElement(channel, 'lastBuildDate')
+            lastBuildDate = xml_elem('lastBuildDate', channel)
 
             lastBuildDate.text = formatRFC2822(self.__rss_lastBuildDate)
         if self.__rss_managingEditor:
-            managingEditor = etree.SubElement(channel, 'managingEditor')
+            managingEditor = xml_elem('managingEditor', channel)
             managingEditor.text = self.__rss_managingEditor
         if self.__rss_pubDate:
-            pubDate = etree.SubElement(channel, 'pubDate')
+            pubDate = xml_elem('pubDate', channel)
             pubDate.text = formatRFC2822(self.__rss_pubDate)
         if self.__rss_rating:
-            rating = etree.SubElement(channel, 'rating')
+            rating = xml_elem('rating', channel)
             rating.text = self.__rss_rating
         if self.__rss_skipHours:
-            skipHours = etree.SubElement(channel, 'skipHours')
+            skipHours = xml_elem('skipHours', channel)
             for h in self.__rss_skipHours:
-                hour = etree.SubElement(skipHours, 'hour')
+                hour = xml_elem('hour', skipHours)
                 hour.text = str(h)
         if self.__rss_skipDays:
-            skipDays = etree.SubElement(channel, 'skipDays')
+            skipDays = xml_elem('skipDays', channel)
             for d in self.__rss_skipDays:
-                day = etree.SubElement(skipDays, 'day')
+                day = xml_elem('day', skipDays)
                 day.text = d
         if self.__rss_textInput:
-            textInput = etree.SubElement(channel, 'textInput')
+            textInput = xml_elem('textInput', channel)
             textInput.attrib['title'] = self.__rss_textInput.get('title')
             textInput.attrib['description'] = \
                 self.__rss_textInput.get('description')
             textInput.attrib['name'] = self.__rss_textInput.get('name')
             textInput.attrib['link'] = self.__rss_textInput.get('link')
         if self.__rss_ttl:
-            ttl = etree.SubElement(channel, 'ttl')
+            ttl = xml_elem('ttl', channel)
             ttl.text = str(self.__rss_ttl)
         if self.__rss_webMaster:
-            webMaster = etree.SubElement(channel, 'webMaster')
+            webMaster = xml_elem('webMaster', channel)
             webMaster.text = self.__rss_webMaster
 
         if extensions:

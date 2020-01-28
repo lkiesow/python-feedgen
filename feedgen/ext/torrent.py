@@ -10,9 +10,8 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from lxml import etree
-
 from feedgen.ext.base import BaseEntryExtension, BaseExtension
+from feedgen.util import xml_elem
 
 TORRENT_NS = 'http://xmlns.ezrss.it/0.1/dtd/'
 
@@ -41,30 +40,29 @@ class TorrentEntryExtension(BaseEntryExtension):
         :param feed: The RSS item XML element to use.
         '''
         if self.__torrent_filename:
-            filename = etree.SubElement(entry, '{%s}filename' % TORRENT_NS)
+            filename = xml_elem('{%s}filename' % TORRENT_NS, entry)
             filename.text = self.__torrent_filename
 
         if self.__torrent_contentlength:
-            contentlength = etree.SubElement(entry,
-                                             '{%s}contentlength' % TORRENT_NS)
+            contentlength = xml_elem('{%s}contentlength' % TORRENT_NS, entry)
             contentlength.text = self.__torrent_contentlength
 
         if self.__torrent_infohash:
-            infohash = etree.SubElement(entry, '{%s}infohash' % TORRENT_NS)
+            infohash = xml_elem('{%s}infohash' % TORRENT_NS, entry)
             infohash.text = self.__torrent_infohash
-            magnet = etree.SubElement(entry, '{%s}magneturi' % TORRENT_NS)
+            magnet = xml_elem('{%s}magneturi' % TORRENT_NS, entry)
             magnet.text = 'magnet:?xt=urn:btih:' + self.__torrent_infohash
 
         if self.__torrent_seeds:
-            seeds = etree.SubElement(entry, '{%s}seed' % TORRENT_NS)
+            seeds = xml_elem('{%s}seed' % TORRENT_NS, entry)
             seeds.text = self.__torrent_seeds
 
         if self.__torrent_peers:
-            peers = etree.SubElement(entry, '{%s}peers' % TORRENT_NS)
+            peers = xml_elem('{%s}peers' % TORRENT_NS, entry)
             peers.text = self.__torrent_peers
 
         if self.__torrent_verified:
-            verified = etree.SubElement(entry, '{%s}verified' % TORRENT_NS)
+            verified = xml_elem('{%s}verified' % TORRENT_NS, entry)
             verified.text = self.__torrent_verified
 
     def filename(self, torrent_filename=None):

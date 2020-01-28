@@ -13,9 +13,8 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from lxml import etree
-
 from feedgen.ext.base import BaseExtension
+from feedgen.util import xml_elem
 
 
 class DcBaseExtension(BaseExtension):
@@ -45,10 +44,10 @@ class DcBaseExtension(BaseExtension):
     def extend_ns(self):
         return {'dc': 'http://purl.org/dc/elements/1.1/'}
 
-    def _extend_xml(self, xml_elem):
-        '''Extend xml_elem with set DC fields.
+    def _extend_xml(self, xml_element):
+        '''Extend xml_element with set DC fields.
 
-        :param xml_elem: etree element
+        :param xml_element: etree element
         '''
         DCELEMENTS_NS = 'http://purl.org/dc/elements/1.1/'
 
@@ -58,8 +57,8 @@ class DcBaseExtension(BaseExtension):
                      'identifier']:
             if hasattr(self, '_dcelem_%s' % elem):
                 for val in getattr(self, '_dcelem_%s' % elem) or []:
-                    node = etree.SubElement(xml_elem,
-                                            '{%s}%s' % (DCELEMENTS_NS, elem))
+                    node = xml_elem('{%s}%s' % (DCELEMENTS_NS, elem),
+                                    xml_element)
                     node.text = val
 
     def extend_atom(self, atom_feed):
