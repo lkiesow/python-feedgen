@@ -78,6 +78,8 @@ class TestExtensionPodcast(unittest.TestCase):
         fe.podcast.itunes_order(1)
         fe.podcast.itunes_subtitle('x')
         fe.podcast.itunes_summary('x')
+        fe.podcast.itunes_season(1)
+        fe.podcast.itunes_episode(1)
         assert fe.podcast.itunes_author() == 'Lars Kiesow'
         assert fe.podcast.itunes_block() == 'x'
         assert fe.podcast.itunes_duration() == '00:01:30'
@@ -87,6 +89,8 @@ class TestExtensionPodcast(unittest.TestCase):
         assert fe.podcast.itunes_order() == 1
         assert fe.podcast.itunes_subtitle() == 'x'
         assert fe.podcast.itunes_summary() == 'x'
+        assert fe.podcast.itunes_season() == 1
+        assert fe.podcast.itunes_episode() == 1
 
         # Check that we have the item in the resulting XML
         ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}

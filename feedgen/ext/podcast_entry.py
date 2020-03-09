@@ -30,6 +30,8 @@ class PodcastEntryExtension(BaseEntryExtension):
         self.__itunes_order = None
         self.__itunes_subtitle = None
         self.__itunes_summary = None
+        self.__itunes_season = None
+        self.__itunes_episode = None
 
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
@@ -77,6 +79,14 @@ class PodcastEntryExtension(BaseEntryExtension):
         if self.__itunes_summary:
             summary = xml_elem('{%s}summary' % ITUNES_NS, entry)
             summary.text = self.__itunes_summary
+
+        if self.__itunes_season:
+            season = xml_elem('{%s}season' % ITUNES_NS, entry)
+            season.text = str(self.__itunes_season)
+
+        if self.__itunes_episode:
+            episode = xml_elem('{%s}episode' % ITUNES_NS, entry)
+            episode.text = str(self.__itunes_episode)
         return entry
 
     def itunes_author(self, itunes_author=None):
@@ -242,3 +252,23 @@ class PodcastEntryExtension(BaseEntryExtension):
         if itunes_summary is not None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
+
+    def itunes_season(self, itunes_season=None):
+        '''Get or set the itunes:season value for the podcast episode.
+
+        :param itunes_season: Season number of the podcast epiosode.
+        :returns: Season number of the podcast episode.
+        '''
+        if itunes_season is not None:
+            self.__itunes_season = int(itunes_season)
+        return self.__itunes_season
+
+    def itunes_episode(self, itunes_episode=None):
+        '''Get or set the itunes:episode value for the podcast episode.
+
+        :param itunes_season: Episode number of the podcast epiosode.
+        :returns: Episode number of the podcast episode.
+        '''
+        if itunes_episode is not None:
+            self.__itunes_episode = int(itunes_episode)
+        return self.__itunes_episode

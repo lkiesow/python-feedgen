@@ -101,6 +101,8 @@ def main():
                                   'adipiscing elit. Verba tu fingas et ea ' +
                                   'dicas, quae non sentias?')
         fe.podcast.itunes_author('Lars Kiesow')
+        fe.podcast.itunes_season(1)
+        fe.podcast.itunes_episode(1)
         print_enc(fg.rss_str(pretty=True))
 
     elif arg == 'torrent':
