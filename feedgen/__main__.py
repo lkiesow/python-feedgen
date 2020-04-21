@@ -100,6 +100,7 @@ def main():
         fg.podcast.itunes_summary('Lorem ipsum dolor sit amet, consectetur ' +
                                   'adipiscing elit. Verba tu fingas et ea ' +
                                   'dicas, quae non sentias?')
+        fg.podcast.itunes_type('episodic')
         fe.podcast.itunes_author('Lars Kiesow')
         fe.podcast.itunes_season(1)
         fe.podcast.itunes_episode(1)
