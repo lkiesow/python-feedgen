@@ -33,6 +33,7 @@ class PodcastEntryExtension(BaseEntryExtension):
         self.__itunes_season = None
         self.__itunes_episode = None
         self.__itunes_title = None
+        self.__itunes_episode_type = None
 
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
@@ -92,6 +93,10 @@ class PodcastEntryExtension(BaseEntryExtension):
         if self.__itunes_title:
             title = xml_elem('{%s}title' % ITUNES_NS, entry)
             title.text = self.__itunes_title
+
+        if self.__itunes_episode_type in ('full', 'trailer', 'bonus'):
+            episode_type = xml_elem('{%s}episodeType' % ITUNES_NS, entry)
+            episode_type.text = self.__itunes_episode_type
         return entry
 
     def itunes_author(self, itunes_author=None):
@@ -291,3 +296,26 @@ class PodcastEntryExtension(BaseEntryExtension):
         if itunes_title is not None:
             self.__itunes_title = itunes_title
         return self.__itunes_title
+
+    def itunes_episode_type(self, itunes_episode_type=None):
+        '''Get or set the itunes:episodeType value of the item. This tag should
+        be used to indicate the episode type.
+        The three values for this tag are "full", "trailer" and "bonus".
+
+        If an episode is a trailer or bonus content, use this tag.
+
+        Specify full when you are submitting the complete content of your show.
+        Specify trailer when you are submitting a short, promotional piece of
+        content that represents a preview of your current show.
+        Specify bonus when you are submitting extra content for your show (for
+        example, behind the scenes information or interviews with the cast) or
+        cross-promotional content for another show.
+
+        :param itunes_episode_type: The episode type
+        :returns: type of the episode.
+        '''
+        if itunes_episode_type is not None:
+            if itunes_episode_type not in ('full', 'trailer', 'bonus'):
+                raise ValueError('Invalid value for episodeType tag')
+            self.__itunes_episode_type = itunes_episode_type
+        return self.__itunes_episode_type
