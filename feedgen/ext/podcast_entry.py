@@ -32,6 +32,7 @@ class PodcastEntryExtension(BaseEntryExtension):
         self.__itunes_summary = None
         self.__itunes_season = None
         self.__itunes_episode = None
+        self.__itunes_title = None
 
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
@@ -87,6 +88,10 @@ class PodcastEntryExtension(BaseEntryExtension):
         if self.__itunes_episode:
             episode = xml_elem('{%s}episode' % ITUNES_NS, entry)
             episode.text = str(self.__itunes_episode)
+
+        if self.__itunes_title:
+            title = xml_elem('{%s}title' % ITUNES_NS, entry)
+            title.text = self.__itunes_title
         return entry
 
     def itunes_author(self, itunes_author=None):
@@ -272,3 +277,17 @@ class PodcastEntryExtension(BaseEntryExtension):
         if itunes_episode is not None:
             self.__itunes_episode = int(itunes_episode)
         return self.__itunes_episode
+
+    def itunes_title(self, itunes_title=None):
+        '''Get or set the itunes:title value for the podcast episode.
+
+        An episode title specific for Apple Podcasts. Don’t specify the episode
+        number or season number in this tag. Also, don’t repeat the title of
+        your show within your episode title.
+
+        :param itunes_title: Episode title specific for Apple Podcasts
+        :returns: Title specific for Apple Podcast
+        '''
+        if itunes_title is not None:
+            self.__itunes_title = itunes_title
+        return self.__itunes_title

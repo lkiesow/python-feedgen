@@ -104,6 +104,7 @@ def main():
         fe.podcast.itunes_author('Lars Kiesow')
         fe.podcast.itunes_season(1)
         fe.podcast.itunes_episode(1)
+        fe.podcast.itunes_title('First podcast episode')
         print_enc(fg.rss_str(pretty=True))
 
     elif arg == 'torrent':
