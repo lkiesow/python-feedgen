@@ -97,7 +97,7 @@ class PodcastExtension(BaseExtension):
             summary = xml_elem('{%s}summary' % ITUNES_NS, channel)
             summary.text = self.__itunes_summary
 
-        if self.__itunes_type:
+        if self.__itunes_type in ('episodic', 'serial'):
             type = xml_elem('{%s}type' % ITUNES_NS, channel)
             type.text = self.__itunes_type
 
