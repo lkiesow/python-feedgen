@@ -69,7 +69,7 @@
         >>> fe.id('http://lernfunk.de/media/654321/1')
         >>> fe.title('The First Episode')
 
-    The FeedGenerators method add_entry(...) without argument provides will
+    The Feed Generators method add_entry(...) without arguments provide will
     automatically generate a new FeedEntry object, append it to the feeds
     internal list of entries and return it, so that additional data can be
     added.
