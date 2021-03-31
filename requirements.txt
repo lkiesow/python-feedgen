@@ -1,2 +1,2 @@
-lxml==4.2.5
+lxml==4.6.3
 python_dateutil==2.8.0
