@@ -880,8 +880,6 @@ class FeedGenerator(object):
         a datetime.datetime object. In any case it is necessary that the value
         include timezone information.
 
-        This will set both atom:updated and rss:lastBuildDate.
-
         :param pubDate: The publication date.
         :returns: Publication date as datetime.datetime
         '''
