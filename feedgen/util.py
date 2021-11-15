@@ -53,7 +53,7 @@ def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
         allowed_values = {}
     if defaults is None:
         defaults = {}
-    # Make shure that we have a list of dicts. Even if there is only one.
+    # Make sure that we have a list of dicts. Even if there is only one.
     if not isinstance(val, list):
         val = [val]
     for elem in val:

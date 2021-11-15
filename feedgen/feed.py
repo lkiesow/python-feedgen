@@ -997,7 +997,7 @@ class FeedGenerator(object):
 
     def add_entry(self, feedEntry=None, order='prepend'):
         '''This method will add a new entry to the feed. If the feedEntry
-        argument is omittet a new Entry object is created automatically. This
+        argument is omitted a new Entry object is created automatically. This
         is the preferred way to add new entries to a feed.
 
         :param feedEntry: FeedEntry object to add.
@@ -1042,7 +1042,7 @@ class FeedGenerator(object):
 
     def add_item(self, item=None):
         '''This method will add a new item to the feed. If the item argument is
-        omittet a new FeedEntry object is created automatically. This is just
+        omitted a new FeedEntry object is created automatically. This is just
         another name for add_entry(...)
         '''
         return self.add_entry(item)
