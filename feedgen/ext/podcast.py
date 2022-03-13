@@ -32,6 +32,9 @@ class PodcastExtension(BaseExtension):
         self.__itunes_owner = None
         self.__itunes_subtitle = None
         self.__itunes_summary = None
+        self.__itunes_type = None
+        self.__spotify_limit = None
+        self.__spotify_country_of_origin = None
 
     def extend_ns(self):
         return {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
@@ -42,6 +45,8 @@ class PodcastExtension(BaseExtension):
         :returns: The feed root element.
         '''
         ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
+        SPOTIFY_NS = 'http://www.spotify.com/ns/rss'
+
         channel = rss_feed[0]
 
         if self.__itunes_author:
@@ -95,6 +100,18 @@ class PodcastExtension(BaseExtension):
         if self.__itunes_summary:
             summary = xml_elem('{%s}summary' % ITUNES_NS, channel)
             summary.text = self.__itunes_summary
+        
+        if self.__itunes_type:
+            itunes_type = xml_elem('{%s}type' % ITUNES_NS, channel)
+            itunes_type.text = self.__itunes_type
+        
+        if self.__spotify_limit:
+            limit = xml_elem('{%s}limit' % SPOTIFY_NS, channel)
+            limit.attrib['recentCount'] = self.__spotify_limit
+        
+        if self.__spotify_country_of_origin:
+            countries = xml_elem('{%s}countryOfOrigin' % SPOTIFY_NS, channel)
+            countries.text(self.__spotify_country_of_origin)
 
         return rss_feed
 
@@ -317,6 +334,47 @@ class PodcastExtension(BaseExtension):
         if itunes_summary is not None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
+    
+    def itunes_type(self, itunes_type=None):
+        '''Get or set itunes:type value for the podcast. “episodic” for
+        non-chronological episodes that will behave as they have for years and
+        download the latest episode, or “serial” for chronological 0..1 episodes
+        that should be consumed oldest to newest.
+
+        :param itunes_type: The chronology of the podcast's episodes.
+        :returns: The chronology of the podcast's epiodes.
+        '''
+        if itunes_type is not None:
+            if itunes_type not in ['episodic','serial']:
+                raise ValueError('Invalid value for itunes:type tag')
+            self.__itunes_type = itunes_type
+    
+    def spotify_limit(self, spotify_limit=None):
+        '''If specified at most this number of episodes appear in the client,
+        using the most recent episodes.
+
+        :param spotify_limit: Number of latest episodes to show.
+        :returns: Number of latest episodes to show.
+        '''
+        if spotify_limit is not None:
+            if not ((isinstance(spotify_limit, str) and spotify_limit.is_digit()) or isinstance(spotify_limit, int)): 
+                raise ValueError('Invalid value for spotify:limit tag')
+            self.__spotify_limit = spotify_limit
+
+    def spotify_country_of_origin(self, spotify_country_of_origin=None):
+        '''Defines the intended market/territory where the podcast is relevant
+        to the consumer. This is defined as a space separated list of ISO 3166
+        country codes ranked in order of priority from most relevant to least
+        relevant. Podcasts with a narrow list of countries will have a higher
+        potential reaching their target audiences compared to podcasts with
+        wide definitions. Podcasts omitting this element entirely will be
+        defined as 'global' and not having a target market/territory.
+
+        :parap spotify_country_of_origin: Space-separated relevant country codes.
+        :returns: Space-separated relevant country codes.
+        '''
+        if spotify_country_of_origin is not None:
+            self.__spotify_country_of_origin = spotify_country_of_origin
 
     _itunes_categories = {
             'Arts': [
