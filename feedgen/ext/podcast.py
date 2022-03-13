@@ -33,12 +33,18 @@ class PodcastExtension(BaseExtension):
         self.__itunes_subtitle = None
         self.__itunes_summary = None
         self.__itunes_type = None
+        # Spotify tags
+        # http://www.spotify.com/ns/rss
         self.__spotify_limit = None
         self.__spotify_country_of_origin = None
+        # Media tags
+        # http://search.yahoo.com/mrss/
         self.__media_restriction = None
 
     def extend_ns(self):
-        return {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
+        return {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
+                'spotify': 'http://www.spotify.com/ns/rss',
+                'media':'http://search.yahoo.com/mrss/'}
 
     def extend_rss(self, rss_feed):
         '''Extend an RSS feed root with set itunes fields.
@@ -47,6 +53,7 @@ class PodcastExtension(BaseExtension):
         '''
         ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
         SPOTIFY_NS = 'http://www.spotify.com/ns/rss'
+        MEDIA_NS = 'http://search.yahoo.com/mrss/'
 
         channel = rss_feed[0]
 
@@ -115,7 +122,7 @@ class PodcastExtension(BaseExtension):
             countries.text(self.__spotify_country_of_origin)
         
         if self.__media_restriction:
-            restriction = xml_elem('{%s}restriction'}
+            restriction = xml_elem('{%s}restriction' % MEDIA_NS, channel}
             restriction.attrib['type'] = 'country'
             restriction.attrib['relationship'] = 'allow'
             restriction.text(self.__media_restriction)
@@ -366,9 +373,10 @@ class PodcastExtension(BaseExtension):
         :returns: Number of latest episodes to show.
         '''
         if spotify_limit is not None:
-            if not ((isinstance(spotify_limit, str) and spotify_limit.is_digit()) or isinstance(spotify_limit, int)): 
+            if (isinstance(spotify_limit, str) and spotify_limit.is_digit()) or isinstance(spotify_limit, int): 
+                self.__spotify_limit = spotify_limit
+            else:
                 raise ValueError('Invalid value for spotify:limit tag')
-            self.__spotify_limit = spotify_limit
         return self.__spotify_limit
 
     def spotify_country_of_origin(self, spotify_country_of_origin=None):
