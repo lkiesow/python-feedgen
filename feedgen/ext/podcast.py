@@ -35,6 +35,7 @@ class PodcastExtension(BaseExtension):
         self.__itunes_type = None
         self.__spotify_limit = None
         self.__spotify_country_of_origin = None
+        self.__media_restriction = None
 
     def extend_ns(self):
         return {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
@@ -112,6 +113,12 @@ class PodcastExtension(BaseExtension):
         if self.__spotify_country_of_origin:
             countries = xml_elem('{%s}countryOfOrigin' % SPOTIFY_NS, channel)
             countries.text(self.__spotify_country_of_origin)
+        
+        if self.__media_restriction:
+            restriction = xml_elem('{%s}restriction'}
+            restriction.attrib['type'] = 'country'
+            restriction.attrib['relationship'] = 'allow'
+            restriction.text(self.__media_restriction)
 
         return rss_feed
 
@@ -336,7 +343,7 @@ class PodcastExtension(BaseExtension):
         return self.__itunes_summary
     
     def itunes_type(self, itunes_type=None):
-        '''Get or set itunes:type value for the podcast. “episodic” for
+        '''Get or set the itunes:type value for the podcast. “episodic” for
         non-chronological episodes that will behave as they have for years and
         download the latest episode, or “serial” for chronological 0..1 episodes
         that should be consumed oldest to newest.
@@ -348,10 +355,12 @@ class PodcastExtension(BaseExtension):
             if itunes_type not in ['episodic','serial']:
                 raise ValueError('Invalid value for itunes:type tag')
             self.__itunes_type = itunes_type
-    
+        return self.__itunes_type
+
     def spotify_limit(self, spotify_limit=None):
-        '''If specified at most this number of episodes appear in the client,
-        using the most recent episodes.
+        '''Get or set the spotify:limit value for the podcast. If specified at
+        most this number of episodes appear in the client, using the most recent
+        episodes.
 
         :param spotify_limit: Number of latest episodes to show.
         :returns: Number of latest episodes to show.
@@ -360,9 +369,11 @@ class PodcastExtension(BaseExtension):
             if not ((isinstance(spotify_limit, str) and spotify_limit.is_digit()) or isinstance(spotify_limit, int)): 
                 raise ValueError('Invalid value for spotify:limit tag')
             self.__spotify_limit = spotify_limit
+        return self.__spotify_limit
 
     def spotify_country_of_origin(self, spotify_country_of_origin=None):
-        '''Defines the intended market/territory where the podcast is relevant
+        '''Get or set the spotify:countryOfOrigin value for the podcast. country of
+        origin defines the intended market/territory where the podcast is relevant
         to the consumer. This is defined as a space separated list of ISO 3166
         country codes ranked in order of priority from most relevant to least
         relevant. Podcasts with a narrow list of countries will have a higher
@@ -370,11 +381,28 @@ class PodcastExtension(BaseExtension):
         wide definitions. Podcasts omitting this element entirely will be
         defined as 'global' and not having a target market/territory.
 
-        :parap spotify_country_of_origin: Space-separated relevant country codes.
+        :param spotify_country_of_origin: Space-separated relevant country codes.
         :returns: Space-separated relevant country codes.
         '''
         if spotify_country_of_origin is not None:
             self.__spotify_country_of_origin = spotify_country_of_origin
+        return self.__spotify_country_of_origin
+
+    def media_restriction(self, media_restriction=None):
+        '''Get or set the media:restriction value for the podcast. Restriction
+        restricts availability of the podcast/show using a allowlist of space
+        separated ISO 3166 country codes. The podcast will be published in the
+        countries specified. If the restriction element is fully absent the
+        content is considered available in all regions. Spotify currently only
+        supports relationship="allow" and type="country".
+
+        :param media_restriction: Allowed regions.
+        :returns: Allowed regions.
+        '''
+
+        if media_restriction is not None:
+            self.__media_restriction = media_restriction
+        return self.__media_restriction
 
     _itunes_categories = {
             'Arts': [
