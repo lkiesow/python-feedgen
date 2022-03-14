@@ -31,13 +31,19 @@ class PodcastEntryExtension(BaseEntryExtension):
         self.__itunes_subtitle = None
         self.__itunes_summary = None
 
+        self.__media_restriction = None
+        self.__itunes_keywords = None
+        self.__itunes_episode_type = None
+        self.__guid = None
+
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
 
         :param feed: The RSS item XML element to use.
         '''
         ITUNES_NS = 'http://www.itunes.com/dtds/podcast-1.0.dtd'
-
+        MEDIA_NS = 'http://search.yahoo.com/mrss/'
+        
         if self.__itunes_author:
             author = xml_elem('{%s}author' % ITUNES_NS, entry)
             author.text = self.__itunes_author
@@ -77,6 +83,28 @@ class PodcastEntryExtension(BaseEntryExtension):
         if self.__itunes_summary:
             summary = xml_elem('{%s}summary' % ITUNES_NS, entry)
             summary.text = self.__itunes_summary
+        
+        if self.__itunes_keywords:
+            keywords = xml_elem('{%s}keywords' % ITUNES_NS, entry)
+            keywords.text = self.__itunes_keywords
+        
+        if self.__itunes_episode_type:
+            episode_type = xml_elem('{%s}episodeType' % ITUNES_NS, entry)
+            episode_type.text = self.__itunes_episode_type
+        
+        if self.__media_restriction:
+            restriction = xml_elem('{%s}restriction' % MEDIA_NS, entry)
+            restriction.attrib['type'] = 'country'
+            restriction.attrib['relationship'] = 'allow'
+            restriction.text(self.__media_restriction)
+        
+        if self.__guid:
+            guid = xml_elem('guid')
+            guid.text = self.guid.get('guid')
+            guid.attrib['isPermaLink'] = \
+                 'true' if self.guid.get('isPermaLink') else 'false'
+
+
         return entry
 
     def itunes_author(self, itunes_author=None):
@@ -242,3 +270,65 @@ class PodcastEntryExtension(BaseEntryExtension):
         if itunes_summary is not None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
+    
+    def itunes_keywords(self, itunes_keywords=None):
+        '''Get or set the itunes:keywords value for the podcast episode.
+        Indicates the episode keywords. Keywords used for searching
+        purposes. Plain text, no HTML, words must be separated by comma (,).
+
+        :param itunes_keywords: Space-separated episode keywords.
+        :returns: Space-separated episode keywords.
+        '''
+        if itunes_keywords is not None:
+            self.__itunes_keywords = itunes_keywords
+        return self.__itunes_keywords
+    
+    def itunes_episode_type(self, itunes_episode_type=None):
+        '''Get or set the itunes:episodeType value for the podcast episode.
+        Providers can set an episode as a full, trailer or bonus in the feed
+        using this itunes tag.
+
+        :param itunes_episode_type: The type of episode.
+        :return: The type of episode.
+        '''
+        
+        if itunes_episode_type is not None:
+            if itunes_episode_type in ['full','trailer','bonus']:
+                self.__itunes_episode_type = itunes_episode_type
+            else:
+                raise ValueError('Invalid value for episodeType tag.')
+    
+    def media_restriction(self, media_restriction=None):
+        '''Get or set the media:restriction value for the podcast. Restriction
+        restricts availability of the podcast/show using a allowlist of space
+        separated ISO 3166 country codes. The podcast will be published in the
+        countries specified. If the restriction element is fully absent the
+        content is considered available in all regions. Spotify currently only
+        supports relationship="allow" and type="country".
+
+        :param media_restriction: Allowed regions.
+        :returns: Allowed regions.
+        '''
+
+        if media_restriction is not None:
+            self.__media_restriction = media_restriction
+        return self.__media_restriction
+
+    def guid(self, guid=None, isPermaLink=None):
+        '''Get or set the guid value for the podcast episode. true indicates
+        that the GUID is a full URL that can be used to permanently locate the
+        podcast episode. false indicates that the GUID is not a link but only
+        to be used as a unique identifier.
+        
+        :param guid: The guid for the episode.
+        :param isPermaLink: The isPermaLink attribute for the guid tag for the episode.
+        :returns: The guid for the episode.
+        '''
+        if guid is not None:
+            self.__guid = {'guid': guid}
+            if isPermaLink is not None:
+                if isPermaLink in ['true','false']:
+                    self.__guid['isPermaLink'] = isPermaLink
+                else:
+                    raise ValueError('Invalid value for isPermaLink attribute for guid tag.')
+        return self.__guid
