@@ -122,7 +122,7 @@ class PodcastExtension(BaseExtension):
             countries.text(self.__spotify_country_of_origin)
         
         if self.__media_restriction:
-            restriction = xml_elem('{%s}restriction' % MEDIA_NS, channel}
+            restriction = xml_elem('{%s}restriction' % MEDIA_NS, channel)
             restriction.attrib['type'] = 'country'
             restriction.attrib['relationship'] = 'allow'
             restriction.text(self.__media_restriction)

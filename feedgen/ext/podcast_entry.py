@@ -10,6 +10,7 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
+from tkinter import N
 from feedgen.ext.base import BaseEntryExtension
 from feedgen.util import xml_elem
 
@@ -34,7 +35,6 @@ class PodcastEntryExtension(BaseEntryExtension):
         self.__media_restriction = None
         self.__itunes_keywords = None
         self.__itunes_episode_type = None
-        self.__guid = None
 
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
@@ -98,13 +98,6 @@ class PodcastEntryExtension(BaseEntryExtension):
             restriction.attrib['relationship'] = 'allow'
             restriction.text(self.__media_restriction)
         
-        if self.__guid:
-            guid = xml_elem('guid')
-            guid.text = self.guid.get('guid')
-            guid.attrib['isPermaLink'] = \
-                 'true' if self.guid.get('isPermaLink') else 'false'
-
-
         return entry
 
     def itunes_author(self, itunes_author=None):
@@ -313,22 +306,3 @@ class PodcastEntryExtension(BaseEntryExtension):
         if media_restriction is not None:
             self.__media_restriction = media_restriction
         return self.__media_restriction
-
-    def guid(self, guid=None, isPermaLink=None):
-        '''Get or set the guid value for the podcast episode. true indicates
-        that the GUID is a full URL that can be used to permanently locate the
-        podcast episode. false indicates that the GUID is not a link but only
-        to be used as a unique identifier.
-        
-        :param guid: The guid for the episode.
-        :param isPermaLink: The isPermaLink attribute for the guid tag for the episode.
-        :returns: The guid for the episode.
-        '''
-        if guid is not None:
-            self.__guid = {'guid': guid}
-            if isPermaLink is not None:
-                if isPermaLink in ['true','false']:
-                    self.__guid['isPermaLink'] = isPermaLink
-                else:
-                    raise ValueError('Invalid value for isPermaLink attribute for guid tag.')
-        return self.__guid
