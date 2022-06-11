@@ -61,8 +61,8 @@ class TestSequenceFunctions(unittest.TestCase):
         self.copyright = "The copyright notice"
         self.docs = 'http://www.rssboard.org/rss-specification'
         self.managingEditor = 'mail@example.com'
-        self.rating = '(PICS-1.1 "http://www.classify.org/safesurf/" ' + \
-            '1 r (SS~~000 1))'
+        self.rating = ('(PICS-1.1 "http://www.classify.org/safesurf/" '
+                       '1 r (SS~~000 1))')
         self.skipDays = 'Tuesday'
         self.skipHours = 23
 

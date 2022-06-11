@@ -130,18 +130,18 @@ class FeedGenerator(object):
                 uri = xml_elem('uri', author)
                 uri.text = a.get('uri')
 
-        for l in self.__atom_link or []:
-            link = xml_elem('link', feed, href=l['href'])
-            if l.get('rel'):
-                link.attrib['rel'] = l['rel']
-            if l.get('type'):
-                link.attrib['type'] = l['type']
-            if l.get('hreflang'):
-                link.attrib['hreflang'] = l['hreflang']
-            if l.get('title'):
-                link.attrib['title'] = l['title']
-            if l.get('length'):
-                link.attrib['length'] = l['length']
+        for atom_link in self.__atom_link or []:
+            link = xml_elem('link', feed, href=atom_link['href'])
+            if atom_link.get('rel'):
+                link.attrib['rel'] = atom_link['rel']
+            if atom_link.get('type'):
+                link.attrib['type'] = atom_link['type']
+            if atom_link.get('hreflang'):
+                link.attrib['hreflang'] = atom_link['hreflang']
+            if atom_link.get('title'):
+                link.attrib['title'] = atom_link['title']
+            if atom_link.get('length'):
+                link.attrib['length'] = atom_link['length']
 
         for c in self.__atom_category or []:
             cat = xml_elem('category', feed, term=c['term'])

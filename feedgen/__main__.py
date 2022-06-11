@@ -97,8 +97,8 @@ def main():
         fg.podcast.itunes_complete('no')
         fg.podcast.itunes_new_feed_url('http://example.com/new-feed.rss')
         fg.podcast.itunes_owner('John Doe', 'john@example.com')
-        fg.podcast.itunes_summary('Lorem ipsum dolor sit amet, consectetur ' +
-                                  'adipiscing elit. Verba tu fingas et ea ' +
+        fg.podcast.itunes_summary('Lorem ipsum dolor sit amet, consectetur '
+                                  'adipiscing elit. Verba tu fingas et ea '
                                   'dicas, quae non sentias?')
         fe.podcast.itunes_author('Lars Kiesow')
         print_enc(fg.rss_str(pretty=True))

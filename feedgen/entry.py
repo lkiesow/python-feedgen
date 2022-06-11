@@ -115,8 +115,8 @@ class FeedEntry(object):
         # element.
         if not self.__atom_content:
             links = self.__atom_link or []
-            if not [l for l in links if l.get('rel') == 'alternate']:
-                raise ValueError('Entry must contain an alternate link or ' +
+            if not [link for link in links if link.get('rel') == 'alternate']:
+                raise ValueError('Entry must contain an alternate link or '
                                  'a content element.')
 
         # Add author elements
@@ -136,18 +136,18 @@ class FeedEntry(object):
 
         _add_text_elm(entry, self.__atom_content, 'content')
 
-        for l in self.__atom_link or []:
-            link = xml_elem('link', entry, href=l['href'])
-            if l.get('rel'):
-                link.attrib['rel'] = l['rel']
-            if l.get('type'):
-                link.attrib['type'] = l['type']
-            if l.get('hreflang'):
-                link.attrib['hreflang'] = l['hreflang']
-            if l.get('title'):
-                link.attrib['title'] = l['title']
-            if l.get('length'):
-                link.attrib['length'] = l['length']
+        for atom_link in self.__atom_link or []:
+            link = xml_elem('link', entry, href=atom_link['href'])
+            if atom_link.get('rel'):
+                link.attrib['rel'] = atom_link['rel']
+            if atom_link.get('type'):
+                link.attrib['type'] = atom_link['type']
+            if atom_link.get('hreflang'):
+                link.attrib['hreflang'] = atom_link['hreflang']
+            if atom_link.get('title'):
+                link.attrib['title'] = atom_link['title']
+            if atom_link.get('length'):
+                link.attrib['length'] = atom_link['length']
 
         _add_text_elm(entry, self.__atom_summary, 'summary')
 
@@ -449,13 +449,15 @@ class FeedEntry(object):
                 {'rel': ['alternate', 'enclosure', 'related', 'self', 'via']},
                 {'rel': 'alternate'})
             # RSS only needs one URL. We use the first link for RSS:
-            for l in self.__atom_link:
-                if l.get('rel') == 'alternate':
-                    self.__rss_link = l['href']
-                elif l.get('rel') == 'enclosure':
-                    self.__rss_enclosure = {'url': l['href']}
-                    self.__rss_enclosure['type'] = l.get('type')
-                    self.__rss_enclosure['length'] = l.get('length') or '0'
+            for atom_link in self.__atom_link:
+                if atom_link.get('rel') == 'alternate':
+                    self.__rss_link = atom_link['href']
+                elif atom_link.get('rel') == 'enclosure':
+                    self.__rss_enclosure = {'url': atom_link['href']}
+                    self.__rss_enclosure['type'] = atom_link.get('type')
+                    self.__rss_enclosure['length'] = (
+                            atom_link.get('length') or '0'
+                    )
         # return the set with more information (atom)
         return self.__atom_link
 

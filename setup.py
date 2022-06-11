@@ -23,7 +23,7 @@ setup(name='feedgen',
         'Intended Audience :: Information Technology',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
-        'License :: OSI Approved :: GNU Lesser General Public License v3 ' +
+        'License :: OSI Approved :: GNU Lesser General Public License v3 '
         'or later (LGPLv3+)',
         'Natural Language :: English',
         'Operating System :: OS Independent',
