@@ -2,14 +2,13 @@
 Feedgenerator
 =============
 
-.. image:: https://travis-ci.org/lkiesow/python-feedgen.svg?branch=master
-    :target: https://travis-ci.org/lkiesow/python-feedgen
+.. image:: https://github.com/lkiesow/python-feedgen/actions/workflows/test.yml/badge.svg
+    :target: https://github.com/lkiesow/python-feedgen/actions/workflows/test.yml
     :alt: Build Status
 
-.. image:: https://coveralls.io/repos/github/lkiesow/python-feedgen/badge.svg?branch=master
-    :target: https://coveralls.io/github/lkiesow/python-feedgen?branch=master
+.. image:: https://codecov.io/gh/lkiesow/python-feedgen/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/lkiesow/python-feedgen
     :alt: Test Coverage Status
-
 
 This module can be used to generate web feeds in both ATOM and RSS format. It
 has support for extensions. Included is for example an extension to produce
