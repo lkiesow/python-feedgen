@@ -125,12 +125,13 @@ class MediaEntryExtension(BaseEntryExtension):
             for c in content:
                 c['group'] = c.get('group', group)
             self.__media_content += ensure_format(
-                    content,
-                    {'url', 'fileSize', 'type', 'medium', 'isDefault',
-                         'expression', 'bitrate', 'framerate', 'samplingrate',
-                         'channels', 'duration', 'height', 'width', 'lang',
-                         'group'},
-                    {'url', 'group'})
+                content,
+                {'url', 'fileSize', 'type', 'medium', 'isDefault',
+                 'expression', 'bitrate', 'framerate', 'samplingrate',
+                 'channels', 'duration', 'height', 'width', 'lang',
+                 'group'},
+                {'url', 'group'},
+            )
         return self.__media_content
 
     def thumbnail(self, thumbnail=None, replace=False, group='default',

@@ -167,7 +167,7 @@ class TestSequenceFunctions(unittest.TestCase):
             'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
             'working-copy', 'working-copy-of']
         links = [{'href': '{}/{}'.format(self.linkHref,
-                                     val.replace('-', '_')), 'rel': val}
+                                         val.replace('-', '_')), 'rel': val}
                  for val in values_for_rel]
         fg = self.fg
         fg.link(links, replace=True)
@@ -199,7 +199,7 @@ class TestSequenceFunctions(unittest.TestCase):
             'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
             'working-copy', 'working-copy-of']
         links = [{'href': '{}/{}'.format(self.linkHref,
-                                     val.replace('-', '_')), 'rel': val}
+                                         val.replace('-', '_')), 'rel': val}
                  for val in values_for_rel]
         fg = self.fg
         fg.link(links, replace=True)
@@ -211,7 +211,7 @@ class TestSequenceFunctions(unittest.TestCase):
         atom_links = channel.findall("{%s}link" % nsAtom)
         # rss feed only implements atom's 'self' link
         assert len(atom_links) == 1
-        assert atom_links[0].get('href') == '{}/{}'.format(self.linkHref, 'self')
+        assert atom_links[0].get('href') == f'{self.linkHref}/self'
         assert atom_links[0].get('rel') == 'self'
 
         rss_links = channel.findall('link')

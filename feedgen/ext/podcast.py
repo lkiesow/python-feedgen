@@ -9,7 +9,6 @@
     :license: FreeBSD and LGPL, see license.* for more details.
 '''
 
-from feedgen.compat import string_types
 from feedgen.ext.base import BaseExtension
 from feedgen.util import ensure_format, xml_elem
 
@@ -55,7 +54,10 @@ class PodcastExtension(BaseExtension):
             if not c.get('cat'):
                 continue
             category = channel.find(
-                    '{{{}}}category[@text="{}"]'.format(ITUNES_NS, c.get('cat')))
+                    '{{{}}}category[@text="{}"]'.format(
+                        ITUNES_NS, c.get('cat')
+                    )
+            )
             if category is None:
                 category = xml_elem('{%s}category' % ITUNES_NS, channel)
                 category.attrib['text'] = c.get('cat')
@@ -169,7 +171,7 @@ class PodcastExtension(BaseExtension):
         '''
         # Ensure old API still works for now. Note that the API is deprecated
         # and this fallback may be removed at any time.
-        if isinstance(itunes_category, string_types):
+        if isinstance(itunes_category, str):
             itunes_category = {'cat': itunes_category}
             if replace:
                 itunes_category['sub'] = replace

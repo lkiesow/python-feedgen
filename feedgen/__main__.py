@@ -38,10 +38,7 @@ def print_enc(s):
     '''Print function compatible with both python2 and python3 accepting strings
     and byte arrays.
     '''
-    if sys.version_info[0] >= 3:
-        print(s.decode('utf-8') if isinstance(s, bytes) else s)
-    else:
-        print(s)
+    print(s.decode('utf-8') if isinstance(s, bytes) else s)
 
 
 def main():

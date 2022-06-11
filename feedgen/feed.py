@@ -8,7 +8,6 @@
 
 '''
 
-import sys
 from datetime import datetime
 
 import dateutil.parser
@@ -16,7 +15,6 @@ import dateutil.tz
 from lxml import etree  # nosec - not using this for parsing
 
 import feedgen.version
-from feedgen.compat import string_types
 from feedgen.entry import FeedEntry
 from feedgen.util import ensure_format, formatRFC2822, xml_elem
 
@@ -460,7 +458,7 @@ class FeedGenerator:
         :returns: Modification date as datetime.datetime
         '''
         if updated is not None:
-            if isinstance(updated, string_types):
+            if isinstance(updated, str):
                 updated = dateutil.parser.parse(updated)
             if not isinstance(updated, datetime):
                 raise ValueError('Invalid datetime format')
@@ -885,7 +883,7 @@ class FeedGenerator:
         :returns: Publication date as datetime.datetime
         '''
         if pubDate is not None:
-            if isinstance(pubDate, string_types):
+            if isinstance(pubDate, str):
                 pubDate = dateutil.parser.parse(pubDate)
             if not isinstance(pubDate, datetime):
                 raise ValueError('Invalid datetime format')
@@ -1016,15 +1014,8 @@ class FeedGenerator:
         if feedEntry is None:
             feedEntry = FeedEntry()
 
-        version = sys.version_info[0]
-
-        if version == 2:
-            items = self.__extensions.iteritems()
-        else:
-            items = self.__extensions.items()
-
         # Try to load extensions:
-        for extname, ext in items:
+        for extname, ext in self.__extensions.items():
             try:
                 feedEntry.register_extension(extname,
                                              ext['extension_class_entry'],
@@ -1061,16 +1052,9 @@ class FeedGenerator:
             if replace:
                 self.__feed_entries = []
 
-            version = sys.version_info[0]
-
-            if version == 2:
-                items = self.__extensions.iteritems()
-            else:
-                items = self.__extensions.items()
-
             # Try to load extensions:
             for e in entry:
-                for extname, ext in items:
+                for extname, ext in self.__extensions.items():
                     try:
                         e.register_extension(extname,
                                              ext['extension_class_entry'],

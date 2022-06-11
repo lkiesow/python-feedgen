@@ -15,7 +15,6 @@ import warnings
 
 from lxml.etree import CDATA  # nosec - adding CDATA entry is safe
 
-from feedgen.compat import string_types
 from feedgen.util import ensure_format, formatRFC2822, xml_fromstring, xml_elem
 
 
@@ -312,7 +311,7 @@ class FeedEntry:
         :returns: Modification date as datetime.datetime
         '''
         if updated is not None:
-            if isinstance(updated, string_types):
+            if isinstance(updated, str):
                 updated = dateutil.parser.parse(updated)
             if not isinstance(updated, datetime):
                 raise ValueError('Invalid datetime format')
@@ -586,7 +585,7 @@ class FeedEntry:
         :returns: Creation date as datetime.datetime
         '''
         if published is not None:
-            if isinstance(published, string_types):
+            if isinstance(published, str):
                 published = dateutil.parser.parse(published)
             if not isinstance(published, datetime):
                 raise ValueError('Invalid datetime format')
