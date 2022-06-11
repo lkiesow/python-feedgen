@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.entry
     ~~~~~~~~~~~~~
@@ -57,7 +56,7 @@ def _add_text_elm(entry, data, name):
         elm.attrib['type'] = type_
 
 
-class FeedEntry(object):
+class FeedEntry:
     '''FeedEntry call representing an ATOM feeds entry node or an RSS feeds item
     node.
     '''
@@ -361,7 +360,7 @@ class FeedEntry(object):
             if replace or self.__atom_author is None:
                 self.__atom_author = []
             self.__atom_author += ensure_format(author,
-                                                set(['name', 'email', 'uri']),
+                                                {'name', 'email', 'uri'},
                                                 set())
             self.__rss_author = []
             for a in self.__atom_author:
@@ -444,8 +443,8 @@ class FeedEntry(object):
                 self.__atom_link = []
             self.__atom_link += ensure_format(
                 link,
-                set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
-                set(['href']),
+                {'href', 'rel', 'type', 'hreflang', 'title', 'length'},
+                {'href'},
                 {'rel': ['alternate', 'enclosure', 'related', 'self', 'via']},
                 {'rel': 'alternate'})
             # RSS only needs one URL. We use the first link for RSS:
@@ -533,8 +532,8 @@ class FeedEntry(object):
                 self.__atom_category = []
             self.__atom_category += ensure_format(
                     category,
-                    set(['term', 'scheme', 'label']),
-                    set(['term']))
+                    {'term', 'scheme', 'label'},
+                    {'term'})
             # Map the ATOM categories to RSS categories. Use the atom:label as
             # name or if not present the atom:term. The atom:scheme is the
             # rss:domain.
@@ -572,7 +571,7 @@ class FeedEntry(object):
             if replace or self.__atom_contributor is None:
                 self.__atom_contributor = []
             self.__atom_contributor += ensure_format(
-                    contributor, set(['name', 'email', 'uri']), set(['name']))
+                    contributor, {'name', 'email', 'uri'}, {'name'})
         return self.__atom_contributor
 
     def published(self, published=None):

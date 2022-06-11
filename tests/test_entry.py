@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Tests for a basic entry
 
@@ -26,18 +24,18 @@ class TestSequenceFunctions(unittest.TestCase):
         fe = fg.add_entry()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The First Episode')
-        fe.content(u'…')
+        fe.content('…')
 
         # Use also the different name add_item
         fe = fg.add_item()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Second Episode')
-        fe.content(u'…')
+        fe.content('…')
 
         fe = fg.add_entry()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
-        fe.content(u'…')
+        fe.content('…')
 
         self.fg = fg
 
@@ -50,8 +48,8 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_loadExtension(self):
         fe = self.fg.add_item()
         fe.id('1')
-        fe.title(u'…')
-        fe.content(u'…')
+        fe.title('…')
+        fe.content('…')
         fe.load_extension('base')
         assert fe.base
         assert self.fg.atom_str()

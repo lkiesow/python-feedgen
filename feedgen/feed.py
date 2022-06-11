@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.feed
     ~~~~~~~~~~~~
@@ -24,7 +23,7 @@ from feedgen.util import ensure_format, formatRFC2822, xml_elem
 _feedgen_version = feedgen.version.version_str
 
 
-class FeedGenerator(object):
+class FeedGenerator:
     '''FeedGenerator for generating ATOM and RSS feeds.
     '''
 
@@ -531,8 +530,8 @@ class FeedGenerator(object):
             if replace or self.__atom_author is None:
                 self.__atom_author = []
             self.__atom_author += ensure_format(author,
-                                                set(['name', 'email', 'uri']),
-                                                set(['name']))
+                                                {'name', 'email', 'uri'},
+                                                {'name'})
             self.__rss_author = []
             for a in self.__atom_author:
                 if a.get('email'):
@@ -591,8 +590,8 @@ class FeedGenerator(object):
                 self.__atom_link = []
             self.__atom_link += ensure_format(
                 link,
-                set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
-                set(['href']),
+                {'href', 'rel', 'type', 'hreflang', 'title', 'length'},
+                {'href'},
                 {'rel': [
                     'about', 'alternate', 'appendix', 'archives', 'author',
                     'bookmark', 'canonical', 'chapter', 'collection',
@@ -646,8 +645,8 @@ class FeedGenerator(object):
                 self.__atom_category = []
             self.__atom_category += ensure_format(
                     category,
-                    set(['term', 'scheme', 'label']),
-                    set(['term']))
+                    {'term', 'scheme', 'label'},
+                    {'term'})
             # Map the ATOM categories to RSS categories. Use the atom:label as
             # name or if not present the atom:term. The atom:scheme is the
             # rss:domain.
@@ -704,7 +703,7 @@ class FeedGenerator(object):
             if replace or self.__atom_contributor is None:
                 self.__atom_contributor = []
             self.__atom_contributor += ensure_format(
-                    contributor, set(['name', 'email', 'uri']), set(['name']))
+                    contributor, {'name', 'email', 'uri'}, {'name'})
         return self.__atom_contributor
 
     def generator(self, generator=None, version=None, uri=None):

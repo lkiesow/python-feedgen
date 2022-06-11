@@ -8,7 +8,7 @@ from feedgen.feed import FeedGenerator
 from feedgen.ext.geo_entry import GeoRSSPolygonInteriorWarning, GeoRSSGeometryError  # noqa: E501
 
 
-class Geom(object):
+class Geom:
     """
     Dummy geom to make testing easier
 
@@ -36,7 +36,7 @@ class Geom(object):
         elif self.geom_type == 'LineString':
 
             coords = ' '.join(
-                '{:f} {:f}'.format(vertex[1], vertex[0])
+                f'{vertex[1]:f} {vertex[0]:f}'
                 for vertex in
                 self.coords
             )
@@ -45,7 +45,7 @@ class Geom(object):
         elif self.geom_type == 'Polygon':
 
             coords = ' '.join(
-                '{:f} {:f}'.format(vertex[1], vertex[0])
+                f'{vertex[1]:f} {vertex[0]:f}'
                 for vertex in
                 self.coords[0]
             )
@@ -55,7 +55,7 @@ class Geom(object):
             # box not really supported by GeoJSON, but it's a handy cheat here
             # for testing
             coords = ' '.join(
-                '{:f} {:f}'.format(vertex[1], vertex[0])
+                f'{vertex[1]:f} {vertex[0]:f}'
                 for vertex in
                 self.coords
             )

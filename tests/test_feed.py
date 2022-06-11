@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Tests for a basic feed
 
@@ -139,7 +137,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fh, filename = tempfile.mkstemp()
         fg.atom_file(filename=filename, pretty=True, xml_declaration=False)
 
-        with open(filename, "r") as myfile:
+        with open(filename) as myfile:
             atomString = myfile.read().replace('\n', '')
 
         self.checkAtomString(atomString)
@@ -168,7 +166,7 @@ class TestSequenceFunctions(unittest.TestCase):
             'subsection', 'successor-version', 'tag', 'terms-of-service',
             'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
             'working-copy', 'working-copy-of']
-        links = [{'href': '%s/%s' % (self.linkHref,
+        links = [{'href': '{}/{}'.format(self.linkHref,
                                      val.replace('-', '_')), 'rel': val}
                  for val in values_for_rel]
         fg = self.fg
@@ -200,7 +198,7 @@ class TestSequenceFunctions(unittest.TestCase):
             'subsection', 'successor-version', 'tag', 'terms-of-service',
             'timegate', 'timemap', 'type', 'up', 'version-history', 'via',
             'working-copy', 'working-copy-of']
-        links = [{'href': '%s/%s' % (self.linkHref,
+        links = [{'href': '{}/{}'.format(self.linkHref,
                                      val.replace('-', '_')), 'rel': val}
                  for val in values_for_rel]
         fg = self.fg
@@ -213,7 +211,7 @@ class TestSequenceFunctions(unittest.TestCase):
         atom_links = channel.findall("{%s}link" % nsAtom)
         # rss feed only implements atom's 'self' link
         assert len(atom_links) == 1
-        assert atom_links[0].get('href') == '%s/%s' % (self.linkHref, 'self')
+        assert atom_links[0].get('href') == '{}/{}'.format(self.linkHref, 'self')
         assert atom_links[0].get('rel') == 'self'
 
         rss_links = channel.findall('link')
@@ -261,7 +259,7 @@ class TestSequenceFunctions(unittest.TestCase):
         _, filename = tempfile.mkstemp()
         fg.rss_file(filename=filename, pretty=True, xml_declaration=False)
 
-        with open(filename, "r") as myfile:
+        with open(filename) as myfile:
             rssString = myfile.read().replace('\n', '')
 
         self.checkRssString(rssString)

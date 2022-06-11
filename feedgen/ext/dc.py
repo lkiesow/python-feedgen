@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.ext.dc
     ~~~~~~~~~~~~~~~~~~~
@@ -57,7 +56,7 @@ class DcBaseExtension(BaseExtension):
                      'identifier']:
             if hasattr(self, '_dcelem_%s' % elem):
                 for val in getattr(self, '_dcelem_%s' % elem) or []:
-                    node = xml_elem('{%s}%s' % (DCELEMENTS_NS, elem),
+                    node = xml_elem('{{{}}}{}'.format(DCELEMENTS_NS, elem),
                                     xml_element)
                     node.text = val
 

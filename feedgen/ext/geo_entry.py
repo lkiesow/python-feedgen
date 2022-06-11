@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.ext.geo_entry
     ~~~~~~~~~~~~~~~~~~~
@@ -26,7 +25,7 @@ class GeoRSSPolygonInteriorWarning(Warning):
 
     def __init__(self, geom, *args, **kwargs):
         self.geom = geom
-        super(GeoRSSPolygonInteriorWarning, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return '{:d} interiors of polygon ignored'.format(
@@ -44,7 +43,7 @@ class GeoRSSGeometryError(ValueError):
 
     def __init__(self, geom, *args, **kwargs):
         self.geom = geom
-        super(GeoRSSGeometryError, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         msg = "Geometry of type '{}' not in Point, Linestring or Polygon"
@@ -229,7 +228,7 @@ class GeoEntryExtension(BaseEntryExtension):
         '''
         if elev is not None:
             if not isinstance(elev, numbers.Number):
-                raise ValueError("elev tag must be numeric: {}".format(elev))
+                raise ValueError(f"elev tag must be numeric: {elev}")
 
             self.__elev = elev
 
@@ -245,7 +244,7 @@ class GeoEntryExtension(BaseEntryExtension):
         '''
         if floor is not None:
             if not isinstance(floor, int):
-                raise ValueError("floor tag must be int: {}".format(floor))
+                raise ValueError(f"floor tag must be int: {floor}")
 
             self.__floor = floor
 
@@ -262,7 +261,7 @@ class GeoEntryExtension(BaseEntryExtension):
         if radius is not None:
             if not isinstance(radius, numbers.Number):
                 raise ValueError(
-                    "radius tag must be numeric: {}".format(radius)
+                    f"radius tag must be numeric: {radius}"
                 )
 
             self.__radius = radius
@@ -310,7 +309,7 @@ class GeoEntryExtension(BaseEntryExtension):
         elif geojson['type'] == 'LineString':
 
             coords = ' '.join(
-                '{:f} {:f}'.format(vertex[1], vertex[0])
+                f'{vertex[1]:f} {vertex[0]:f}'
                 for vertex in
                 geojson['coordinates']
             )
@@ -322,7 +321,7 @@ class GeoEntryExtension(BaseEntryExtension):
                 warnings.warn(GeoRSSPolygonInteriorWarning(geom))
 
             coords = ' '.join(
-                '{:f} {:f}'.format(vertex[1], vertex[0])
+                f'{vertex[1]:f} {vertex[0]:f}'
                 for vertex in
                 geojson['coordinates'][0]
             )

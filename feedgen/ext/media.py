@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.ext.media
     ~~~~~~~~~~~~~~~~~
@@ -127,11 +126,11 @@ class MediaEntryExtension(BaseEntryExtension):
                 c['group'] = c.get('group', group)
             self.__media_content += ensure_format(
                     content,
-                    set(['url', 'fileSize', 'type', 'medium', 'isDefault',
+                    {'url', 'fileSize', 'type', 'medium', 'isDefault',
                          'expression', 'bitrate', 'framerate', 'samplingrate',
                          'channels', 'duration', 'height', 'width', 'lang',
-                         'group']),
-                    set(['url', 'group']))
+                         'group'},
+                    {'url', 'group'})
         return self.__media_content
 
     def thumbnail(self, thumbnail=None, replace=False, group='default',
@@ -178,6 +177,6 @@ class MediaEntryExtension(BaseEntryExtension):
                 t['group'] = t.get('group', group)
             self.__media_thumbnail += ensure_format(
                     thumbnail,
-                    set(['url', 'height', 'width', 'time', 'group']),
-                    set(['url', 'group']))
+                    {'url', 'height', 'width', 'time', 'group'},
+                    {'url', 'group'})
         return self.__media_thumbnail

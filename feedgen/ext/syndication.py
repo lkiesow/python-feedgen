@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright 2015 Kenichi Sato <ksato9700@gmail.com>
 #

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.ext.podcast
     ~~~~~~~~~~~~~~~~~~~
@@ -56,7 +55,7 @@ class PodcastExtension(BaseExtension):
             if not c.get('cat'):
                 continue
             category = channel.find(
-                    '{%s}category[@text="%s"]' % (ITUNES_NS, c.get('cat')))
+                    '{{{}}}category[@text="{}"]'.format(ITUNES_NS, c.get('cat')))
             if category is None:
                 category = xml_elem('{%s}category' % ITUNES_NS, channel)
                 category.attrib['text'] = c.get('cat')
@@ -181,8 +180,8 @@ class PodcastExtension(BaseExtension):
             if replace or self.__itunes_category is None:
                 self.__itunes_category = []
             self.__itunes_category += ensure_format(itunes_category,
-                                                    set(['cat', 'sub']),
-                                                    set(['cat']))
+                                                    {'cat', 'sub'},
+                                                    {'cat'})
         return self.__itunes_category
 
     def itunes_image(self, itunes_image=None):

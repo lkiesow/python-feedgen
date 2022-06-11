@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen.ext.base
     ~~~~~~~~~~~~~~~~
@@ -12,7 +11,7 @@
 '''
 
 
-class BaseExtension(object):
+class BaseExtension:
     '''Basic FeedGenerator extension.
     '''
     def extend_ns(self):

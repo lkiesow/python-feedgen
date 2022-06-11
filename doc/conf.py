@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
@@ -42,8 +41,8 @@ source_encoding = 'utf-8-sig'
 master_doc = 'index'
 
 # General information about the project.
-project = u'python-feedgen'
-copyright = u'2013-2016, Lars Kiesow'
+project = 'python-feedgen'
+copyright = '2013-2016, Lars Kiesow'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -189,7 +188,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples (source start
 # file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation', u'Lars Kiesow',
+    ('index', 'pyFeedGen.tex', 'pyFeedGen Documentation', 'Lars Kiesow',
      'manual'),
 ]
 
@@ -219,8 +218,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-        [u'Lars Kiesow'], 1)
+    ('index', 'pyFeedGen.tex', 'pyFeedGen Documentation',
+        ['Lars Kiesow'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -233,8 +232,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'pyFeedGen.tex', u'pyFeedGen Documentation',
-        u'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
+    ('index', 'pyFeedGen.tex', 'pyFeedGen Documentation',
+        'Lars Kiesow', 'Lernfunk3', 'One line description of project.',
         'Miscellaneous'),
 ]
 

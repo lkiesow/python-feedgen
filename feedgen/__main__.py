@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
     feedgen
     ~~~~~~~
@@ -79,7 +78,7 @@ def main():
             habeas aliam domesticam, aliam forensem, ut in fronte ostentatio
             sit, intus veritas occultetur? Cum id fugiunt, re eadem defendunt,
             quae Peripatetici, verba.''')
-    fe.summary(u'Lorem ipsum dolor sit amet, consectetur adipiscing elit…')
+    fe.summary('Lorem ipsum dolor sit amet, consectetur adipiscing elit…')
     fe.link(href='http://example.com', rel='alternate')
     fe.author(name='Lars Kiesow', email='lkiesow@uos.de')
 
