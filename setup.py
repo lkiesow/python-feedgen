@@ -16,6 +16,7 @@ setup(name='feedgen',
       keywords=['feed', 'ATOM', 'RSS', 'podcast'],
       license='FreeBSD and LGPLv3+',
       install_requires=['lxml', 'python-dateutil'],
+      python_requires='>=3.7',
       classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
