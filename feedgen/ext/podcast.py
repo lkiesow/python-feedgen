@@ -373,8 +373,8 @@ class PodcastExtension(BaseExtension):
         :returns: Number of latest episodes to show.
         '''
         if spotify_limit is not None:
-            if (isinstance(spotify_limit, str) and spotify_limit.is_digit()) or isinstance(spotify_limit, int): 
-                self.__spotify_limit = spotify_limit
+            if (isinstance(spotify_limit, str) and spotify_limit.isdigit()) or isinstance(spotify_limit, int): 
+                self.__spotify_limit = str(spotify_limit)
             else:
                 raise ValueError('Invalid value for spotify:limit tag')
         return self.__spotify_limit
