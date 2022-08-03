@@ -119,13 +119,13 @@ class PodcastExtension(BaseExtension):
         
         if self.__spotify_country_of_origin:
             countries = xml_elem('{%s}countryOfOrigin' % SPOTIFY_NS, channel)
-            countries.text(self.__spotify_country_of_origin)
+            countries.text = self.__spotify_country_of_origin
         
         if self.__media_restriction:
             restriction = xml_elem('{%s}restriction' % MEDIA_NS, channel)
             restriction.attrib['type'] = 'country'
             restriction.attrib['relationship'] = 'allow'
-            restriction.text(self.__media_restriction)
+            restriction.text = self.__media_restriction
 
         return rss_feed
 
