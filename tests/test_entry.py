@@ -163,7 +163,7 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.title('some title')
         fe.content('content', type='CDATA')
         result = fg.atom_str()
-        assert b'<content type="CDATA"><![CDATA[content]]></content>' in result
+        assert b'<content type="html"><![CDATA[content]]></content>' in result
 
     def test_summary_html_type(self):
         fg = FeedGenerator()
