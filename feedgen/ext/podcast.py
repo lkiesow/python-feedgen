@@ -32,6 +32,7 @@ class PodcastExtension(BaseExtension):
         self.__itunes_owner = None
         self.__itunes_subtitle = None
         self.__itunes_summary = None
+        self.__itunes_type = None
 
     def extend_ns(self):
         return {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
@@ -95,6 +96,10 @@ class PodcastExtension(BaseExtension):
         if self.__itunes_summary:
             summary = xml_elem('{%s}summary' % ITUNES_NS, channel)
             summary.text = self.__itunes_summary
+
+        if self.__itunes_type in ('episodic', 'serial'):
+            type = xml_elem('{%s}type' % ITUNES_NS, channel)
+            type.text = self.__itunes_type
 
         return rss_feed
 
@@ -317,6 +322,34 @@ class PodcastExtension(BaseExtension):
         if itunes_summary is not None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
+
+    def itunes_type(self, itunes_type=None):
+        '''Get or set the itunes:type value of the podcast. This tag should
+        be used to indicate the type of your podcast.
+        The two values for this tag are "episodic" and "serial".
+
+        If your show is Serial you must use this tag.
+
+        Specify episodic when episodes are intended to be consumed without any
+        specific order. Apple Podcasts will present newest episodes first and
+        display the publish date (required) of each episode. If organized into
+        seasons, the newest season will be presented first - otherwise,
+        episodes will be grouped by year published, newest first.
+
+         Specify serial when episodes are intended to be consumed in sequential
+         order. Apple Podcasts will present the oldest episodes first and
+         display the episode numbers (required) of each episode. If organized
+         into seasons, the newest season will be presented first and
+         <itunes:episode> numbers must be given for each episode.
+
+        :param itunes_type: The type of the podcast
+        :returns: type of the pdocast.
+        '''
+        if itunes_type is not None:
+            if itunes_type not in ('episodic', 'serial'):
+                raise ValueError('Invalid value for type tag')
+            self.__itunes_type = itunes_type
+        return self.__itunes_type
 
     _itunes_categories = {
             'Arts': [

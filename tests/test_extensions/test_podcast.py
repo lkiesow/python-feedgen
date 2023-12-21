@@ -52,6 +52,7 @@ class TestExtensionPodcast(unittest.TestCase):
         fg.podcast.itunes_image('x.png')
         fg.podcast.itunes_subtitle('x')
         fg.podcast.itunes_summary('x')
+        fg.podcast.itunes_type('episodic')
         assert fg.podcast.itunes_author() == 'Lars Kiesow'
         assert fg.podcast.itunes_block() == 'x'
         assert fg.podcast.itunes_complete() == 'no'
@@ -59,6 +60,7 @@ class TestExtensionPodcast(unittest.TestCase):
         assert fg.podcast.itunes_image() == 'x.png'
         assert fg.podcast.itunes_subtitle() == 'x'
         assert fg.podcast.itunes_summary() == 'x'
+        assert fg.podcast.itunes_type() == 'episodic'
 
         # Check that we have the item in the resulting XML
         ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
@@ -78,6 +80,10 @@ class TestExtensionPodcast(unittest.TestCase):
         fe.podcast.itunes_order(1)
         fe.podcast.itunes_subtitle('x')
         fe.podcast.itunes_summary('x')
+        fe.podcast.itunes_season(1)
+        fe.podcast.itunes_episode(1)
+        fe.podcast.itunes_title('Podcast Title')
+        fe.podcast.itunes_episode_type('full')
         assert fe.podcast.itunes_author() == 'Lars Kiesow'
         assert fe.podcast.itunes_block() == 'x'
         assert fe.podcast.itunes_duration() == '00:01:30'
@@ -87,6 +93,10 @@ class TestExtensionPodcast(unittest.TestCase):
         assert fe.podcast.itunes_order() == 1
         assert fe.podcast.itunes_subtitle() == 'x'
         assert fe.podcast.itunes_summary() == 'x'
+        assert fe.podcast.itunes_season() == 1
+        assert fe.podcast.itunes_episode() == 1
+        assert fe.podcast.itunes_title() == 'Podcast Title'
+        assert fe.podcast.itunes_episode_type() == 'full'
 
         # Check that we have the item in the resulting XML
         ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}

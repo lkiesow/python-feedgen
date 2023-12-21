@@ -30,6 +30,10 @@ class PodcastEntryExtension(BaseEntryExtension):
         self.__itunes_order = None
         self.__itunes_subtitle = None
         self.__itunes_summary = None
+        self.__itunes_season = None
+        self.__itunes_episode = None
+        self.__itunes_title = None
+        self.__itunes_episode_type = None
 
     def extend_rss(self, entry):
         '''Add additional fields to an RSS item.
@@ -77,6 +81,22 @@ class PodcastEntryExtension(BaseEntryExtension):
         if self.__itunes_summary:
             summary = xml_elem('{%s}summary' % ITUNES_NS, entry)
             summary.text = self.__itunes_summary
+
+        if self.__itunes_season:
+            season = xml_elem('{%s}season' % ITUNES_NS, entry)
+            season.text = str(self.__itunes_season)
+
+        if self.__itunes_episode:
+            episode = xml_elem('{%s}episode' % ITUNES_NS, entry)
+            episode.text = str(self.__itunes_episode)
+
+        if self.__itunes_title:
+            title = xml_elem('{%s}title' % ITUNES_NS, entry)
+            title.text = self.__itunes_title
+
+        if self.__itunes_episode_type in ('full', 'trailer', 'bonus'):
+            episode_type = xml_elem('{%s}episodeType' % ITUNES_NS, entry)
+            episode_type.text = self.__itunes_episode_type
         return entry
 
     def itunes_author(self, itunes_author=None):
@@ -242,3 +262,60 @@ class PodcastEntryExtension(BaseEntryExtension):
         if itunes_summary is not None:
             self.__itunes_summary = itunes_summary
         return self.__itunes_summary
+
+    def itunes_season(self, itunes_season=None):
+        '''Get or set the itunes:season value for the podcast episode.
+
+        :param itunes_season: Season number of the podcast epiosode.
+        :returns: Season number of the podcast episode.
+        '''
+        if itunes_season is not None:
+            self.__itunes_season = int(itunes_season)
+        return self.__itunes_season
+
+    def itunes_episode(self, itunes_episode=None):
+        '''Get or set the itunes:episode value for the podcast episode.
+
+        :param itunes_season: Episode number of the podcast epiosode.
+        :returns: Episode number of the podcast episode.
+        '''
+        if itunes_episode is not None:
+            self.__itunes_episode = int(itunes_episode)
+        return self.__itunes_episode
+
+    def itunes_title(self, itunes_title=None):
+        '''Get or set the itunes:title value for the podcast episode.
+
+        An episode title specific for Apple Podcasts. Don’t specify the episode
+        number or season number in this tag. Also, don’t repeat the title of
+        your show within your episode title.
+
+        :param itunes_title: Episode title specific for Apple Podcasts
+        :returns: Title specific for Apple Podcast
+        '''
+        if itunes_title is not None:
+            self.__itunes_title = itunes_title
+        return self.__itunes_title
+
+    def itunes_episode_type(self, itunes_episode_type=None):
+        '''Get or set the itunes:episodeType value of the item. This tag should
+        be used to indicate the episode type.
+        The three values for this tag are "full", "trailer" and "bonus".
+
+        If an episode is a trailer or bonus content, use this tag.
+
+        Specify full when you are submitting the complete content of your show.
+        Specify trailer when you are submitting a short, promotional piece of
+        content that represents a preview of your current show.
+        Specify bonus when you are submitting extra content for your show (for
+        example, behind the scenes information or interviews with the cast) or
+        cross-promotional content for another show.
+
+        :param itunes_episode_type: The episode type
+        :returns: type of the episode.
+        '''
+        if itunes_episode_type is not None:
+            if itunes_episode_type not in ('full', 'trailer', 'bonus'):
+                raise ValueError('Invalid value for episodeType tag')
+            self.__itunes_episode_type = itunes_episode_type
+        return self.__itunes_episode_type
