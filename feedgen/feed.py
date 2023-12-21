@@ -761,7 +761,7 @@ class FeedGenerator(object):
         :param title: Describes the image. The default value is the feeds
                       title.
         :param link: URL of the site the image will link to. The default is to
-                     use the feeds first altertate link.
+                     use the feeds first alternate link.
         :param width: Width of the image in pixel. The maximum is 144.
         :param height: The height of the image. The maximum is 400.
         :param description: Title of the link.
@@ -802,7 +802,7 @@ class FeedGenerator(object):
         return self.rights(copyright)
 
     def subtitle(self, subtitle=None):
-        '''Get or set the subtitle value of the cannel which contains a
+        '''Get or set the subtitle value of the channel which contains a
         human-readable description or subtitle for the feed. This ATOM property
         will also set the value for rss:description.
 
