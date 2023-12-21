@@ -62,17 +62,15 @@
 
     To add entries (items) to a feed you need to create new FeedEntry objects
     and append them to the list of entries in the FeedGenerator. The most
-    convenient way to go is to use the FeedGenerator itself for the
-    instantiation of the FeedEntry object::
+    convenient way to do this, is to call the method add_entry(...) like this::
 
         >>> fe = fg.add_entry()
         >>> fe.id('http://lernfunk.de/media/654321/1')
         >>> fe.title('The First Episode')
 
-    The FeedGenerators method add_entry(...) without argument provides will
-    automatically generate a new FeedEntry object, append it to the feeds
-    internal list of entries and return it, so that additional data can be
-    added.
+    The FeedGenerator's method add_entry(...) will automatically create a new
+    FeedEntry object, append it to the feeds internal list of entries and
+    return it, so that additional data can be added.
 
     ----------
     Extensions
