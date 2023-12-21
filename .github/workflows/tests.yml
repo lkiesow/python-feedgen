@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: set up python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install python3-lxml python3-dateutil
+
+    - name: install Python dependencies
+      run: |
+        pip install bandit flake8 coverage liccheck
+
+    - name: install feedgen
+      run: |
+        python setup.py install
+
+    - name: run linter
+      run: make test
+
+    - name: run license check
+      run: liccheck -s .licenses.ini
+
+    - name: run tests
+      run: |
+        python -m feedgen
+        python -m feedgen atom
+        python -m feedgen rss
+
+
+    - name: run coverage
+      run: coverage report --fail-under=93
+
