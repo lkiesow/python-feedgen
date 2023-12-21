@@ -22,8 +22,8 @@ class TestSequenceFunctions(unittest.TestCase):
             assert e.code is None
 
     def test_feed(self):
-        for ftype in 'rss', 'atom', 'podcast', 'torrent', 'dc.rss', 'dc.atom',\
-                     'syndication.rss', 'syndication.atom':
+        for ftype in 'rss', 'atom', 'podcast', 'torrent', 'dc.rss', \
+                     'dc.atom', 'syndication.rss', 'syndication.atom':
             sys.argv = ['feedgen', ftype]
             try:
                 __main__.main()

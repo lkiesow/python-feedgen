@@ -35,9 +35,9 @@ def xml_elem(name, parent=None, **kwargs):
 
 
 def ensure_format(val, allowed, required, allowed_values=None, defaults=None):
-    '''Takes a dictionary or a list of dictionaries and check if all keys are in
-    the set of allowed keys, if all required keys are present and if the values
-    of a specific key are ok.
+    '''Takes a dictionary or a list of dictionaries and check if all keys are
+    in the set of allowed keys, if all required keys are present and if the
+    values of a specific key are ok.
 
     :param val:            Dictionaries to check.
     :param allowed:        Set of allowed keys.

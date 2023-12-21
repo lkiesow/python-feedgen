@@ -21,7 +21,8 @@ class BaseExtension(object):
         return dict()
 
     def extend_rss(self, feed):
-        '''Extend a RSS feed xml structure containing all previously set fields.
+        '''Extend a RSS feed xml structure containing all previously set
+        fields.
 
         :param feed: The feed xml root element.
         :returns: The feed root element.

@@ -292,8 +292,8 @@ class PodcastExtension(BaseExtension):
         return self.__itunes_owner
 
     def itunes_subtitle(self, itunes_subtitle=None):
-        '''Get or set the itunes:subtitle value for the podcast. The contents of
-        this tag are shown in the Description column in iTunes. The subtitle
+        '''Get or set the itunes:subtitle value for the podcast. The contents
+        of this tag are shown in the Description column in iTunes. The subtitle
         displays best if it is only a few words long.
 
         :param itunes_subtitle: Subtitle of the podcast.
