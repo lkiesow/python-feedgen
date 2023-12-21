@@ -58,8 +58,8 @@ def _add_text_elm(entry, data, name):
 
 
 class FeedEntry(object):
-    '''FeedEntry call representing an ATOM feeds entry node or an RSS feeds item
-    node.
+    '''FeedEntry call representing an ATOM feeds entry node or an RSS feeds
+    item node.
     '''
 
     def __init__(self):
@@ -115,8 +115,8 @@ class FeedEntry(object):
         # element.
         if not self.__atom_content:
             links = self.__atom_link or []
-            if not [l for l in links if l.get('rel') == 'alternate']:
-                raise ValueError('Entry must contain an alternate link or ' +
+            if not [link for link in links if link.get('rel') == 'alternate']:
+                raise ValueError('Entry must contain an alternate link or '
                                  'a content element.')
 
         # Add author elements
@@ -136,18 +136,18 @@ class FeedEntry(object):
 
         _add_text_elm(entry, self.__atom_content, 'content')
 
-        for l in self.__atom_link or []:
-            link = xml_elem('link', entry, href=l['href'])
-            if l.get('rel'):
-                link.attrib['rel'] = l['rel']
-            if l.get('type'):
-                link.attrib['type'] = l['type']
-            if l.get('hreflang'):
-                link.attrib['hreflang'] = l['hreflang']
-            if l.get('title'):
-                link.attrib['title'] = l['title']
-            if l.get('length'):
-                link.attrib['length'] = l['length']
+        for link in self.__atom_link or []:
+            link = xml_elem('link', entry, href=link['href'])
+            if link.get('rel'):
+                link.attrib['rel'] = link['rel']
+            if link.get('type'):
+                link.attrib['type'] = link['type']
+            if link.get('hreflang'):
+                link.attrib['hreflang'] = link['hreflang']
+            if link.get('title'):
+                link.attrib['title'] = link['title']
+            if link.get('length'):
+                link.attrib['length'] = link['length']
 
         _add_text_elm(entry, self.__atom_summary, 'summary')
 
@@ -449,13 +449,13 @@ class FeedEntry(object):
                 {'rel': ['alternate', 'enclosure', 'related', 'self', 'via']},
                 {'rel': 'alternate'})
             # RSS only needs one URL. We use the first link for RSS:
-            for l in self.__atom_link:
-                if l.get('rel') == 'alternate':
-                    self.__rss_link = l['href']
-                elif l.get('rel') == 'enclosure':
-                    self.__rss_enclosure = {'url': l['href']}
-                    self.__rss_enclosure['type'] = l.get('type')
-                    self.__rss_enclosure['length'] = l.get('length') or '0'
+            for link in self.__atom_link:
+                if link.get('rel') == 'alternate':
+                    self.__rss_link = link['href']
+                elif link.get('rel') == 'enclosure':
+                    self.__rss_enclosure = {'url': link['href']}
+                    self.__rss_enclosure['type'] = link.get('type')
+                    self.__rss_enclosure['length'] = link.get('length') or '0'
         # return the set with more information (atom)
         return self.__atom_link
 
@@ -574,8 +574,8 @@ class FeedEntry(object):
         return self.__atom_contributor
 
     def published(self, published=None):
-        '''Set or get the published value which contains the time of the initial
-        creation or first availability of the entry.
+        '''Set or get the published value which contains the time of the
+        initial creation or first availability of the entry.
 
         The value can either be a string which will automatically be parsed or
         a datetime.datetime object. In any case it is necessary that the value
