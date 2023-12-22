@@ -16,19 +16,15 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_usage(self):
         sys.argv = ['feedgen']
-        try:
+        with self.assertRaises(SystemExit) as e:
             __main__.main()
-        except BaseException as e:
-            assert e.code is None
+        self.assertEqual(e.exception.code, None)
 
     def test_feed(self):
         for ftype in 'rss', 'atom', 'podcast', 'torrent', 'dc.rss', \
                      'dc.atom', 'syndication.rss', 'syndication.atom':
             sys.argv = ['feedgen', ftype]
-            try:
-                __main__.main()
-            except Exception:
-                assert False
+            __main__.main()
 
     def test_file(self):
         for extemsion in '.atom', '.rss':
@@ -36,7 +32,6 @@ class TestSequenceFunctions(unittest.TestCase):
             sys.argv = ['feedgen', filename]
             try:
                 __main__.main()
-            except Exception:
-                assert False
-            os.close(fh)
-            os.remove(filename)
+            finally:
+                os.close(fh)
+                os.remove(filename)

@@ -44,8 +44,8 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_setEntries(self):
         fg2 = FeedGenerator()
         fg2.entry(self.fg.entry())
-        assert len(fg2.entry()) == 3
-        assert self.fg.entry() == fg2.entry()
+        self.assertEqual(len(fg2.entry()), 3)
+        self.assertEqual(self.fg.entry(), fg2.entry())
 
     def test_loadExtension(self):
         fe = self.fg.add_item()
@@ -53,64 +53,64 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.title(u'…')
         fe.content(u'…')
         fe.load_extension('base')
-        assert fe.base
-        assert self.fg.atom_str()
+        self.assertTrue(fe.base)
+        self.assertTrue(self.fg.atom_str())
 
     def test_checkEntryNumbers(self):
         fg = self.fg
-        assert len(fg.entry()) == 3
+        self.assertEqual(len(fg.entry()), 3)
 
     def test_TestEntryItems(self):
         fe = self.fg.add_item()
         fe.title('qwe')
-        assert fe.title() == 'qwe'
+        self.assertEqual(fe.title(), 'qwe')
         author = fe.author(email='ldoe@example.com')[0]
-        assert not author.get('name')
-        assert author.get('email') == 'ldoe@example.com'
+        self.assertFalse(author.get('name'))
+        self.assertEqual(author.get('email'), 'ldoe@example.com')
         author = fe.author(name='John Doe', email='jdoe@example.com',
                            replace=True)[0]
-        assert author.get('name') == 'John Doe'
-        assert author.get('email') == 'jdoe@example.com'
+        self.assertEqual(author.get('name'), 'John Doe')
+        self.assertEqual(author.get('email'), 'jdoe@example.com')
         contributor = fe.contributor(name='John Doe', email='jdoe@ex.com')[0]
-        assert contributor == fe.contributor()[0]
-        assert contributor.get('name') == 'John Doe'
-        assert contributor.get('email') == 'jdoe@ex.com'
+        self.assertEqual(contributor, fe.contributor()[0])
+        self.assertEqual(contributor.get('name'), 'John Doe')
+        self.assertEqual(contributor.get('email'), 'jdoe@ex.com')
         link = fe.link(href='http://lkiesow.de', rel='alternate')[0]
-        assert link == fe.link()[0]
-        assert link.get('href') == 'http://lkiesow.de'
-        assert link.get('rel') == 'alternate'
+        self.assertEqual(link, fe.link()[0])
+        self.assertEqual(link.get('href'), 'http://lkiesow.de')
+        self.assertEqual(link.get('rel'), 'alternate')
         fe.guid('123')
-        assert fe.guid().get('guid') == '123'
+        self.assertEqual(fe.guid().get('guid'), '123')
         fe.updated('2017-02-05 13:26:58+01:00')
-        assert fe.updated().year == 2017
+        self.assertEqual(fe.updated().year, 2017)
         fe.summary('asdf')
-        assert fe.summary() == {'summary': 'asdf'}
+        self.assertEqual(fe.summary(), {'summary': 'asdf'})
         fe.description('asdfx')
-        assert fe.description() == 'asdfx'
+        self.assertEqual(fe.description(), 'asdfx')
         fe.pubDate('2017-02-05 13:26:58+01:00')
-        assert fe.pubDate().year == 2017
+        self.assertEqual(fe.pubDate().year, 2017)
         fe.rights('asdfx')
-        assert fe.rights() == 'asdfx'
+        self.assertEqual(fe.rights(), 'asdfx')
         source = fe.source(url='https://example.com', title='Test')
-        assert source.get('title') == 'Test'
-        assert source.get('url') == 'https://example.com'
+        self.assertEqual(source.get('title'), 'Test')
+        self.assertEqual(source.get('url'), 'https://example.com')
         fe.comments('asdfx')
-        assert fe.comments() == 'asdfx'
+        self.assertEqual(fe.comments(), 'asdfx')
         fe.enclosure(url='http://lkiesow.de', type='text/plain', length='1')
-        assert fe.enclosure().get('url') == 'http://lkiesow.de'
+        self.assertEqual(fe.enclosure().get('url'), 'http://lkiesow.de')
         fe.ttl(8)
-        assert fe.ttl() == 8
+        self.assertEqual(fe.ttl(), 8)
 
         self.fg.rss_str()
         self.fg.atom_str()
 
     def test_checkItemNumbers(self):
         fg = self.fg
-        assert len(fg.item()) == 3
+        self.assertEqual(len(fg.item()), 3)
 
     def test_checkEntryContent(self):
         fg = self.fg
-        assert fg.entry()
+        self.assertTrue(fg.entry())
 
     def test_removeEntryByIndex(self):
         fg = FeedGenerator()
@@ -120,9 +120,9 @@ class TestSequenceFunctions(unittest.TestCase):
         fe = fg.add_entry()
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
-        assert len(fg.entry()) == 1
+        self.assertEqual(len(fg.entry()), 1)
         fg.remove_entry(0)
-        assert len(fg.entry()) == 0
+        self.assertEqual(len(fg.entry()), 0)
 
     def test_removeEntryByEntry(self):
         fg = FeedGenerator()
@@ -133,9 +133,9 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.id('http://lernfunk.de/media/654321/1')
         fe.title('The Third Episode')
 
-        assert len(fg.entry()) == 1
+        self.assertEqual(len(fg.entry()), 1)
         fg.remove_entry(fe)
-        assert len(fg.entry()) == 0
+        self.assertEqual(len(fg.entry()), 0)
 
     def test_categoryHasDomain(self):
         fg = FeedGenerator()
@@ -147,12 +147,12 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.title('some title')
         fe.category([
              {'term': 'category',
-              'scheme': 'http://www.somedomain.com/category',
+              'scheme': 'http://somedomain.com/category',
               'label': 'Category',
               }])
 
         result = fg.rss_str()
-        assert b'domain="http://www.somedomain.com/category"' in result
+        self.assertIn(b'domain="http://somedomain.com/category"', result)
 
     def test_content_cdata_type(self):
         fg = FeedGenerator()
@@ -163,7 +163,8 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.title('some title')
         fe.content('content', type='CDATA')
         result = fg.atom_str()
-        assert b'<content type="CDATA"><![CDATA[content]]></content>' in result
+        expected = b'<content type="CDATA"><![CDATA[content]]></content>'
+        self.assertIn(expected, result)
 
     def test_summary_html_type(self):
         fg = FeedGenerator()
@@ -176,4 +177,4 @@ class TestSequenceFunctions(unittest.TestCase):
         fe.summary('<p>summary</p>', type='html')
         result = fg.atom_str()
         expected = b'<summary type="html">&lt;p&gt;summary&lt;/p&gt;</summary>'
-        assert expected in result
+        self.assertIn(expected, result)

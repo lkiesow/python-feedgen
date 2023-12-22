@@ -26,8 +26,8 @@ class TestExtensionPodcast(unittest.TestCase):
         cat = root.xpath('/rss/channel/itunes:category/@text', namespaces=ns)
         scat = root.xpath('/rss/channel/itunes:category/itunes:category/@text',
                           namespaces=ns)
-        assert cat[0] == 'Technology'
-        assert scat[0] == 'Podcasting'
+        self.assertEqual(cat[0], 'Technology')
+        self.assertEqual(scat[0], 'Podcasting')
 
     def test_category(self):
         self.fg.podcast.itunes_category('Technology', 'Podcasting')
@@ -40,8 +40,8 @@ class TestExtensionPodcast(unittest.TestCase):
         cat = root.xpath('/rss/channel/itunes:category/@text', namespaces=ns)
         scat = root.xpath('/rss/channel/itunes:category/itunes:category/@text',
                           namespaces=ns)
-        assert cat[0] == 'Technology'
-        assert scat[0] == 'Podcasting'
+        self.assertEqual(cat[0], 'Technology')
+        self.assertEqual(scat[0], 'Podcasting')
 
     def test_podcastItems(self):
         fg = self.fg
@@ -53,20 +53,20 @@ class TestExtensionPodcast(unittest.TestCase):
         fg.podcast.itunes_subtitle('x')
         fg.podcast.itunes_summary('x')
         fg.podcast.itunes_type('episodic')
-        assert fg.podcast.itunes_author() == 'Lars Kiesow'
-        assert fg.podcast.itunes_block() == 'x'
-        assert fg.podcast.itunes_complete() == 'no'
-        assert fg.podcast.itunes_explicit() == 'no'
-        assert fg.podcast.itunes_image() == 'x.png'
-        assert fg.podcast.itunes_subtitle() == 'x'
-        assert fg.podcast.itunes_summary() == 'x'
-        assert fg.podcast.itunes_type() == 'episodic'
+        self.assertEqual(fg.podcast.itunes_author(), 'Lars Kiesow')
+        self.assertEqual(fg.podcast.itunes_block(), 'x')
+        self.assertEqual(fg.podcast.itunes_complete(), 'no')
+        self.assertEqual(fg.podcast.itunes_explicit(), 'no')
+        self.assertEqual(fg.podcast.itunes_image(), 'x.png')
+        self.assertEqual(fg.podcast.itunes_subtitle(), 'x')
+        self.assertEqual(fg.podcast.itunes_summary(), 'x')
+        self.assertEqual(fg.podcast.itunes_type(), 'episodic')
 
         # Check that we have the item in the resulting XML
         ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
         root = etree.fromstring(self.fg.rss_str())
         author = root.xpath('/rss/channel/itunes:author/text()', namespaces=ns)
-        assert author == ['Lars Kiesow']
+        self.assertEqual(author, ['Lars Kiesow'])
 
     def test_podcastEntryItems(self):
         fe = self.fg.add_item()
@@ -84,23 +84,23 @@ class TestExtensionPodcast(unittest.TestCase):
         fe.podcast.itunes_episode(1)
         fe.podcast.itunes_title('Podcast Title')
         fe.podcast.itunes_episode_type('full')
-        assert fe.podcast.itunes_author() == 'Lars Kiesow'
-        assert fe.podcast.itunes_block() == 'x'
-        assert fe.podcast.itunes_duration() == '00:01:30'
-        assert fe.podcast.itunes_explicit() == 'no'
-        assert fe.podcast.itunes_image() == 'x.png'
-        assert fe.podcast.itunes_is_closed_captioned()
-        assert fe.podcast.itunes_order() == 1
-        assert fe.podcast.itunes_subtitle() == 'x'
-        assert fe.podcast.itunes_summary() == 'x'
-        assert fe.podcast.itunes_season() == 1
-        assert fe.podcast.itunes_episode() == 1
-        assert fe.podcast.itunes_title() == 'Podcast Title'
-        assert fe.podcast.itunes_episode_type() == 'full'
+        self.assertEqual(fe.podcast.itunes_author(), 'Lars Kiesow')
+        self.assertEqual(fe.podcast.itunes_block(), 'x')
+        self.assertEqual(fe.podcast.itunes_duration(), '00:01:30')
+        self.assertEqual(fe.podcast.itunes_explicit(), 'no')
+        self.assertEqual(fe.podcast.itunes_image(), 'x.png')
+        self.assertTrue(fe.podcast.itunes_is_closed_captioned())
+        self.assertEqual(fe.podcast.itunes_order(), 1)
+        self.assertEqual(fe.podcast.itunes_subtitle(), 'x')
+        self.assertEqual(fe.podcast.itunes_summary(), 'x')
+        self.assertEqual(fe.podcast.itunes_season(), 1)
+        self.assertEqual(fe.podcast.itunes_episode(), 1)
+        self.assertEqual(fe.podcast.itunes_title(), 'Podcast Title')
+        self.assertEqual(fe.podcast.itunes_episode_type(), 'full')
 
         # Check that we have the item in the resulting XML
         ns = {'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd'}
         root = etree.fromstring(self.fg.rss_str())
         author = root.xpath('/rss/channel/item/itunes:author/text()',
                             namespaces=ns)
-        assert author == ['Lars Kiesow']
+        self.assertEqual(author, ['Lars Kiesow'])
