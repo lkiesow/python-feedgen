@@ -220,7 +220,7 @@ class FeedGenerator(object):
         <https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring>`_
         '''
         feed, doc = self._create_atom(extensions=extensions)
-        return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
+        return etree.tostring(doc, pretty_print=pretty, encoding=encoding,
                               xml_declaration=xml_declaration)
 
     def atom_file(self, filename, extensions=True, pretty=False,
@@ -396,7 +396,7 @@ class FeedGenerator(object):
         <https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring>`_
         '''
         feed, doc = self._create_rss(extensions=extensions)
-        return etree.tostring(feed, pretty_print=pretty, encoding=encoding,
+        return etree.tostring(doc, pretty_print=pretty, encoding=encoding,
                               xml_declaration=xml_declaration)
 
     def rss_file(self, filename, extensions=True, pretty=False,
