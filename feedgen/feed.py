@@ -635,7 +635,7 @@ class FeedGenerator(object):
         If a label is present it is used for the RSS feeds. Otherwise the term
         is used. The scheme is used for the domain attribute in RSS.
 
-        :param link:    Dict or list of dicts with data.
+        :param category: Dict or list of dicts with data.
         :param replace: Add or replace old data.
         :returns: List of category data.
         '''
