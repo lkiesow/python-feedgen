@@ -54,7 +54,7 @@ def _add_text_elm(entry, data, name):
             )
     # Add type description of the content
     if type_:
-        elm.attrib['type'] = type_
+        elm.attrib['type'] = 'html' if type_ == 'CDATA' else type_
 
 
 class FeedEntry(object):
