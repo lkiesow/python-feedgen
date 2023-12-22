@@ -281,7 +281,7 @@ class GeoEntryExtension(BaseEntryExtension):
         - Point
         - LineString
         - Polygon (if there are holes / donuts in the polygons a warning will
-          be generaated
+          be generated
 
         Other GeoJson types will raise a ``ValueError``.
 
