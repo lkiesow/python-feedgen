@@ -499,7 +499,7 @@ class FeedEntry(object):
         if description is not None:
             self.__rss_description = description
             if isSummary:
-                self.__atom_summary = description
+                self.__atom_summary = {'summary': description}
             else:
                 self.__atom_content = {'content': description}
         return self.__rss_description
