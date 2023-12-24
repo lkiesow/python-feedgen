@@ -1,2 +1,3 @@
 include license.bsd license.lgpl readme.rst
 recursive-include docs *.html *.css *.png *.gif *.js
+recursive-include tests *.py
