@@ -1,26 +1,27 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>feedgen.ext.dc &#8212; python-feedgen 0.8.0 documentation</title>
-    <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>feedgen.ext.dc &#8212; python-feedgen 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/lernfunk.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="feedgen.ext.podcast" href="api.ext.podcast.html" />
     <link rel="prev" title="feedgen.ext.base" href="api.ext.base.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.8.0 documentation</span></a></h1>
+          <span>python-feedgen 1.0.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.dc</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -34,57 +35,52 @@
         </p>
 
       </div>
-      <div class="content">
+      <div class="content" role="main">
         
         
   <script type=application/javascript src=_static/theme_extras.js></script>
 <div class="apititle"><b>Contents</b></div>
-<div class="apitoc"></div><span class="target" id="module-feedgen.ext.dc"></span><div class="section" id="feedgen-ext-dc">
-<h1>feedgen.ext.dc<a class="headerlink" href="#feedgen-ext-dc" title="Permalink to this headline">¶</a></h1>
+<div class="apitoc"></div><span class="target" id="module-feedgen.ext.dc"></span><section id="feedgen-ext-dc">
+<h1>feedgen.ext.dc<a class="headerlink" href="#feedgen-ext-dc" title="Permalink to this heading">¶</a></h1>
 <p>Extends the FeedGenerator to add Dubline Core Elements to the feeds.</p>
 <p>Descriptions partly taken from
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-coverage">http://dublincore.org/documents/dcmi-terms/#elements-coverage</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013-2017, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</td>
-</tr>
-<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
-</tr>
-</tbody>
-</table>
-<dl class="class">
-<dt id="feedgen.ext.dc.DcBaseExtension">
-<em class="property">class </em><code class="descclassname">feedgen.ext.dc.</code><code class="descname">DcBaseExtension</code><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension" title="Permalink to this definition">¶</a></dt>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2013-2017, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</p>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>FreeBSD and LGPL, see license.* for more details.</p>
+</dd>
+</dl>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">feedgen.ext.dc.</span></span><span class="sig-name descname"><span class="pre">DcBaseExtension</span></span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dublin Core Elements extension for podcasts.</p>
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_contributor">
-<code class="descname">dc_contributor</code><span class="sig-paren">(</span><em>contributor=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_contributor" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_contributor">
+<span class="sig-name descname"><span class="pre">dc_contributor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contributor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_contributor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:contributor which is an entity responsible for
 making contributions to the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-contributor">http://dublincore.org/documents/dcmi-terms/#elements-contributor</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>contributor</strong> – Contributor or list of contributors.</li>
-<li><strong>replace</strong> – Replace alredy set contributors (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contributor</strong> – Contributor or list of contributors.</p></li>
+<li><p><strong>replace</strong> – Replace already set contributors (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of contributors.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of contributors.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_coverage">
-<code class="descname">dc_coverage</code><span class="sig-paren">(</span><em>coverage=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_coverage" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_coverage">
+<span class="sig-name descname"><span class="pre">dc_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_coverage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:coverage which indicated the spatial or temporal
 topic of the resource, the spatial applicability of the resource, or
 the jurisdiction under which the resource is relevant.</p>
@@ -98,240 +94,200 @@ named places or time periods can be used in preference to numeric
 identifiers such as sets of coordinates or date ranges.</p>
 <p>References:
 [TGN] <a class="reference external" href="http://www.getty.edu/research/tools/vocabulary/tgn/index.html">http://www.getty.edu/research/tools/vocabulary/tgn/index.html</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coverage</strong> – Coverage of the feed.</li>
-<li><strong>replace</strong> – Replace already set coverage (default: True).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coverage</strong> – Coverage of the feed.</p></li>
+<li><p><strong>replace</strong> – Replace already set coverage (default: True).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Coverage of the feed.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Coverage of the feed.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_creator">
-<code class="descname">dc_creator</code><span class="sig-paren">(</span><em>creator=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_creator" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_creator">
+<span class="sig-name descname"><span class="pre">dc_creator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_creator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:creator which is an entity primarily responsible
 for making the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-creator">http://dublincore.org/documents/dcmi-terms/#elements-creator</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>creator</strong> – Creator or list of creators.</li>
-<li><strong>replace</strong> – Replace alredy set creators (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>creator</strong> – Creator or list of creators.</p></li>
+<li><p><strong>replace</strong> – Replace already set creators (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of creators.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of creators.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_date">
-<code class="descname">dc_date</code><span class="sig-paren">(</span><em>date=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_date" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_date">
+<span class="sig-name descname"><span class="pre">dc_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_date" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:date which describes a point or period of time
 associated with an event in the lifecycle of the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-date">http://dublincore.org/documents/dcmi-terms/#elements-date</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>date</strong> – Date or list of dates.</li>
-<li><strong>replace</strong> – Replace alredy set dates (deault: True).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date</strong> – Date or list of dates.</p></li>
+<li><p><strong>replace</strong> – Replace already set dates (default: True).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of dates.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dates.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_description">
-<code class="descname">dc_description</code><span class="sig-paren">(</span><em>description=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_description" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_description">
+<span class="sig-name descname"><span class="pre">dc_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:description which is an account of the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-description">http://dublincore.org/documents/dcmi-terms/#elements-description</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>description</strong> – Description or list of descriptions.</li>
-<li><strong>replace</strong> – Replace alredy set descriptions (deault: True).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>description</strong> – Description or list of descriptions.</p></li>
+<li><p><strong>replace</strong> – Replace already set descriptions (default: True).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of descriptions.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of descriptions.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_format">
-<code class="descname">dc_format</code><span class="sig-paren">(</span><em>format=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_format" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_format">
+<span class="sig-name descname"><span class="pre">dc_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:format which describes the file format, physical
 medium, or dimensions of the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-format">http://dublincore.org/documents/dcmi-terms/#elements-format</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>format</strong> – Format of the resource or list of formats.</li>
-<li><strong>replace</strong> – Replace alredy set format (deault: True).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> – Format of the resource or list of formats.</p></li>
+<li><p><strong>replace</strong> – Replace already set format (default: True).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Format of the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Format of the resource.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_identifier">
-<code class="descname">dc_identifier</code><span class="sig-paren">(</span><em>identifier=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_identifier" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_identifier">
+<span class="sig-name descname"><span class="pre">dc_identifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_identifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:identifier which should be an unambiguous
 reference to the resource within a given context.</p>
 <p>For more inidentifierion see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-identifier">http://dublincore.org/documents/dcmi-terms/#elements-identifier</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>identifier</strong> – Identifier of the resource or list of identifiers.</li>
-<li><strong>replace</strong> – Replace alredy set identifier (deault: True).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>identifier</strong> – Identifier of the resource or list of identifiers.</p></li>
+<li><p><strong>replace</strong> – Replace already set identifier (default: True).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Identifiers of the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Identifiers of the resource.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_language">
-<code class="descname">dc_language</code><span class="sig-paren">(</span><em>language=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_language" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_language">
+<span class="sig-name descname"><span class="pre">dc_language</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_language" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:language which describes a language of the
 resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-language">http://dublincore.org/documents/dcmi-terms/#elements-language</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>language</strong> – Language or list of languages.</li>
-<li><strong>replace</strong> – Replace alredy set languages (deault: True).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>language</strong> – Language or list of languages.</p></li>
+<li><p><strong>replace</strong> – Replace already set languages (default: True).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of languages.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of languages.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_publisher">
-<code class="descname">dc_publisher</code><span class="sig-paren">(</span><em>publisher=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_publisher" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_publisher">
+<span class="sig-name descname"><span class="pre">dc_publisher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">publisher</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_publisher" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:publisher which is an entity responsible for
 making the resource available.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-publisher">http://dublincore.org/documents/dcmi-terms/#elements-publisher</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>publisher</strong> – Publisher or list of publishers.</li>
-<li><strong>replace</strong> – Replace alredy set publishers (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>publisher</strong> – Publisher or list of publishers.</p></li>
+<li><p><strong>replace</strong> – Replace already set publishers (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of publishers.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of publishers.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_relation">
-<code class="descname">dc_relation</code><span class="sig-paren">(</span><em>relation=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_relation" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_relation">
+<span class="sig-name descname"><span class="pre">dc_relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_relation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:relation which describes a related resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-relation">http://dublincore.org/documents/dcmi-terms/#elements-relation</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>relation</strong> – Relation or list of relations.</li>
-<li><strong>replace</strong> – Replace alredy set relations (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>relation</strong> – Relation or list of relations.</p></li>
+<li><p><strong>replace</strong> – Replace already set relations (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of relations.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of relations.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_rights">
-<code class="descname">dc_rights</code><span class="sig-paren">(</span><em>rights=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_rights" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_rights">
+<span class="sig-name descname"><span class="pre">dc_rights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_rights" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:rights which may contain information about rights
 held in and over the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-rights">http://dublincore.org/documents/dcmi-terms/#elements-rights</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rights</strong> – Rights information or list of rights information.</li>
-<li><strong>replace</strong> – Replace alredy set rightss (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rights</strong> – Rights information or list of rights information.</p></li>
+<li><p><strong>replace</strong> – Replace already set rights (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of rights information.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of rights information.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_source">
-<code class="descname">dc_source</code><span class="sig-paren">(</span><em>source=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_source" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_source">
+<span class="sig-name descname"><span class="pre">dc_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:source which is a related resource from which the
 described resource is derived.</p>
 <p>The described resource may be derived from the related resource in
@@ -340,178 +296,153 @@ resource by means of a string conforming to a formal identification
 system.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-source">http://dublincore.org/documents/dcmi-terms/#elements-source</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>source</strong> – Source or list of sources.</li>
-<li><strong>replace</strong> – Replace alredy set sources (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source or list of sources.</p></li>
+<li><p><strong>replace</strong> – Replace already set sources (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of sources.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of sources.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_subject">
-<code class="descname">dc_subject</code><span class="sig-paren">(</span><em>subject=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_subject" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_subject">
+<span class="sig-name descname"><span class="pre">dc_subject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_subject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:subject which describes the topic of the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-subject">http://dublincore.org/documents/dcmi-terms/#elements-subject</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>subject</strong> – Subject or list of subjects.</li>
-<li><strong>replace</strong> – Replace alredy set subjects (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subject</strong> – Subject or list of subjects.</p></li>
+<li><p><strong>replace</strong> – Replace already set subjects (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of subjects.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of subjects.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_title">
-<code class="descname">dc_title</code><span class="sig-paren">(</span><em>title=None</em>, <em>replace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_title" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_title">
+<span class="sig-name descname"><span class="pre">dc_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:title which is a name given to the resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-title">http://dublincore.org/documents/dcmi-terms/#elements-title</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>title</strong> – Title or list of titles.</li>
-<li><strong>replace</strong> – Replace alredy set titles (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – Title or list of titles.</p></li>
+<li><p><strong>replace</strong> – Replace already set titles (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of titles.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of titles.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.dc_type">
-<code class="descname">dc_type</code><span class="sig-paren">(</span><em>type=None</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_type" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.dc_type">
+<span class="sig-name descname"><span class="pre">dc_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.dc_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the dc:type which describes the nature or genre of the
 resource.</p>
 <p>For more information see:
 <a class="reference external" href="http://dublincore.org/documents/dcmi-terms/#elements-type">http://dublincore.org/documents/dcmi-terms/#elements-type</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>type</strong> – Type or list of types.</li>
-<li><strong>replace</strong> – Replace alredy set types (deault: False).</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – Type or list of types.</p></li>
+<li><p><strong>replace</strong> – Replace already set types (default: False).</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of types.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of types.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.extend_atom">
-<code class="descname">extend_atom</code><span class="sig-paren">(</span><em>atom_feed</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_atom" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.extend_atom">
+<span class="sig-name descname"><span class="pre">extend_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_feed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_atom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extend an Atom feed with the set DC fields.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>atom_feed</strong> – The feed root element</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The feed root element</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atom_feed</strong> – The feed root element</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The feed root element</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.extend_ns">
-<code class="descname">extend_ns</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_ns" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.extend_ns">
+<span class="sig-name descname"><span class="pre">extend_ns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_ns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dict that will be used in the namespace map for the feed.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcBaseExtension.extend_rss">
-<code class="descname">extend_rss</code><span class="sig-paren">(</span><em>rss_feed</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcBaseExtension.extend_rss">
+<span class="sig-name descname"><span class="pre">extend_rss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rss_feed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcBaseExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extend a RSS feed with the set DC fields.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rss_feed</strong> – The feed root element</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The feed root element.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rss_feed</strong> – The feed root element</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The feed root element.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="feedgen.ext.dc.DcEntryExtension">
-<em class="property">class </em><code class="descclassname">feedgen.ext.dc.</code><code class="descname">DcEntryExtension</code><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcEntryExtension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">feedgen.ext.dc.</span></span><span class="sig-name descname"><span class="pre">DcEntryExtension</span></span><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dublin Core Elements extension for podcasts.</p>
-<dl class="method">
-<dt id="feedgen.ext.dc.DcEntryExtension.extend_atom">
-<code class="descname">extend_atom</code><span class="sig-paren">(</span><em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension.extend_atom" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcEntryExtension.extend_atom">
+<span class="sig-name descname"><span class="pre">extend_atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension.extend_atom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add dc elements to an atom item. Alters the item itself.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry</strong> – An atom entry element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The entry element.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>entry</strong> – An atom entry element.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The entry element.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.dc.DcEntryExtension.extend_rss">
-<code class="descname">extend_rss</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcEntryExtension.extend_rss">
+<span class="sig-name descname"><span class="pre">extend_rss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.dc.DcEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add dc elements to a RSS item. Alters the item itself.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> – A RSS item element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The item element.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> – A RSS item element.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The item element.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="feedgen.ext.dc.DcExtension">
-<em class="property">class </em><code class="descclassname">feedgen.ext.dc.</code><code class="descname">DcExtension</code><a class="headerlink" href="#feedgen.ext.dc.DcExtension" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="feedgen.ext.dc.DcExtension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">feedgen.ext.dc.</span></span><span class="sig-name descname"><span class="pre">DcExtension</span></span><a class="headerlink" href="#feedgen.ext.dc.DcExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dublin Core Elements extension for podcasts.</p>
 </dd></dl>
 
-</div>
 
 
       </div>
@@ -529,7 +460,7 @@ resource.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

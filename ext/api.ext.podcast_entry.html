@@ -1,26 +1,27 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>feedgen.ext.podcast_entry &#8212; python-feedgen 0.8.0 documentation</title>
-    <link rel="stylesheet" href="../_static/lernfunk.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>feedgen.ext.podcast_entry &#8212; python-feedgen 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/lernfunk.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="feedgen.ext.torrent" href="api.ext.torrent.html" />
     <link rel="prev" title="feedgen.ext.podcast" href="api.ext.podcast.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
-          <span>python-feedgen 0.8.0 documentation</span></a></h1>
+          <span>python-feedgen 1.0.0 documentation</span></a></h1>
         <h2 class="heading"><span>feedgen.ext.podcast_entry</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -34,82 +35,74 @@
         </p>
 
       </div>
-      <div class="content">
+      <div class="content" role="main">
         
         
   <script type=application/javascript src=_static/theme_extras.js></script>
 <div class="apititle"><b>Contents</b></div>
-<div class="apitoc"></div><span class="target" id="module-feedgen.ext.podcast_entry"></span><div class="section" id="feedgen-ext-podcast-entry">
-<h1>feedgen.ext.podcast_entry<a class="headerlink" href="#feedgen-ext-podcast-entry" title="Permalink to this headline">¶</a></h1>
+<div class="apitoc"></div><span class="target" id="module-feedgen.ext.podcast_entry"></span><section id="feedgen-ext-podcast-entry">
+<h1>feedgen.ext.podcast_entry<a class="headerlink" href="#feedgen-ext-podcast-entry" title="Permalink to this heading">¶</a></h1>
 <p>Extends the feedgen to produce podcasts.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013-2016, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</td>
-</tr>
-<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
-</tr>
-</tbody>
-</table>
-<dl class="class">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension">
-<em class="property">class </em><code class="descclassname">feedgen.ext.podcast_entry.</code><code class="descname">PodcastEntryExtension</code><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension" title="Permalink to this definition">¶</a></dt>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2013-2016, Lars Kiesow &lt;<a class="reference external" href="mailto:lkiesow&#37;&#52;&#48;uos&#46;de">lkiesow<span>&#64;</span>uos<span>&#46;</span>de</a>&gt;</p>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>FreeBSD and LGPL, see license.* for more details.</p>
+</dd>
+</dl>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">feedgen.ext.podcast_entry.</span></span><span class="sig-name descname"><span class="pre">PodcastEntryExtension</span></span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>FeedEntry extension for podcasts.</p>
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss">
-<code class="descname">extend_rss</code><span class="sig-paren">(</span><em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss">
+<span class="sig-name descname"><span class="pre">extend_rss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add additional fields to an RSS item.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feed</strong> – The RSS item XML element to use.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>feed</strong> – The RSS item XML element to use.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author">
-<code class="descname">itunes_author</code><span class="sig-paren">(</span><em>itunes_author=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author">
+<span class="sig-name descname"><span class="pre">itunes_author</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_author</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:author of the podcast episode. The content of
 this tag is shown in the Artist column in iTunes. If the tag is not
 present, iTunes uses the contents of the &lt;author&gt; tag. If
 &lt;itunes:author&gt; is not present at the feed level, iTunes will use the
 contents of &lt;managingEditor&gt;.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_author</strong> – The author of the podcast.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The author of the podcast.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_author</strong> – The author of the podcast.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The author of the podcast.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block">
-<code class="descname">itunes_block</code><span class="sig-paren">(</span><em>itunes_block=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block">
+<span class="sig-name descname"><span class="pre">itunes_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the ITunes block attribute. Use this to prevent episodes
 from appearing in the iTunes podcast directory.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_block</strong> – Block podcast episodes.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the podcast episode is blocked.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_block</strong> – Block podcast episodes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the podcast episode is blocked.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration">
-<code class="descname">itunes_duration</code><span class="sig-paren">(</span><em>itunes_duration=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration">
+<span class="sig-name descname"><span class="pre">itunes_duration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the duration of the podcast episode. The content of this
 tag is shown in the Time column in iTunes.</p>
 <p>The tag can be formatted HH:MM:SS, H:MM:SS, MM:SS, or M:SS (H = hours,
@@ -118,21 +111,56 @@ present), the value is assumed to be in seconds. If one colon is
 present, the number to the left is assumed to be minutes, and the
 number to the right is assumed to be seconds. If more than two colons
 are present, the numbers farthest to the right are ignored.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_duration</strong> – Duration of the podcast episode.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Duration of the podcast episode.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_duration</strong> – Duration of the podcast episode.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Duration of the podcast episode.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit">
-<code class="descname">itunes_explicit</code><span class="sig-paren">(</span><em>itunes_explicit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_episode">
+<span class="sig-name descname"><span class="pre">itunes_episode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_episode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_episode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the itunes:episode value for the podcast episode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_season</strong> – Episode number of the podcast epiosode.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Episode number of the podcast episode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_episode_type">
+<span class="sig-name descname"><span class="pre">itunes_episode_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_episode_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_episode_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the itunes:episodeType value of the item. This tag should
+be used to indicate the episode type.
+The three values for this tag are “full”, “trailer” and “bonus”.</p>
+<p>If an episode is a trailer or bonus content, use this tag.</p>
+<p>Specify full when you are submitting the complete content of your show.
+Specify trailer when you are submitting a short, promotional piece of
+content that represents a preview of your current show.
+Specify bonus when you are submitting extra content for your show (for
+example, behind the scenes information or interviews with the cast) or
+cross-promotional content for another show.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_episode_type</strong> – The episode type</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>type of the episode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit">
+<span class="sig-name descname"><span class="pre">itunes_explicit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_explicit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or the the itunes:explicit value of the podcast episode. This
 tag should be used to indicate whether your podcast episode contains
 explicit material. The three values for this tag are “yes”, “no”, and
@@ -145,22 +173,20 @@ adult content is included anywhere in the episodes, and a “clean”
 graphic will appear. If the explicit tag is present and has any other
 value (e.g., “no”), you see no indicator — blank is the default
 advisory type.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_explicit</strong> – If the podcast episode contains explicit
-material.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the podcast episode contains explicit material.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_explicit</strong> – If the podcast episode contains explicit
+material.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the podcast episode contains explicit material.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image">
-<code class="descname">itunes_image</code><span class="sig-paren">(</span><em>itunes_image=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image">
+<span class="sig-name descname"><span class="pre">itunes_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the image for the podcast episode. This tag specifies the
 artwork for your podcast. Put the URL to the image in the href
 attribute.  iTunes prefers square .jpg images that are at least
@@ -176,41 +202,37 @@ RSS image tag.</p>
 may not change the image if it checks your feed and the image URL is
 the same. The server hosting your cover art image must allow HTTP head
 requests for iTS to be able to automatically update your cover art.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_image</strong> – Image of the podcast.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Image of the podcast.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_image</strong> – Image of the podcast.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image of the podcast.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned">
-<code class="descname">itunes_is_closed_captioned</code><span class="sig-paren">(</span><em>itunes_is_closed_captioned=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned">
+<span class="sig-name descname"><span class="pre">itunes_is_closed_captioned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_is_closed_captioned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the is_closed_captioned value of the podcast episode.
 This tag should be used if your podcast includes a video episode with
 embedded closed captioning support. The two values for this tag are
 “yes” and “no”.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_closed_captioned</strong> – If the episode has closed captioning
-support.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If the episode has closed captioning support.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>is_closed_captioned</strong> – If the episode has closed captioning
+support.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the episode has closed captioning support.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order">
-<code class="descname">itunes_order</code><span class="sig-paren">(</span><em>itunes_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order">
+<span class="sig-name descname"><span class="pre">itunes_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:order value of the podcast episode. This tag
 can be used to override the default ordering of episodes on the store.</p>
 <p>This tag is used at an &lt;item&gt; level by populating with the number value
@@ -221,60 +243,84 @@ conflicting order values are present in multiple episodes, the store
 will use default ordering (pubDate).</p>
 <p>To remove the order from the episode set the order to a value below
 zero.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_order</strong> – The order of the episode.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The order of the episode.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_order</strong> – The order of the episode.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The order of the episode.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle">
-<code class="descname">itunes_subtitle</code><span class="sig-paren">(</span><em>itunes_subtitle=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_season">
+<span class="sig-name descname"><span class="pre">itunes_season</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_season</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_season" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the itunes:season value for the podcast episode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_season</strong> – Season number of the podcast epiosode.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Season number of the podcast episode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle">
+<span class="sig-name descname"><span class="pre">itunes_subtitle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_subtitle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:subtitle value for the podcast episode. The
 contents of this tag are shown in the Description column in iTunes. The
 subtitle displays best if it is only a few words long.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_subtitle</strong> – Subtitle of the podcast episode.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Subtitle of the podcast episode.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_subtitle</strong> – Subtitle of the podcast episode.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Subtitle of the podcast episode.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary">
-<code class="descname">itunes_summary</code><span class="sig-paren">(</span><em>itunes_summary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary">
+<span class="sig-name descname"><span class="pre">itunes_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or set the itunes:summary value for the podcast episode. The
 contents of this tag are shown in a separate window that appears when
 the “circled i” in the Description column is clicked. It also appears
 on the iTunes page for your podcast. This field can be up to 4000
 characters. If &lt;itunes:summary&gt; is not included, the contents of the
 &lt;description&gt; tag are used.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>itunes_summary</strong> – Summary of the podcast episode.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Summary of the podcast episode.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_summary</strong> – Summary of the podcast episode.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Summary of the podcast episode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_title">
+<span class="sig-name descname"><span class="pre">itunes_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itunes_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the itunes:title value for the podcast episode.</p>
+<p>An episode title specific for Apple Podcasts. Don’t specify the episode
+number or season number in this tag. Also, don’t repeat the title of
+your show within your episode title.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>itunes_title</strong> – Episode title specific for Apple Podcasts</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Title specific for Apple Podcast</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-</div>
 
 
       </div>
@@ -292,7 +338,7 @@ characters. If &lt;itunes:summary&gt; is not included, the contents of the
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

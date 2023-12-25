@@ -1,26 +1,27 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>API Documentation &#8212; python-feedgen 0.8.0 documentation</title>
-    <link rel="stylesheet" href="_static/lernfunk.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>API Documentation &#8212; python-feedgen 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/lernfunk.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="feedgen.feed" href="api.feed.html" />
     <link rel="prev" title="Feedgenerator" href="index.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="index.html">
-          <span>python-feedgen 0.8.0 documentation</span></a></h1>
+          <span>python-feedgen 1.0.0 documentation</span></a></h1>
         <h2 class="heading"><span>API Documentation</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -34,31 +35,29 @@
         </p>
 
       </div>
-      <div class="content">
+      <div class="content" role="main">
         
         
-  <div class="section" id="module-feedgen">
-<span id="api-documentation"></span><h1>API Documentation<a class="headerlink" href="#module-feedgen" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="feedgen">
-<h2>feedgen<a class="headerlink" href="#feedgen" title="Permalink to this headline">¶</a></h2>
+  <section id="module-feedgen">
+<span id="api-documentation"></span><h1>API Documentation<a class="headerlink" href="#module-feedgen" title="Permalink to this heading">¶</a></h1>
+<section id="feedgen">
+<h2>feedgen<a class="headerlink" href="#feedgen" title="Permalink to this heading">¶</a></h2>
 <p>This module can be used to generate web feeds in both ATOM and RSS format.
 It has support for extensions. Included is for example an extension to
 produce Podcasts.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">2013 by Lars Kiesow</td>
-</tr>
-<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">FreeBSD and LGPL, see license.* for more details.</td>
-</tr>
-</tbody>
-</table>
-<div class="section" id="create-a-feed">
-<h3>Create a Feed<a class="headerlink" href="#create-a-feed" title="Permalink to this headline">¶</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2013 by Lars Kiesow</p>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>FreeBSD and LGPL, see license.* for more details.</p>
+</dd>
+</dl>
+<section id="create-a-feed">
+<h3>Create a Feed<a class="headerlink" href="#create-a-feed" title="Permalink to this heading">¶</a></h3>
 <p>To create a feed simply instantiate the FeedGenerator class and insert some
 data:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="k">import</span> <span class="n">FeedGenerator</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span> <span class="o">=</span> <span class="n">FeedGenerator</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s1">&#39;http://lernfunk.de/media/654321&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Some Testfeed&#39;</span><span class="p">)</span>
@@ -73,9 +72,9 @@ data:</p>
 <p>Note that for the methods which set fields that can occur more than once in
 a feed you can use all of the following ways to provide data:</p>
 <ul class="simple">
-<li>Provide the data for that element as keyword arguments</li>
-<li>Provide the data for that element as dictionary</li>
-<li>Provide a list of dictionaries with the data for several elements</li>
+<li><p>Provide the data for that element as keyword arguments</p></li>
+<li><p>Provide the data for that element as dictionary</p></li>
+<li><p>Provide a list of dictionaries with the data for several elements</p></li>
 </ul>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; fg.contributor(name=&#39;John Doe&#39;, email=&#39;jdoe@example.com&#39; )
@@ -83,9 +82,9 @@ a feed you can use all of the following ways to provide data:</p>
 &gt;&gt;&gt; fg.contributor([{&#39;name&#39;:&#39;John&#39;, &#39;email&#39;:&#39;jdoe@example.com&#39;}, …])
 </pre></div>
 </div>
-</div>
-<div class="section" id="generate-the-feed">
-<h3>Generate the Feed<a class="headerlink" href="#generate-the-feed" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="generate-the-feed">
+<h3>Generate the Feed<a class="headerlink" href="#generate-the-feed" title="Permalink to this heading">¶</a></h3>
 <p>After that you can generate both RSS or ATOM by calling the respective
 method:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">atomfeed</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">atom_str</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Get the ATOM feed as string</span>
@@ -94,25 +93,23 @@ method:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">rss_file</span><span class="p">(</span><span class="s1">&#39;rss.xml&#39;</span><span class="p">)</span> <span class="c1"># Write the RSS feed to a file</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="add-feed-entries">
-<h3>Add Feed Entries<a class="headerlink" href="#add-feed-entries" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="add-feed-entries">
+<h3>Add Feed Entries<a class="headerlink" href="#add-feed-entries" title="Permalink to this heading">¶</a></h3>
 <p>To add entries (items) to a feed you need to create new FeedEntry objects
 and append them to the list of entries in the FeedGenerator. The most
-convenient way to go is to use the FeedGenerator itself for the
-instantiation of the FeedEntry object:</p>
+convenient way to do this, is to call the method add_entry(…) like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">add_entry</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="s1">&#39;http://lernfunk.de/media/654321/1&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fe</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;The First Episode&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The FeedGenerators method add_entry(…) without argument provides will
-automatically generate a new FeedEntry object, append it to the feeds
-internal list of entries and return it, so that additional data can be
-added.</p>
-</div>
-<div class="section" id="extensions">
-<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h3>
+<p>The FeedGenerator’s method add_entry(…) will automatically create a new
+FeedEntry object, append it to the feeds internal list of entries and
+return it, so that additional data can be added.</p>
+</section>
+<section id="extensions">
+<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this heading">¶</a></h3>
 <p>The FeedGenerator supports extension to include additional data into the
 XML structure of the feeds. Extensions can be loaded like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s1">&#39;someext&#39;</span><span class="p">,</span> <span class="n">atom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -135,7 +132,7 @@ both kinds of feeds.</p>
 <p>One extension already provided is the podcast extension. A podcast is an
 RSS feed with some additional elements for ITunes.</p>
 <p>To produce a podcast simply load the <cite>podcast</cite> extension:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="k">import</span> <span class="n">FeedGenerator</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">feedgen.feed</span> <span class="kn">import</span> <span class="n">FeedGenerator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span> <span class="o">=</span> <span class="n">FeedGenerator</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fg</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s1">&#39;podcast&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -154,29 +151,180 @@ entry. But this is a rather uncommon use.</p>
 loaded some plugins by temporary disabling them during the feed generation.
 This can be done by calling the generating method with the keyword argument
 <cite>extensions</cite> set to <cite>False</cite>.</p>
-</div>
-<div class="section" id="testing-the-generator">
-<h3>Testing the Generator<a class="headerlink" href="#testing-the-generator" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="testing-the-generator">
+<h3>Testing the Generator<a class="headerlink" href="#testing-the-generator" title="Permalink to this heading">¶</a></h3>
 <p>You can test the module by simply executing:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m feedgen
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.feed.html">feedgen.feed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator"><code class="docutils literal notranslate"><span class="pre">FeedGenerator</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.add_entry"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.add_entry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.add_item"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.add_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.atom_file"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.atom_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.atom_str"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.atom_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.author"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.author()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.category"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.category()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.cloud"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.cloud()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.contributor"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.contributor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.copyright"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.copyright()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.description"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.description()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.docs"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.docs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.entry"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.entry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.generator"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.generator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.icon"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.icon()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.id"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.id()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.image"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.image()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.item"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.language"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.language()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.lastBuildDate"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.lastBuildDate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.link"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.link()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.load_extension"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.load_extension()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.logo"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.logo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.managingEditor"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.managingEditor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.pubDate"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.pubDate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.rating"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.rating()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.register_extension"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.register_extension()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.remove_entry"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.remove_entry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.remove_item"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.remove_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.rights"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.rights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.rss_file"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.rss_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.rss_str"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.rss_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.skipDays"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.skipDays()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.skipHours"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.skipHours()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.subtitle"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.subtitle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.textInput"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.textInput()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.title"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.title()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.ttl"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.ttl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.updated"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.updated()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.feed.html#feedgen.feed.FeedGenerator.webMaster"><code class="docutils literal notranslate"><span class="pre">FeedGenerator.webMaster()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.entry.html">feedgen.entry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry"><code class="docutils literal notranslate"><span class="pre">FeedEntry</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.atom_entry"><code class="docutils literal notranslate"><span class="pre">FeedEntry.atom_entry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.author"><code class="docutils literal notranslate"><span class="pre">FeedEntry.author()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.category"><code class="docutils literal notranslate"><span class="pre">FeedEntry.category()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.comments"><code class="docutils literal notranslate"><span class="pre">FeedEntry.comments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.content"><code class="docutils literal notranslate"><span class="pre">FeedEntry.content()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.contributor"><code class="docutils literal notranslate"><span class="pre">FeedEntry.contributor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.description"><code class="docutils literal notranslate"><span class="pre">FeedEntry.description()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.enclosure"><code class="docutils literal notranslate"><span class="pre">FeedEntry.enclosure()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.guid"><code class="docutils literal notranslate"><span class="pre">FeedEntry.guid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.id"><code class="docutils literal notranslate"><span class="pre">FeedEntry.id()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.link"><code class="docutils literal notranslate"><span class="pre">FeedEntry.link()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.load_extension"><code class="docutils literal notranslate"><span class="pre">FeedEntry.load_extension()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.pubDate"><code class="docutils literal notranslate"><span class="pre">FeedEntry.pubDate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.pubdate"><code class="docutils literal notranslate"><span class="pre">FeedEntry.pubdate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.published"><code class="docutils literal notranslate"><span class="pre">FeedEntry.published()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.register_extension"><code class="docutils literal notranslate"><span class="pre">FeedEntry.register_extension()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.rights"><code class="docutils literal notranslate"><span class="pre">FeedEntry.rights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.rss_entry"><code class="docutils literal notranslate"><span class="pre">FeedEntry.rss_entry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.source"><code class="docutils literal notranslate"><span class="pre">FeedEntry.source()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.summary"><code class="docutils literal notranslate"><span class="pre">FeedEntry.summary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.title"><code class="docutils literal notranslate"><span class="pre">FeedEntry.title()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.ttl"><code class="docutils literal notranslate"><span class="pre">FeedEntry.ttl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.entry.html#feedgen.entry.FeedEntry.updated"><code class="docutils literal notranslate"><span class="pre">FeedEntry.updated()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.util.html">feedgen.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.util.html#feedgen.util.ensure_format"><code class="docutils literal notranslate"><span class="pre">ensure_format()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.util.html#feedgen.util.formatRFC2822"><code class="docutils literal notranslate"><span class="pre">formatRFC2822()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.base.html">feedgen.ext.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.base.html#feedgen.ext.base.BaseEntryExtension"><code class="docutils literal notranslate"><span class="pre">BaseEntryExtension</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.base.html#feedgen.ext.base.BaseExtension"><code class="docutils literal notranslate"><span class="pre">BaseExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.base.html#feedgen.ext.base.BaseExtension.extend_atom"><code class="docutils literal notranslate"><span class="pre">BaseExtension.extend_atom()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.base.html#feedgen.ext.base.BaseExtension.extend_ns"><code class="docutils literal notranslate"><span class="pre">BaseExtension.extend_ns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.base.html#feedgen.ext.base.BaseExtension.extend_rss"><code class="docutils literal notranslate"><span class="pre">BaseExtension.extend_rss()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.dc.html">feedgen.ext.dc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_contributor"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_contributor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_coverage"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_coverage()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_creator"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_creator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_date"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_description"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_description()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_format"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_format()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_identifier"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_identifier()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_language"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_language()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_publisher"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_publisher()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_relation"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_relation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_rights"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_rights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_source"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_source()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_subject"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_subject()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_title"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_title()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.dc_type"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.dc_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.extend_atom"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.extend_atom()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.extend_ns"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.extend_ns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcBaseExtension.extend_rss"><code class="docutils literal notranslate"><span class="pre">DcBaseExtension.extend_rss()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcEntryExtension"><code class="docutils literal notranslate"><span class="pre">DcEntryExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcEntryExtension.extend_atom"><code class="docutils literal notranslate"><span class="pre">DcEntryExtension.extend_atom()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcEntryExtension.extend_rss"><code class="docutils literal notranslate"><span class="pre">DcEntryExtension.extend_rss()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.dc.html#feedgen.ext.dc.DcExtension"><code class="docutils literal notranslate"><span class="pre">DcExtension</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast.html">feedgen.ext.podcast</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension"><code class="docutils literal notranslate"><span class="pre">PodcastExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.extend_ns"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.extend_ns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.extend_rss"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.extend_rss()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_author"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_author()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_block"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_block()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_category"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_category()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_complete"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_complete()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_explicit"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_explicit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_image"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_image()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_new_feed_url"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_new_feed_url()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_owner"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_owner()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_subtitle"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_subtitle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_summary"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_summary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast.html#feedgen.ext.podcast.PodcastExtension.itunes_type"><code class="docutils literal notranslate"><span class="pre">PodcastExtension.itunes_type()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast_entry.html">feedgen.ext.podcast_entry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.extend_rss"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.extend_rss()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_author"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_author()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_block"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_block()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_duration"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_duration()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_episode"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_episode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_episode_type"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_episode_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_explicit"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_explicit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_image"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_image()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_is_closed_captioned"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_is_closed_captioned()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_order"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_order()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_season"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_season()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_subtitle"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_subtitle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_summary"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_summary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.podcast_entry.html#feedgen.ext.podcast_entry.PodcastEntryExtension.itunes_title"><code class="docutils literal notranslate"><span class="pre">PodcastEntryExtension.itunes_title()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ext/api.ext.torrent.html">feedgen.ext.torrent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.contentlength"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.contentlength()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.extend_rss"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.extend_rss()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.filename"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.filename()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.infohash"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.infohash()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.peers"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.peers()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.seeds"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.seeds()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentEntryExtension.verified"><code class="docutils literal notranslate"><span class="pre">TorrentEntryExtension.verified()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentExtension"><code class="docutils literal notranslate"><span class="pre">TorrentExtension</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ext/api.ext.torrent.html#feedgen.ext.torrent.TorrentExtension.extend_ns"><code class="docutils literal notranslate"><span class="pre">TorrentExtension.extend_ns()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
+</section>
 
 
       </div>
@@ -194,7 +342,7 @@ This can be done by calling the generating method with the keyword argument
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2013-2016, Lars Kiesow.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>
