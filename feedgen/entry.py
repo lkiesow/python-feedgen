@@ -67,6 +67,7 @@ class FeedEntry(object):
         # required
         self.__atom_id = None
         self.__atom_title = None
+        self.__atom_title_type = None
         self.__atom_updated = datetime.now(dateutil.tz.tzutc())
 
         # recommended
@@ -106,7 +107,10 @@ class FeedEntry(object):
             raise ValueError('Required fields not set')
         id = xml_elem('id', entry)
         id.text = self.__atom_id
-        title = xml_elem('title', entry)
+        if self.__atom_title_type is not None:
+            title = xml_elem('title', entry, type=self.__atom_title_type)
+        else:
+            title = xml_elem('title', entry)
         title.text = self.__atom_title
         updated = xml_elem('updated', entry)
         updated.text = self.__atom_updated.isoformat()
@@ -260,7 +264,7 @@ class FeedEntry(object):
 
         return entry
 
-    def title(self, title=None):
+    def title(self, title=None, ttype=None):
         '''Get or set the title value of the entry. It should contain a human
         readable title for the entry. Title is mandatory for both ATOM and RSS
         and should not be blank.
@@ -271,6 +275,9 @@ class FeedEntry(object):
         if title is not None:
             self.__atom_title = title
             self.__rss_title = title
+            if ttype not in ('text', 'html', 'xhtml', None):
+                raise ValueError('title type must be text, html, or xhtml')
+            self.__atom_title_type = ttype
         return self.__atom_title
 
     def id(self, id=None):
