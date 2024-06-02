@@ -446,8 +446,7 @@ class FeedEntry(object):
                 link,
                 set(['href', 'rel', 'type', 'hreflang', 'title', 'length']),
                 set(['href']),
-                {'rel': ['alternate', 'enclosure', 'related', 'self', 'via']},
-                {'rel': 'alternate'})
+                defaults={'rel': 'alternate'})
             # RSS only needs one URL. We use the first link for RSS:
             for link in self.__atom_link:
                 if link.get('rel') == 'alternate':
