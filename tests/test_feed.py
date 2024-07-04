@@ -75,6 +75,11 @@ class TestSequenceFunctions(unittest.TestCase):
 
         self.webMaster = 'webmaster@example.com'
 
+        self.entry1id = 'http://example.com/1'
+        self.link2Entry1length = 123456
+        self.link2entry1type = 'audio/opus'
+        self.link2entry1url = 'http://example.com/enclosure.opus'
+
         fg.id(self.feedId)
         fg.title(self.title)
         fg.author(self.author)
@@ -111,6 +116,13 @@ class TestSequenceFunctions(unittest.TestCase):
                  width='123',
                  height='123',
                  description='Example Inage')
+
+        fe = fg.add_entry()
+        fe.id(self.entry1id)
+        fe.title('Some Testfeed')
+        fe.updated('2024-02-05 13:26:58+01:00')
+        fe.link(href=self.entry1id, rel=self.linkRel)
+        fe.enclosure(url=self.link2entry1url, length=('%d' % self.link2Entry1length), type=self.link2entry1type)
 
         self.fg = fg
 
@@ -284,6 +296,30 @@ class TestSequenceFunctions(unittest.TestCase):
             ), (
                 feed.find(f"{nsAtom}rights").text,
                 self.copyright
+            ), (
+                feed.findall(f"{nsAtom}entry")[0].find(f"{nsAtom}id").text,
+                self.entry1id
+            ), (
+                len(feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")),
+                2
+            ), (
+                feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")[0].get("href"),
+                self.entry1id
+            ), (
+                feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")[0].get("rel"),
+                self.linkRel
+            ), (
+                feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")[1].get("href"),
+                self.link2entry1url
+            ), (
+                feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")[1].get("rel"),
+                'enclosure'
+            ), (
+                feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")[1].get("type"),
+                self.link2entry1type
+            ), (
+                int(feed.findall(f"{nsAtom}entry")[0].findall(f"{nsAtom}link")[1].get("length")),
+                self.link2Entry1length
             )]
         for actual, expected in testcases:
             self.assertEqual(actual, expected)
