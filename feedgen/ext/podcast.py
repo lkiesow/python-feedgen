@@ -199,7 +199,7 @@ class PodcastExtension(BaseExtension):
         the accompanying image must be at least 1400x1400 pixels.
 
         iTunes supports images in JPEG and PNG formats with an RGB color space
-        (CMYK is not supported). The URL must end in ".jpg" or ".png". If the
+        (CMYK is not supported). The URL must end in ".jpg", ".jpeg" or ".png". If the
         <itunes:image> tag is not present, iTunes will use the contents of the
         RSS image tag.
 
@@ -212,10 +212,10 @@ class PodcastExtension(BaseExtension):
         :returns: Image of the podcast.
         '''
         if itunes_image is not None:
-            if itunes_image.endswith('.jpg') or itunes_image.endswith('.png'):
+            if itunes_image.endswith('.jpg') or itunes_image.endswith('.png') or itunes_image.endswith('.jpeg'):
                 self.__itunes_image = itunes_image
             else:
-                ValueError('Image file must be png or jpg')
+                ValueError('Image file must be png, jpg or jpeg')
         return self.__itunes_image
 
     def itunes_explicit(self, itunes_explicit=None):
