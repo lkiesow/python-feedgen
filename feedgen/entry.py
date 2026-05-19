@@ -668,7 +668,8 @@ class FeedEntry(object):
         :returns: Data of the enclosure element.
         '''
         if url is not None:
-            self.link(href=url, rel='enclosure', type=type, length=str(length))
+            length_v = str(length) if length is not None else None
+            self.link(href=url, rel='enclosure', type=type, length=length_v)
         return self.__rss_enclosure
 
     def ttl(self, ttl=None):
